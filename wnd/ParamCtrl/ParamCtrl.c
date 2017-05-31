@@ -31,11 +31,95 @@ typedef struct
     INT             xBasePosOffset;
 } S_PARAM_CTRL;
 
+#define X_BASE_POS_OFFSET 250
 S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
 {
     {PCT_COMBO,TEXT("SOUNDMODE                "),0,  2,170},
 
-    {PCT_EDIT ,TEXT("PATCHNAME"             ),0,127,110},
+    {PCT_COMBO,TEXT("00 OP4 ATTACK RATE"                            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("01 OP4 DECAY 1 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("02 OP4 DECAY 2 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("03 OP4 RELEASE RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("04 OP4 DECAY 1 LEVEL"                          ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("05 OP4 KEYBOARD SCALING LEVEL"                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("06 OP4 KEYBOARD SCALING RATE"                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("07 OP4 EG BIAS SENSITIVITY"                    ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("08 OP4 AMPLITUDE MODULATION ENABLE"            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("09 OP4 KEY VELOCITY"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("10 OP4 OUTPUT LEVEL"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("11 OP4 OSCILLATOR FREQUENCY"                   ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("12 OP4 DETUNE"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("13 OP3 ATTACK RATE"                            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("14 OP3 DECAY 1 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("15 OP3 DECAY 2 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("16 OP3 RELEASE RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("17 OP3 DECAY 1 LEVEL"                          ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("18 OP3 KEYBOARD SCALING LEVEL"                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("19 OP3 KEYBOARD SCALING RATE"                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("20 OP3 EG BIAS SENSITIVITY"                    ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("21 OP3 AMPLITUDE MODULATION ENABLE"            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("22 OP3 KEY VELOCITY"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("23 OP3 OUTPUT LEVEL"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("24 OP3 OSCILLATOR FREQUENCY"                   ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("25 OP3 DETUNE"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("26 OP2 ATTACK RATE"                            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("27 OP2 DECAY 1 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("28 OP2 DECAY 2 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("29 OP2 RELEASE RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("30 OP2 DECAY 1 LEVEL"                          ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("31 OP2 KEYBOARD SCALING LEVEL"                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("32 OP2 KEYBOARD SCALING RATE"                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("33 OP2 EG BIAS SENSITIVITY"                    ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("34 OP2 AMPLITUDE MODULATION ENABLE"            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("35 OP2 KEY VELOCITY"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("36 OP2 OUTPUT LEVEL"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("37 OP2 OSCILLATOR FREQUENCY"                   ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("38 OP2 DETUNE"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("39 OP1 ATTACK RATE"                            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("40 OP1 DECAY 1 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("41 OP1 DECAY 2 RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("42 OP1 RELEASE RATE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("43 OP1 DECAY 1 LEVEL"                          ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("44 OP1 KEYBOARD SCALING LEVEL"                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("45 OP1 KEYBOARD SCALING RATE"                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("46 OP1 EG BIAS SENSITIVITY"                    ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("47 OP1 AMPLITUDE MODULATION ENABLE"            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("48 OP1 KEY VELOCITY"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("49 OP1 OUTPUT LEVEL"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("50 OP1 OSCILLATOR FREQUENCY"                   ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("51 OP1 DETUNE"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("52 ALGORITHM"                                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("53 FEEDBACK LEVEL"                             ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("54 LFO SPEED"                                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("55 LFO DELAY"                                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("56 PITCH MODULATION DEPTH"                     ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("57 AMPLITUDE MODULATION DEPTH"                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("58 LFO SYNC"                                   ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("59 LFO WAVE"                                   ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("60 PITCH MODULATION SENSITIVITY"               ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("61 AMPLITUDE MODULATION SENSITIVITY"           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("62 TRANSPOSE"                                  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("63 PLAY MODE POLY/MONO"                        ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("64 PITCH BEND RANGE"                           ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("65 PORTAMENTO MODE"                            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("66 PORTAMENTO TIME"                            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("67 FOOT VOLUME RANGE"                          ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("68 SUSTAIN FOOT SWITCH"                        ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("69 PORTAMENT FOOT SWITCH"                      ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("70 CHORUS SWITCH"                              ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("71 MODULATION WHEEL PITCH MODULATION RANGE"    ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("72 MODULATION WHEEL AMPLITUDE MODULATION RANGE"),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("73 BREATH CONTROL PITCH MODULATION RANGE"      ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("74 BREATH CONTROL AMPLITUDE MODULATION RANGE"  ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("75 BREATH CONTROL PITCH BIAS RANGE"            ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("76 BREATH CONTROL EG BIAS RANGE"               ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("PATCHNAME"                                     ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("PITCH EG RATE 1"                               ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("PITCH EG RATE 2"                               ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("PITCH EG RATE 3"                               ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("PITCH EG LEVEL 1"                              ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("PITCH EG LEVEL 2"                              ),0,127,X_BASE_POS_OFFSET},
+    {PCT_COMBO,TEXT("PITCH EG LEVEL 3"                              ),0,127,X_BASE_POS_OFFSET},
 
     {PCT_COMBO,TEXT("TONESWITCH                 "),0,127,170},
 };
@@ -73,7 +157,7 @@ S_PARAM_INFO ctrlParamInfo[PARAM_CTRL_MAX];
 #define PARAM_DATA_Y_UNIT       20
 
 #define PARAM_WRAP_NUM      26 /* 1列あたりの行数 */
-#define PARAM_WRAP_UNIT    220
+#define PARAM_WRAP_UNIT    /*220*/ 300      /* 列のピッチ */
 
 /********************************************************************************
  * 内容  : 登録された全てのパラメータコントロールを生成する
@@ -84,7 +168,7 @@ BOOL
 ParamCtrlCreate( HWND hwnd )
 {
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_SYSTEM_COMMON,PARAM_CTRL_SYSCMN_SOUNDMODE  ,PARAM_CTRL_SYSCMN_SOUNDMODE  );
-    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_PATCH_COMMON ,PARAM_CTRL_PATCHCMN_PATCHNAME,PARAM_CTRL_PATCHCMN_PATCHNAME);
+    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_PATCH_COMMON ,PARAM_CTRL_VOICE_00,PARAM_CTRL_VOICE_92);
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_PATCH_TONE   ,PARAM_CTRL_PATCHTN_TONESWITCH,PARAM_CTRL_PATCHTN_TONESWITCH);
 
     ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);

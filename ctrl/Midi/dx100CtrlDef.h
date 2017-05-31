@@ -5,6 +5,10 @@ enum
 {
     MIDI_EX_HEADER_STATUS    ,
     MIDI_EX_HEADER_ID_NUMBER ,
+#if 1
+    MIDI_EX_HEADER_SUB_STATUS,
+    MIDI_EX_HEADER_PARAM     ,
+#else
     MIDI_EX_HEADER_DEVICE_ID ,
     MIDI_EX_HEADER_MODEL_ID  ,
     MIDI_EX_HEADER_COMMAND_ID,
@@ -12,6 +16,7 @@ enum
     MIDI_EX_HEADER_ADRS1     ,
     MIDI_EX_HEADER_ADRS2     ,
     MIDI_EX_HEADER_ADRS3     ,
+#endif
     MIDI_EX_HEADER_DATA      ,
 };
 typedef INT MIDI_EX_HEADER_INDEX;
@@ -22,7 +27,11 @@ typedef INT MIDI_EX_HEADER_INDEX;
 #define EX_MODEL_ID_DX100   0x6A
 #define EX_ETX              0xF7
 
+#if 1
+#define EX_FOOTER_SIZE 1 /* ETX */
+#else
 #define EX_FOOTER_SIZE 2 /* Checksum,ETX */
+#endif
 
 /* Command */
 #define RQ1 0x11 /* DataReq1 */
@@ -167,84 +176,103 @@ enum
 };
 typedef INT SYSCMN_INDEX;
 
-/* 1-3-1.Patch Common */
+/* VOICE */
 enum
 {
-    PATCHCMN_PATCHNAME1            ,/* 0x0000  0aaa aaaa  Patch Name 1 32 - 127                        */
-    PATCHCMN_PATCHNAME2            ,/* 0x0001  0aaa aaaa  Patch Name 2 32 - 127                        */
-    PATCHCMN_PATCHNAME3            ,/* 0x0002  0aaa aaaa  Patch Name 3 32 - 127                        */
-    PATCHCMN_PATCHNAME4            ,/* 0x0003  0aaa aaaa  Patch Name 4 32 - 127                        */
-    PATCHCMN_PATCHNAME5            ,/* 0x0004  0aaa aaaa  Patch Name 5 32 - 127                        */
-    PATCHCMN_PATCHNAME6            ,/* 0x0005  0aaa aaaa  Patch Name 6 32 - 127                        */
-    PATCHCMN_PATCHNAME7            ,/* 0x0006  0aaa aaaa  Patch Name 7 32 - 127                        */
-    PATCHCMN_PATCHNAME8            ,/* 0x0007  0aaa aaaa  Patch Name 8 32 - 127                        */
-    PATCHCMN_PATCHNAME9            ,/* 0x0008  0aaa aaaa  Patch Name 9 32 - 127                        */
-    PATCHCMN_PATCHNAME10           ,/* 0x0009  0aaa aaaa  Patch Name 10 32 - 127                       */
-    PATCHCMN_PATCHNAME11           ,/* 0x000A  0aaa aaaa  Patch Name 11 32 - 127                       */
-    PATCHCMN_PATCHNAME12           ,/* 0x000B  0aaa aaaa  Patch Name 12 32 - 127                       */
-    PATCHCMN_EFXTYPE               ,/* 0x000C  00aa aaaa  EFX Type 0 - 39 (1 - 40)                     */
-    PATCHCMN_EFXPARAMETER1         ,/* 0x000D  0aaa aaaa  EFX Parameter 1 0 - 127                      */
-    PATCHCMN_EFXPARAMETER2         ,/* 0x000E  0aaa aaaa  EFX Parameter 2 0 - 127                      */
-    PATCHCMN_EFXPARAMETER3         ,/* 0x000F  0aaa aaaa  EFX Parameter 3 0 - 127                      */
-    PATCHCMN_EFXPARAMETER4         ,/* 0x0010  0aaa aaaa  EFX Parameter 4 0 - 127                      */
-    PATCHCMN_EFXPARAMETER5         ,/* 0x0011  0aaa aaaa  EFX Parameter 5 0 - 127                      */
-    PATCHCMN_EFXPARAMETER6         ,/* 0x0012  0aaa aaaa  EFX Parameter 6 0 - 127                      */
-    PATCHCMN_EFXPARAMETER7         ,/* 0x0013  0aaa aaaa  EFX Parameter 7 0 - 127                      */
-    PATCHCMN_EFXPARAMETER8         ,/* 0x0014  0aaa aaaa  EFX Parameter 8 0 - 127                      */
-    PATCHCMN_EFXPARAMETER9         ,/* 0x0015  0aaa aaaa  EFX Parameter 9 0 - 127                      */
-    PATCHCMN_EFXPARAMETER10        ,/* 0x0016  0aaa aaaa  EFX Parameter 10 0 - 127                     */
-    PATCHCMN_EFXPARAMETER11        ,/* 0x0017  0aaa aaaa  EFX Parameter 11 0 - 127                     */
-    PATCHCMN_EFXPARAMETER12        ,/* 0x0018  0aaa aaaa  EFX Parameter 12 0 - 127                     */
-    PATCHCMN_EFXOUTPUTASSIGN0      ,/* 0x0019  0000 00aa  EFX Output Assign 0 - 2 *1                   */
-    PATCHCMN_EFXMIXOUTSENDLEVEL    ,/* 0x001A  0aaa aaaa  EFX Mix Out Send Level 0 - 127               */
-    PATCHCMN_EFXCHORUSSENDLEVEL    ,/* 0x001B  0aaa aaaa  EFX Chorus Send Level 0 - 127                */
-    PATCHCMN_EFXREVERBSENDLEVEL    ,/* 0x001C  0aaa aaaa  EFX Reverb Send Level 0 - 127                */
-    PATCHCMN_EFXCONTROLSOURCE1     ,/* 0x001D  0000 aaaa  EFX Control Source 1 0 - 10 *2               */
-    PATCHCMN_EFXCONTROLDEPTH1      ,/* 0x001E  0aaa aaaa  EFX Control Depth 1 0 - 126 (-63 - +63)      */
-    PATCHCMN_EFXCONTROLSOURCE2     ,/* 0x001F  0000 aaaa  EFX Control Source 2 0 - 10                  */
-    PATCHCMN_EFXCONTROLDEPTH2      ,/* 0x0020  0aaa aaaa  EFX Control Depth 2 0 - 126 (-63 - +63)      */
-    PATCHCMN_CHORUSLEVEL           ,/* 0x0021  0aaa aaaa  Chorus Level 0 - 127                         */
-    PATCHCMN_CHORUSRATE            ,/* 0x0022  0aaa aaaa  Chorus Rate 0 - 127                          */
-    PATCHCMN_CHORUSDEPTH           ,/* 0x0023  0aaa aaaa  Chorus Depth 0 - 127                         */
-    PATCHCMN_CHORUSPRE_DELAY       ,/* 0x0024  0aaa aaaa  Chorus Pre-Delay 0 - 127                     */
-    PATCHCMN_CHORUSFEEDBACK        ,/* 0x0025  0aaa aaaa  Chorus Feedback 0 - 127                      */
-    PATCHCMN_CHORUSOUTPUT          ,/* 0x0026  0000 00aa  Chorus Output 0 - 2 *3                       */
-    PATCHCMN_REVERBTYPE            ,/* 0x0027  0000 0aaa  Reverb Type 0 - 7 *4                         */
-    PATCHCMN_REVERBLEVEL           ,/* 0x0028  0aaa aaaa  Reverb Level 0 - 127                         */
-    PATCHCMN_REVERBTIME            ,/* 0x0029  0aaa aaaa  Reverb Time 0 - 127                          */
-    PATCHCMN_REVERBHFDAMP          ,/* 0x002A  000a aaaa  Reverb HF Damp 0 - 17 *5                     */
-    PATCHCMN_DELAYFEEDBACK         ,/* 0x002B  0aaa aaaa  Delay Feedback 0 - 127                       */
-    PATCHCMN_PATCHTEMPOH           ,/* 0x002C  0000 aaaa  Patch Tempo H 20 - 250                       */
-    PATCHCMN_PATCHTEMPOL           ,/* 0x002D  0000 bbbb  Patch Tempo L 20 - 250                       */
-    PATCHCMN_PATCHLEVEL            ,/* 0x002E  0aaa aaaa  Patch Level 0 - 127                          */
-    PATCHCMN_PATCHPAN              ,/* 0x002F  0aaa aaaa  Patch Pan 0 - 127 (L64 - 63R)                */
-    PATCHCMN_ANALOGFEEL            ,/* 0x0030  0aaa aaaa  Analog Feel 0 - 127                          */
-    PATCHCMN_BENDRANGEUP           ,/* 0x0031  0000 aaaa  Bend Range Up 0 - 12                         */
-    PATCHCMN_BENDRANGEDOWN         ,/* 0x0032  00aa aaaa  Bend Range Down 0 - 48 (0 - -48)             */
-    PATCHCMN_KEYASSIGNMODE         ,/* 0x0033  0000 000a  Key Assign Mode 0 - 1 (POLY,SOLO)            */
-    PATCHCMN_SOLOLEGATO            ,/* 0x0034  0000 000a  Solo Legato 0 - 1 (OFF,ON)                   */
-    PATCHCMN_PORTAMENTOSWITCH      ,/* 0x0035  0000 000a  Portamento Switch 0 - 1 (OFF,ON)             */
-    PATCHCMN_PORTAMENTOMODE        ,/* 0x0036  0000 000a  Portamento Mode 0 - 1 *6                     */
-    PATCHCMN_PORTAMENTOTYPE        ,/* 0x0037  0000 000a  Portamento Type 0 - 1 (RATE,TIME)            */
-    PATCHCMN_PORTAMENTOSTART       ,/* 0x0038  0000 000a  Portamento Start 0 - 1 *7                    */
-    PATCHCMN_PORTAMENTOTIME        ,/* 0x0039  0aaa aaaa  Portamento Time 0 - 127                      */
-    PATCHCMN_PATCHCONTROLSOURCE2   ,/* 0x003A  0000 aaaa  Patch Control Source 2 0 - 15 *8             */
-    PATCHCMN_PATCHCONTROLSOURCE3   ,/* 0x003B  0000 aaaa  Patch Control Source 3 0 - 15 *8             */
-    PATCHCMN_EFXCONTROLHOLD_PEAK   ,/* 0x003C  0000 00aa  EFX Control Hold/Peak 0 - 2 *9               */
-    PATCHCMN_CONTROL1HOLD_PEAK     ,/* 0x003D  0000 00aa  Control 1 Hold/Peak 0 - 2 *9                 */
-    PATCHCMN_CONTROL2HOLD_PEAK     ,/* 0x003E  0000 00aa  Control 2 Hold/Peak 0 - 2 *9                 */
-    PATCHCMN_CONTROL3HOLD_PEAK     ,/* 0x003F  0000 00aa  Control 3 Hold/Peak 0 - 2 *9                 */
-    PATCHCMN_VELOCITYRANGESWITCH   ,/* 0x0040  0000 000a  Velocity Range Switch 0 - 1 (OFF,ON)         */
-    PATCHCMN_OCTAVESHIFT           ,/* 0x0041  0000 0aaa  Octave Shift 0 - 6 (-3 - +3)                 */
-    PATCHCMN_STRETCHTUNEDEPTH      ,/* 0x0042  0000 00aa  Stretch Tune Depth 0 - 3 (OFF,1 - 3)         */
-    PATCHCMN_VOICEPRIORITY         ,/* 0x0043  0000 000a  Voice Priority 0 - 1 *10                     */
-    PATCHCMN_STRUCTURETYPE1_2      ,/* 0x0044  0000 aaaa  Structure Type 1&2 0 - 9 (1 - 10)            */
-    PATCHCMN_BOOSTER1_2            ,/* 0x0045  0000 00aa  Booster 1&2 0 - 3 *11                        */
-    PATCHCMN_STRUCTURETYPE3_4      ,/* 0x0046  0000 aaaa  Structure Type 3&4 0 - 9 (1 - 10)            */
-    PATCHCMN_BOOSTER3_4            ,/* 0x0047  0000 00aa  Booster 3&4 0 - 3 *11                        */
-    PATCHCMN_CLOCKSOURCE           ,/* 0x0048  0000 000a  Clock Source 0 - 1 *12                       */
-    PATCHCMN_PATCHCATEGORY         ,/* 0x0049  0aaa aaaa  Patch Category 0 - 127 *13                   */
-    PATCHCMN_INDEX_MAX
+    VOICE_00  ,/* 0x0000  */
+    VOICE_01  ,/* 0x0001  */
+    VOICE_02  ,/* 0x0002  */
+    VOICE_03  ,/* 0x0003  */
+    VOICE_04  ,/* 0x0004  */
+    VOICE_05  ,/* 0x0005  */
+    VOICE_06  ,/* 0x0006  */
+    VOICE_07  ,/* 0x0007  */
+    VOICE_08  ,/* 0x0008  */
+    VOICE_09  ,/* 0x0009  */
+    VOICE_10  ,/* 0x000A  */
+    VOICE_11  ,/* 0x000B  */
+    VOICE_12  ,/* 0x000C  */
+    VOICE_13  ,/* 0x000D  */
+    VOICE_14  ,/* 0x000E  */
+    VOICE_15  ,/* 0x000F  */
+    VOICE_16  ,/* 0x0010  */
+    VOICE_17  ,/* 0x0011  */
+    VOICE_18  ,/* 0x0012  */
+    VOICE_19  ,/* 0x0013  */
+    VOICE_20  ,/* 0x0014  */
+    VOICE_21  ,/* 0x0015  */
+    VOICE_22  ,/* 0x0016  */
+    VOICE_23  ,/* 0x0017  */
+    VOICE_24  ,/* 0x0018  */
+    VOICE_25  ,/* 0x0019  */
+    VOICE_26  ,/* 0x001A  */
+    VOICE_27  ,/* 0x001B  */
+    VOICE_28  ,/* 0x001C  */
+    VOICE_29  ,/* 0x001D  */
+    VOICE_30  ,/* 0x001E  */
+    VOICE_31  ,/* 0x001F  */
+    VOICE_32  ,/* 0x0020  */
+    VOICE_33  ,/* 0x0021  */
+    VOICE_34  ,/* 0x0022  */
+    VOICE_35  ,/* 0x0023  */
+    VOICE_36  ,/* 0x0024  */
+    VOICE_37  ,/* 0x0025  */
+    VOICE_38  ,/* 0x0026  */
+    VOICE_39  ,/* 0x0027  */
+    VOICE_40  ,/* 0x0028  */
+    VOICE_41  ,/* 0x0029  */
+    VOICE_42  ,/* 0x002A  */
+    VOICE_43  ,/* 0x002B  */
+    VOICE_44  ,/* 0x002C  */
+    VOICE_45  ,/* 0x002D  */
+    VOICE_46  ,/* 0x002E  */
+    VOICE_47  ,/* 0x002F  */
+    VOICE_48  ,/* 0x0030  */
+    VOICE_49  ,/* 0x0031  */
+    VOICE_50  ,/* 0x0032  */
+    VOICE_51  ,/* 0x0033  */
+    VOICE_52  ,/* 0x0034  */
+    VOICE_53  ,/* 0x0035  */
+    VOICE_54  ,/* 0x0036  */
+    VOICE_55  ,/* 0x0037  */
+    VOICE_56  ,/* 0x0038  */
+    VOICE_57  ,/* 0x0039  */
+    VOICE_58  ,/* 0x003A  */
+    VOICE_59  ,/* 0x003B  */
+    VOICE_60  ,/* 0x003C  */
+    VOICE_61  ,/* 0x003D  */
+    VOICE_62  ,/* 0x003E  */
+    VOICE_63  ,/* 0x003F  */
+    VOICE_64  ,/* 0x0040  */
+    VOICE_65  ,/* 0x0041  */
+    VOICE_66  ,/* 0x0042  */
+    VOICE_67  ,/* 0x0043  */
+    VOICE_68  ,/* 0x0044  */
+    VOICE_69  ,/* 0x0045  */
+    VOICE_70  ,/* 0x0046  */
+    VOICE_71  ,/* 0x0047  */
+    VOICE_72  ,/* 0x0048  */
+    VOICE_73  ,/* 0x0049  */
+    VOICE_74  ,/* */
+    VOICE_75  ,/* */
+    VOICE_76  ,/* */
+    VOICE_77  ,/* */
+    VOICE_78  ,/* */
+    VOICE_79  ,/* */
+    VOICE_80  ,/* */
+    VOICE_81  ,/* */
+    VOICE_82  ,/* */
+    VOICE_83  ,/* */
+    VOICE_84  ,/* */
+    VOICE_85  ,/* */
+    VOICE_86  ,/* */
+    VOICE_87  ,/* */
+    VOICE_88  ,/* */
+    VOICE_89  ,/* */
+    VOICE_90  ,/* */
+    VOICE_91  ,/* */
+    VOICE_92  ,/* */
+    VOICE_INDEX_MAX
 };
 typedef INT PATCHCMN_INDEX;
 
