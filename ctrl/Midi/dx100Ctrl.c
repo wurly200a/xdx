@@ -20,6 +20,7 @@ static BOOL copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BYTE getParamCtrlValue( PARAM_CTRL_ID id );
 static BOOL displayContents( void );
 static BYTE calcCheckSum( BYTE *dataPtr, INT dataSize );
+static void debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle );
 static BOOL dx100CtrlPrintf( PTSTR ptstrFormat, ... );
 
 /* 内部変数定義 */
@@ -57,7 +58,6 @@ typedef struct
 
 static S_DX100_CTRL_INFO dx100CtrlInfo;
 
-#define DX100_CTRL_DEBUG_DATA_DISP
 
 /*********************************************
  * 内容   : 初期化
@@ -305,20 +305,10 @@ seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId )
 #endif
         }
 
-        DebugWndPrintf("txDataSize:%d\r\n",txSize);
         DebugWndPrintf("checkSum:0x%02X\r\n",checkSum);
-        DebugWndPrintf("TX:");
-#ifdef DX100_CTRL_DEBUG_DATA_DISP
-        for( i=0; i<txSize; i++ )
-        {
-            DebugWndPrintf("0x%02X ",dx100CtrlSeqTxTempData[i]);
-            if( !((i+1)%16) )
-            {
-                DebugWndPrintf("\r\n");
-            }
-        }
-        DebugWndPrintf("\r\n");
-#endif
+
+        debugDataArrayPrint(txSize,dx100CtrlSeqTxTempData,"TX");
+
         dx100CtrlInfo.nowExecSeqId = seqId;
 
         if( method == DX100_CTRL_SEQ_METHOD_SET )
@@ -351,20 +341,7 @@ seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
     S_DX100_CTRL_SEQ_DATA *tblPtr;
     INT i,contentSize;
 
-    DebugWndPrintf("rxSize:%d\r\n",rxDataSize);
-    DebugWndPrintf("RX:\r\n");
-
-#ifdef DX100_CTRL_DEBUG_DATA_DISP
-    for( i=0; i<rxDataSize; i++ )
-    {
-        DebugWndPrintf("0x%02X ",(rxDataPtr+i));
-        if( !((i+1)%16) )
-        {
-            DebugWndPrintf("\r\n");
-        }
-    }
-    DebugWndPrintf("\r\n");
-#endif
+    debugDataArrayPrint(rxDataSize,rxDataPtr,"RX");
 
     tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
     contentSize = (rxDataSize-(MIDI_EX_HEADER_DATA + 2 + 1 + EX_FOOTER_SIZE));
@@ -372,18 +349,8 @@ seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
     if( contentSize == tblPtr->rxDataSize )
     {
         memcpy((void *)tblPtr->rxDataPtr,(void *)(rxDataPtr + MIDI_EX_HEADER_DATA + 2),tblPtr->rxDataSize);
-#ifdef DX100_CTRL_DEBUG_DATA_DISP
-        DebugWndPrintf("CONTENTS:\r\n");
-        for( i=0; i<tblPtr->rxDataSize; i++ )
-        {
-            DebugWndPrintf("0x%02X ",*(tblPtr->rxDataPtr+i));
-            if( !((i+1)%16) )
-            {
-                DebugWndPrintf("\r\n");
-            }
-        }
-        DebugWndPrintf("\r\n");
-#endif
+
+        debugDataArrayPrint(tblPtr->rxDataSize,tblPtr->rxDataPtr,"CONTENTS");
     }
     else
     {
@@ -794,6 +761,35 @@ calcCheckSum( BYTE *dataPtr, INT dataSize )
     checkSum = (0x80 - checkSum) & 0x7F;
 
     return checkSum;
+}
+
+#define DX100_CTRL_DEBUG_DATA_DISP
+/*********************************************
+ * 内容   : 
+ * 引数   : DX100_CTRL_SEQ_ID seqId
+ * 戻り値 : なし
+ **********************************************/
+static void
+debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle )
+{
+    INT i;
+
+#ifdef DX100_CTRL_DEBUG_DATA_DISP
+    DebugWndPrintf("---------------------------------------------------\r\n");
+    DebugWndPrintf("%s:\r\n",ptstrTitle);
+    DebugWndPrintf("Size:%d\r\n",rxDataSize);
+
+    for( i=0; i<rxDataSize; i++ )
+    {
+        DebugWndPrintf("0x%02X ",*(rxDataPtr+i));
+        if( !((i+1)%16) )
+        {
+            DebugWndPrintf("\r\n");
+        }
+    }
+    DebugWndPrintf("\r\n");
+    DebugWndPrintf("---------------------------------------------------\r\n");
+#endif
 }
 
 /********************************************************************************
