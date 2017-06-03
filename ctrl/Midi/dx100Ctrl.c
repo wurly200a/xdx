@@ -14,7 +14,7 @@
 
 /* 内部関数定義 */
 static BOOL seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId );
-static BOOL seqEndProc( DX100_CTRL_SEQ_ID seqId );
+static BOOL seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr );
 static BOOL copyToParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BOOL copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BYTE getParamCtrlValue( PARAM_CTRL_ID id );
@@ -135,11 +135,16 @@ Dx100CtrlDisplayUpdate( void )
     return TRUE;
 }
 
-/*********************************************
- * 内容   :
- * 引数   : なし
- * 戻り値 : BOOL
- **********************************************/
+/**
+ * ------------------------------------------------------------------------------
+ * @brief  シーケンス開始
+ *         開始IDから終了IDまで連続して実行する
+ * @param  method
+ * @param  seqIdStart
+ * @param  seqIdEnd
+ * @return TRUE: 正常に実行開始
+ * @author wurly @date 2017年06月03日 21時16分31秒
+ */
 BOOL
 Dx100CtrlSeqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqIdStart, DX100_CTRL_SEQ_ID seqIdEnd )
 {
@@ -182,13 +187,8 @@ Dx100CtrlDisplayContents( void )
 void
 Dx100CtrlCycleProc( void )
 {
-    S_DX100_CTRL_SEQ_DATA *tblPtr;
-    INT i,contentSize;
-
     if( dx100CtrlInfo.nowExecSeqId )
     {
-        tblPtr = &(dx100CtrlSeqDataTbl[dx100CtrlInfo.nowExecSeqId]);
-
         if( MidiInqOutExec() )
         {
             nop();
@@ -222,44 +222,7 @@ Dx100CtrlCycleProc( void )
         }
         else
         { /* 受信終了 */
-            DebugWndPrintf("rxSize:%d\r\n",dx100CtrlSeqTempRxSize);
-            DebugWndPrintf("RX:\r\n");
-#ifdef DX100_CTRL_DEBUG_DATA_DISP
-            for( i=0; i<dx100CtrlSeqTempRxSize; i++ )
-            {
-                DebugWndPrintf("0x%02X ",dx100CtrlSeqRxTempData[i]);
-                if( !((i+1)%16) )
-                {
-                    DebugWndPrintf("\r\n");
-                }
-            }
-            DebugWndPrintf("\r\n");
-#endif
-
-            contentSize = (dx100CtrlSeqTempRxSize-(MIDI_EX_HEADER_DATA + 2 + 1 + EX_FOOTER_SIZE));
-
-            if( contentSize == tblPtr->rxDataSize )
-            {
-                memcpy((void *)tblPtr->rxDataPtr,(void *)(&dx100CtrlSeqRxTempData[0] + MIDI_EX_HEADER_DATA + 2),tblPtr->rxDataSize);
-#ifdef DX100_CTRL_DEBUG_DATA_DISP
-                DebugWndPrintf("CONTENTS:\r\n");
-                for( i=0; i<tblPtr->rxDataSize; i++ )
-                {
-                    DebugWndPrintf("0x%02X ",*(tblPtr->rxDataPtr+i));
-                    if( !((i+1)%16) )
-                    {
-                        DebugWndPrintf("\r\n");
-                    }
-                }
-                DebugWndPrintf("\r\n");
-#endif
-            }
-            else
-            {
-                DebugWndPrintf("Check NG,%d,%d\r\n",contentSize,tblPtr->rxDataSize);
-            }
-
-            seqEndProc(dx100CtrlInfo.nowExecSeqId);
+            seqEndProc(dx100CtrlInfo.nowExecSeqId,dx100CtrlSeqTempRxSize,dx100CtrlSeqRxTempData);
 
             if( dx100CtrlInfo.nowExecSeqId < dx100CtrlInfo.reqSeqIdEnd )
             {
@@ -383,10 +346,49 @@ seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId )
  * 戻り値 : BOOL
  **********************************************/
 static BOOL
-seqEndProc( DX100_CTRL_SEQ_ID seqId )
+seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
 {
-    TCHAR patchName[12+1];
-    TCHAR szBuffer[1024];
+    S_DX100_CTRL_SEQ_DATA *tblPtr;
+    INT i,contentSize;
+
+    DebugWndPrintf("rxSize:%d\r\n",rxDataSize);
+    DebugWndPrintf("RX:\r\n");
+
+#ifdef DX100_CTRL_DEBUG_DATA_DISP
+    for( i=0; i<rxDataSize; i++ )
+    {
+        DebugWndPrintf("0x%02X ",(rxDataPtr+i));
+        if( !((i+1)%16) )
+        {
+            DebugWndPrintf("\r\n");
+        }
+    }
+    DebugWndPrintf("\r\n");
+#endif
+
+    tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
+    contentSize = (rxDataSize-(MIDI_EX_HEADER_DATA + 2 + 1 + EX_FOOTER_SIZE));
+
+    if( contentSize == tblPtr->rxDataSize )
+    {
+        memcpy((void *)tblPtr->rxDataPtr,(void *)(rxDataPtr + MIDI_EX_HEADER_DATA + 2),tblPtr->rxDataSize);
+#ifdef DX100_CTRL_DEBUG_DATA_DISP
+        DebugWndPrintf("CONTENTS:\r\n");
+        for( i=0; i<tblPtr->rxDataSize; i++ )
+        {
+            DebugWndPrintf("0x%02X ",*(tblPtr->rxDataPtr+i));
+            if( !((i+1)%16) )
+            {
+                DebugWndPrintf("\r\n");
+            }
+        }
+        DebugWndPrintf("\r\n");
+#endif
+    }
+    else
+    {
+        DebugWndPrintf("Check NG,%d,%d\r\n",contentSize,tblPtr->rxDataSize);
+    }
 
     switch( seqId )
     {

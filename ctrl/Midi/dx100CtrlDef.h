@@ -5,26 +5,14 @@ enum
 {
     MIDI_EX_HEADER_STATUS    ,
     MIDI_EX_HEADER_ID_NUMBER ,
-#if 1
     MIDI_EX_HEADER_SUB_STATUS,
     MIDI_EX_HEADER_PARAM     ,
-#else
-    MIDI_EX_HEADER_DEVICE_ID ,
-    MIDI_EX_HEADER_MODEL_ID  ,
-    MIDI_EX_HEADER_COMMAND_ID,
-    MIDI_EX_HEADER_ADRS0     ,
-    MIDI_EX_HEADER_ADRS1     ,
-    MIDI_EX_HEADER_ADRS2     ,
-    MIDI_EX_HEADER_ADRS3     ,
-#endif
     MIDI_EX_HEADER_DATA      ,
 };
 typedef INT MIDI_EX_HEADER_INDEX;
 
 #define EX_STATUS           0xF0
 #define EX_ID_NUMBER_YAMAHA 0x43
-#define EX_DEVICE_ID        0x10
-#define EX_MODEL_ID_DX100   0x6A
 #define EX_ETX              0xF7
 
 #if 1
