@@ -14,7 +14,7 @@
 
 /* 内部関数定義 */
 static BOOL seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId );
-static BOOL seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxDataSize, BYTE *txDataPtr );
+static INT seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxDataSize, BYTE *txDataPtr );
 static BOOL seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr );
 static BOOL copyToParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BOOL copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId );
@@ -42,7 +42,7 @@ static const S_DX100_CTRL_SEQ_DATA dx100CtrlSeqDataTbl[DX100_CTRL_SEQ_NUM_MAX] =
 {
     {(INT)0               ,(BYTE *)NULL                   }, /* DX100_CTRL_SEQ_NON_EXEC     */
     {(INT)SYSCMN_INDEX_MAX,&dx100CtrlDataSysCommon        }, /* DX100_CTRL_SEQ_SYS_COMMON   */
-    {(INT)VOICE_INDEX_MAX ,&dx100CtrlDataOneVoice      }, /* DX100_CTRL_SEQ_PATCH_COMMON */
+    {(INT)VOICE_INDEX_MAX ,&dx100CtrlDataOneVoice         }, /* DX100_CTRL_SEQ_1VOICE */
 };
 
 typedef struct
@@ -100,7 +100,9 @@ Dx100CtrlDisplayUpdate( void )
 {
     if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
     {
+#if 0
         copyToParamCtrl(DX100_CTRL_SEQ_SYS_COMMON);
+#endif
         ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
     }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_ALL_VOICE )
@@ -108,7 +110,7 @@ Dx100CtrlDisplayUpdate( void )
         switch( dx100CtrlInfo.nowAllVoiceSubMode )
         {
         case DX100_CTRL_ALL_VOICE_SUBMODE_COMMON:
-            copyToParamCtrl(DX100_CTRL_SEQ_PATCH_COMMON);
+            copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
             ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
             break;
         default:
@@ -121,7 +123,7 @@ Dx100CtrlDisplayUpdate( void )
         switch( dx100CtrlInfo.nowOneVoiceSubMode )
         {
         case DX100_CTRL_1VOICE_SUBMODE_COMMON:
-            copyToParamCtrl(DX100_CTRL_SEQ_PATCH_COMMON);
+            copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
             ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
             break;
         default:
@@ -296,53 +298,47 @@ seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId )
 /*********************************************
  * 内容   : 
  * 引数   : DX100_CTRL_SEQ_ID seqId
- * 戻り値 : BOOL
+ * 戻り値 : INT
  **********************************************/
-static BOOL
+static INT
 seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxDataSize, BYTE *txDataPtr )
 {
     S_DX100_CTRL_SEQ_DATA *tblPtr;
-    INT txSize;
+    INT txSize = (INT)0;
     INT i;
     BYTE checkSum;
 
     tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
 
-    *(txDataPtr+MIDI_EX_HEADER_STATUS    ) = EX_STATUS          ;
-    *(txDataPtr+MIDI_EX_HEADER_ID_NUMBER ) = EX_ID_NUMBER_YAMAHA; /* ID      : 0x43 YAMAHA  */
-    *(txDataPtr+MIDI_EX_HEADER_SUB_STATUS) = 0x20; /* dump request 0x2n */
-    *(txDataPtr+MIDI_EX_HEADER_PARAM     ) = 0x03; /* 3=1音色bulk data */
-
-    if( method == DX100_CTRL_SEQ_METHOD_SET )
+    switch( seqId )
     {
-        copyFromParamCtrl( seqId );
-
-        memcpy( (void *)(txDataPtr+MIDI_EX_HEADER_DATA), (void *)tblPtr->rxDataPtr, tblPtr->rxDataSize );
+    case DX100_CTRL_SEQ_1VOICE:
+        if( method == DX100_CTRL_SEQ_METHOD_SET )
+        {
 #if 0
-        *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize  )   = calcCheckSum( txDataPtr+MIDI_EX_HEADER_ADRS0, 4+tblPtr->rxDataSize );
-        *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize+1) = EX_ETX;
+            copyFromParamCtrl( seqId );
+
+            memcpy( (void *)(txDataPtr+MIDI_EX_HEADER_DATA), (void *)tblPtr->rxDataPtr, tblPtr->rxDataSize );
+#if 0
+            *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize  )   = calcCheckSum( txDataPtr+MIDI_EX_HEADER_ADRS0, 4+tblPtr->rxDataSize );
+            *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize+1) = EX_ETX;
 #endif
-        txSize = MIDI_EX_HEADER_DATA + tblPtr->rxDataSize + EX_FOOTER_SIZE;
-    }
-    else
-    {
-        /* データ要求しデータ受信する*/
-#if 1
-        *(txDataPtr+MIDI_EX_HEADER_DATA)       = EX_ETX;
-        txSize = 5;
-#else
-        *(txDataPtr+MIDI_EX_HEADER_DATA    +0) = HIBYTE(HIWORD(tblPtr->exDataSize));
-        *(txDataPtr+MIDI_EX_HEADER_DATA    +1) = LOBYTE(HIWORD(tblPtr->exDataSize));
-        *(txDataPtr+MIDI_EX_HEADER_DATA    +2) = HIBYTE(LOWORD(tblPtr->exDataSize));
-        *(txDataPtr+MIDI_EX_HEADER_DATA    +3) = LOBYTE(LOWORD(tblPtr->exDataSize));
-        *(txDataPtr+13)                        = calcCheckSum( txDataPtr+MIDI_EX_HEADER_ADRS0, 8 );
-        *(txDataPtr+14)                        = EX_ETX;
-        txSize = 15;
+            txSize = MIDI_EX_HEADER_DATA + tblPtr->rxDataSize + EX_ETX_SIZE;
 #endif
+        }
+        else
+        { /* データ要求しデータ受信する*/
+            *(txDataPtr+MIDI_EX_HEADER_STATUS    ) = EX_STATUS          ;
+            *(txDataPtr+MIDI_EX_HEADER_ID_NUMBER ) = EX_ID_NUMBER_YAMAHA; /* ID      : 0x43 YAMAHA  */
+            *(txDataPtr+MIDI_EX_HEADER_SUB_STATUS) = 0x20; /* dump request 0x2n */
+            *(txDataPtr+MIDI_EX_HEADER_PARAM     ) = 0x03; /* 3=1音色bulk data */
+            *(txDataPtr+MIDI_EX_HEADER_DATA)       = EX_ETX;
+            txSize = 5;
+        }
+        break;
     }
 
     DebugWndPrintf("checkSum:0x%02X\r\n",checkSum);
-
 
     return txSize;
 }
@@ -361,11 +357,11 @@ seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
     debugDataArrayPrint(rxDataSize,rxDataPtr,"RX");
 
     tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
-    contentSize = (rxDataSize-(MIDI_EX_HEADER_DATA + 2 + 1 + EX_FOOTER_SIZE));
+    contentSize = (rxDataSize-(MIDI_EX_HEADER_DATA + EX_BYTE_CNT_SIZE + EX_CHECKSUM_SIZE + EX_ETX_SIZE));
 
     if( contentSize == tblPtr->rxDataSize )
     {
-        memcpy((void *)tblPtr->rxDataPtr,(void *)(rxDataPtr + MIDI_EX_HEADER_DATA + 2),tblPtr->rxDataSize);
+        memcpy((void *)tblPtr->rxDataPtr,(void *)(rxDataPtr + MIDI_EX_HEADER_DATA + EX_BYTE_CNT_SIZE),tblPtr->rxDataSize);
 
         debugDataArrayPrint(tblPtr->rxDataSize,tblPtr->rxDataPtr,"CONTENTS");
     }
@@ -376,9 +372,11 @@ seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
 
     switch( seqId )
     {
+#if 0
     case DX100_CTRL_SEQ_SYS_COMMON  :
         break;
-    case DX100_CTRL_SEQ_PATCH_COMMON:
+#endif
+    case DX100_CTRL_SEQ_1VOICE:
         break;
     }
 
@@ -501,7 +499,7 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
         SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_L               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_L            ], (LPARAM)0 );
         break;
 #endif
-    case DX100_CTRL_SEQ_PATCH_COMMON:
+    case DX100_CTRL_SEQ_1VOICE:
         SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_00                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_00  ], (LPARAM)0 );
         SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_01                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_01  ], (LPARAM)0 );
         SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_02                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_02  ], (LPARAM)0 );
@@ -711,7 +709,7 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
         dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_H            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_H               );
         dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_L            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_L               );
         break;
-    case DX100_CTRL_SEQ_PATCH_COMMON:
+    case DX100_CTRL_SEQ_1VOICE:
         break;
     }
 #endif
