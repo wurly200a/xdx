@@ -14,6 +14,7 @@
 
 /* 内部関数定義 */
 static BOOL seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId );
+static BOOL seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxDataSize, BYTE *txDataPtr );
 static BOOL seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr );
 static BOOL copyToParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BOOL copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId );
@@ -260,52 +261,14 @@ Dx100CtrlCycleProc( void )
 static BOOL
 seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId )
 {
-    S_DX100_CTRL_SEQ_DATA *tblPtr;
-    INT i;
     INT txSize;
-    BYTE checkSum;
 
     if( seqId && (seqId < DX100_CTRL_SEQ_NUM_MAX) )
     {
-        tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
-
         DebugWndPrintf("..............\r\n");
         DebugWndPrintf("DX100_CTRL_SEQ_ID:%d\r\n",seqId);
 
-        dx100CtrlSeqTxTempData[MIDI_EX_HEADER_STATUS    ] = EX_STATUS          ;
-        dx100CtrlSeqTxTempData[MIDI_EX_HEADER_ID_NUMBER ] = EX_ID_NUMBER_YAMAHA; /* ID      : 0x43 YAMAHA  */
-        dx100CtrlSeqTxTempData[MIDI_EX_HEADER_SUB_STATUS] = 0x20; /* dump request 0x2n */
-        dx100CtrlSeqTxTempData[MIDI_EX_HEADER_PARAM     ] = 0x03; /* 3=1音色bulk data */
-
-        if( method == DX100_CTRL_SEQ_METHOD_SET )
-        {
-            copyFromParamCtrl( seqId );
-
-            memcpy( (void *)&dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA], (void *)tblPtr->rxDataPtr, tblPtr->rxDataSize );
-#if 0
-            dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA+tblPtr->rxDataSize]   = calcCheckSum( &dx100CtrlSeqTxTempData[MIDI_EX_HEADER_ADRS0], 4+tblPtr->rxDataSize );
-            dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA+tblPtr->rxDataSize+1] = EX_ETX;
-#endif
-            txSize = MIDI_EX_HEADER_DATA + tblPtr->rxDataSize + EX_FOOTER_SIZE;
-        }
-        else
-        {
-            /* データ要求しデータ受信する*/
-#if 1
-            dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA]       = EX_ETX;
-            txSize = 5;
-#else
-            dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA    +0] = HIBYTE(HIWORD(tblPtr->exDataSize));
-            dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA    +1] = LOBYTE(HIWORD(tblPtr->exDataSize));
-            dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA    +2] = HIBYTE(LOWORD(tblPtr->exDataSize));
-            dx100CtrlSeqTxTempData[MIDI_EX_HEADER_DATA    +3] = LOBYTE(LOWORD(tblPtr->exDataSize));
-            dx100CtrlSeqTxTempData[13]                        = calcCheckSum( &dx100CtrlSeqTxTempData[MIDI_EX_HEADER_ADRS0], 8 );
-            dx100CtrlSeqTxTempData[14]                        = EX_ETX;
-            txSize = 15;
-#endif
-        }
-
-        DebugWndPrintf("checkSum:0x%02X\r\n",checkSum);
+        txSize = seqStartProc(method,seqId,1024,dx100CtrlSeqTxTempData);
 
         debugDataArrayPrint(txSize,dx100CtrlSeqTxTempData,"TX");
 
@@ -328,6 +291,60 @@ seqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId )
     }
 
     return TRUE;
+}
+
+/*********************************************
+ * 内容   : 
+ * 引数   : DX100_CTRL_SEQ_ID seqId
+ * 戻り値 : BOOL
+ **********************************************/
+static BOOL
+seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxDataSize, BYTE *txDataPtr )
+{
+    S_DX100_CTRL_SEQ_DATA *tblPtr;
+    INT txSize;
+    INT i;
+    BYTE checkSum;
+
+    tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
+
+    *(txDataPtr+MIDI_EX_HEADER_STATUS    ) = EX_STATUS          ;
+    *(txDataPtr+MIDI_EX_HEADER_ID_NUMBER ) = EX_ID_NUMBER_YAMAHA; /* ID      : 0x43 YAMAHA  */
+    *(txDataPtr+MIDI_EX_HEADER_SUB_STATUS) = 0x20; /* dump request 0x2n */
+    *(txDataPtr+MIDI_EX_HEADER_PARAM     ) = 0x03; /* 3=1音色bulk data */
+
+    if( method == DX100_CTRL_SEQ_METHOD_SET )
+    {
+        copyFromParamCtrl( seqId );
+
+        memcpy( (void *)(txDataPtr+MIDI_EX_HEADER_DATA), (void *)tblPtr->rxDataPtr, tblPtr->rxDataSize );
+#if 0
+        *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize  )   = calcCheckSum( txDataPtr+MIDI_EX_HEADER_ADRS0, 4+tblPtr->rxDataSize );
+        *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize+1) = EX_ETX;
+#endif
+        txSize = MIDI_EX_HEADER_DATA + tblPtr->rxDataSize + EX_FOOTER_SIZE;
+    }
+    else
+    {
+        /* データ要求しデータ受信する*/
+#if 1
+        *(txDataPtr+MIDI_EX_HEADER_DATA)       = EX_ETX;
+        txSize = 5;
+#else
+        *(txDataPtr+MIDI_EX_HEADER_DATA    +0) = HIBYTE(HIWORD(tblPtr->exDataSize));
+        *(txDataPtr+MIDI_EX_HEADER_DATA    +1) = LOBYTE(HIWORD(tblPtr->exDataSize));
+        *(txDataPtr+MIDI_EX_HEADER_DATA    +2) = HIBYTE(LOWORD(tblPtr->exDataSize));
+        *(txDataPtr+MIDI_EX_HEADER_DATA    +3) = LOBYTE(LOWORD(tblPtr->exDataSize));
+        *(txDataPtr+13)                        = calcCheckSum( txDataPtr+MIDI_EX_HEADER_ADRS0, 8 );
+        *(txDataPtr+14)                        = EX_ETX;
+        txSize = 15;
+#endif
+    }
+
+    DebugWndPrintf("checkSum:0x%02X\r\n",checkSum);
+
+
+    return txSize;
 }
 
 /*********************************************
