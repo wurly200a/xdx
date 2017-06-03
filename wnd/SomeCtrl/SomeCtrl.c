@@ -29,36 +29,34 @@ typedef struct
 
 static S_SOME_CTRL ctrlListTbl[SOME_CTRL_MAX] =
 {
-    /*                     , class            , value              , x , y  , w  , h ,bSAdj  ,wOfst, hOfst,exStyle,style  */
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("static")   , TEXT("MIDI IN")    , 10, 15,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("combobox") , TEXT("")           , 85, 10, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("Open")       ,300, 10,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("static")   , TEXT("MIDI OUT")   , 10, 35,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("combobox") , TEXT("")           , 85, 30, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("Open")       ,300, 30,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("static")   , TEXT("MIDI KEY IN"), 10, 55,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("combobox") , TEXT("")           , 85, 50, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("Open")       ,300, 50,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("DEBUG")      ,720, 30,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("MODE")       ,350, 15, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("SYSTEM")     ,360, 30,  70 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("PERFORMANCE"),450, 30, 100 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("PATCH")      ,570, 30,  60 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS, TEXT("button")   , TEXT("GM")         ,650, 30,  30 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("PATCH")      , 10, 80, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
+    /*                        , class            , value              , x , y  , w  , h ,bSAdj  ,wOfst, hOfst,exStyle,style  */
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("MIDI IN")    , 10, 15,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("combobox") , TEXT("")           , 85, 10, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("Open")       ,300, 10,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("MIDI OUT")   , 10, 35,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("combobox") , TEXT("")           , 85, 30, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("Open")       ,300, 30,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("MIDI KEY IN"), 10, 55,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("combobox") , TEXT("")           , 85, 50, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("Open")       ,300, 50,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("DEBUG")      ,720, 30,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
 
-    {SOME_CTRL_GROUP_PATCH , TEXT("combobox") , TEXT("")           , 15, 95,  80 ,300 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL)  },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("GET")        ,100, 95,  30 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("SET")        ,140, 95,  30 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("COMMON")     ,200, 95,  60 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("1")          ,270, 95,  15 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("2")          ,290, 95,  15 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("3")          ,310, 95,  15 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_PATCH , TEXT("button")   , TEXT("4")          ,330, 95,  15 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("MODE")       ,350, 15, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("SYSTEM")     ,360, 30,  70 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("1VOICE")     ,450, 30,  60 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("ALL VOICE")  ,570, 30, 100 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
 
-    {SOME_CTRL_GROUP_SYSTEM, TEXT("button")   , TEXT("SYSTEM")     , 10, 80, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
-    {SOME_CTRL_GROUP_SYSTEM, TEXT("button")   , TEXT("GET")        , 50, 95,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_SYSTEM, TEXT("button")   , TEXT("SET")        ,150, 95,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_SYSTEM   , TEXT("button")   , TEXT("SYSTEM")     , 10, 80, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
+    {SOME_CTRL_GROUP_SYSTEM   , TEXT("button")   , TEXT("GET")        , 50, 95,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_SYSTEM   , TEXT("button")   , TEXT("SET")        ,150, 95,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+
+    {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("1VOICE")     , 10, 80, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
+    {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("GET")        ,100, 95,  30 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("SET")        ,140, 95,  30 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+
+    {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("ALL VOICE")  , 10, 80, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
+    {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("GET")        ,100, 95,  30 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("SET")        ,140, 95,  30 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
 };
 
 typedef struct
@@ -98,6 +96,7 @@ SomeCtrlCreate( HWND hwnd )
             SendMessage(infoPtr->hwnd, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
 
             /* ŒÂ•Ê‚Éˆ—‚·‚é‚à‚Ì */
+#if 0
             switch( i )
             {
             case SOME_CTRL_PATCH_NUM_SELECT:
@@ -114,6 +113,7 @@ SomeCtrlCreate( HWND hwnd )
             default:
                 break;
             }
+#endif
 
             if( tblPtr->groupId == SOME_CTRL_GROUP_ALWAYS )
             {
@@ -131,8 +131,8 @@ SomeCtrlCreate( HWND hwnd )
         }
     }
 
-    SomeCtrlDisable(SOME_CTRL_MODE_PERFORMANCE);
-    SomeCtrlDisable(SOME_CTRL_MODE_GM);
+//    SomeCtrlDisable(SOME_CTRL_MODE_ALL_VOICE);
+//    SomeCtrlDisable(SOME_CTRL_MODE_GM);
 
     SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
 

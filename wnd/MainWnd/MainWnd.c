@@ -683,46 +683,50 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             break;
 
         case (SOME_CTRL_MODE_SYSTEM     +SOME_CTRL_ID_OFFSET):
+            DebugWndPrintf("SYSTEM MODE\r\n");
             Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM,0,0);
             SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
             ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
             break;
-        case (SOME_CTRL_MODE_PERFORMANCE+SOME_CTRL_ID_OFFSET):
-            break;
-        case (SOME_CTRL_MODE_PATCH      +SOME_CTRL_ID_OFFSET):
-            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_PATCH);
-            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_PATCH_COMMON);
 
-            SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_PATCH_SUBMODE_COMMON,0);
+        case (SOME_CTRL_MODE_1VOICE     +SOME_CTRL_ID_OFFSET):
+            DebugWndPrintf("1VOICE MODE\r\n");
+            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
+
+//            SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
+//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
+//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
+//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
+//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_COMMON,0);
             break;
-        case (SOME_CTRL_MODE_GM         +SOME_CTRL_ID_OFFSET):
+
+        case (SOME_CTRL_MODE_ALL_VOICE+SOME_CTRL_ID_OFFSET):
+            DebugWndPrintf("ALL VOICE MODE\r\n");
+            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_ALL_VOICE);
+            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
             break;
 
         case (SOME_CTRL_DEBUG_BUTTON+SOME_CTRL_ID_OFFSET):
             Dx100CtrlDisplayContents();
             break;
 
-        case (SOME_CTRL_PATCH_GET_BUTTON+SOME_CTRL_ID_OFFSET):
-//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_PATCH_COMMON,DX100_CTRL_SEQ_PATCH_TONE4);
+        case (SOME_CTRL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
             Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_PATCH_COMMON,DX100_CTRL_SEQ_PATCH_COMMON);
             break;
 
-        case (SOME_CTRL_PATCH_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_PATCH_COMMON,DX100_CTRL_SEQ_PATCH_TONE4);
+        case (SOME_CTRL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
             break;
 
+#if 0
         case (SOME_CTRL_PATCH_COMMON    +SOME_CTRL_ID_OFFSET):
             SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_PATCH_SUBMODE_COMMON,0);
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_COMMON,0);
             Dx100CtrlDisplayUpdate();
             break;
         case (SOME_CTRL_PATCH_TONE1     +SOME_CTRL_ID_OFFSET):
@@ -731,7 +735,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_PATCH_SUBMODE_TONE1,0);
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE1,0);
             Dx100CtrlDisplayUpdate();
             break;
         case (SOME_CTRL_PATCH_TONE2     +SOME_CTRL_ID_OFFSET):
@@ -740,7 +744,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             SomeCtrlDisable( SOME_CTRL_PATCH_TONE2  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_PATCH_SUBMODE_TONE2,0);
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE2,0);
             Dx100CtrlDisplayUpdate();
             break;
         case (SOME_CTRL_PATCH_TONE3     +SOME_CTRL_ID_OFFSET):
@@ -749,7 +753,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
             SomeCtrlDisable( SOME_CTRL_PATCH_TONE3  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_PATCH_SUBMODE_TONE3,0);
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE3,0);
             Dx100CtrlDisplayUpdate();
             break;
         case (SOME_CTRL_PATCH_TONE4     +SOME_CTRL_ID_OFFSET):
@@ -758,9 +762,10 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
             SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
             SomeCtrlDisable( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_PATCH_SUBMODE_TONE4,0);
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE4,0);
             Dx100CtrlDisplayUpdate();
             break;
+#endif
 
         case (SOME_CTRL_SYSTEM_GET_BUTTON+SOME_CTRL_ID_OFFSET):
             Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);

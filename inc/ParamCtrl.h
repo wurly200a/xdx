@@ -14,8 +14,8 @@ typedef BYTE PARAM_CTRL_TARGET;
 typedef enum
 {
     PARAM_CTRL_GROUP_SYSTEM_COMMON,
-    PARAM_CTRL_GROUP_PATCH_COMMON ,
-    PARAM_CTRL_GROUP_PATCH_TONE   ,
+    PARAM_CTRL_GROUP_1VOICE       ,
+    PARAM_CTRL_GROUP_ALL_VOICE    ,
     PARAM_CTRL_GROUP_MAX
 }PARAM_CTRL_GROUP_ID;
 
@@ -100,20 +100,7 @@ typedef enum
     PARAM_CTRL_VOICE_74                        ,
     PARAM_CTRL_VOICE_75                        ,
     PARAM_CTRL_VOICE_76                        ,
-#if 1
-    PARAM_CTRL_VOICE_NAME                      ,
-#else
-    PARAM_CTRL_VOICE_77                        ,
-    PARAM_CTRL_VOICE_78                        ,
-    PARAM_CTRL_VOICE_79                        ,
-    PARAM_CTRL_VOICE_80                        ,
-    PARAM_CTRL_VOICE_81                        ,
-    PARAM_CTRL_VOICE_82                        ,
-    PARAM_CTRL_VOICE_83                        ,
-    PARAM_CTRL_VOICE_84                        ,
-    PARAM_CTRL_VOICE_85                        ,
-    PARAM_CTRL_VOICE_86                        ,
-#endif
+    PARAM_CTRL_VOICE_NAME/*77-86*/             ,
     PARAM_CTRL_VOICE_87                        ,
     PARAM_CTRL_VOICE_88                        ,
     PARAM_CTRL_VOICE_89                        ,
@@ -121,7 +108,30 @@ typedef enum
     PARAM_CTRL_VOICE_91                        ,
     PARAM_CTRL_VOICE_92                        ,
 
-    PARAM_CTRL_PATCHTN_TONESWITCH                 ,
+    PARAM_CTRL_ALL_VOICE_NAME_00               ,
+    PARAM_CTRL_ALL_VOICE_NAME_01               ,
+    PARAM_CTRL_ALL_VOICE_NAME_02               ,
+    PARAM_CTRL_ALL_VOICE_NAME_03               ,
+    PARAM_CTRL_ALL_VOICE_NAME_04               ,
+    PARAM_CTRL_ALL_VOICE_NAME_05               ,
+    PARAM_CTRL_ALL_VOICE_NAME_06               ,
+    PARAM_CTRL_ALL_VOICE_NAME_07               ,
+    PARAM_CTRL_ALL_VOICE_NAME_08               ,
+    PARAM_CTRL_ALL_VOICE_NAME_09               ,
+    PARAM_CTRL_ALL_VOICE_NAME_10               ,
+    PARAM_CTRL_ALL_VOICE_NAME_11               ,
+    PARAM_CTRL_ALL_VOICE_NAME_12               ,
+    PARAM_CTRL_ALL_VOICE_NAME_13               ,
+    PARAM_CTRL_ALL_VOICE_NAME_14               ,
+    PARAM_CTRL_ALL_VOICE_NAME_15               ,
+    PARAM_CTRL_ALL_VOICE_NAME_16               ,
+    PARAM_CTRL_ALL_VOICE_NAME_17               ,
+    PARAM_CTRL_ALL_VOICE_NAME_18               ,
+    PARAM_CTRL_ALL_VOICE_NAME_19               ,
+    PARAM_CTRL_ALL_VOICE_NAME_20               ,
+    PARAM_CTRL_ALL_VOICE_NAME_21               ,
+    PARAM_CTRL_ALL_VOICE_NAME_22               ,
+    PARAM_CTRL_ALL_VOICE_NAME_23               ,
 
     PARAM_CTRL_MAX
 }PARAM_CTRL_ID;

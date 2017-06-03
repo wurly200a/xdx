@@ -121,7 +121,30 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("PITCH EG LEVEL 2"                              ),0,127,X_BASE_POS_OFFSET},
     {PCT_COMBO,TEXT("PITCH EG LEVEL 3"                              ),0,127,X_BASE_POS_OFFSET},
 
-    {PCT_COMBO,TEXT("TONESWITCH                 "),0,127,170},
+    {PCT_EDIT ,TEXT("VOICE_NAME_00"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_01"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_02"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_03"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_04"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_05"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_06"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_07"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_08"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_09"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_10"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_11"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_12"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_13"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_14"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_15"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_16"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_17"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_18"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_19"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_20"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_21"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_22"                                 ),0,127,X_BASE_POS_OFFSET},
+    {PCT_EDIT ,TEXT("VOICE_NAME_23"                                 ),0,127,X_BASE_POS_OFFSET},
 };
 
 typedef struct
@@ -168,8 +191,8 @@ BOOL
 ParamCtrlCreate( HWND hwnd )
 {
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_SYSTEM_COMMON,PARAM_CTRL_SYSCMN_SOUNDMODE  ,PARAM_CTRL_SYSCMN_SOUNDMODE  );
-    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_PATCH_COMMON ,PARAM_CTRL_VOICE_00,PARAM_CTRL_VOICE_92);
-    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_PATCH_TONE   ,PARAM_CTRL_PATCHTN_TONESWITCH,PARAM_CTRL_PATCHTN_TONESWITCH);
+    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_1VOICE       ,PARAM_CTRL_VOICE_00          ,PARAM_CTRL_VOICE_92          );
+    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_NAME_23 );
 
     ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
 
@@ -190,7 +213,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
     int nowId,numForDisp;
     INT columnNum = 0;
 
-    if( (startId < endId) && (endId < PARAM_CTRL_MAX) )
+    if( (startId <= endId) && (endId < PARAM_CTRL_MAX) )
     {
         for(nowId=startId,numForDisp=0; nowId<=endId; nowId++,numForDisp++)
         {
