@@ -33,44 +33,6 @@ typedef INT MIDI_EX_HEADER_INDEX;
 #define EX_FOOTER_SIZE 2 /* Checksum,ETX */
 #endif
 
-/* Command */
-#define RQ1 0x11 /* DataReq1 */
-#define DT1 0x12 /* DataSet1 */
-
-/* Adrs */
-#define A_BLK_SYS_COMMON           0x00000000
-#define A_BLK_TMP_PERF             0x01000000
-#define A_BLK_PERF_MODE_TMP_PATCH  0x02000000
-#define A_BLK_PATCH_MODE_TMP_PATCH 0x03000000
-#define A_BLK_USER_PERF            0x10000000
-#define A_BLK_USER_PATCH           0x11000000
-
-#define A_OFFSET_PARTCM            0x0000
-#define A_OFFSET_PART01            0x1000
-#define A_OFFSET_PART02            0x1100
-#define A_OFFSET_PART03            0x1200
-#define A_OFFSET_PART04            0x1300
-#define A_OFFSET_PART05            0x1400
-#define A_OFFSET_PART06            0x1500
-#define A_OFFSET_PART07            0x1600
-#define A_OFFSET_PART08            0x1700
-#define A_OFFSET_PART09            0x1800
-#define A_OFFSET_PART10            0x1900
-#define A_OFFSET_PART11            0x1A00
-#define A_OFFSET_PART12            0x1B00
-#define A_OFFSET_PART13            0x1C00
-#define A_OFFSET_PART14            0x1D00
-#define A_OFFSET_PART15            0x1E00
-#define A_OFFSET_PART16            0x1F00
-
-#define OFST_PCH_NUM 0x10000
-
-#define OFST_PCH_CMN 0x0000
-#define OFST_PCH_TN1 0x1000
-#define OFST_PCH_TN2 0x1200
-#define OFST_PCH_TN3 0x1400
-#define OFST_PCH_TN4 0x1600
-
 /* 1-1-1.System Common */
 enum
 {
