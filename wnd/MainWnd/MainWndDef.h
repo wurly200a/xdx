@@ -42,7 +42,6 @@ typedef struct
     int  cxChar;
     int  cyChar;
     int  cxCaps;
-    HWND hWndIo;
     HFONT hFontIo;
     HACCEL hAccel;
     BOOL bNeedSave;

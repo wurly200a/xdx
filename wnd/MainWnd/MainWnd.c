@@ -7,7 +7,6 @@
 
 /* 外部関数定義 */
 #include "WinMain.h"
-#include "EditWnd.h"
 #include "SomeCtrl.h"
 #include "ParamCtrl.h"
 #include "File.h"
@@ -91,10 +90,6 @@ static LRESULT (*wndProcTbl[MAINWND_MAX])( HWND hwnd, UINT message, WPARAM wPara
 
 #define TIMER_ID      1
 #define TIMER_CYCLE  100 /* msec */
-
-#if 0
-#define USE_EDITCONTROL
-#endif
 
 /********************************************************************************
  * 内容  : メインウィンドウクラスの登録、ウィンドウの生成
@@ -307,21 +302,6 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     FileInitialize( hwnd ); /* ファイル初期化     */
     FontInit();
 
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-    EditWndRegisterClass( GetHinst() );
-    mainWndData.hWndIo = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,
-                                         TEXT("teddedit"), NULL,
-                                         WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL ,
-                                         CW_USEDEFAULT, CW_USEDEFAULT, 0, 0,
-                                         hwnd, (HMENU)0, GetHinst(), NULL );
-#else                   /* [エディットコントロール使用] or  通常  */
-    mainWndData.hWndIo = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,
-                                         TEXT ("edit"), NULL,
-                                         WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL |
-                                         ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | ES_AUTOHSCROLL | ES_AUTOVSCROLL,
-                                         0, 0, 0, 0,
-                                         hwnd, (HMENU)0, GetHinst(), NULL) ;
-#endif                  /*  エディットコントロール使用  or  通常  */
     mainWndData.hFontIo = NULL;
 
     SomeCtrlCreate( hwnd ); /* コントロールを生成 */
@@ -331,27 +311,8 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     MenuCheckItem( IDM_VIEW_STS_BAR );
     MenuCheckItem( IDM_EXTEND_NEWLINE_CRLF );
 
-#if 0
-    if( (szCmdLineLocal[0] != '\0') &&
-        (FileSetName(FILE_ID_BIN,szCmdLineLocal,FALSE)) )
-    {
-        DWORD dwSize;
-        PBYTE dataPtr;
-
-        dataPtr = FileReadByte(FILE_ID_BIN,&dwSize);
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-        EditWndDataSet( mainWndData.hWndIo,dataPtr,dwSize,TRUE );
-#endif                  /*  エディットコントロール使用  or  通常  */
-        doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
-    }
-    else
-    {
-        doCaption( hwnd, "" , FALSE );
-    }
-#endif
-
     MidiInit();
-    Dx100CtrlInit(mainWndData.hWndIo);
+    Dx100CtrlInit();
 
     return rtn;
 }
@@ -388,8 +349,6 @@ onSize( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     topSizeSum += SomeCtrlSize( mainWndData.cxClient, mainWndData.cyChar ); /* コントロール   */
     bottomSizeSum += StsBarSize( mainWndData.cxClient, mainWndData.cyChar ); /* ステータスバー */
-
-    MoveWindow( mainWndData.hWndIo, 0, topSizeSum, mainWndData.cxClient, mainWndData.cyClient - topSizeSum - bottomSizeSum, TRUE) ;
 
     return 0;
 }
@@ -531,7 +490,6 @@ onDestroy( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     DestroyAcceleratorTable( mainWndData.hAccel );
 
-    DestroyWindow( mainWndData.hWndIo );
     FileEnd();
 
     if( mainWndData.hWndDebug )
@@ -567,523 +525,335 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     static TCHAR strFind[80],strRep[80],strMsg[1024];
     HFONT hFontOld;
 
-    if( (HWND)lParam == mainWndData.hWndIo )
+    static TCHAR szMidiDev[50];
+    int iCbNum,iDevNum;
+    HWND hComboBox;
+    int iReturn;
+
+    switch( LOWORD(wParam) )
     {
-#if 0
-        switch( HIWORD(wParam) )
+    case (SOME_CTRL_MIDI_IN_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
+        if( !hMidiIn )
         {
-        case EN_UPDATE:
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-            StsBarSetText( STS_BAR_0  ,"%d バイト、全 %d 行",EditWndGetDataSize(mainWndData.hWndIo, EDITWND_ALL),(DWORD)SendMessage(mainWndData.hWndIo,EM_GETLINECOUNT,0,0) );
-            StsBarSetText( STS_BAR_MAX,"   %d 行、%d 列",(DWORD)(SendMessage(mainWndData.hWndIo,EM_LINEFROMCHAR,-1,0))+1,EditWndGetCaretXpos(mainWndData.hWndIo)+1);
-#else                   /* [エディットコントロール使用] or  通常  */
-            StsBarSetText( STS_BAR_0  ,"%d バイト、全 %d 行",GetWindowTextLength(mainWndData.hWndIo),(DWORD)SendMessage(mainWndData.hWndIo,EM_GETLINECOUNT,0,0) );
-            StsBarSetText( STS_BAR_MAX,"   %d 行、%d 列",(DWORD)(SendMessage(mainWndData.hWndIo,EM_LINEFROMCHAR,-1,0))+1,0);
-#endif                  /*  エディットコントロール使用  or  通常  */
-            break;
-        case EN_CHANGE:
-            if( mainWndData.bNeedSave )
+            DebugWndPrintf("OPEN MIDI_IN\r\n");
+
+            hComboBox = SomeCtrlGetHWND(SOME_CTRL_MIDI_IN);
+            iCbNum = SendMessage(hComboBox,CB_GETCURSEL,0,0);
+
+            if( iCbNum != CB_ERR )
             {
-                nop();
+                iDevNum = SendMessage( hComboBox , CB_GETITEMDATA, iCbNum, (LPARAM)0 );
+                SomeCtrlGetText( SOME_CTRL_MIDI_IN, szMidiDev );
+                DebugWndPrintf("%s:%d\r\n",szMidiDev,iDevNum);
+
+                hMidiIn = MidiInOpen(iDevNum);
             }
             else
             {
-                doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),TRUE );
-                mainWndData.bNeedSave = TRUE;
+                DebugWndPrintf("Not Selected\r\n");
             }
-            break;
-        default:
-            break;
+
+            if( hMidiIn )
+            {
+                SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_IN_OPEN_BUTTON), TEXT("Close") );
+                SomeCtrlDisable( SOME_CTRL_MIDI_IN );
+
+                SetTimer( hwnd, TIMER_ID, TIMER_CYCLE, NULL );
+            }
+            else
+            {
+            }
         }
-#endif
-    }
-    else
-    {
-        static TCHAR szMidiDev[50];
-        int iCbNum,iDevNum;
-        HWND hComboBox;
-        int iReturn;
-
-        switch( LOWORD(wParam) )
+        else
         {
-        case (SOME_CTRL_MIDI_IN_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
-            if( !hMidiIn )
+            MidiInClose();
+            KillTimer( hwnd, TIMER_ID );
+            hMidiIn = FALSE;
+            SomeCtrlEnable( SOME_CTRL_MIDI_IN );
+            SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_IN_OPEN_BUTTON), TEXT("Open") );
+        }
+        break;
+
+    case (SOME_CTRL_MIDI_OUT_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
+        if( !hMidiOut )
+        {
+            DebugWndPrintf("OPEN MIDI_OUT\r\n");
+
+            hComboBox = SomeCtrlGetHWND(SOME_CTRL_MIDI_OUT);
+            iCbNum = SendMessage(hComboBox,CB_GETCURSEL,0,0);
+
+            if( iCbNum != CB_ERR )
             {
-                DebugWndPrintf("OPEN MIDI_IN\r\n");
+                iDevNum = SendMessage( hComboBox , CB_GETITEMDATA, iCbNum, (LPARAM)0 );
+                SomeCtrlGetText( SOME_CTRL_MIDI_OUT, szMidiDev );
+                DebugWndPrintf("%s:%d\r\n",szMidiDev,iDevNum);
 
-                hComboBox = SomeCtrlGetHWND(SOME_CTRL_MIDI_IN);
-                iCbNum = SendMessage(hComboBox,CB_GETCURSEL,0,0);
-
-                if( iCbNum != CB_ERR )
-                {
-                    iDevNum = SendMessage( hComboBox , CB_GETITEMDATA, iCbNum, (LPARAM)0 );
-                    SomeCtrlGetText( SOME_CTRL_MIDI_IN, szMidiDev );
-                    DebugWndPrintf("%s:%d\r\n",szMidiDev,iDevNum);
-
-                    hMidiIn = MidiInOpen(iDevNum);
-                }
-                else
-                {
-                    DebugWndPrintf("Not Selected\r\n");
-                }
-
-                if( hMidiIn )
-                {
-                    SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_IN_OPEN_BUTTON), TEXT("Close") );
-                    SomeCtrlDisable( SOME_CTRL_MIDI_IN );
-
-                    SetTimer( hwnd, TIMER_ID, TIMER_CYCLE, NULL );
-                }
-                else
-                {
-                }
+                hMidiOut = MidiOutOpen(iDevNum);
             }
             else
             {
-                MidiInClose();
-                KillTimer( hwnd, TIMER_ID );
-                hMidiIn = FALSE;
-                SomeCtrlEnable( SOME_CTRL_MIDI_IN );
-                SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_IN_OPEN_BUTTON), TEXT("Open") );
+                DebugWndPrintf("Not Selected\r\n");
             }
-            break;
 
-        case (SOME_CTRL_MIDI_OUT_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
-            if( !hMidiOut )
+            if( hMidiOut )
             {
-                DebugWndPrintf("OPEN MIDI_OUT\r\n");
-
-                hComboBox = SomeCtrlGetHWND(SOME_CTRL_MIDI_OUT);
-                iCbNum = SendMessage(hComboBox,CB_GETCURSEL,0,0);
-
-                if( iCbNum != CB_ERR )
-                {
-                    iDevNum = SendMessage( hComboBox , CB_GETITEMDATA, iCbNum, (LPARAM)0 );
-                    SomeCtrlGetText( SOME_CTRL_MIDI_OUT, szMidiDev );
-                    DebugWndPrintf("%s:%d\r\n",szMidiDev,iDevNum);
-
-                    hMidiOut = MidiOutOpen(iDevNum);
-                }
-                else
-                {
-                    DebugWndPrintf("Not Selected\r\n");
-                }
-
-                if( hMidiOut )
-                {
-                    SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_OUT_OPEN_BUTTON), TEXT("Close") );
-                    SomeCtrlDisable( SOME_CTRL_MIDI_OUT );
-                }
-                else
-                {
-                }
+                SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_OUT_OPEN_BUTTON), TEXT("Close") );
+                SomeCtrlDisable( SOME_CTRL_MIDI_OUT );
             }
             else
             {
-                MidiOutClose();
-                hMidiOut = FALSE;
-                SomeCtrlEnable( SOME_CTRL_MIDI_OUT );
-                SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_OUT_OPEN_BUTTON), TEXT("Open") );
             }
-            break;
+        }
+        else
+        {
+            MidiOutClose();
+            hMidiOut = FALSE;
+            SomeCtrlEnable( SOME_CTRL_MIDI_OUT );
+            SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_OUT_OPEN_BUTTON), TEXT("Open") );
+        }
+        break;
 
-        case (SOME_CTRL_MIDI_KEY_IN_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
-            MessageBox(NULL, "残念賞", NULL, MB_OK);
-            break;
+    case (SOME_CTRL_MIDI_KEY_IN_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
+        MessageBox(NULL, "残念賞", NULL, MB_OK);
+        break;
 
-        case (SOME_CTRL_MODE_SYSTEM     +SOME_CTRL_ID_OFFSET):
-            DebugWndPrintf("SYSTEM MODE\r\n");
-            Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM);
-            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
-            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
-            break;
+    case (SOME_CTRL_MODE_SYSTEM     +SOME_CTRL_ID_OFFSET):
+        DebugWndPrintf("SYSTEM MODE\r\n");
+        Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM);
+        SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
+        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
+        break;
 
-        case (SOME_CTRL_MODE_1VOICE     +SOME_CTRL_ID_OFFSET):
-            DebugWndPrintf("1VOICE MODE\r\n");
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
-            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
-            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
+    case (SOME_CTRL_MODE_1VOICE     +SOME_CTRL_ID_OFFSET):
+        DebugWndPrintf("1VOICE MODE\r\n");
+        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+        SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
 
 //            SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
 //            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
 //            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
 //            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
 //            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            break;
+        break;
 
-        case (SOME_CTRL_MODE_ALL_VOICE+SOME_CTRL_ID_OFFSET):
-            DebugWndPrintf("ALL VOICE MODE\r\n");
-            Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
-            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_ALL_VOICE);
-            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
-            break;
+    case (SOME_CTRL_MODE_ALL_VOICE+SOME_CTRL_ID_OFFSET):
+        DebugWndPrintf("ALL VOICE MODE\r\n");
+        Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
+        SomeCtrlGroupDisplay(SOME_CTRL_GROUP_ALL_VOICE);
+        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
+        break;
 
-        case (SOME_CTRL_DEBUG_BUTTON+SOME_CTRL_ID_OFFSET):
-            Dx100CtrlDisplayContents();
-            break;
+    case (SOME_CTRL_DEBUG_BUTTON+SOME_CTRL_ID_OFFSET):
+        Dx100CtrlDisplayContents();
+        break;
 
-        case (SOME_CTRL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
-            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
-            break;
+    case (SOME_CTRL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
+        Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+        break;
 
-        case (SOME_CTRL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-            iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
-            if( (iReturn == IDYES) )
-            {
-                Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
-            }
-            else
-            {
-                nop();
-            }
-            break;
+    case (SOME_CTRL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
+        iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+        if( (iReturn == IDYES) )
+        {
+            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+        }
+        else
+        {
+            nop();
+        }
+        break;
 
-        case (SOME_CTRL_ALL_VOICE_LOAD_BUTTON+SOME_CTRL_ID_OFFSET):
-            if( FileOpenDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
-            {
+    case (SOME_CTRL_ALL_VOICE_LOAD_BUTTON+SOME_CTRL_ID_OFFSET):
+        if( FileOpenDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
+        {
 //                mainWndData.bNeedSave = FALSE;
-                dataPtr = FileReadByte(FILE_ID_ALL_VOICE_DATA,&dwSize);
-                Dx100DataSet( DX100_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
+            dataPtr = FileReadByte(FILE_ID_ALL_VOICE_DATA,&dwSize);
+            Dx100DataSet( DX100_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
 //                doCaption( hwnd, FileGetTitleName(FILE_ID_BIN), FALSE );
-                Dx100CtrlDisplayUpdate();
-            }
-            else
-            {
-                /* キャンセルされた。又はエラー */
-            }
-            break;
+            Dx100CtrlDisplayUpdate();
+        }
+        else
+        {
+            /* キャンセルされた。又はエラー */
+        }
+        break;
 
-        case (SOME_CTRL_ALL_VOICE_SAVE_BUTTON+SOME_CTRL_ID_OFFSET):
-            dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_ALL_VOICE);
-            dataPtr = malloc( dwSize * sizeof(TCHAR) );
-            if( dataPtr != NULL )
+    case (SOME_CTRL_ALL_VOICE_SAVE_BUTTON+SOME_CTRL_ID_OFFSET):
+        dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_ALL_VOICE);
+        dataPtr = malloc( dwSize * sizeof(TCHAR) );
+        if( dataPtr != NULL )
+        {
+            Dx100DataGet( DX100_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
+            if( FileSaveDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
             {
-                Dx100DataGet( DX100_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
-                if( FileSaveDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
-                {
 //                    mainWndData.bNeedSave = FALSE;
 //                    doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
-                    FileWrite( FILE_ID_ALL_VOICE_DATA, dataPtr, dwSize );
-                }
-                else
-                {
-                    nop();
-                }
-                free( dataPtr );
+                FileWrite( FILE_ID_ALL_VOICE_DATA, dataPtr, dwSize );
             }
             else
             {
                 nop();
             }
-            break;
-
-        case (SOME_CTRL_ALL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
-            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
-            break;
-
-        case (SOME_CTRL_ALL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-            iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
-            if( (iReturn == IDYES) )
-            {
-                Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
-            }
-            else
-            {
-                nop();
-            }
-            break;
-#if 0
-        case (SOME_CTRL_PATCH_COMMON    +SOME_CTRL_ID_OFFSET):
-            SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_COMMON,0);
-            Dx100CtrlDisplayUpdate();
-            break;
-        case (SOME_CTRL_PATCH_TONE1     +SOME_CTRL_ID_OFFSET):
-            SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-            SomeCtrlDisable( SOME_CTRL_PATCH_TONE1  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE1,0);
-            Dx100CtrlDisplayUpdate();
-            break;
-        case (SOME_CTRL_PATCH_TONE2     +SOME_CTRL_ID_OFFSET):
-            SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-            SomeCtrlDisable( SOME_CTRL_PATCH_TONE2  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE2,0);
-            Dx100CtrlDisplayUpdate();
-            break;
-        case (SOME_CTRL_PATCH_TONE3     +SOME_CTRL_ID_OFFSET):
-            SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-            SomeCtrlDisable( SOME_CTRL_PATCH_TONE3  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE3,0);
-            Dx100CtrlDisplayUpdate();
-            break;
-        case (SOME_CTRL_PATCH_TONE4     +SOME_CTRL_ID_OFFSET):
-            SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-            SomeCtrlDisable( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE4,0);
-            Dx100CtrlDisplayUpdate();
-            break;
-#endif
-
-        case (SOME_CTRL_SYSTEM_GET_BUTTON+SOME_CTRL_ID_OFFSET):
-//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);
-            break;
-
-        case (SOME_CTRL_SYSTEM_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);
-            break;
-
-        case IDM_FILE_NEW:
-#if 0
-            if( mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL) )
-            {
-                nop();
-            }
-            else
-            {
-                mainWndData.bNeedSave = FALSE;
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-                EditWndDataInit(mainWndData.hWndIo);
-#endif                  /*  エディットコントロール使用  or  通常  */
-                doCaption( hwnd, "", FALSE);
-            }
-#endif
-            break;
-        case IDM_FILE_OPEN:
-#if 0
-            if( mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL) )
-            {
-                nop();
-            }
-            else
-            {
-                if( FileOpenDlg( hwnd,FILE_ID_BIN ) )
-                {
-                    mainWndData.bNeedSave = FALSE;
-                    dataPtr = FileReadByte(FILE_ID_BIN,&dwSize);
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-                    EditWndDataSet( mainWndData.hWndIo, dataPtr,dwSize,TRUE );
-#endif                  /*  エディットコントロール使用  or  通常  */
-                    doCaption( hwnd, FileGetTitleName(FILE_ID_BIN), FALSE );
-                }
-                else
-                {
-                    /* キャンセルされた。又はエラー */
-                }
-            }
-#endif
-            break;
-        case IDM_FILE_SAVE:
-#if 0
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-            dwSize = EditWndGetDataSize(mainWndData.hWndIo,EDITWND_ALL);
-            dataPtr = malloc( dwSize * sizeof(TCHAR) );
-            if( dataPtr != NULL )
-            {
-                EditWndDataGet( mainWndData.hWndIo, dataPtr,dwSize,EDITWND_ALL );
-                if( (FileWrite( FILE_ID_BIN, dataPtr, dwSize )) == FILE_NAME_NOT_SET )
-                {
-                    if( FileSaveDlg( hwnd,FILE_ID_BIN ) )
-                    {
-                        mainWndData.bNeedSave = FALSE;
-                        doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
-                        FileWrite( FILE_ID_BIN, dataPtr, dwSize );
-                        rtn = 1;
-                    }
-                    else
-                    { /* キャンセル */
-                        nop();
-                    }
-                }
-                else
-                {
-                    mainWndData.bNeedSave = FALSE;
-                    doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
-                    FileWrite( FILE_ID_BIN, dataPtr, dwSize );
-                    rtn = 1;
-                }
-                free( dataPtr );
-            }
-            else
-            {
-                nop();
-            }
-#endif                  /*  エディットコントロール使用  or  通常  */
-#endif
-            break;
-        case IDM_FILE_SAVE_AS:
-#if 0
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-            dwSize = EditWndGetDataSize(mainWndData.hWndIo,EDITWND_ALL);
-            dataPtr = malloc( dwSize * sizeof(TCHAR) );
-            if( dataPtr != NULL )
-            {
-                EditWndDataGet( mainWndData.hWndIo, dataPtr,dwSize,EDITWND_ALL );
-                if( FileSaveDlg( hwnd,FILE_ID_BIN ) )
-                {
-                    mainWndData.bNeedSave = FALSE;
-                    doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
-                    FileWrite( FILE_ID_BIN, dataPtr, dwSize );
-                }
-                else
-                {
-                    nop();
-                }
-                free( dataPtr );
-            }
-            else
-            {
-                nop();
-            }
-#endif                  /*  エディットコントロール使用  or  通常  */
-#endif
-            break;
-
-        case IDM_EDIT_UNDO:
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-            SendMessage( mainWndData.hWndIo, WM_UNDO, 0, 0 );
-#else                   /* [エディットコントロール使用] or  通常  */
-            SendMessage( mainWndData.hWndIo, EM_UNDO, 0, 0 );
-#endif                  /*  エディットコントロール使用  or  通常  */
-            break;
-
-        case IDM_EDIT_CUT:
-            SendMessage( mainWndData.hWndIo, WM_CUT, 0, 0 );
-            break;
-
-        case IDM_EDIT_COPY:
-            SendMessage( mainWndData.hWndIo, WM_COPY, 0, 0 );
-            break;
-
-        case IDM_EDIT_PASTE:
-            SendMessage( mainWndData.hWndIo, WM_PASTE, 0, 0 );
-            break;
-
-        case IDM_EDIT_DELETE:
-            SendMessage( mainWndData.hWndIo, WM_CLEAR, 0, 0 );
-            break;
-
-        case IDM_EDIT_FIND:
-            fr.lStructSize   = sizeof (FINDREPLACE);
-            fr.hwndOwner     = hwnd;
-            fr.Flags         = FR_DOWN|/*FR_MATCHCASE|*/FR_HIDEWHOLEWORD|FR_HIDEMATCHCASE;
-            fr.lpstrFindWhat = strFind;
-            fr.wFindWhatLen  = 80;
-            mainWndData.hDlgModeless = FindText(&fr);
-            break;
-
-        case IDM_EDIT_REPLACE:
-            fr.lStructSize      = sizeof(FINDREPLACE);
-            fr.hwndOwner        = hwnd;
-            fr.Flags            = FR_DOWN|/*FR_MATCHCASE|*/FR_HIDEWHOLEWORD|FR_HIDEMATCHCASE;
-            fr.lpstrFindWhat    = strFind;
-            fr.lpstrReplaceWith = strRep;
-            fr.wReplaceWithLen  = fr.wFindWhatLen = 80;
-            mainWndData.hDlgModeless = ReplaceText(&fr);
-            break;
-
-        case IDM_EDIT_FIND_NEXT:
-            break;
-
-        case IDM_EDIT_SELECT_ALL:
-            SendMessage( mainWndData.hWndIo, EM_SETSEL, 0, -1 );
-            break;
-
-        case IDM_EDIT_DATETIME:
-            strPtr = DateTimeGetString();
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-            EditWndDataSet( mainWndData.hWndIo, strPtr, strlen(strPtr), FALSE );
-#endif                  /*  エディットコントロール使用  or  通常  */
-            break;
-
-        case IDM_FORMAT_FONT:
-            if( FontChooseFont( hwnd, FONT_ID_IO ) )
-            {
-                hFontOld = mainWndData.hFontIo;
-                mainWndData.hFontIo = CreateFontIndirect( FontGetLogFont(FONT_ID_IO) );
-                SendMessage( mainWndData.hWndIo, WM_SETFONT, (WPARAM)mainWndData.hFontIo, (LPARAM)TRUE );
-
-                if( hFontOld != NULL )
-                {
-                    DeleteObject(hFontOld);
-                }
-                else
-                {
-                    nop();
-                }
-            }
-            else
-            {
-                nop();
-            }
-            break;
-
-        case IDM_VIEW_STS_BAR:
-            if( MenuInqItemChecked(IDM_VIEW_STS_BAR) )
-            {
-                MenuUnCheckItem( IDM_VIEW_STS_BAR );
-                StsBarShowWindow( FALSE );
-            }
-            else
-            {
-                MenuCheckItem( IDM_VIEW_STS_BAR );
-                StsBarShowWindow( TRUE );
-            }
-            SendMessage(hwnd,WM_SIZE,0,MAKELONG(mainWndData.cxClient,mainWndData.cyClient));
-            break;
-
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-        case IDM_EXTEND_NEWLINE_CRLF:
-            EditWndNewLineCodeSet(mainWndData.hWndIo,NEWLINECODE_CRLF);
-            MenuCheckItem  ( IDM_EXTEND_NEWLINE_CRLF );
-            MenuUnCheckItem( IDM_EXTEND_NEWLINE_LF   );
-            MenuUnCheckItem( IDM_EXTEND_NEWLINE_CR   );
-            StsBarSetText( STS_BAR_1,"CR+LF");
-            break;
-
-        case IDM_EXTEND_NEWLINE_LF  :
-            EditWndNewLineCodeSet(mainWndData.hWndIo,NEWLINECODE_LF);
-            MenuUnCheckItem  ( IDM_EXTEND_NEWLINE_CRLF );
-            MenuCheckItem    ( IDM_EXTEND_NEWLINE_LF   );
-            MenuUnCheckItem  ( IDM_EXTEND_NEWLINE_CR   );
-            StsBarSetText( STS_BAR_1,"LF");
-            break;
-
-        case IDM_EXTEND_NEWLINE_CR  :
-            EditWndNewLineCodeSet(mainWndData.hWndIo,NEWLINECODE_CR);
-            MenuUnCheckItem  ( IDM_EXTEND_NEWLINE_CRLF );
-            MenuUnCheckItem  ( IDM_EXTEND_NEWLINE_LF   );
-            MenuCheckItem    ( IDM_EXTEND_NEWLINE_CR   );
-            StsBarSetText( STS_BAR_1,"CR");
-            break;
-#endif                  /*  エディットコントロール使用  or  通常  */
-
-        case IDM_FILE_EXIT:
-            SendMessage( hwnd, WM_CLOSE, 0, 0 );
-            break;
-
-        case IDM_HELP_ABOUT:
-            ModalDlg( MODAL_DLG_ID_ABOUT, &modalDlgData, hwnd, mainWndData.xPos, mainWndData.yPos );
-            break;
-
-        default:
-            break;
+            free( dataPtr );
         }
+        else
+        {
+            nop();
+        }
+        break;
+
+    case (SOME_CTRL_ALL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
+        Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
+        break;
+
+    case (SOME_CTRL_ALL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
+        iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+        if( (iReturn == IDYES) )
+        {
+            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
+        }
+        else
+        {
+            nop();
+        }
+        break;
+#if 0
+    case (SOME_CTRL_PATCH_COMMON    +SOME_CTRL_ID_OFFSET):
+        SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
+        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_COMMON,0);
+        Dx100CtrlDisplayUpdate();
+        break;
+    case (SOME_CTRL_PATCH_TONE1     +SOME_CTRL_ID_OFFSET):
+        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
+        SomeCtrlDisable( SOME_CTRL_PATCH_TONE1  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
+        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE1,0);
+        Dx100CtrlDisplayUpdate();
+        break;
+    case (SOME_CTRL_PATCH_TONE2     +SOME_CTRL_ID_OFFSET):
+        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
+        SomeCtrlDisable( SOME_CTRL_PATCH_TONE2  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
+        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE2,0);
+        Dx100CtrlDisplayUpdate();
+        break;
+    case (SOME_CTRL_PATCH_TONE3     +SOME_CTRL_ID_OFFSET):
+        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
+        SomeCtrlDisable( SOME_CTRL_PATCH_TONE3  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
+        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE3,0);
+        Dx100CtrlDisplayUpdate();
+        break;
+    case (SOME_CTRL_PATCH_TONE4     +SOME_CTRL_ID_OFFSET):
+        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
+        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
+        SomeCtrlDisable( SOME_CTRL_PATCH_TONE4  );
+        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE4,0);
+        Dx100CtrlDisplayUpdate();
+        break;
+#endif
+
+    case (SOME_CTRL_SYSTEM_GET_BUTTON+SOME_CTRL_ID_OFFSET):
+//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);
+        break;
+
+    case (SOME_CTRL_SYSTEM_SET_BUTTON+SOME_CTRL_ID_OFFSET):
+//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);
+        break;
+
+    case IDM_FILE_NEW:
+        break;
+    case IDM_FILE_OPEN:
+        break;
+    case IDM_FILE_SAVE:
+        break;
+    case IDM_FILE_SAVE_AS:
+        break;
+
+    case IDM_EDIT_UNDO:
+        break;
+
+    case IDM_EDIT_CUT:
+        break;
+
+    case IDM_EDIT_COPY:
+        break;
+
+    case IDM_EDIT_PASTE:
+        break;
+
+    case IDM_EDIT_DELETE:
+        break;
+
+    case IDM_EDIT_FIND:
+        fr.lStructSize   = sizeof (FINDREPLACE);
+        fr.hwndOwner     = hwnd;
+        fr.Flags         = FR_DOWN|/*FR_MATCHCASE|*/FR_HIDEWHOLEWORD|FR_HIDEMATCHCASE;
+        fr.lpstrFindWhat = strFind;
+        fr.wFindWhatLen  = 80;
+        mainWndData.hDlgModeless = FindText(&fr);
+        break;
+
+    case IDM_EDIT_REPLACE:
+        fr.lStructSize      = sizeof(FINDREPLACE);
+        fr.hwndOwner        = hwnd;
+        fr.Flags            = FR_DOWN|/*FR_MATCHCASE|*/FR_HIDEWHOLEWORD|FR_HIDEMATCHCASE;
+        fr.lpstrFindWhat    = strFind;
+        fr.lpstrReplaceWith = strRep;
+        fr.wReplaceWithLen  = fr.wFindWhatLen = 80;
+        mainWndData.hDlgModeless = ReplaceText(&fr);
+        break;
+
+    case IDM_EDIT_FIND_NEXT:
+        break;
+
+    case IDM_EDIT_SELECT_ALL:
+        break;
+
+    case IDM_EDIT_DATETIME:
+        strPtr = DateTimeGetString();
+        break;
+
+    case IDM_FORMAT_FONT:
+        break;
+
+    case IDM_VIEW_STS_BAR:
+        if( MenuInqItemChecked(IDM_VIEW_STS_BAR) )
+        {
+            MenuUnCheckItem( IDM_VIEW_STS_BAR );
+            StsBarShowWindow( FALSE );
+        }
+        else
+        {
+            MenuCheckItem( IDM_VIEW_STS_BAR );
+            StsBarShowWindow( TRUE );
+        }
+        SendMessage(hwnd,WM_SIZE,0,MAKELONG(mainWndData.cxClient,mainWndData.cyClient));
+        break;
+
+    case IDM_FILE_EXIT:
+        SendMessage( hwnd, WM_CLOSE, 0, 0 );
+        break;
+
+    case IDM_HELP_ABOUT:
+        ModalDlg( MODAL_DLG_ID_ABOUT, &modalDlgData, hwnd, mainWndData.xPos, mainWndData.yPos );
+        break;
+
+    default:
+        break;
     }
 
     return rtn;
@@ -1182,8 +952,6 @@ onMouseWheel( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
 
-    SendMessage(mainWndData.hWndIo,message,wParam,lParam);
-
     return rtn;
 }
 
@@ -1200,8 +968,6 @@ onSetFocus( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
 
-    SetFocus(mainWndData.hWndIo);
-
     return rtn;
 }
 
@@ -1217,8 +983,6 @@ static LRESULT
 onKillFocus( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
-
-    SendMessage(mainWndData.hWndIo,message,wParam,lParam);
 
     return rtn;
 }
@@ -1239,25 +1003,6 @@ onDropFiles( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     DWORD dwSize;
     PBYTE dataPtr;
 
-#if 0
-    if( mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL) )
-    {
-        nop();
-    }
-    else
-    {
-        mainWndData.bNeedSave = FALSE;
-        DragQueryFile( (HDROP)wParam, (UINT)0, (LPSTR)szFileName, (UINT)sizeof(szFileName) );
-
-        FileSetName( FILE_ID_BIN, szFileName, FALSE );
-        dataPtr = FileReadByte(FILE_ID_BIN,&dwSize);
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-        EditWndDataSet( mainWndData.hWndIo,dataPtr,dwSize,TRUE );
-#endif                  /*  エディットコントロール使用  or  通常  */
-        doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
-    }
-#endif
-
     return rtn;
 }
 
@@ -1276,21 +1021,6 @@ onInitMenuPopup( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     if( LOWORD(lParam) == 1 )
     { /* 「編集」 */
-#ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
-        if( EditWndGetDataSize(mainWndData.hWndIo,EDITWND_SELECTED) )
-        {
-            MenuEnableItem( IDM_EDIT_CUT    );
-            MenuEnableItem( IDM_EDIT_COPY   );
-            MenuEnableItem( IDM_EDIT_DELETE );
-        }
-        else
-        {
-            MenuUnEnableItem( IDM_EDIT_CUT    );
-            MenuUnEnableItem( IDM_EDIT_COPY   );
-            MenuUnEnableItem( IDM_EDIT_DELETE );
-        }
-#endif                  /*  エディットコントロール使用  or  通常  */
-
         if( IsClipboardFormatAvailable(CF_TEXT) )
         {
             MenuEnableItem( IDM_EDIT_PASTE );
@@ -1320,97 +1050,6 @@ static LRESULT
 onFindMsgString( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
-    LPFINDREPLACE pfr;
-
-    pfr = (LPFINDREPLACE)lParam;
-
-#if 0
-    typedef struct tagFINDREPLACEA {
-        DWORD lStructSize;
-        HWND hwndOwner;
-        HINSTANCE hInstance;
-        DWORD Flags;
-        LPSTR lpstrFindWhat;
-        LPSTR lpstrReplaceWith;
-        WORD wFindWhatLen;
-        WORD wReplaceWithLen;
-        LPARAM lCustData;
-        LPFRHOOKPROC lpfnHook;
-        LPCSTR lpTemplateName;
-    } FINDREPLACEA,*LPFINDREPLACEA;
-
-    typedef struct tagFINDREPLACEW {
-        DWORD lStructSize;
-        HWND hwndOwner;
-        HINSTANCE hInstance;
-        DWORD Flags;
-        LPWSTR lpstrFindWhat;
-        LPWSTR lpstrReplaceWith;
-        WORD wFindWhatLen;
-        WORD wReplaceWithLen;
-        LPARAM lCustData;
-        LPFRHOOKPROC lpfnHook;
-        LPCWSTR lpTemplateName;
-    } FINDREPLACEW,*LPFINDREPLACEW;
-#endif
-
-    if( pfr->Flags & FR_DIALOGTERM )
-    {
-        DebugWndPrintf("FR_DIALOGTERM\r\n");
-        mainWndData.hDlgModeless = NULL;
-    }
-    else
-    {
-        nop();
-    }
-
-    if( (pfr->Flags & FR_FINDNEXT) )
-    {
-        static BOOL bFindExec;
-
-        if( !bFindExec )
-        {
-            bFindExec = TRUE;
-            DebugWndPrintf("FR_FINDNEXT:%s,%d\r\n",pfr->lpstrFindWhat,pfr->wFindWhatLen);
-
-            if( EditWndFindDataSet(mainWndData.hWndIo,pfr->lpstrFindWhat,pfr->wFindWhatLen,(pfr->Flags&FR_DOWN)?FALSE:TRUE) )
-            {
-            }
-            else
-            {
-                okMessage(hwnd, TEXT("\"%s\" が見つかりません。"),pfr->lpstrFindWhat);
-            }
-            bFindExec = FALSE;
-        }
-        else
-        {
-            /* do nothing */
-        }
-    }
-    else
-    {
-        nop();
-    }
-
-#if 0
-    if( ((pfr->Flags & FR_REPLACE) || (pfr->Flags & FR_REPLACEALL)) && (!PopFindReplaceText(hwndEdit,&iOffset,pfr)) )
-    {
-        okMessage(hwnd, TEXT("\"%s\" が見つかりません。"),pfr->lpstrFindWhat);
-    }
-    else
-    {
-        nop();
-    }
-
-    if( pfr->Flags & FR_REPLACEALL )
-    {
-        while( PopFindReplaceText(hwndEdit, &iOffset, pfr) );
-    }
-    else
-    {
-        nop();
-    }
-#endif
 
     return rtn;
 }

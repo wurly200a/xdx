@@ -22,7 +22,6 @@ static BYTE getParamCtrlValue( PARAM_CTRL_ID id );
 static BOOL displayContents( void );
 static BYTE calcCheckSum( BYTE *dataPtr, INT dataSize );
 static void debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle );
-static BOOL dx100CtrlPrintf( PTSTR ptstrFormat, ... );
 
 /* 内部変数定義 */
 static BYTE dx100CtrlSeqTxTempData[1024*8];
@@ -49,7 +48,6 @@ static const S_DX100_CTRL_SEQ_DATA dx100CtrlSeqDataTbl[DX100_CTRL_SEQ_NUM_MAX] =
 
 typedef struct
 {
-    HWND                           hWndEdit             ;
     DX100_CTRL_SEQ_METHOD          nowMethod            ;
     DX100_CTRL_SEQ_ID              reqSeqIdStart        ;
     DX100_CTRL_SEQ_ID              reqSeqIdEnd          ;
@@ -70,11 +68,10 @@ static S_DX100_CTRL_INFO dx100CtrlInfo;
  * 戻り値 : BOOL
  **********************************************/
 BOOL
-Dx100CtrlInit( HWND hWndEdit )
+Dx100CtrlInit( void )
 {
     BOOL bRtn = TRUE;
 
-    dx100CtrlInfo.hWndEdit = hWndEdit;
     dx100CtrlInfo.nowMode            = DX100_CTRL_MODE_SYSTEM;
 #if 0
     dx100CtrlInfo.nowOneVoiceSubMode = DX100_CTRL_1VOICE_SUBMODE_COMMON;
@@ -458,12 +455,6 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
             memset(&patchName[0],0,10+1);
             strncpy(&patchName[0],&dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_57],10);
             SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_ALL_VOICE_NAME_00+i),&patchName[0]);
-
-//            for( j=0; j<10; j++ )
-//            {
-//                dx100CtrlPrintf( "%c(%02X) ",dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_57 + j],dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_57 + j]);
-//            }
-//            dx100CtrlPrintf( "%02X\r\n" );
         }
         break;
     }
@@ -661,8 +652,6 @@ displayContents( void )
 {
     INT i;
 
-    EditWndDataSet( dx100CtrlInfo.hWndEdit,"\r\n",2,TRUE );
-
     return TRUE;
 }
 
@@ -803,36 +792,4 @@ debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle )
     DebugWndPrintf("\r\n");
     DebugWndPrintf("---------------------------------------------------\r\n");
 #endif
-}
-
-/********************************************************************************
- * 内容   : デバッグウィンドウへの printf
- * 引数   : PTSTR ptstrFormat, ...
- * 戻り値 : BOOL
- ********************************************************************************/
-BOOL
-dx100CtrlPrintf( PTSTR ptstrFormat, ...)
-{
-    va_list vaArgs;
-    static TCHAR szBuf[1024];
-
-    if( dx100CtrlInfo.hWndEdit != NULL )
-    {
-        va_start(vaArgs, ptstrFormat);
-        if( wvsprintf(szBuf, ptstrFormat, vaArgs) != EOF )
-        {
-            EditWndDataSet( dx100CtrlInfo.hWndEdit,szBuf,strlen(szBuf),FALSE );
-        }
-        else
-        {
-            nop();
-        }
-        va_end(vaArgs);
-    }
-    else
-    {
-        nop();
-    }
-
-    return TRUE;
 }
