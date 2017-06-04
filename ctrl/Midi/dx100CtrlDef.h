@@ -136,6 +136,21 @@ enum
     DX100_SYSEX_1VOICE_INDEX_MAX
 };
 
+/* 32音色バルクデータ */
+enum
+{
+    DX100_SYSEX_ALL_VOICE_HEADER_REQUEST_STATUS    ,   /*   0  0x00 */
+    DX100_SYSEX_ALL_VOICE_HEADER_REQUEST_ID_NO     ,   /*   1  0x01 */
+    DX100_SYSEX_ALL_VOICE_HEADER_REQUEST_SUB_STATUS,   /*   2  0x02 */
+    DX100_SYSEX_ALL_VOICE_HEADER_REQUEST_FORMAT_NO ,   /*   3  0x03 */
+    DX100_SYSEX_ALL_VOICE_HEADER_BYTE_COUNT_HIGH   ,   /*   4  0x04 */
+    DX100_SYSEX_ALL_VOICE_HEADER_BYTE_COUNT_LOW    ,   /*   5  0x05 */
+    DX100_SYSEX_ALL_VOICE_DATA                     ,   /*   6  0x06 (0x00)  */
+    DX100_SYSEX_ALL_VOICE_FOOTER_CHECKSUM          =6+4096,
+    DX100_SYSEX_ALL_VOICE_FOOTER_ETX               ,
+    DX100_SYSEX_ALL_VOICE_INDEX_MAX
+};
+
 enum
 {
     SYSCMN_SOUNDMODE                ,
@@ -240,6 +255,140 @@ enum
     DX100_SYSEX_VCED_91  ,/*  91 0x5B */
     DX100_SYSEX_VCED_92  ,/*  92 0x5C */
     DX100_SYSEX_VCED_MAX
+};
+
+/* VMEMフォーマット */
+enum
+{
+    DX100_SYSEX_VMEM_00  ,/*   0 0x00 */
+    DX100_SYSEX_VMEM_01  ,/*   1 0x01 */
+    DX100_SYSEX_VMEM_02  ,/*   2 0x02 */
+    DX100_SYSEX_VMEM_03  ,/*   3 0x03 */
+    DX100_SYSEX_VMEM_04  ,/*   4 0x04 */
+    DX100_SYSEX_VMEM_05  ,/*   5 0x05 */
+    DX100_SYSEX_VMEM_06  ,/*   6 0x06 */
+    DX100_SYSEX_VMEM_07  ,/*   7 0x07 */
+    DX100_SYSEX_VMEM_08  ,/*   8 0x08 */
+    DX100_SYSEX_VMEM_09  ,/*   9 0x09 */
+    DX100_SYSEX_VMEM_10  ,/*  10 0x0A */
+    DX100_SYSEX_VMEM_11  ,/*  11 0x0B */
+    DX100_SYSEX_VMEM_12  ,/*  12 0x0C */
+    DX100_SYSEX_VMEM_13  ,/*  13 0x0D */
+    DX100_SYSEX_VMEM_14  ,/*  14 0x0E */
+    DX100_SYSEX_VMEM_15  ,/*  15 0x0F */
+    DX100_SYSEX_VMEM_16  ,/*  16 0x10 */
+    DX100_SYSEX_VMEM_17  ,/*  17 0x11 */
+    DX100_SYSEX_VMEM_18  ,/*  18 0x12 */
+    DX100_SYSEX_VMEM_19  ,/*  19 0x13 */
+    DX100_SYSEX_VMEM_20  ,/*  20 0x14 */
+    DX100_SYSEX_VMEM_21  ,/*  21 0x15 */
+    DX100_SYSEX_VMEM_22  ,/*  22 0x16 */
+    DX100_SYSEX_VMEM_23  ,/*  23 0x17 */
+    DX100_SYSEX_VMEM_24  ,/*  24 0x18 */
+    DX100_SYSEX_VMEM_25  ,/*  25 0x19 */
+    DX100_SYSEX_VMEM_26  ,/*  26 0x1A */
+    DX100_SYSEX_VMEM_27  ,/*  27 0x1B */
+    DX100_SYSEX_VMEM_28  ,/*  28 0x1C */
+    DX100_SYSEX_VMEM_29  ,/*  29 0x1D */
+    DX100_SYSEX_VMEM_30  ,/*  30 0x1E */
+    DX100_SYSEX_VMEM_31  ,/*  31 0x1F */
+    DX100_SYSEX_VMEM_32  ,/*  32 0x20 */
+    DX100_SYSEX_VMEM_33  ,/*  33 0x21 */
+    DX100_SYSEX_VMEM_34  ,/*  34 0x22 */
+    DX100_SYSEX_VMEM_35  ,/*  35 0x23 */
+    DX100_SYSEX_VMEM_36  ,/*  36 0x24 */
+    DX100_SYSEX_VMEM_37  ,/*  37 0x25 */
+    DX100_SYSEX_VMEM_38  ,/*  38 0x26 */
+    DX100_SYSEX_VMEM_39  ,/*  39 0x27 */
+    DX100_SYSEX_VMEM_40  ,/*  40 0x28 */
+    DX100_SYSEX_VMEM_41  ,/*  41 0x29 */
+    DX100_SYSEX_VMEM_42  ,/*  42 0x2A */
+    DX100_SYSEX_VMEM_43  ,/*  43 0x2B */
+    DX100_SYSEX_VMEM_44  ,/*  44 0x2C */
+    DX100_SYSEX_VMEM_45  ,/*  45 0x2D */
+    DX100_SYSEX_VMEM_46  ,/*  46 0x2E */
+    DX100_SYSEX_VMEM_47  ,/*  47 0x2F */
+    DX100_SYSEX_VMEM_48  ,/*  48 0x30 */
+    DX100_SYSEX_VMEM_49  ,/*  49 0x31 */
+    DX100_SYSEX_VMEM_50  ,/*  50 0x32 */
+    DX100_SYSEX_VMEM_51  ,/*  51 0x33 */
+    DX100_SYSEX_VMEM_52  ,/*  52 0x34 */
+    DX100_SYSEX_VMEM_53  ,/*  53 0x35 */
+    DX100_SYSEX_VMEM_54  ,/*  54 0x36 */
+    DX100_SYSEX_VMEM_55  ,/*  55 0x37 */
+    DX100_SYSEX_VMEM_56  ,/*  56 0x38 */
+    DX100_SYSEX_VMEM_57  ,/*  57 0x39 */
+    DX100_SYSEX_VMEM_58  ,/*  58 0x3A */
+    DX100_SYSEX_VMEM_59  ,/*  59 0x3B */
+    DX100_SYSEX_VMEM_60  ,/*  60 0x3C */
+    DX100_SYSEX_VMEM_61  ,/*  61 0x3D */
+    DX100_SYSEX_VMEM_62  ,/*  62 0x3E */
+    DX100_SYSEX_VMEM_63  ,/*  63 0x3F */
+    DX100_SYSEX_VMEM_64  ,/*  64 0x40 */
+    DX100_SYSEX_VMEM_65  ,/*  65 0x41 */
+    DX100_SYSEX_VMEM_66  ,/*  66 0x42 */
+    DX100_SYSEX_VMEM_67  ,/*  67 0x43 */
+    DX100_SYSEX_VMEM_68  ,/*  68 0x44 */
+    DX100_SYSEX_VMEM_69  ,/*  69 0x45 */
+    DX100_SYSEX_VMEM_70  ,/*  70 0x46 */
+    DX100_SYSEX_VMEM_71  ,/*  71 0x47 */
+    DX100_SYSEX_VMEM_72  ,/*  72 0x48 */
+    DX100_SYSEX_VMEM_73  ,/*  73 0x49 dummy */
+    DX100_SYSEX_VMEM_74  ,/*  74 0x4A dummy */
+    DX100_SYSEX_VMEM_75  ,/*  75 0x4B dummy */
+    DX100_SYSEX_VMEM_76  ,/*  76 0x4C dummy */
+    DX100_SYSEX_VMEM_77  ,/*  77 0x4D dummy */
+    DX100_SYSEX_VMEM_78  ,/*  78 0x4E dummy */
+    DX100_SYSEX_VMEM_79  ,/*  79 0x4F dummy */
+    DX100_SYSEX_VMEM_80  ,/*  80 0x50 dummy */
+    DX100_SYSEX_VMEM_81  ,/*  81 0x51 dummy */
+    DX100_SYSEX_VMEM_82  ,/*  82 0x52 dummy */
+    DX100_SYSEX_VMEM_83  ,/*  83 0x53 dummy */
+    DX100_SYSEX_VMEM_84  ,/*  84 0x54 dummy */
+    DX100_SYSEX_VMEM_85  ,/*  85 0x55 dummy */
+    DX100_SYSEX_VMEM_86  ,/*  86 0x56 dummy */
+    DX100_SYSEX_VMEM_87  ,/*  87 0x57 dummy */
+    DX100_SYSEX_VMEM_88  ,/*  88 0x58 dummy */
+    DX100_SYSEX_VMEM_89  ,/*  89 0x59 dummy */
+    DX100_SYSEX_VMEM_90  ,/*  90 0x5A dummy */
+    DX100_SYSEX_VMEM_91  ,/*  91 0x5B dummy */
+    DX100_SYSEX_VMEM_92  ,/*  92 0x5C dummy */
+    DX100_SYSEX_VMEM_93  ,/*  93 0x5D dummy */
+    DX100_SYSEX_VMEM_94  ,/*  94 0x5E dummy */
+    DX100_SYSEX_VMEM_95  ,/*  95 0x5F dummy */
+    DX100_SYSEX_VMEM_96  ,/*  96 0x60 dummy */
+    DX100_SYSEX_VMEM_97  ,/*  97 0x61 dummy */
+    DX100_SYSEX_VMEM_98  ,/*  98 0x62 dummy */
+    DX100_SYSEX_VMEM_99  ,/*  99 0x63 dummy */
+    DX100_SYSEX_VMEM_100 ,/* 100 0x64 dummy */
+    DX100_SYSEX_VMEM_101 ,/* 101 0x65 dummy */
+    DX100_SYSEX_VMEM_102 ,/* 102 0x66 dummy */
+    DX100_SYSEX_VMEM_103 ,/* 103 0x67 dummy */
+    DX100_SYSEX_VMEM_104 ,/* 104 0x68 dummy */
+    DX100_SYSEX_VMEM_105 ,/* 105 0x69 dummy */
+    DX100_SYSEX_VMEM_106 ,/* 106 0x6A dummy */
+    DX100_SYSEX_VMEM_107 ,/* 107 0x6B dummy */
+    DX100_SYSEX_VMEM_108 ,/* 108 0x6C dummy */
+    DX100_SYSEX_VMEM_109 ,/* 109 0x6D dummy */
+    DX100_SYSEX_VMEM_110 ,/* 110 0x6E dummy */
+    DX100_SYSEX_VMEM_111 ,/* 111 0x6F dummy */
+    DX100_SYSEX_VMEM_112 ,/* 112 0x70 dummy */
+    DX100_SYSEX_VMEM_113 ,/* 113 0x71 dummy */
+    DX100_SYSEX_VMEM_114 ,/* 114 0x72 dummy */
+    DX100_SYSEX_VMEM_115 ,/* 115 0x73 dummy */
+    DX100_SYSEX_VMEM_116 ,/* 116 0x74 dummy */
+    DX100_SYSEX_VMEM_117 ,/* 117 0x75 dummy */
+    DX100_SYSEX_VMEM_118 ,/* 118 0x76 dummy */
+    DX100_SYSEX_VMEM_119 ,/* 119 0x77 dummy */
+    DX100_SYSEX_VMEM_120 ,/* 120 0x78 dummy */
+    DX100_SYSEX_VMEM_121 ,/* 121 0x79 dummy */
+    DX100_SYSEX_VMEM_122 ,/* 122 0x7A dummy */
+    DX100_SYSEX_VMEM_123 ,/* 123 0x7B dummy */
+    DX100_SYSEX_VMEM_124 ,/* 124 0x7C dummy */
+    DX100_SYSEX_VMEM_125 ,/* 125 0x7D dummy */
+    DX100_SYSEX_VMEM_126 ,/* 126 0x7E dummy */
+    DX100_SYSEX_VMEM_127 ,/* 127 0x7F dummy */
+    DX100_SYSEX_VMEM_MAX
 };
 
 #endif /* DX100_CTRL_DEF_H */

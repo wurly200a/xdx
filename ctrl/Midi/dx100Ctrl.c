@@ -25,12 +25,13 @@ static void debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTit
 static BOOL dx100CtrlPrintf( PTSTR ptstrFormat, ... );
 
 /* 内部変数定義 */
-static BYTE dx100CtrlSeqTxTempData[1024];
-static BYTE dx100CtrlSeqRxTempData[1024];
+static BYTE dx100CtrlSeqTxTempData[1024*8];
+static BYTE dx100CtrlSeqRxTempData[1024*8];
 static INT dx100CtrlSeqTempRxSize;
 
 static BYTE dx100CtrlDataSysCommon[SYSCMN_INDEX_MAX];
 static BYTE dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_INDEX_MAX];
+static BYTE dx100CtrlDataAllVoice[DX100_SYSEX_ALL_VOICE_INDEX_MAX];
 
 typedef struct
 {
@@ -40,9 +41,10 @@ typedef struct
 
 static const S_DX100_CTRL_SEQ_DATA dx100CtrlSeqDataTbl[DX100_CTRL_SEQ_NUM_MAX] =
 {
-    {(INT)0                           ,(BYTE *)NULL                   }, /* DX100_CTRL_SEQ_NON_EXEC     */
-    {(INT)SYSCMN_INDEX_MAX            ,&dx100CtrlDataSysCommon        }, /* DX100_CTRL_SEQ_SYS_COMMON   */
-    {(INT)DX100_SYSEX_1VOICE_INDEX_MAX,&dx100CtrlDataOneVoice         }, /* DX100_CTRL_SEQ_1VOICE */
+    {(INT)0                              ,(BYTE *)NULL                   }, /* DX100_CTRL_SEQ_NON_EXEC     */
+    {(INT)SYSCMN_INDEX_MAX               ,&dx100CtrlDataSysCommon        }, /* DX100_CTRL_SEQ_SYS_COMMON   */
+    {(INT)DX100_SYSEX_1VOICE_INDEX_MAX   ,&dx100CtrlDataOneVoice         }, /* DX100_CTRL_SEQ_1VOICE */
+    {(INT)DX100_SYSEX_ALL_VOICE_INDEX_MAX,&dx100CtrlDataAllVoice         }, /* DX100_CTRL_SEQ_ALL_VOICE */
 };
 
 typedef struct
@@ -53,8 +55,10 @@ typedef struct
     DX100_CTRL_SEQ_ID              reqSeqIdEnd          ;
     DX100_CTRL_SEQ_ID              nowExecSeqId         ;
     DX100_CTRL_MODE                nowMode              ;
+#if 0
     DX100_CTRL_1VOICE_SUBMODE      nowOneVoiceSubMode   ;
     DX100_CTRL_ALL_VOICE_SUBMODE   nowAllVoiceSubMode   ;
+#endif
 } S_DX100_CTRL_INFO;
 
 static S_DX100_CTRL_INFO dx100CtrlInfo;
@@ -72,8 +76,10 @@ Dx100CtrlInit( HWND hWndEdit )
 
     dx100CtrlInfo.hWndEdit = hWndEdit;
     dx100CtrlInfo.nowMode            = DX100_CTRL_MODE_SYSTEM;
+#if 0
     dx100CtrlInfo.nowOneVoiceSubMode = DX100_CTRL_1VOICE_SUBMODE_COMMON;
     dx100CtrlInfo.nowAllVoiceSubMode = DX100_CTRL_ALL_VOICE_SUBMODE_COMMON;
+#endif
 
     return bRtn;
 }
@@ -86,11 +92,13 @@ Dx100CtrlInit( HWND hWndEdit )
  * 戻り値 : BOOL
  **********************************************/
 BOOL
-Dx100CtrlModeSet(DX100_CTRL_MODE mode,DX100_CTRL_1VOICE_SUBMODE patchSubMode,DX100_CTRL_ALL_VOICE_SUBMODE performanceSubMode)
+Dx100CtrlModeSet(DX100_CTRL_MODE mode/*,DX100_CTRL_1VOICE_SUBMODE patchSubMode,DX100_CTRL_ALL_VOICE_SUBMODE performanceSubMode*/)
 {
     dx100CtrlInfo.nowMode            = mode;
+#if 0
     dx100CtrlInfo.nowOneVoiceSubMode = patchSubMode;
     dx100CtrlInfo.nowAllVoiceSubMode = performanceSubMode;
+#endif
 
     return TRUE;
 }
@@ -105,31 +113,15 @@ Dx100CtrlDisplayUpdate( void )
 #endif
         ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
     }
-    else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_ALL_VOICE )
-    {
-        switch( dx100CtrlInfo.nowAllVoiceSubMode )
-        {
-        case DX100_CTRL_ALL_VOICE_SUBMODE_COMMON:
-            copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
-            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
-            break;
-        default:
-            nop();
-            break;
-        }
-    }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
     {
-        switch( dx100CtrlInfo.nowOneVoiceSubMode )
-        {
-        case DX100_CTRL_1VOICE_SUBMODE_COMMON:
-            copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
-            ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
-            break;
-        default:
-            nop();
-            break;
-        }
+        copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
+        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
+    }
+    else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_ALL_VOICE )
+    {
+        copyToParamCtrl(DX100_CTRL_SEQ_ALL_VOICE);
+        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
     }
     else
     {
@@ -339,6 +331,27 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
             txSize = DX100_SYSEX_BULK_DUMP_REQUEST_INDEX_MAX;
         }
         break;
+    case DX100_CTRL_SEQ_ALL_VOICE:
+        if( method == DX100_CTRL_SEQ_METHOD_SET )
+        {
+#if 0
+            copyFromParamCtrl( seqId );
+            checkSum = calcCheckSum(tblPtr->rxDataPtr+DX100_SYSEX_1VOICE_DATA,DX100_SYSEX_VCED_MAX);
+            dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_CHECKSUM] = checkSum;
+            memcpy((void *)txDataPtr,(void *)tblPtr->rxDataPtr,tblPtr->rxDataSize);
+            txSize = DX100_SYSEX_1VOICE_INDEX_MAX;
+#endif
+        }
+        else
+        { /* データ要求しデータ受信する*/
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_STATUS    ) = EX_STATUS                    ;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_ID_NO     ) = EX_ID_NUMBER_YAMAHA          ;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_SUB_STATUS) = 0x20               | 0x00/* MIDI CH*/;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_FORMAT_NO ) = DX100_DUMP_REQ_FORMAT_32VOICE;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_EOX       ) = EX_ETX                       ;
+            txSize = DX100_SYSEX_BULK_DUMP_REQUEST_INDEX_MAX;
+        }
+        break;
     }
 
     DebugWndPrintf("checkSum:0x%02X\r\n",checkSum);
@@ -368,6 +381,9 @@ seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
         {
         case DX100_CTRL_SEQ_1VOICE:
             debugDataArrayPrint(DX100_SYSEX_VCED_MAX,tblPtr->rxDataPtr+DX100_SYSEX_1VOICE_DATA,"CONTENTS");
+            break;
+        case DX100_CTRL_SEQ_ALL_VOICE:
+            debugDataArrayPrint(4096,tblPtr->rxDataPtr+DX100_SYSEX_ALL_VOICE_DATA,"CONTENTS");
             break;
         default:
             break;
@@ -439,6 +455,20 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
                 SendMessage( ParamCtrlGetHWND(paramCtrlIndex), CB_SETCURSEL, dx100CtrlDataOneVoice[dataIndex], (LPARAM)0 );
             }
 
+        }
+    case DX100_CTRL_SEQ_ALL_VOICE:
+        for( i=0; i<24; i++ )
+        {
+            INT j;
+            memset(&patchName[0],0,10+1);
+            strncpy(&patchName[0],&dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_57],10);
+            SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_ALL_VOICE_NAME_00+i),&patchName[0]);
+
+//            for( j=0; j<10; j++ )
+//            {
+//                dx100CtrlPrintf( "%c(%02X) ",dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_57 + j],dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_57 + j]);
+//            }
+//            dx100CtrlPrintf( "%02X\r\n" );
         }
         break;
     }
@@ -662,7 +692,7 @@ calcCheckSum( BYTE *dataPtr, INT dataSize )
     return checkSum;
 }
 
-#define DX100_CTRL_DEBUG_DATA_DISP
+//#define DX100_CTRL_DEBUG_DATA_DISP
 /*********************************************
  * 内容   : 
  * 引数   : DX100_CTRL_SEQ_ID seqId

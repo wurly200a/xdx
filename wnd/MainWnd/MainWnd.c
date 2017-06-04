@@ -689,13 +689,14 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
         case (SOME_CTRL_MODE_SYSTEM     +SOME_CTRL_ID_OFFSET):
             DebugWndPrintf("SYSTEM MODE\r\n");
-            Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM,0,0);
+            Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM);
             SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
             ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
             break;
 
         case (SOME_CTRL_MODE_1VOICE     +SOME_CTRL_ID_OFFSET):
             DebugWndPrintf("1VOICE MODE\r\n");
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
             SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
             ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
 
@@ -704,11 +705,11 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 //            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
 //            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
 //            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_COMMON,0);
             break;
 
         case (SOME_CTRL_MODE_ALL_VOICE+SOME_CTRL_ID_OFFSET):
             DebugWndPrintf("ALL VOICE MODE\r\n");
+            Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
             SomeCtrlGroupDisplay(SOME_CTRL_GROUP_ALL_VOICE);
             ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
             break;
@@ -726,6 +727,22 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             if( (iReturn == IDYES) )
             {
                 Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+            }
+            else
+            {
+                nop();
+            }
+            break;
+
+        case (SOME_CTRL_ALL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
+            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
+            break;
+
+        case (SOME_CTRL_ALL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
+            iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+            if( (iReturn == IDYES) )
+            {
+                Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
             }
             else
             {

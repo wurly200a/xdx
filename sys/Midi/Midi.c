@@ -41,7 +41,7 @@ typedef struct
 
 static S_MIDI_INFO midiInfo;
 
-#define MIDI_EX_BUFFER_SIZE 1024
+#define MIDI_EX_BUFFER_SIZE 1024*8
 static MIDIHDR midiInExHeader;
 static MIDIHDR midiOutExHeader;
 
