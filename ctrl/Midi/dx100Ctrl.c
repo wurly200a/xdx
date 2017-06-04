@@ -30,7 +30,7 @@ static BYTE dx100CtrlSeqRxTempData[1024];
 static INT dx100CtrlSeqTempRxSize;
 
 static BYTE dx100CtrlDataSysCommon[SYSCMN_INDEX_MAX];
-static BYTE dx100CtrlDataOneVoice[VOICE_INDEX_MAX];
+static BYTE dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_INDEX_MAX];
 
 typedef struct
 {
@@ -40,9 +40,9 @@ typedef struct
 
 static const S_DX100_CTRL_SEQ_DATA dx100CtrlSeqDataTbl[DX100_CTRL_SEQ_NUM_MAX] =
 {
-    {(INT)0               ,(BYTE *)NULL                   }, /* DX100_CTRL_SEQ_NON_EXEC     */
-    {(INT)SYSCMN_INDEX_MAX,&dx100CtrlDataSysCommon        }, /* DX100_CTRL_SEQ_SYS_COMMON   */
-    {(INT)VOICE_INDEX_MAX ,&dx100CtrlDataOneVoice         }, /* DX100_CTRL_SEQ_1VOICE */
+    {(INT)0                           ,(BYTE *)NULL                   }, /* DX100_CTRL_SEQ_NON_EXEC     */
+    {(INT)SYSCMN_INDEX_MAX            ,&dx100CtrlDataSysCommon        }, /* DX100_CTRL_SEQ_SYS_COMMON   */
+    {(INT)DX100_SYSEX_1VOICE_INDEX_MAX,&dx100CtrlDataOneVoice         }, /* DX100_CTRL_SEQ_1VOICE */
 };
 
 typedef struct
@@ -53,8 +53,8 @@ typedef struct
     DX100_CTRL_SEQ_ID              reqSeqIdEnd          ;
     DX100_CTRL_SEQ_ID              nowExecSeqId         ;
     DX100_CTRL_MODE                nowMode              ;
-    DX100_CTRL_1VOICE_SUBMODE       nowOneVoiceSubMode      ;
-    DX100_CTRL_ALL_VOICE_SUBMODE nowAllVoiceSubMode;
+    DX100_CTRL_1VOICE_SUBMODE      nowOneVoiceSubMode   ;
+    DX100_CTRL_ALL_VOICE_SUBMODE   nowAllVoiceSubMode   ;
 } S_DX100_CTRL_INFO;
 
 static S_DX100_CTRL_INFO dx100CtrlInfo;
@@ -71,8 +71,8 @@ Dx100CtrlInit( HWND hWndEdit )
     BOOL bRtn = TRUE;
 
     dx100CtrlInfo.hWndEdit = hWndEdit;
-    dx100CtrlInfo.nowMode               = DX100_CTRL_MODE_SYSTEM;
-    dx100CtrlInfo.nowOneVoiceSubMode       = DX100_CTRL_1VOICE_SUBMODE_COMMON;
+    dx100CtrlInfo.nowMode            = DX100_CTRL_MODE_SYSTEM;
+    dx100CtrlInfo.nowOneVoiceSubMode = DX100_CTRL_1VOICE_SUBMODE_COMMON;
     dx100CtrlInfo.nowAllVoiceSubMode = DX100_CTRL_ALL_VOICE_SUBMODE_COMMON;
 
     return bRtn;
@@ -88,8 +88,8 @@ Dx100CtrlInit( HWND hWndEdit )
 BOOL
 Dx100CtrlModeSet(DX100_CTRL_MODE mode,DX100_CTRL_1VOICE_SUBMODE patchSubMode,DX100_CTRL_ALL_VOICE_SUBMODE performanceSubMode)
 {
-    dx100CtrlInfo.nowMode               = mode;
-    dx100CtrlInfo.nowOneVoiceSubMode       = patchSubMode;
+    dx100CtrlInfo.nowMode            = mode;
+    dx100CtrlInfo.nowOneVoiceSubMode = patchSubMode;
     dx100CtrlInfo.nowAllVoiceSubMode = performanceSubMode;
 
     return TRUE;
@@ -225,7 +225,15 @@ Dx100CtrlCycleProc( void )
         }
         else
         { /* 受信終了 */
-            seqEndProc(dx100CtrlInfo.nowExecSeqId,dx100CtrlSeqTempRxSize,dx100CtrlSeqRxTempData);
+            if( dx100CtrlInfo.nowMethod == DX100_CTRL_SEQ_METHOD_GET )
+            {
+                DebugWndPrintf("RX_END\r\n");
+                seqEndProc(dx100CtrlInfo.nowExecSeqId,dx100CtrlSeqTempRxSize,dx100CtrlSeqRxTempData);
+            }
+            else
+            {
+                DebugWndPrintf("RX_NOT_EXEC\r\n");
+            }
 
             if( dx100CtrlInfo.nowExecSeqId < dx100CtrlInfo.reqSeqIdEnd )
             {
@@ -315,25 +323,20 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
     case DX100_CTRL_SEQ_1VOICE:
         if( method == DX100_CTRL_SEQ_METHOD_SET )
         {
-#if 0
             copyFromParamCtrl( seqId );
-
-            memcpy( (void *)(txDataPtr+MIDI_EX_HEADER_DATA), (void *)tblPtr->rxDataPtr, tblPtr->rxDataSize );
-#if 0
-            *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize  )   = calcCheckSum( txDataPtr+MIDI_EX_HEADER_ADRS0, 4+tblPtr->rxDataSize );
-            *(txDataPtr+MIDI_EX_HEADER_DATA+tblPtr->rxDataSize+1) = EX_ETX;
-#endif
-            txSize = MIDI_EX_HEADER_DATA + tblPtr->rxDataSize + EX_ETX_SIZE;
-#endif
+            checkSum = calcCheckSum(tblPtr->rxDataPtr+DX100_SYSEX_1VOICE_DATA,DX100_SYSEX_VCED_MAX);
+            dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_CHECKSUM] = checkSum;
+            memcpy((void *)txDataPtr,(void *)tblPtr->rxDataPtr,tblPtr->rxDataSize);
+            txSize = DX100_SYSEX_1VOICE_INDEX_MAX;
         }
         else
         { /* データ要求しデータ受信する*/
-            *(txDataPtr+MIDI_EX_HEADER_STATUS    ) = EX_STATUS          ;
-            *(txDataPtr+MIDI_EX_HEADER_ID_NUMBER ) = EX_ID_NUMBER_YAMAHA; /* ID      : 0x43 YAMAHA  */
-            *(txDataPtr+MIDI_EX_HEADER_SUB_STATUS) = 0x20; /* dump request 0x2n */
-            *(txDataPtr+MIDI_EX_HEADER_PARAM     ) = 0x03; /* 3=1音色bulk data */
-            *(txDataPtr+MIDI_EX_HEADER_DATA)       = EX_ETX;
-            txSize = 5;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_STATUS    ) = EX_STATUS                   ;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_ID_NO     ) = EX_ID_NUMBER_YAMAHA         ;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_SUB_STATUS) = 0x20               | 0x00/* MIDI CH*/;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_FORMAT_NO ) = DX100_DUMP_REQ_FORMAT_1VOICE;
+            *(txDataPtr+DX100_SYSEX_BULK_DUMP_REQUEST_EOX       ) = EX_ETX                      ;
+            txSize = DX100_SYSEX_BULK_DUMP_REQUEST_INDEX_MAX;
         }
         break;
     }
@@ -351,23 +354,28 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
 static BOOL
 seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
 {
-    S_DX100_CTRL_SEQ_DATA *tblPtr;
-    INT i,contentSize;
+    S_DX100_CTRL_SEQ_DATA *tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
+
+//    DebugWndPrintf("rxDataSize,%d\r\n",rxDataSize);
 
     debugDataArrayPrint(rxDataSize,rxDataPtr,"RX");
 
-    tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
-    contentSize = (rxDataSize-(MIDI_EX_HEADER_DATA + EX_BYTE_CNT_SIZE + EX_CHECKSUM_SIZE + EX_ETX_SIZE));
-
-    if( contentSize == tblPtr->rxDataSize )
+    if( rxDataSize == tblPtr->rxDataSize )
     {
-        memcpy((void *)tblPtr->rxDataPtr,(void *)(rxDataPtr + MIDI_EX_HEADER_DATA + EX_BYTE_CNT_SIZE),tblPtr->rxDataSize);
+        memcpy((void *)tblPtr->rxDataPtr,(void *)rxDataPtr,tblPtr->rxDataSize);
 
-        debugDataArrayPrint(tblPtr->rxDataSize,tblPtr->rxDataPtr,"CONTENTS");
+        switch( seqId )
+        {
+        case DX100_CTRL_SEQ_1VOICE:
+            debugDataArrayPrint(DX100_SYSEX_VCED_MAX,tblPtr->rxDataPtr+DX100_SYSEX_1VOICE_DATA,"CONTENTS");
+            break;
+        default:
+            break;
+        }
     }
     else
     {
-        DebugWndPrintf("Check NG,%d,%d\r\n",contentSize,tblPtr->rxDataSize);
+        DebugWndPrintf("Check NG,%d,%d\r\n",rxDataSize,tblPtr->rxDataSize);
     }
 
     switch( seqId )
@@ -394,200 +402,44 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
     TCHAR patchName[12+1];
     TCHAR szBuffer[1024];
     INT toneNum;
+    INT i;
 
     switch( seqId )
     {
-#if 0
     case DX100_CTRL_SEQ_SYS_COMMON  :
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_SOUNDMODE                   ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_SOUNDMODE                ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PERFORMANCENUMBER           ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PERFORMANCENUMBER        ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PATCHGROUPTYPE              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PATCHGROUPTYPE           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PATCHGROUPID                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PATCHGROUPID             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PATCHNUMBER_H               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PATCHNUMBER_H            ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PATCHNUMBER_L               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PATCHNUMBER_L            ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_MASTERTUNE                  ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_MASTERTUNE               ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_SCALETUNESWITCH             ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_SCALETUNESWITCH          ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_EFXSWITCH                   ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_EFXSWITCH                ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_CHORUSSWITCH                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_CHORUSSWITCH             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_REVERBSWITCH                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_REVERBSWITCH             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PATCHREMAIN                 ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PATCHREMAIN              ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_CLOCKSOURCE                 ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_CLOCKSOURCE              ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_TAPCONTROLSOURC             ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_TAPCONTROLSOURC          ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_HOLDCONTROLSOURCE           ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_HOLDCONTROLSOURCE        ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEAKCONTROLSOURCE           ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEAKCONTROLSOURCE        ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_VOLUMECONTROLSOURCE         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_VOLUMECONTROLSOURCE      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_AFTERTOUCHSOURCE            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_AFTERTOUCHSOURCE         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_SYSTEMCONTROLSOURCE11_97    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_SYSTEMCONTROLSOURCE11_97 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_SYSTEMCONTROLSOURCE21_97    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_SYSTEMCONTROLSOURCE21_97 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVEPROGRAMCHANGE        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVEPROGRAMCHANGE     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVEBANKSELECT           ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVEBANKSELECT        ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVECONTROLCHANGE        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVECONTROLCHANGE     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVEMODULATION           ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVEMODULATION        ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVEVOLUME               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVEVOLUME            ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVEHOLD                 ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVEHOLD              ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVEPITCHBEND            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVEPITCHBEND         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RECEIVEAFTERTOUCH           ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RECEIVEAFTERTOUCH        ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_CONTROLCHANNEL              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_CONTROLCHANNEL           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PATCHRECEIVECHANNEL         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PATCHRECEIVECHANNEL      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_RHYTHMEDITSOURCE            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_RHYTHMEDITSOURCE         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWSOUNDMODE            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWSOUNDMODE         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWNOTESET10_127        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET10_127     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET10_127    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET10_127 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWNOTESET20_127        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET20_127     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET20_127    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET20_127 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWNOTESET30_127        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET30_127     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET30_127    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET30_127 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWNOTESET40_127        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET40_127     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET40_127    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET40_127 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_TRANSMITPROGRAMCHANGE       ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_TRANSMITPROGRAMCHANGE    ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_TRANSMITBANKSELECT          ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_TRANSMITBANKSELECT       ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PATCHTRANSMITCHANNEL        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PATCHTRANSMITCHANNEL     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_TRANSPOSESWITCH             ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_TRANSPOSESWITCH          ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_TRANSPOSEVALUE              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_TRANSPOSEVALUE           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_OCTAVESHIFT                 ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_OCTAVESHIFT              ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_KEYBOARDVELOCITY            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_KEYBOARDVELOCITY         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_KEYBOARDSENS                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_KEYBOARDSENS             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_AFTERTOUCHSENS              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_AFTERTOUCHSENS           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL_1_ASSIGN              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL_1_ASSIGN           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL_1_OUTPUTMODE          ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL_1_OUTPUTMODE       ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL_1_POLARITY            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL_1_POLARITY         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL2ASSIGN                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL2ASSIGN             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL2OUTPUTMODE            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL2OUTPUTMODE         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL2POLARITY              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL2POLARITY           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_C1ASSIGN                    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_C1ASSIGN                 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_C1OUTPUTMODE                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_C1OUTPUTMODE             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_C2ASSIGN                    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_C2ASSIGN                 ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_C2OUTPUTMODE                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_C2OUTPUTMODE             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_HOLDPEDALOUTPUTMODE         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_HOLDPEDALOUTPUTMODE      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_HOLDPEDALPOLARITY           ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_HOLDPEDALPOLARITY        ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP1SWITCH      ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP1SWITCH   ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP1MSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP1MSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP1LSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP1LSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP2SWITCH      ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP2SWITCH   ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP2MSB0        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP2MSB0     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP2LSB0        ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP2LSB0     ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP3SWITCH      ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP3SWITCH   ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP3MSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP3MSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP3LSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP3LSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP4SWITCH      ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP4SWITCH   ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP4MSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP4MSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP4LSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP4LSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP5SWITCH      ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP5SWITCH   ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP5MSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP5MSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP5LSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP5LSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP6SWITCH      ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP6SWITCH   ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP6MSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP6MSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP6LSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP6LSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP7SWITCH      ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP7SWITCH   ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP7MSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP7MSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_BANKSELECTGROUP7LSB         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP7LSB      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL3ASSIGN                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL3ASSIGN             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL3OUTPUTMODE            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL3OUTPUTMODE         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL3POLARITY              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL3POLARITY           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL4ASSIGN                ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL4ASSIGN             ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL4OUTPUTMODE            ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL4OUTPUTMODE         ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_PEDAL4POLARITY              ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_PEDAL4POLARITY           ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOSTYLE               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOSTYLE            ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOMOTIF               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOMOTIF            ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOBEATPATTERN         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOBEATPATTERN      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOACCENTRATE          ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOACCENTRATE       ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOSHUFFLERATE         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOSHUFFLERATE      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOKEYBOARDVELOCITY    ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOKEYBOARDVELOCITY ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOOCTAVERANGE         ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOOCTAVERANGE      ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_ARPEGGIOPARTNUMBER          ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOPARTNUMBER       ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_H               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_H            ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_L               ), CB_SETCURSEL, dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_L            ], (LPARAM)0 );
         break;
-#endif
     case DX100_CTRL_SEQ_1VOICE:
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_00                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_00  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_01                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_01  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_02                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_02  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_03                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_03  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_04                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_04  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_05                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_05  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_06                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_06  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_07                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_07  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_08                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_08  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_09                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_09  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_10                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_10  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_11                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_11  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_12                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_12  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_13                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_13  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_14                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_14  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_15                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_15  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_16                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_16  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_17                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_17  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_18                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_18  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_19                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_19  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_20                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_20  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_21                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_21  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_22                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_22  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_23                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_23  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_24                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_24  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_25                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_25  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_26                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_26  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_27                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_27  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_28                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_28  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_29                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_29  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_30                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_30  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_31                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_31  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_32                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_32  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_33                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_33  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_34                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_34  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_35                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_35  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_36                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_36  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_37                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_37  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_38                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_38  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_39                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_39  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_40                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_40  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_41                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_41  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_42                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_42  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_43                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_43  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_44                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_44  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_45                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_45  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_46                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_46  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_47                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_47  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_48                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_48  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_49                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_49  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_50                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_50  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_51                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_51  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_52                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_52  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_53                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_53  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_54                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_54  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_55                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_55  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_56                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_56  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_57                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_57  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_58                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_58  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_59                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_59  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_60                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_60  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_61                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_61  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_62                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_62  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_63                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_63  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_64                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_64  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_65                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_65  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_66                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_66  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_67                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_67  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_68                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_68  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_69                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_69  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_70                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_70  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_71                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_71  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_72                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_72  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_73                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_73  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_74                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_74  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_75                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_75  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_76                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_76  ], (LPARAM)0 );
+        for( i=0; i<DX100_SYSEX_VCED_MAX; i++ )
+        {
+            INT dataIndex = DX100_SYSEX_1VOICE_DATA+i/*DX100_SYSEX_VCED_00...DX100_SYSEX_VCED_92*/;
+            INT paramCtrlIndex;
 
-        memset(&patchName[0],0,10+1);
-        strncpy(&patchName[0],&dx100CtrlDataOneVoice[VOICE_77],10);
-        SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_VOICE_NAME),&patchName[0]);
+            if( i < DX100_SYSEX_VCED_77 )
+            {
+                paramCtrlIndex = PARAM_CTRL_VOICE_00 + i/*PARAM_CTRL_VOICE_00...PARAM_CTRL_VOICE_76*/;
 
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_87                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_87  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_88                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_88  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_89                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_89  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_90                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_90  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_91                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_91  ], (LPARAM)0 );
-        SendMessage( ParamCtrlGetHWND(PARAM_CTRL_VOICE_92                  ), CB_SETCURSEL, dx100CtrlDataOneVoice[VOICE_92  ], (LPARAM)0 );
+                SendMessage( ParamCtrlGetHWND(paramCtrlIndex), CB_SETCURSEL, dx100CtrlDataOneVoice[dataIndex], (LPARAM)0 );
+            }
+            else if( (DX100_SYSEX_VCED_77 <= i) && (i <= DX100_SYSEX_VCED_86) )
+            {
+                if( DX100_SYSEX_VCED_77 == i )
+                {
+                    memset(&patchName[0],0,10+1);
+                    strncpy(&patchName[0],&dx100CtrlDataOneVoice[dataIndex],10);
+                    SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_VOICE_NAME),&patchName[0]);
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+                paramCtrlIndex = PARAM_CTRL_VOICE_87 + (i-DX100_SYSEX_VCED_87)/*PARAM_CTRL_VOICE_87...PARAM_CTRL_VOICE_92*/;
+
+                SendMessage( ParamCtrlGetHWND(paramCtrlIndex), CB_SETCURSEL, dx100CtrlDataOneVoice[dataIndex], (LPARAM)0 );
+            }
+
+        }
         break;
     }
 
@@ -605,10 +457,11 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
     TCHAR patchName[12+1];
     TCHAR szBuffer[1024];
     INT toneNum;
+    INT i;
 
-#if 0
     switch( seqId )
     {
+#if 0
     case DX100_CTRL_SEQ_SYS_COMMON  :
         dx100CtrlDataSysCommon[SYSCMN_SOUNDMODE                ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SOUNDMODE                   );
         dx100CtrlDataSysCommon[SYSCMN_PERFORMANCENUMBER        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PERFORMANCENUMBER           );
@@ -709,10 +562,41 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
         dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_H            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_H               );
         dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_L            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_L               );
         break;
+#endif
     case DX100_CTRL_SEQ_1VOICE:
+        for( i=0; i<DX100_SYSEX_VCED_MAX; i++ )
+        {
+            INT dataIndex = DX100_SYSEX_1VOICE_DATA+i/*DX100_SYSEX_VCED_00...DX100_SYSEX_VCED_92*/;
+            INT paramCtrlIndex;
+
+            if( i < DX100_SYSEX_VCED_77 )
+            {
+                paramCtrlIndex = PARAM_CTRL_VOICE_00 + i/*PARAM_CTRL_VOICE_00...PARAM_CTRL_VOICE_76*/;
+
+                dx100CtrlDataOneVoice[dataIndex] = getParamCtrlValue(paramCtrlIndex);
+            }
+            else if( (DX100_SYSEX_VCED_77 <= i) && (i <= DX100_SYSEX_VCED_86) )
+            {
+                if( DX100_SYSEX_VCED_77 == i )
+                {
+                    memset(&patchName[0],0,10+1);
+                    ParamCtrlGetText(PARAM_CTRL_VOICE_NAME,patchName);
+                    strncpy(&dx100CtrlDataOneVoice[dataIndex],&patchName[0],10);
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+                paramCtrlIndex = PARAM_CTRL_VOICE_87 + (i-DX100_SYSEX_VCED_87)/*PARAM_CTRL_VOICE_87...PARAM_CTRL_VOICE_92*/;
+
+                dx100CtrlDataOneVoice[dataIndex] = getParamCtrlValue(paramCtrlIndex);
+            }
+
+        }
         break;
     }
-#endif
 
     return TRUE;
 }

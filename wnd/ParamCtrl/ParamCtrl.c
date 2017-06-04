@@ -414,6 +414,41 @@ ParamCtrlGetHWND( PARAM_CTRL_ID id )
 }
 
 /********************************************************************************
+ * 内容  : ウィンドウからテキストを取得する
+ * 引数  : PARAM_CTRL_ID id
+ * 引数  : PTSTR ptstrText
+ * 戻り値: BOOL
+ ***************************************/
+BOOL
+ParamCtrlGetText( PARAM_CTRL_ID id, PTSTR ptstrText )
+{
+    BOOL rtn = FALSE;
+    INT iLength;
+
+    if( id < PARAM_CTRL_MAX )
+    {
+        S_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
+
+        if( infoPtr->exist == TRUE )
+        {
+            iLength = GetWindowTextLength( infoPtr->hwnd_data );
+            GetWindowText( infoPtr->hwnd_data, ptstrText, iLength + 1 );
+            rtn = TRUE;
+        }
+        else
+        {
+            /* error */
+        }
+    }
+    else
+    {
+        nop();
+    }
+
+    return rtn;
+}
+
+/********************************************************************************
  * 内容  : コントロールのサイズを調整する
  * 引数  : PARAM_CTRL_ID id
  * 引数  : PARAM_CTRL_TARGET target

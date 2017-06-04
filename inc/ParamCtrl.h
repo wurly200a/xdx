@@ -157,4 +157,12 @@ BOOL ParamCtrlGroupDisplay( PARAM_CTRL_GROUP_ID groupId );
  ***************************************/
 HWND ParamCtrlGetHWND( PARAM_CTRL_ID id );
 
+/********************************************************************************
+ * 内容  : ウィンドウからテキストを取得する
+ * 引数  : PARAM_CTRL_ID id
+ * 引数  : PTSTR ptstrText
+ * 戻り値: BOOL
+ ***************************************/
+BOOL ParamCtrlGetText( PARAM_CTRL_ID id, PTSTR ptstrText );
+
 #endif /* PARAM_CTRL_H */

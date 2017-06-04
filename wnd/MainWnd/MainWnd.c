@@ -598,6 +598,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         static TCHAR szMidiDev[50];
         int iCbNum,iDevNum;
         HWND hComboBox;
+        int iReturn;
 
         switch( LOWORD(wParam) )
         {
@@ -682,6 +683,10 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             }
             break;
 
+        case (SOME_CTRL_MIDI_KEY_IN_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
+            MessageBox(NULL, "残念賞", NULL, MB_OK);
+            break;
+
         case (SOME_CTRL_MODE_SYSTEM     +SOME_CTRL_ID_OFFSET):
             DebugWndPrintf("SYSTEM MODE\r\n");
             Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM,0,0);
@@ -717,8 +722,16 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             break;
 
         case (SOME_CTRL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
+            iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+            if( (iReturn == IDYES) )
+            {
+                Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+            }
+            else
+            {
+                nop();
+            }
             break;
-
 #if 0
         case (SOME_CTRL_PATCH_COMMON    +SOME_CTRL_ID_OFFSET):
             SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
