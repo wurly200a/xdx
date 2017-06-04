@@ -38,4 +38,8 @@ BOOL Dx100CtrlSeqStart( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqIdSta
 BOOL Dx100CtrlDisplayContents( void );
 void Dx100CtrlCycleProc( void );
 
+DWORD Dx100GetDataSize( DX100_CTRL_SEQ_ID seqId );
+BOOL Dx100DataGet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
+BOOL Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
+
 #endif /* DX100_CTRL_H */

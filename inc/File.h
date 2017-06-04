@@ -3,7 +3,8 @@
 /* ŠÇ—‚·‚éƒtƒ@ƒCƒ‹‚ÌID */
 typedef enum
 {
-    FILE_ID_BIN,
+    FILE_ID_1VOICE_DATA   ,
+    FILE_ID_ALL_VOICE_DATA,
     FILE_ID_MAX
 }FILE_ID;
 

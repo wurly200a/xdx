@@ -334,13 +334,8 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
     case DX100_CTRL_SEQ_ALL_VOICE:
         if( method == DX100_CTRL_SEQ_METHOD_SET )
         {
-#if 0
-            copyFromParamCtrl( seqId );
-            checkSum = calcCheckSum(tblPtr->rxDataPtr+DX100_SYSEX_1VOICE_DATA,DX100_SYSEX_VCED_MAX);
-            dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_CHECKSUM] = checkSum;
             memcpy((void *)txDataPtr,(void *)tblPtr->rxDataPtr,tblPtr->rxDataSize);
-            txSize = DX100_SYSEX_1VOICE_INDEX_MAX;
-#endif
+            txSize = DX100_SYSEX_ALL_VOICE_INDEX_MAX;
         }
         else
         { /* データ要求しデータ受信する*/
@@ -690,6 +685,95 @@ calcCheckSum( BYTE *dataPtr, INT dataSize )
     checkSum = (0x80 - checkSum) & 0x7F;
 
     return checkSum;
+}
+
+/********************************************************************************
+ * 内容  : データサイズ取得
+ * 引数  : seqId
+ * 戻り値: DWORD
+ ***************************************/
+DWORD
+Dx100GetDataSize( DX100_CTRL_SEQ_ID seqId )
+{
+    S_DX100_CTRL_SEQ_DATA *tblPtr;
+    DWORD dwSize = (DWORD)0;
+
+    if( seqId < DX100_CTRL_SEQ_NUM_MAX )
+    {
+        tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
+        dwSize = tblPtr->rxDataSize;
+    }
+    else
+    {
+    }
+
+    return dwSize;
+}
+
+/********************************************************************************
+ * 内容  : データ取得
+ * 引数  : seqId
+ * 引数  : TCHAR *dataPtr
+ * 引数  : DWORD dataSize
+ * 戻り値: BOOL
+ ***************************************/
+BOOL
+Dx100DataGet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
+{
+    S_DX100_CTRL_SEQ_DATA *tblPtr;
+    DWORD dwSize = (DWORD)0;
+
+    if( seqId < DX100_CTRL_SEQ_NUM_MAX )
+    {
+        tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
+        dwSize = tblPtr->rxDataSize;
+
+        if( dwSize <= dataSize )
+        {
+            memcpy(dataPtr,tblPtr->rxDataPtr,tblPtr->rxDataSize);
+        }
+        else
+        {
+        }
+    }
+    else
+    {
+    }
+
+    return TRUE;
+}
+
+/********************************************************************************
+ * 内容  : データセット
+ * 引数  : seqId
+ * 引数  : TCHAR *dataPtr
+ * 引数  : DWORD dataSize
+ * 戻り値: BOOL
+ ***************************************/
+BOOL
+Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
+{
+    S_DX100_CTRL_SEQ_DATA *tblPtr;
+    DWORD dwSize = (DWORD)0;
+
+    if( seqId < DX100_CTRL_SEQ_NUM_MAX )
+    {
+        tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
+        dwSize = tblPtr->rxDataSize;
+
+        if( dwSize <= dataSize )
+        {
+            memcpy(tblPtr->rxDataPtr,dataPtr,tblPtr->rxDataSize);
+        }
+        else
+        {
+        }
+    }
+    else
+    {
+    }
+
+    return TRUE;
 }
 
 //#define DX100_CTRL_DEBUG_DATA_DISP

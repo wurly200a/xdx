@@ -33,7 +33,8 @@ static TCHAR szCustFilter[FILE_ID_MAX][CUSTOM_FILTER_SIZE];
 
 static S_FILE_LIST fileList[FILE_ID_MAX] =
 {  /* exist, size, file, title, dir ,  ofn  ,filter                            , ext        ,pByte */
-    { FALSE,    0, NULL, NULL , NULL,  NULL ,TEXT("テキスト文書 (*.txt)\0*.txt\0")TEXT("すべてのファイル\0*.*\0"), TEXT("txt"),NULL  },
+    { FALSE,    0, NULL, NULL , NULL,  NULL ,TEXT("Midi Exclusive Data (*.syx)\0*.syx\0")TEXT("すべてのファイル\0*.*\0"), TEXT("syx"),NULL  },
+    { FALSE,    0, NULL, NULL , NULL,  NULL ,TEXT("Midi Exclusive Data (*.syx)\0*.syx\0")TEXT("すべてのファイル\0*.*\0"), TEXT("syx"),NULL  },
 };
 
 /********************************************************************************

@@ -331,6 +331,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     MenuCheckItem( IDM_VIEW_STS_BAR );
     MenuCheckItem( IDM_EXTEND_NEWLINE_CRLF );
 
+#if 0
     if( (szCmdLineLocal[0] != '\0') &&
         (FileSetName(FILE_ID_BIN,szCmdLineLocal,FALSE)) )
     {
@@ -347,6 +348,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     {
         doCaption( hwnd, "" , FALSE );
     }
+#endif
 
     MidiInit();
     Dx100CtrlInit(mainWndData.hWndIo);
@@ -439,7 +441,7 @@ onWindowPosChanged( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 static LRESULT
 onClose( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-    if( mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL) )
+    if( 0/*mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL)*/ )
     {
         nop();
     }
@@ -567,6 +569,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     if( (HWND)lParam == mainWndData.hWndIo )
     {
+#if 0
         switch( HIWORD(wParam) )
         {
         case EN_UPDATE:
@@ -592,6 +595,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         default:
             break;
         }
+#endif
     }
     else
     {
@@ -734,6 +738,45 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             }
             break;
 
+        case (SOME_CTRL_ALL_VOICE_LOAD_BUTTON+SOME_CTRL_ID_OFFSET):
+            if( FileOpenDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
+            {
+//                mainWndData.bNeedSave = FALSE;
+                dataPtr = FileReadByte(FILE_ID_ALL_VOICE_DATA,&dwSize);
+                Dx100DataSet( DX100_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
+//                doCaption( hwnd, FileGetTitleName(FILE_ID_BIN), FALSE );
+                Dx100CtrlDisplayUpdate();
+            }
+            else
+            {
+                /* キャンセルされた。又はエラー */
+            }
+            break;
+
+        case (SOME_CTRL_ALL_VOICE_SAVE_BUTTON+SOME_CTRL_ID_OFFSET):
+            dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_ALL_VOICE);
+            dataPtr = malloc( dwSize * sizeof(TCHAR) );
+            if( dataPtr != NULL )
+            {
+                Dx100DataGet( DX100_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
+                if( FileSaveDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
+                {
+//                    mainWndData.bNeedSave = FALSE;
+//                    doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
+                    FileWrite( FILE_ID_ALL_VOICE_DATA, dataPtr, dwSize );
+                }
+                else
+                {
+                    nop();
+                }
+                free( dataPtr );
+            }
+            else
+            {
+                nop();
+            }
+            break;
+
         case (SOME_CTRL_ALL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
             Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
             break;
@@ -806,6 +849,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             break;
 
         case IDM_FILE_NEW:
+#if 0
             if( mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL) )
             {
                 nop();
@@ -818,8 +862,10 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 #endif                  /*  エディットコントロール使用  or  通常  */
                 doCaption( hwnd, "", FALSE);
             }
+#endif
             break;
         case IDM_FILE_OPEN:
+#if 0
             if( mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL) )
             {
                 nop();
@@ -840,8 +886,10 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
                     /* キャンセルされた。又はエラー */
                 }
             }
+#endif
             break;
         case IDM_FILE_SAVE:
+#if 0
 #ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
             dwSize = EditWndGetDataSize(mainWndData.hWndIo,EDITWND_ALL);
             dataPtr = malloc( dwSize * sizeof(TCHAR) );
@@ -876,8 +924,10 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
                 nop();
             }
 #endif                  /*  エディットコントロール使用  or  通常  */
+#endif
             break;
         case IDM_FILE_SAVE_AS:
+#if 0
 #ifndef USE_EDITCONTROL /*  エディットコントロール使用  or [通常] */
             dwSize = EditWndGetDataSize(mainWndData.hWndIo,EDITWND_ALL);
             dataPtr = malloc( dwSize * sizeof(TCHAR) );
@@ -901,6 +951,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
                 nop();
             }
 #endif                  /*  エディットコントロール使用  or  通常  */
+#endif
             break;
 
         case IDM_EDIT_UNDO:
@@ -1188,6 +1239,7 @@ onDropFiles( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     DWORD dwSize;
     PBYTE dataPtr;
 
+#if 0
     if( mainWndData.bNeedSave && ((AskAboutSave( hwnd, FileGetTitleName(FILE_ID_BIN))) == IDCANCEL) )
     {
         nop();
@@ -1204,6 +1256,7 @@ onDropFiles( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 #endif                  /*  エディットコントロール使用  or  通常  */
         doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
     }
+#endif
 
     return rtn;
 }
