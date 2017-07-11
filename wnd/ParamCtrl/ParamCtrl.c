@@ -247,6 +247,16 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             {
                 class = (PTSTR)TEXT("edit");
                 style = (WS_CHILD|ES_LEFT);
+
+                if( PARAM_CTRL_ALL_VOICE_NAME_00 <= nowId && nowId <= PARAM_CTRL_ALL_VOICE_NAME_23)
+                {
+                    style |= ES_READONLY;
+                }
+                else
+                {
+                    nop();
+                }
+
                 exStyle = WS_EX_OVERLAPPEDWINDOW;
                 height = 20;
                 width  = 100;
