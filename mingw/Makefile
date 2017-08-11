@@ -11,7 +11,7 @@ CPPFLAGS = -c
 
 LDFLAGS = -Wl,--subsystem,windows -mwindows
 LDLIBS = -lcomctl32 -lcomdlg32 -luser32 -lgdi32 -lkernel32 -limm32 -lwinmm
-OBJECTS = DebugWnd.o DebugWndMenu.o DebugWndFont.o DebugWndConfig.o Config.o DateTime.o File.o Font.o LinkedList.o Version.o WinMain.o EditWnd.o EditWndBuffer.o EditWndBufferData.o MainWnd.o MainWndMenu.o ModalDialog.o ParamCtrl.o SomeCtrl.o StsBar.o Midi.o dx100Ctrl.o resource.o
+OBJECTS = DebugWnd.o DebugWndMenu.o DebugWndFont.o DebugWndConfig.o Config.o DateTime.o File.o Font.o LinkedList.o Version.o WinMain.o EditWnd.o EditWndBuffer.o EditWndBufferData.o MainWnd.o MainWndMenu.o MainWndScroll.o ModalDialog.o ParamCtrl.o SomeCtrl.o StsBar.o Midi.o dx100Ctrl.o resource.o
 
 $(TARGET): $(OBJECTS)
 		$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS) -o $@
@@ -66,6 +66,9 @@ MainWnd.o: ../wnd/MainWnd/MainWnd.c
 		$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 MainWndMenu.o: ../wnd/MainWnd/MainWndMenu.c
+		$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@
+
+MainWndScroll.o: ../wnd/MainWnd/MainWndScroll.c
 		$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 ModalDialog.o: ../wnd/ModalDlg/ModalDialog.c

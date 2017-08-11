@@ -165,4 +165,12 @@ HWND ParamCtrlGetHWND( PARAM_CTRL_ID id );
  ***************************************/
 BOOL ParamCtrlGetText( PARAM_CTRL_ID id, PTSTR ptstrText );
 
+/********************************************************************************
+ * 内容  : コントロールのサイズを調整する
+ * 引数  : int xPos
+ * 引数  : int yPos
+ * 戻り値: なし
+ ***************************************/
+void ParamCtrlSetSize( int xPos, int yPos );
+
 #endif /* PARAM_CTRL_H */

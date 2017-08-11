@@ -460,44 +460,31 @@ ParamCtrlGetText( PARAM_CTRL_ID id, PTSTR ptstrText )
 
 /********************************************************************************
  * 内容  : コントロールのサイズを調整する
- * 引数  : PARAM_CTRL_ID id
- * 引数  : PARAM_CTRL_TARGET target
- * 引数  : INT           width
+ * 引数  : int xPos
+ * 引数  : int yPos
  * 戻り値: なし
  ***************************************/
 void
-ParamCtrlSetSize( PARAM_CTRL_ID id, PARAM_CTRL_TARGET target, INT width )
+ParamCtrlSetSize( int xPos, int yPos )
 {
     int i;
 
-    if( (id < PARAM_CTRL_MAX) && (target < PARAM_CTRL_TARGET_MAX) )
+    for(i=0; i<PARAM_CTRL_MAX; i++)
     {
-        for(i=0; i<PARAM_CTRL_MAX; i++)
-        {
-            S_PARAM_INFO *infoPtr = &ctrlParamInfo[i];
+        S_PARAM_INFO *infoPtr = &ctrlParamInfo[i];
 
-            if( target == PARAM_CTRL_TARGET_NAME )
-            {
-                MoveWindow( infoPtr->hwnd_name,
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].xPos,   /* x座標              */
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos,   /* y座標              */
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].width,  /* 幅                 */
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].height, /* 高さ               */
-                            TRUE);
-            }
-            else
-            {
-                MoveWindow( infoPtr->hwnd_data,
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos,   /* x座標              */
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos,   /* y座標              */
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width,  /* 幅                 */
-                            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
-                            TRUE);
-            }
-        }
-    }
-    else
-    {
-        nop();
+        MoveWindow( infoPtr->hwnd_name,
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].xPos - xPos,   /* x座標              */
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos - yPos,   /* y座標              */
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].width,  /* 幅                 */
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].height, /* 高さ               */
+                    TRUE);
+
+        MoveWindow( infoPtr->hwnd_data,
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos - xPos,   /* x座標              */
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos - yPos,   /* y座標              */
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width,  /* 幅                 */
+                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
+                    TRUE);
     }
 }

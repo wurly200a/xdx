@@ -42,6 +42,8 @@ typedef struct
     int  cxChar;
     int  cyChar;
     int  cxCaps;
+    int    iHorzPos;     /* スクロールバーの横位置  */
+    int    iVertPos;     /* スクロールバーの縦位置  */
     HFONT hFontIo;
     HACCEL hAccel;
     BOOL bNeedSave;

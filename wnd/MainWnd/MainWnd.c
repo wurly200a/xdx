@@ -15,6 +15,7 @@
 #include "Config.h"
 #include "DateTime.h"
 #include "ModalDlg.h"
+#include "MainWndScroll.h"
 
 #include "DebugWnd.h"
 #include "Midi.h"
@@ -148,7 +149,7 @@ MainWndCreate( LPSTR szCmdLine, int nCmdShow, HACCEL *hAccelPtr )
         InitCommonControls(); /* commctrl.hのインクルード、comctl32.libのプロジェクトへの参加が必要 */
         hwndMain = CreateWindowEx( /* WS_EX_OVERLAPPEDWINDOW | */ WS_EX_ACCEPTFILES,
                                    pAppName, pAppName,
-                                   WS_OVERLAPPEDWINDOW /*& ~WS_THICKFRAME*/ | WS_CLIPCHILDREN | WS_CLIPSIBLINGS /* | WS_VSCROLL | WS_HSCROLL*/,
+                                   WS_OVERLAPPEDWINDOW /*& ~WS_THICKFRAME*/ | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VSCROLL | WS_HSCROLL,
                                    ConfigLoadDword(CONFIG_ID_WINDOW_POS_X) , ConfigLoadDword(CONFIG_ID_WINDOW_POS_Y) ,
                                    ConfigLoadDword(CONFIG_ID_WINDOW_POS_DX), ConfigLoadDword(CONFIG_ID_WINDOW_POS_DY),
                                    NULL, hMenu, hInst, NULL );
@@ -304,6 +305,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     mainWndData.hFontIo = NULL;
 
+    InitMainWndScrollInfo( hwnd );
     SomeCtrlCreate( hwnd ); /* コントロールを生成 */
     ParamCtrlCreate( hwnd ); /* コントロールを生成 */
     StsBarCreate( hwnd, TRUE ); /* ステータスバー生成、デフォルト表示 */
@@ -328,6 +330,8 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 static LRESULT
 onPaint( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
+    GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
+
     return DefWindowProc( hwnd, message, wParam, lParam );
 }
 
@@ -347,8 +351,13 @@ onSize( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     mainWndData.cxClient = LOWORD( lParam );
     mainWndData.cyClient = HIWORD( lParam );
 
+    SetMainWndAllScrollInfo(hwnd,mainWndData.cxClient,mainWndData.cyClient);
+
     topSizeSum += SomeCtrlSize( mainWndData.cxClient, mainWndData.cyChar ); /* コントロール   */
     bottomSizeSum += StsBarSize( mainWndData.cxClient, mainWndData.cyChar ); /* ステータスバー */
+
+    GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
+//    ParamCtrlSetSize(mainWndData.iHorzPos,mainWndData.iVertPos);
 
     return 0;
 }
@@ -920,6 +929,11 @@ onHscroll( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
 
+    MainWndHscroll(hwnd,wParam);
+
+//    GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
+//    ParamCtrlSetSize(mainWndData.iHorzPos,mainWndData.iVertPos);
+
     return rtn;
 }
 
@@ -935,6 +949,11 @@ static LRESULT
 onVscroll( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
+
+    MainWndVscroll(hwnd,wParam);
+
+//    GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
+//    ParamCtrlSetSize(mainWndData.iHorzPos,mainWndData.iVertPos);
 
     return rtn;
 }
