@@ -69,7 +69,9 @@ MainWndHscroll( HWND hwnd, WPARAM wParam )
         si.nPos += si.nPage;
         break;
     case SB_THUMBPOSITION:
+    case SB_THUMBTRACK:
         si.nPos = si.nTrackPos;
+        /*si.nPos = HIWORD(wParam);‚Å‚à‚æ‚¢*/
         break;
     default :
         break;
@@ -129,9 +131,10 @@ MainWndVscroll( HWND hwnd, WPARAM wParam )
     case SB_PAGEDOWN:
         si.nPos += si.nPage;
         break;
+    case SB_THUMBPOSITION:
     case SB_THUMBTRACK:
         si.nPos = si.nTrackPos;
-        break;
+        /*si.nPos = HIWORD(wParam);‚Å‚à‚æ‚¢*/
     default:
         break;
     }

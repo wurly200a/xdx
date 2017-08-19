@@ -929,6 +929,8 @@ onHscroll( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
 
+//    DebugWndPrintf("onHscroll,0x%08lX \r\n",wParam);
+
     MainWndHscroll(hwnd,wParam);
 
 //    GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
