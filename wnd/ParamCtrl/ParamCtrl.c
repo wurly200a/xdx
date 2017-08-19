@@ -176,22 +176,21 @@ typedef struct
 
 S_PARAM_INFO ctrlParamInfo[PARAM_CTRL_MAX];
 
+/* X方向 */
 #define PARAM_STATIC_X_BASE_POS  10
+#define PARAM_DATA_X_BASE_POS   250
+#define PARAM_DATA_WIDTH         40
+
+#define PARAM_WRAP_UNIT        (PARAM_STATIC_X_BASE_POS+PARAM_DATA_X_BASE_POS+PARAM_DATA_WIDTH)
+
+/* Y方向 */
 #define PARAM_STATIC_Y_BASE_POS 150
-#define PARAM_STATIC_WIDTH      150
-#define PARAM_STATIC_HEIGHT      15
-
+#define PARAM_DATA_Y_BASE_POS   150
 #define PARAM_STATIC_Y_UNIT      20
+#define PARAM_DATA_Y_UNIT        20
 
-#define PARAM_DATA_X_BASE_POS  250
-#define PARAM_DATA_Y_BASE_POS  150
-#define PARAM_DATA_WIDTH        40
-#define PARAM_DATA_HEIGHT      300
-
-#define PARAM_DATA_Y_UNIT       20
-
-#define PARAM_WRAP_NUM      26 /* 1列あたりの行数 */
-#define PARAM_WRAP_UNIT    /*220*/ 300      /* 列のピッチ */
+#define PARAM_STATIC_HEIGHT      15
+#define PARAM_DATA_HEIGHT       300
 
 /********************************************************************************
  * 内容  : 登録された全てのパラメータコントロールを生成する
@@ -221,12 +220,12 @@ ParamCtrlCreate( HWND hwnd )
 static BOOL
 paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, PARAM_CTRL_ID endId )
 {
-    int nowId,numForDisp;
+    int nowId,numForColumn;
     INT columnNum = 0;
 
     if( (startId <= endId) && (endId < PARAM_CTRL_MAX) )
     {
-        for(nowId=startId,numForDisp=0; nowId<=endId; nowId++,numForDisp++)
+        for(nowId=startId,numForColumn=0; nowId<=endId; nowId++,numForColumn++)
         {
             PTSTR class;
             DWORD style;
@@ -237,25 +236,15 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             S_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
             S_PARAM_CTRL *tblPtr = &paramListTbl[nowId];
 
-#if 1
             if( tblPtr->bWrapTrig )
             {
                 columnNum++;
+                numForColumn = 0;
             }
             else
             {
                 nop();
             }
-#else
-            if( !numForDisp || numForDisp%PARAM_WRAP_NUM )
-            {
-                nop();
-            }
-            else
-            {
-                columnNum++;
-            }
-#endif
 
             if( tblPtr->type == PCT_COMBO )
             {
@@ -286,7 +275,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
 
             /* スタティックコントロール(ここから) */
             infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].xPos   = tblPtr->xBasePosOffset + PARAM_STATIC_X_BASE_POS+(PARAM_WRAP_UNIT*columnNum);
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos   = tblPtr->yPosAdd + PARAM_STATIC_Y_BASE_POS+(PARAM_STATIC_Y_UNIT*(numForDisp-(PARAM_WRAP_NUM*columnNum)));
+            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos   = tblPtr->yPosAdd + PARAM_STATIC_Y_BASE_POS+(PARAM_STATIC_Y_UNIT*numForColumn);
             infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].width  = strlen(tblPtr->strText)*8;
             infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].height = PARAM_STATIC_HEIGHT;
 
@@ -321,7 +310,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
 
             /* パラメータを管理するコントロール(ここから) */
             infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos   = tblPtr->xBasePosOffset + PARAM_DATA_X_BASE_POS+(PARAM_WRAP_UNIT*columnNum);
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos   = tblPtr->yPosAdd + PARAM_DATA_Y_BASE_POS+(PARAM_DATA_Y_UNIT*(numForDisp-(PARAM_WRAP_NUM*columnNum)));
+            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos   = tblPtr->yPosAdd + PARAM_DATA_Y_BASE_POS+(PARAM_DATA_Y_UNIT*numForColumn);
             infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width  = width;
             infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height = height;
 
