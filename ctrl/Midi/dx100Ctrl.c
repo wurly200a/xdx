@@ -486,92 +486,9 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
         dx100CtrlDataSysCommon[SYSCMN_PATCHNUMBER_H            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHNUMBER_H               );
         dx100CtrlDataSysCommon[SYSCMN_PATCHNUMBER_L            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHNUMBER_L               );
         dx100CtrlDataSysCommon[SYSCMN_MASTERTUNE               ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_MASTERTUNE                  );
-        dx100CtrlDataSysCommon[SYSCMN_SCALETUNESWITCH          ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SCALETUNESWITCH             );
-        dx100CtrlDataSysCommon[SYSCMN_EFXSWITCH                ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_EFXSWITCH                   );
-        dx100CtrlDataSysCommon[SYSCMN_CHORUSSWITCH             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_CHORUSSWITCH                );
-        dx100CtrlDataSysCommon[SYSCMN_REVERBSWITCH             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_REVERBSWITCH                );
-        dx100CtrlDataSysCommon[SYSCMN_PATCHREMAIN              ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHREMAIN                 );
-        dx100CtrlDataSysCommon[SYSCMN_CLOCKSOURCE              ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_CLOCKSOURCE                 );
-        dx100CtrlDataSysCommon[SYSCMN_TAPCONTROLSOURC          ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_TAPCONTROLSOURC             );
-        dx100CtrlDataSysCommon[SYSCMN_HOLDCONTROLSOURCE        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_HOLDCONTROLSOURCE           );
-        dx100CtrlDataSysCommon[SYSCMN_PEAKCONTROLSOURCE        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEAKCONTROLSOURCE           );
-        dx100CtrlDataSysCommon[SYSCMN_VOLUMECONTROLSOURCE      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_VOLUMECONTROLSOURCE         );
-        dx100CtrlDataSysCommon[SYSCMN_AFTERTOUCHSOURCE         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_AFTERTOUCHSOURCE            );
-        dx100CtrlDataSysCommon[SYSCMN_SYSTEMCONTROLSOURCE11_97 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMCONTROLSOURCE11_97    );
-        dx100CtrlDataSysCommon[SYSCMN_SYSTEMCONTROLSOURCE21_97 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMCONTROLSOURCE21_97    );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVEPROGRAMCHANGE     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVEPROGRAMCHANGE        );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVEBANKSELECT        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVEBANKSELECT           );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVECONTROLCHANGE     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVECONTROLCHANGE        );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVEMODULATION        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVEMODULATION           );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVEVOLUME            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVEVOLUME               );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVEHOLD              ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVEHOLD                 );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVEPITCHBEND         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVEPITCHBEND            );
-        dx100CtrlDataSysCommon[SYSCMN_RECEIVEAFTERTOUCH        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RECEIVEAFTERTOUCH           );
-        dx100CtrlDataSysCommon[SYSCMN_CONTROLCHANNEL           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_CONTROLCHANNEL              );
-        dx100CtrlDataSysCommon[SYSCMN_PATCHRECEIVECHANNEL      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHRECEIVECHANNEL         );
-        dx100CtrlDataSysCommon[SYSCMN_RHYTHMEDITSOURCE         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_RHYTHMEDITSOURCE            );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWSOUNDMODE         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWSOUNDMODE            );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET10_127     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWNOTESET10_127        );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET10_127 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET10_127    );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET20_127     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWNOTESET20_127        );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET20_127 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET20_127    );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET30_127     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWNOTESET30_127        );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET30_127 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET30_127    );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWNOTESET40_127     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWNOTESET40_127        );
-        dx100CtrlDataSysCommon[SYSCMN_PREVIEWVELOCITYSET40_127 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PREVIEWVELOCITYSET40_127    );
-        dx100CtrlDataSysCommon[SYSCMN_TRANSMITPROGRAMCHANGE    ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_TRANSMITPROGRAMCHANGE       );
-        dx100CtrlDataSysCommon[SYSCMN_TRANSMITBANKSELECT       ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_TRANSMITBANKSELECT          );
-        dx100CtrlDataSysCommon[SYSCMN_PATCHTRANSMITCHANNEL     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHTRANSMITCHANNEL        );
-        dx100CtrlDataSysCommon[SYSCMN_TRANSPOSESWITCH          ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_TRANSPOSESWITCH             );
-        dx100CtrlDataSysCommon[SYSCMN_TRANSPOSEVALUE           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_TRANSPOSEVALUE              );
-        dx100CtrlDataSysCommon[SYSCMN_OCTAVESHIFT              ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_OCTAVESHIFT                 );
-        dx100CtrlDataSysCommon[SYSCMN_KEYBOARDVELOCITY         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_KEYBOARDVELOCITY            );
-        dx100CtrlDataSysCommon[SYSCMN_KEYBOARDSENS             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_KEYBOARDSENS                );
-        dx100CtrlDataSysCommon[SYSCMN_AFTERTOUCHSENS           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_AFTERTOUCHSENS              );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL_1_ASSIGN           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL_1_ASSIGN              );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL_1_OUTPUTMODE       ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL_1_OUTPUTMODE          );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL_1_POLARITY         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL_1_POLARITY            );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL2ASSIGN             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL2ASSIGN                );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL2OUTPUTMODE         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL2OUTPUTMODE            );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL2POLARITY           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL2POLARITY              );
-        dx100CtrlDataSysCommon[SYSCMN_C1ASSIGN                 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_C1ASSIGN                    );
-        dx100CtrlDataSysCommon[SYSCMN_C1OUTPUTMODE             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_C1OUTPUTMODE                );
-        dx100CtrlDataSysCommon[SYSCMN_C2ASSIGN                 ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_C2ASSIGN                    );
-        dx100CtrlDataSysCommon[SYSCMN_C2OUTPUTMODE             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_C2OUTPUTMODE                );
-        dx100CtrlDataSysCommon[SYSCMN_HOLDPEDALOUTPUTMODE      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_HOLDPEDALOUTPUTMODE         );
-        dx100CtrlDataSysCommon[SYSCMN_HOLDPEDALPOLARITY        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_HOLDPEDALPOLARITY           );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP1SWITCH   ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP1SWITCH      );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP1MSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP1MSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP1LSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP1LSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP2SWITCH   ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP2SWITCH      );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP2MSB0     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP2MSB0        );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP2LSB0     ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP2LSB0        );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP3SWITCH   ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP3SWITCH      );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP3MSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP3MSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP3LSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP3LSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP4SWITCH   ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP4SWITCH      );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP4MSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP4MSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP4LSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP4LSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP5SWITCH   ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP5SWITCH      );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP5MSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP5MSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP5LSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP5LSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP6SWITCH   ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP6SWITCH      );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP6MSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP6MSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP6LSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP6LSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP7SWITCH   ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP7SWITCH      );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP7MSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP7MSB         );
-        dx100CtrlDataSysCommon[SYSCMN_BANKSELECTGROUP7LSB      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_BANKSELECTGROUP7LSB         );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL3ASSIGN             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL3ASSIGN                );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL3OUTPUTMODE         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL3OUTPUTMODE            );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL3POLARITY           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL3POLARITY              );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL4ASSIGN             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL4ASSIGN                );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL4OUTPUTMODE         ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL4OUTPUTMODE            );
-        dx100CtrlDataSysCommon[SYSCMN_PEDAL4POLARITY           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PEDAL4POLARITY              );
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOSTYLE            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOSTYLE               );
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOMOTIF            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOMOTIF               );
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOBEATPATTERN      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOBEATPATTERN         );
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOACCENTRATE       ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOACCENTRATE          );
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOSHUFFLERATE      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOSHUFFLERATE         );
+ÅE
+ÅE
+ÅE
         dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOKEYBOARDVELOCITY ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOKEYBOARDVELOCITY    );
         dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOOCTAVERANGE      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOOCTAVERANGE         );
         dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOPARTNUMBER       ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOPARTNUMBER          );
@@ -611,6 +528,8 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
             }
 
         }
+        break;
+    case DX100_CTRL_SEQ_ALL_VOICE:
         break;
     }
 
