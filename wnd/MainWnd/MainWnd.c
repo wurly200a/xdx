@@ -306,8 +306,13 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     mainWndData.hFontIo = NULL;
 
     InitMainWndScrollInfo( hwnd );
+
     SomeCtrlCreate( hwnd ); /* コントロールを生成 */
+    SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+
     ParamCtrlCreate( hwnd ); /* コントロールを生成 */
+    ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
+
     StsBarCreate( hwnd, TRUE ); /* ステータスバー生成、デフォルト表示 */
 
     MenuCheckItem( IDM_VIEW_STS_BAR );
@@ -727,53 +732,6 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             nop();
         }
         break;
-#if 0
-    case (SOME_CTRL_PATCH_COMMON    +SOME_CTRL_ID_OFFSET):
-        SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_COMMON,0);
-        Dx100CtrlDisplayUpdate();
-        break;
-    case (SOME_CTRL_PATCH_TONE1     +SOME_CTRL_ID_OFFSET):
-        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-        SomeCtrlDisable( SOME_CTRL_PATCH_TONE1  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE1,0);
-        Dx100CtrlDisplayUpdate();
-        break;
-    case (SOME_CTRL_PATCH_TONE2     +SOME_CTRL_ID_OFFSET):
-        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-        SomeCtrlDisable( SOME_CTRL_PATCH_TONE2  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE2,0);
-        Dx100CtrlDisplayUpdate();
-        break;
-    case (SOME_CTRL_PATCH_TONE3     +SOME_CTRL_ID_OFFSET):
-        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-        SomeCtrlDisable( SOME_CTRL_PATCH_TONE3  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
-        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE3,0);
-        Dx100CtrlDisplayUpdate();
-        break;
-    case (SOME_CTRL_PATCH_TONE4     +SOME_CTRL_ID_OFFSET):
-        SomeCtrlEnable ( SOME_CTRL_PATCH_COMMON );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-        SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-        SomeCtrlDisable( SOME_CTRL_PATCH_TONE4  );
-        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH,DX100_CTRL_1VOICE_SUBMODE_TONE4,0);
-        Dx100CtrlDisplayUpdate();
-        break;
-#endif
 
     case (SOME_CTRL_SYSTEM_GET_BUTTON+SOME_CTRL_ID_OFFSET):
 //            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);

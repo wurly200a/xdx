@@ -23,6 +23,9 @@ typedef struct
 
 static S_MAINWND_SCROLL_DATA mainWndScrollData;
 
+#define SCROLL_RANGE_HORZ_MAX 1024
+#define SCROLL_RANGE_VERT_MAX  750
+
 /********************************************************************************
  * 内容  : スクロール情報のセット
  * 引数  : HWND hwnd
@@ -174,7 +177,7 @@ SetMainWndAllScrollInfo( HWND hwnd, int cxClient, int cyClient )
     si.cbSize = sizeof(si);
     si.fMask  = SIF_RANGE | SIF_PAGE | SIF_DISABLENOSCROLL;
     si.nMin   = 0;                                                                /* 範囲の最小値 */
-    si.nMax   = 750;
+    si.nMax   = SCROLL_RANGE_VERT_MAX;
     si.nPage  = (ptr->cyClient ); /* ページサイズ */
     SetScrollInfo( hwnd, SB_VERT, &si, TRUE );
 
@@ -182,7 +185,7 @@ SetMainWndAllScrollInfo( HWND hwnd, int cxClient, int cyClient )
     si.cbSize = sizeof(si);
     si.fMask  = SIF_RANGE | SIF_PAGE | SIF_DISABLENOSCROLL;
     si.nMin   = 0;
-    si.nMax   = 1785;
+    si.nMax   = SCROLL_RANGE_HORZ_MAX;
     si.nPage  = (ptr->cxClient );
     SetScrollInfo( hwnd, SB_HORZ, &si, TRUE );
 

@@ -203,8 +203,6 @@ ParamCtrlCreate( HWND hwnd )
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_1VOICE       ,PARAM_CTRL_VOICE_00          ,PARAM_CTRL_VOICE_92          );
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_NAME_23 );
 
-    ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
-
     return TRUE;
 }
 
