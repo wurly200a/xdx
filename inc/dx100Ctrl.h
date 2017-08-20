@@ -5,9 +5,9 @@ BOOL Dx100CtrlInit( void );
 
 enum
 {
-    DX100_CTRL_MODE_SYSTEM     ,
     DX100_CTRL_MODE_PATCH      ,
     DX100_CTRL_MODE_ALL_VOICE  ,
+    DX100_CTRL_MODE_SYSTEM     ,
     DX100_CTRL_MODE_NUM_MAX
 };
 typedef INT DX100_CTRL_MODE;

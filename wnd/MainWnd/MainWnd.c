@@ -322,6 +322,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     MidiInit();
     Dx100CtrlInit();
+    Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
 
     return rtn;
 }
@@ -665,10 +666,45 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-        iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+        iReturn = MessageBox( hwnd,TEXT("Are you sure?"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
         if( (iReturn == IDYES) )
         {
             Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+        }
+        else
+        {
+            nop();
+        }
+        break;
+
+    case (SOME_CTRL_VOICE_LOAD_BUTTON+SOME_CTRL_ID_OFFSET):
+        if( FileOpenDlg( hwnd,FILE_ID_1VOICE_DATA ) )
+        {
+            dataPtr = FileReadByte(FILE_ID_1VOICE_DATA,&dwSize);
+            Dx100DataSet( DX100_CTRL_SEQ_1VOICE, dataPtr, dwSize );
+            Dx100CtrlDisplayUpdate();
+        }
+        else
+        {
+            /* キャンセルされた。又はエラー */
+        }
+        break;
+
+    case (SOME_CTRL_VOICE_SAVE_BUTTON+SOME_CTRL_ID_OFFSET):
+        dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_1VOICE);
+        dataPtr = malloc( dwSize * sizeof(TCHAR) );
+        if( dataPtr != NULL )
+        {
+            Dx100DataGet( DX100_CTRL_SEQ_1VOICE,dataPtr,dwSize );
+            if( FileSaveDlg( hwnd,FILE_ID_1VOICE_DATA ) )
+            {
+                FileWrite( FILE_ID_1VOICE_DATA, dataPtr, dwSize );
+            }
+            else
+            {
+                nop();
+            }
+            free( dataPtr );
         }
         else
         {
@@ -720,7 +756,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_ALL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-        iReturn = MessageBox( hwnd,TEXT("本当に、本当に転送しますか？？？？？"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+        iReturn = MessageBox( hwnd,TEXT("Are you sure?"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
         if( (iReturn == IDYES) )
         {
             Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);

@@ -72,7 +72,7 @@ Dx100CtrlInit( void )
 {
     BOOL bRtn = TRUE;
 
-    dx100CtrlInfo.nowMode            = DX100_CTRL_MODE_SYSTEM;
+    dx100CtrlInfo.nowMode            = DX100_CTRL_MODE_PATCH;
 #if 0
     dx100CtrlInfo.nowOneVoiceSubMode = DX100_CTRL_1VOICE_SUBMODE_COMMON;
     dx100CtrlInfo.nowAllVoiceSubMode = DX100_CTRL_ALL_VOICE_SUBMODE_COMMON;
@@ -410,7 +410,7 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
     TCHAR patchName[12+1];
     TCHAR szBuffer[1024];
     INT toneNum;
-    INT i;
+    INT i,j;
 
     switch( seqId )
     {
@@ -434,6 +434,18 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
                 {
                     memset(&patchName[0],0,10+1);
                     strncpy(&patchName[0],&dx100CtrlDataOneVoice[dataIndex],10);
+
+                    for( j=9; 0<=j; j++ )
+                    {
+                        if( patchName[j] == ' ' )
+                        {
+                            patchName[j] = '\0';
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
                     SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_VOICE_NAME),&patchName[0]);
                 }
                 else
@@ -473,7 +485,7 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
     TCHAR patchName[12+1];
     TCHAR szBuffer[1024];
     INT toneNum;
-    INT i;
+    INT i,j;
 
     switch( seqId )
     {
@@ -514,7 +526,20 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
                 {
                     memset(&patchName[0],0,10+1);
                     ParamCtrlGetText(PARAM_CTRL_VOICE_NAME,patchName);
+                    memset(&dx100CtrlDataOneVoice[dataIndex],0,10+1);
                     strncpy(&dx100CtrlDataOneVoice[dataIndex],&patchName[0],10);
+
+                    for( j=0; j<10; j++ )
+                    {
+                        if( dx100CtrlDataOneVoice[dataIndex+j] == '\0' )
+                        {
+                            dx100CtrlDataOneVoice[dataIndex+j] = ' ';
+                        }
+                        else
+                        {
+                            nop();
+                        }
+                    }
                 }
                 else
                 {

@@ -105,7 +105,7 @@ MenuCreate( void )
 //    AppendMenu( hMenuPopup, MF_SEPARATOR, 0              , NULL );
 //    AppendMenu( hMenuPopup, MF_STRING   , IDM_HELP_ABOUT , TEXT("バージョン情報(&A)") );
 //    AppendMenu( hMenu, MF_POPUP, (UINT_PTR)hMenuPopup, TEXT("ヘルプ(&H)") );
-    AppendMenu( hMenuPopup, MF_STRING   , IDM_HELP_ABOUT , TEXT("&About") );
+    AppendMenu( hMenuPopup, MF_STRING   , IDM_HELP_ABOUT , TEXT("&About...") );
     AppendMenu( hMenu, MF_POPUP, (UINT_PTR)hMenuPopup, TEXT("&Help") );
 
     EnableMenuItem( hMenu, IDM_HELP_HELP  , MF_GRAYED );

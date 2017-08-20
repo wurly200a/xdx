@@ -20,11 +20,13 @@ char *strTblTranspose[49]  = {"C 1","C#1","D 1","D#1","E 1","F 1","F#1","G 1","G
 char *strTblPolyMono[2] = {"Poly Mode","Mono Mode"};
 char *strTblPortamentoMode[2] = {"Full Time Porta","Fingered Porta"};
 char *strTblFootSwAssign[2] = {"Portamento","Sustain"};
+char *strTblDetune[7] = {"-3","-2","-1","0","+1","+2","+3"};
+char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1.57","1.73","2.00","2.82","3.00","3.14","3.46","4.00","4.24","4.71","5.00","5.19","5.65","6.00","6.28","6.92","7.00","7.07","7.85","8.00","8.48","8.65","9.00","9.42","9.89","10.00","10.38","10.99","11.00","11.30","12.00","12.11","12.56","12.72","13.00","13.84","14.00","14.10","14.13","15.00","15.55","15.57","15.70","16.96","17.27","17.30","18.37","18.84","19.03","19.78","20.41","20.76","21.20","21.98","22.49","23.55","24.22","25.95"};
 
 /* X•ûŒü */
 #define PARAM_STATIC_X_BASE_POS  10
 #define PARAM_DATA_X_BASE_POS   250
-#define PARAM_DATA_WIDTH         40
+#define PARAM_DATA_WIDTH         50
 
 #define PARAM_WRAP_UNIT        (PARAM_STATIC_X_BASE_POS+PARAM_DATA_X_BASE_POS+PARAM_DATA_WIDTH)
 
@@ -73,8 +75,8 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("08 OP4 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0,  1, NULL                ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("09 OP4 KEY VELOCITY"                           ),TRUE   ,0,  7, NULL                ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("10 OP4 OUTPUT LEVEL"                           ),TRUE   ,0, 99, NULL                ,  0, 0,FALSE,  0},
-    {PCT_COMBO,TEXT("11 OP4 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, NULL                ,  0, 0,FALSE,  0},
-    {PCT_COMBO,TEXT("12 OP4 DETUNE"                                 ),TRUE   ,0,  6, NULL                ,  0, 0,FALSE,  0},
+    {PCT_COMBO,TEXT("11 OP4 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, strTblFrequency     ,  0, 0,FALSE,  0},
+    {PCT_COMBO,TEXT("12 OP4 DETUNE"                                 ),TRUE   ,0,  6, strTblDetune        ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("13 OP3 ATTACK RATE"                            ),TRUE   ,0, 31, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("14 OP3 DECAY 1 RATE"                           ),TRUE   ,0, 31, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("15 OP3 DECAY 2 RATE"                           ),TRUE   ,0, 31, NULL                ,  0,20,FALSE,  0},
@@ -86,8 +88,8 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("21 OP3 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0,  1, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("22 OP3 KEY VELOCITY"                           ),TRUE   ,0,  7, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("23 OP3 OUTPUT LEVEL"                           ),TRUE   ,0, 99, NULL                ,  0,20,FALSE,  0},
-    {PCT_COMBO,TEXT("24 OP3 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, NULL                ,  0,20,FALSE,  0},
-    {PCT_COMBO,TEXT("25 OP3 DETUNE"                                 ),TRUE   ,0,  6, NULL                ,  0,20,FALSE,  0},
+    {PCT_COMBO,TEXT("24 OP3 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, strTblFrequency     ,  0,20,FALSE,  0},
+    {PCT_COMBO,TEXT("25 OP3 DETUNE"                                 ),TRUE   ,0,  6, strTblDetune        ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("26 OP2 ATTACK RATE"                            ),TRUE   ,0, 31, NULL                ,  0, 0,TRUE ,  0},
     {PCT_COMBO,TEXT("27 OP2 DECAY 1 RATE"                           ),TRUE   ,0, 31, NULL                ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("28 OP2 DECAY 2 RATE"                           ),TRUE   ,0, 31, NULL                ,  0, 0,FALSE,  0},
@@ -99,8 +101,8 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("34 OP2 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0,  1, NULL                ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("35 OP2 KEY VELOCITY"                           ),TRUE   ,0,  7, NULL                ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("36 OP2 OUTPUT LEVEL"                           ),TRUE   ,0, 99, NULL                ,  0, 0,FALSE,  0},
-    {PCT_COMBO,TEXT("37 OP2 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, NULL                ,  0, 0,FALSE,  0},
-    {PCT_COMBO,TEXT("38 OP2 DETUNE"                                 ),TRUE   ,0,  6, NULL                ,  0, 0,FALSE,  0},
+    {PCT_COMBO,TEXT("37 OP2 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, strTblFrequency     ,  0, 0,FALSE,  0},
+    {PCT_COMBO,TEXT("38 OP2 DETUNE"                                 ),TRUE   ,0,  6, strTblDetune        ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("39 OP1 ATTACK RATE"                            ),TRUE   ,0, 31, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("40 OP1 DECAY 1 RATE"                           ),TRUE   ,0, 31, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("41 OP1 DECAY 2 RATE"                           ),TRUE   ,0, 31, NULL                ,  0,20,FALSE,  0},
@@ -112,8 +114,8 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("47 OP1 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0,  1, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("48 OP1 KEY VELOCITY"                           ),TRUE   ,0,  7, NULL                ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("49 OP1 OUTPUT LEVEL"                           ),TRUE   ,0, 99, NULL                ,  0,20,FALSE,  0},
-    {PCT_COMBO,TEXT("50 OP1 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, NULL                ,  0,20,FALSE,  0},
-    {PCT_COMBO,TEXT("51 OP1 DETUNE"                                 ),TRUE   ,0,  6, NULL                ,  0,20,FALSE,  0},
+    {PCT_COMBO,TEXT("50 OP1 OSCILLATOR FREQUENCY"                   ),TRUE   ,0, 63, strTblFrequency     ,  0,20,FALSE,  0},
+    {PCT_COMBO,TEXT("51 OP1 DETUNE"                                 ),TRUE   ,0,  6, strTblDetune        ,  0,20,FALSE,  0},
     {PCT_COMBO,TEXT("52 ALGORITHM"                                  ),TRUE   ,0,  7, strTblAlgorithm     , 90, 0,TRUE ,  0},
     {PCT_COMBO,TEXT("53 FEEDBACK LEVEL"                             ),TRUE   ,0,  7, NULL                , 90, 0,FALSE,  0},
     {PCT_COMBO,TEXT("54 LFO SPEED"                                  ),TRUE   ,0, 99, NULL                , 90, 0,FALSE,  0},
