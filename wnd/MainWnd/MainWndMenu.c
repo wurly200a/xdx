@@ -48,8 +48,10 @@ MenuCreate( void )
 //    AppendMenu( hMenuPopup, MF_STRING   , IDM_FILE_PAGE       , TEXT("ページ設定(&U)...") );
 //    AppendMenu( hMenuPopup, MF_STRING   , IDM_FILE_PRINT      , TEXT("印刷(&P)...\tCtrl+P") );
 //    AppendMenu( hMenuPopup, MF_SEPARATOR, 0                   , NULL );
-    AppendMenu( hMenuPopup, MF_STRING   , IDM_FILE_EXIT       , TEXT("終了(&X)") );
-    AppendMenu( hMenu     , MF_POPUP    , (UINT_PTR)hMenuPopup, TEXT("ファイル(&F)") );
+//    AppendMenu( hMenuPopup, MF_STRING   , IDM_FILE_EXIT       , TEXT("終了(&X)") );
+//    AppendMenu( hMenu     , MF_POPUP    , (UINT_PTR)hMenuPopup, TEXT("ファイル(&F)") );
+    AppendMenu( hMenuPopup, MF_STRING   , IDM_FILE_EXIT       , TEXT("E&xit") );
+    AppendMenu( hMenu     , MF_POPUP    , (UINT_PTR)hMenuPopup, TEXT("&File") );
 
     EnableMenuItem( hMenu, IDM_FILE_PAGE      , MF_GRAYED );
     EnableMenuItem( hMenu, IDM_FILE_PRINT     , MF_GRAYED );
@@ -101,8 +103,10 @@ MenuCreate( void )
     hMenuPopup = CreateMenu();
 //    AppendMenu( hMenuPopup, MF_STRING   , IDM_HELP_HELP  , TEXT("トピックの検索(&H)") );
 //    AppendMenu( hMenuPopup, MF_SEPARATOR, 0              , NULL );
-    AppendMenu( hMenuPopup, MF_STRING   , IDM_HELP_ABOUT , TEXT("バージョン情報(&A)") );
-    AppendMenu( hMenu, MF_POPUP, (UINT_PTR)hMenuPopup, TEXT("ヘルプ(&H)") );
+//    AppendMenu( hMenuPopup, MF_STRING   , IDM_HELP_ABOUT , TEXT("バージョン情報(&A)") );
+//    AppendMenu( hMenu, MF_POPUP, (UINT_PTR)hMenuPopup, TEXT("ヘルプ(&H)") );
+    AppendMenu( hMenuPopup, MF_STRING   , IDM_HELP_ABOUT , TEXT("&About") );
+    AppendMenu( hMenu, MF_POPUP, (UINT_PTR)hMenuPopup, TEXT("&Help") );
 
     EnableMenuItem( hMenu, IDM_HELP_HELP  , MF_GRAYED );
 

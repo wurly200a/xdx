@@ -31,7 +31,7 @@ typedef struct
 S_MODAL_DLG_INFO modalDlgInfoTbl[MODAL_DLG_ID_MAX] =
 {
     /* className      , titleName             , wndPrc  */
-    { TEXT("AboutDlg"), TEXT("バージョン情報"), AboutDlgProc, 25, 25, 487, 327 },
+    { TEXT("AboutDlg"), TEXT("About"), AboutDlgProc, 25, 25, 487, 327 },
 };
 
 /********************************************************************************
@@ -61,7 +61,7 @@ ModalDlgInit( void )
         switch( i )
         {
         case MODAL_DLG_ID_ABOUT:
-            wsprintf( szAboutTitleName, "%s のバージョン情報",GetAppName() );
+            wsprintf( szAboutTitleName, "About %s",GetAppName() );
             modalDlgInfoTbl[i].titleName = szAboutTitleName;
             break;
         default:
@@ -188,17 +188,20 @@ AboutDlgProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
         /* Copyright */
         y += 15;
-        hCtrl = CreateWindow( TEXT("static"), TEXT("Copyright (C) 2009-2010 Wurly"), WS_CHILD|WS_VISIBLE, x, y, 400,19, hwnd, (HMENU)-1, GetHinst(), NULL );
+        hCtrl = CreateWindow( TEXT("static"), TEXT("Copyright (C) 2017 Wurly"), WS_CHILD|WS_VISIBLE, x, y, 400,19, hwnd, (HMENU)-1, GetHinst(), NULL );
         SendMessage( hCtrl, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0) );
 
+#if 0
         /* ライセンス */
         y = 180;
         hCtrl = CreateWindow( TEXT("static"), TEXT("この製品はフリーソフトウェアです。"), WS_CHILD|WS_VISIBLE, x, y, 400,19, hwnd, (HMENU)-1, GetHinst(), NULL );
         SendMessage( hCtrl, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0) );
+#endif
 
         /* 線 */
         hCtrl = CreateWindow( TEXT("static"), TEXT(""), WS_CHILD|WS_VISIBLE|SS_SUNKEN, 60, 242,410,2, hwnd, (HMENU)-1, GetHinst(), NULL );
 
+#if 0
         /* 物理メモリサイズ */
         memSts.dwLength = sizeof(MEMORYSTATUSEX);
         GlobalMemoryStatusEx( &memSts );
@@ -207,6 +210,7 @@ AboutDlgProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         wsprintf( szTemp, TEXT("Windows が使用できる物理メモリ:\t        %s KB"),szTemp2 );
         hCtrl = CreateWindow( TEXT("static"), szTemp, WS_CHILD|WS_VISIBLE, 60, 252,400,19, hwnd, (HMENU)-1, GetHinst(), NULL );
         SendMessage( hCtrl, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0) );
+#endif
 
         /* OKボタン */
         hCtrl = CreateWindow( TEXT("Button"), TEXT("OK"), WS_CHILD|WS_VISIBLE, 382,270,90,19, hwnd, (HMENU)0, GetHinst(), NULL );

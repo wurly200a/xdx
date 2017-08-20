@@ -53,6 +53,7 @@ static LRESULT onDefault         ( HWND hwnd, UINT message, WPARAM wParam, LPARA
 int okMessage( HWND hwnd, TCHAR *szMessageFormat, ... );
 void doCaption( HWND hwnd, TCHAR* szTitleName, BOOL bNeedSave );
 short AskAboutSave( HWND hwnd, TCHAR * szTitleName );
+static void someCtrlDisableOnMidiOpenOrClose( void );
 
 /* 内部変数定義 */
 static HWND hwndMain; /* メインウィンドウのハンドラ */
@@ -309,6 +310,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     SomeCtrlCreate( hwnd ); /* コントロールを生成 */
     SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+    someCtrlDisableOnMidiOpenOrClose();
 
     ParamCtrlCreate( hwnd ); /* コントロールを生成 */
     ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
@@ -586,6 +588,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             SomeCtrlEnable( SOME_CTRL_MIDI_IN );
             SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_IN_OPEN_BUTTON), TEXT("Open") );
         }
+        someCtrlDisableOnMidiOpenOrClose();
         break;
 
     case (SOME_CTRL_MIDI_OUT_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
@@ -625,6 +628,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             SomeCtrlEnable( SOME_CTRL_MIDI_OUT );
             SetWindowText( SomeCtrlGetHWND(SOME_CTRL_MIDI_OUT_OPEN_BUTTON), TEXT("Open") );
         }
+        someCtrlDisableOnMidiOpenOrClose();
         break;
 
     case (SOME_CTRL_MIDI_KEY_IN_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
@@ -643,12 +647,6 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
         SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
         ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
-
-//            SomeCtrlDisable( SOME_CTRL_PATCH_COMMON );
-//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE1  );
-//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE2  );
-//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE3  );
-//            SomeCtrlEnable ( SOME_CTRL_PATCH_TONE4  );
         break;
 
     case (SOME_CTRL_MODE_ALL_VOICE+SOME_CTRL_ID_OFFSET):
@@ -1193,4 +1191,30 @@ AskAboutSave( HWND hwnd, TCHAR * szTitleName )
     }
 
     return iReturn;
+}
+
+/********************************************************************************
+ * 内容  :
+ * 引数  : なし
+ * 戻り値: なし
+ ***************************************/
+static void
+someCtrlDisableOnMidiOpenOrClose( void )
+{
+    if( hMidiIn && hMidiOut )
+    {
+        SomeCtrlEnable( SOME_CTRL_VOICE_GET_BUTTON );
+        SomeCtrlEnable( SOME_CTRL_VOICE_SET_BUTTON );
+
+        SomeCtrlEnable( SOME_CTRL_ALL_VOICE_GET_BUTTON );
+        SomeCtrlEnable( SOME_CTRL_ALL_VOICE_SET_BUTTON );
+    }
+    else
+    {
+        SomeCtrlDisable( SOME_CTRL_VOICE_GET_BUTTON );
+        SomeCtrlDisable( SOME_CTRL_VOICE_SET_BUTTON );
+
+        SomeCtrlDisable( SOME_CTRL_ALL_VOICE_GET_BUTTON );
+        SomeCtrlDisable( SOME_CTRL_ALL_VOICE_SET_BUTTON );
+    }
 }

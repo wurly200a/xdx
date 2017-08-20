@@ -168,6 +168,21 @@ SomeCtrlGroupDisplay( SOME_CTRL_GROUP_ID groupId )
         }
     }
 
+    switch( groupId )
+    {
+    case SOME_CTRL_GROUP_1VOICE   :
+        SomeCtrlDisable( SOME_CTRL_MODE_1VOICE    );
+        SomeCtrlEnable ( SOME_CTRL_MODE_ALL_VOICE );
+        break;
+    case SOME_CTRL_GROUP_ALL_VOICE:
+        SomeCtrlEnable ( SOME_CTRL_MODE_1VOICE    );
+        SomeCtrlDisable( SOME_CTRL_MODE_ALL_VOICE );
+        break;
+    default:
+        nop();
+        break;
+    }
+
     return TRUE;
 }
 
