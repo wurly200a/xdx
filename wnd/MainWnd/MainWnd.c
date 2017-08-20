@@ -511,7 +511,8 @@ onDestroy( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     if( mainWndData.hWndDebug )
     {
-        DestroyWindow( mainWndData.hWndDebug );
+        DebugWndDestroy();
+        mainWndData.hWndDebug = NULL;
     }
     else
     {
@@ -658,7 +659,16 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_DEBUG_BUTTON+SOME_CTRL_ID_OFFSET):
-        Dx100CtrlDisplayContents();
+//        Dx100CtrlDisplayContents();
+        if( mainWndData.hWndDebug != NULL )
+        {
+            DebugWndDestroy();
+            mainWndData.hWndDebug = NULL;
+        }
+        else
+        {
+            nop();
+        }
         break;
 
     case (SOME_CTRL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):

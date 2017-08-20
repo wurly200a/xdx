@@ -138,6 +138,24 @@ DebugWndCreate( int nCmdShow )
 }
 
 /********************************************************************************
+ * 内容  : デバッグウィンドウの終了
+ * 引数  : なし
+ * 戻り値: なし
+ ***************************************/
+void
+DebugWndDestroy( void )
+{
+    if( hDebugWnd != NULL )
+    {
+        DestroyWindow( hDebugWnd );
+    }
+    else
+    {
+        nop();
+    }
+}
+
+/********************************************************************************
  * 内容  : デバッグウィンドウ内で処理するメッセージを判定する
  * 引数  : MSG *msgPtr
  * 戻り値: BOOL
@@ -499,8 +517,11 @@ debugOnDestroy( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     DebugConfigSaveDword( DEBUG_CONFIG_ID_WINDOW_POS_DY, debugWndData.cyWindow   );
 
     DestroyWindow( debugWndData.hWndEdit );
+    debugWndData.hWndEdit = NULL;
 
     memset( &debugWndData, 0, sizeof(debugWndData) );
+
+    hDebugWnd = NULL;
 
     return 0;
 }

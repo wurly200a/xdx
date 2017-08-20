@@ -53,10 +53,6 @@ typedef struct
     DX100_CTRL_SEQ_ID              reqSeqIdEnd          ;
     DX100_CTRL_SEQ_ID              nowExecSeqId         ;
     DX100_CTRL_MODE                nowMode              ;
-#if 0
-    DX100_CTRL_1VOICE_SUBMODE      nowOneVoiceSubMode   ;
-    DX100_CTRL_ALL_VOICE_SUBMODE   nowAllVoiceSubMode   ;
-#endif
 } S_DX100_CTRL_INFO;
 
 static S_DX100_CTRL_INFO dx100CtrlInfo;
@@ -72,30 +68,20 @@ Dx100CtrlInit( void )
 {
     BOOL bRtn = TRUE;
 
-    dx100CtrlInfo.nowMode            = DX100_CTRL_MODE_PATCH;
-#if 0
-    dx100CtrlInfo.nowOneVoiceSubMode = DX100_CTRL_1VOICE_SUBMODE_COMMON;
-    dx100CtrlInfo.nowAllVoiceSubMode = DX100_CTRL_ALL_VOICE_SUBMODE_COMMON;
-#endif
+    dx100CtrlInfo.nowMode = DX100_CTRL_MODE_PATCH;
 
     return bRtn;
 }
 
 /*********************************************
  * 内容   : 
- * 引数   : DX100_CTRL_MODE                mode
- * 引数   : DX100_CTRL_1VOICE_SUBMODE       patchSubMode
- * 引数   : DX100_CTRL_ALL_VOICE_SUBMODE performanceSubMode
+ * 引数   : DX100_CTRL_MODE mode
  * 戻り値 : BOOL
  **********************************************/
 BOOL
-Dx100CtrlModeSet(DX100_CTRL_MODE mode/*,DX100_CTRL_1VOICE_SUBMODE patchSubMode,DX100_CTRL_ALL_VOICE_SUBMODE performanceSubMode*/)
+Dx100CtrlModeSet(DX100_CTRL_MODE mode)
 {
-    dx100CtrlInfo.nowMode            = mode;
-#if 0
-    dx100CtrlInfo.nowOneVoiceSubMode = patchSubMode;
-    dx100CtrlInfo.nowAllVoiceSubMode = performanceSubMode;
-#endif
+    dx100CtrlInfo.nowMode = mode;
 
     return TRUE;
 }
@@ -105,9 +91,6 @@ Dx100CtrlDisplayUpdate( void )
 {
     if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
     {
-#if 0
-        copyToParamCtrl(DX100_CTRL_SEQ_SYS_COMMON);
-#endif
         ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
     }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
@@ -388,10 +371,6 @@ seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr )
 
     switch( seqId )
     {
-#if 0
-    case DX100_CTRL_SEQ_SYS_COMMON  :
-        break;
-#endif
     case DX100_CTRL_SEQ_1VOICE:
         break;
     }
@@ -489,25 +468,6 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
 
     switch( seqId )
     {
-#if 0
-    case DX100_CTRL_SEQ_SYS_COMMON  :
-        dx100CtrlDataSysCommon[SYSCMN_SOUNDMODE                ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SOUNDMODE                   );
-        dx100CtrlDataSysCommon[SYSCMN_PERFORMANCENUMBER        ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PERFORMANCENUMBER           );
-        dx100CtrlDataSysCommon[SYSCMN_PATCHGROUPTYPE           ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHGROUPTYPE              );
-        dx100CtrlDataSysCommon[SYSCMN_PATCHGROUPID             ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHGROUPID                );
-        dx100CtrlDataSysCommon[SYSCMN_PATCHNUMBER_H            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHNUMBER_H               );
-        dx100CtrlDataSysCommon[SYSCMN_PATCHNUMBER_L            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_PATCHNUMBER_L               );
-        dx100CtrlDataSysCommon[SYSCMN_MASTERTUNE               ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_MASTERTUNE                  );
-・
-・
-・
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOKEYBOARDVELOCITY ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOKEYBOARDVELOCITY    );
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOOCTAVERANGE      ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOOCTAVERANGE         );
-        dx100CtrlDataSysCommon[SYSCMN_ARPEGGIOPARTNUMBER       ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_ARPEGGIOPARTNUMBER          );
-        dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_H            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_H               );
-        dx100CtrlDataSysCommon[SYSCMN_SYSTEMTEMPO_L            ] = getParamCtrlValue(PARAM_CTRL_SYSCMN_SYSTEMTEMPO_L               );
-        break;
-#endif
     case DX100_CTRL_SEQ_1VOICE:
         for( i=0; i<DX100_SYSEX_VCED_MAX; i++ )
         {

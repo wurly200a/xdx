@@ -12,7 +12,7 @@ enum
 };
 typedef INT DX100_CTRL_MODE;
 
-BOOL Dx100CtrlModeSet(DX100_CTRL_MODE mode/*,DX100_CTRL_1VOICE_SUBMODE patchSubMode,DX100_CTRL_ALL_VOICE_SUBMODE performanceSubMode*/);
+BOOL Dx100CtrlModeSet(DX100_CTRL_MODE mode);
 
 BOOL Dx100CtrlDisplayUpdate( void );
 
