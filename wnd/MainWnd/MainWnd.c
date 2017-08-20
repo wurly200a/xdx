@@ -8,7 +8,6 @@
 /* 外部関数定義 */
 #include "WinMain.h"
 #include "SomeCtrl.h"
-#include "ParamCtrl.h"
 #include "File.h"
 #include "StsBar.h"
 #include "Font.h"
@@ -312,16 +311,13 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
     someCtrlDisableOnMidiOpenOrClose();
 
-    ParamCtrlCreate( hwnd ); /* コントロールを生成 */
-    ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
-
     StsBarCreate( hwnd, TRUE ); /* ステータスバー生成、デフォルト表示 */
 
     MenuCheckItem( IDM_VIEW_STS_BAR );
     MenuCheckItem( IDM_EXTEND_NEWLINE_CRLF );
 
     MidiInit();
-    Dx100CtrlInit();
+    Dx100CtrlInit( hwnd );
     Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
 
     return rtn;
@@ -365,7 +361,6 @@ onSize( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     bottomSizeSum += StsBarSize( mainWndData.cxClient, mainWndData.cyChar ); /* ステータスバー */
 
     GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
-//    ParamCtrlSetSize(mainWndData.iHorzPos,mainWndData.iVertPos);
 
     return 0;
 }
@@ -641,21 +636,18 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         DebugWndPrintf("SYSTEM MODE\r\n");
         Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM);
         SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
-        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
         break;
 
     case (SOME_CTRL_MODE_1VOICE     +SOME_CTRL_ID_OFFSET):
         DebugWndPrintf("1VOICE MODE\r\n");
         Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
         SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
-        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
         break;
 
     case (SOME_CTRL_MODE_ALL_VOICE+SOME_CTRL_ID_OFFSET):
         DebugWndPrintf("ALL VOICE MODE\r\n");
         Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
         SomeCtrlGroupDisplay(SOME_CTRL_GROUP_ALL_VOICE);
-        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
         break;
 
     case (SOME_CTRL_DEBUG_BUTTON+SOME_CTRL_ID_OFFSET):
@@ -936,7 +928,6 @@ onHscroll( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     MainWndHscroll(hwnd,wParam);
 
 //    GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
-//    ParamCtrlSetSize(mainWndData.iHorzPos,mainWndData.iVertPos);
 
     return rtn;
 }
@@ -957,7 +948,6 @@ onVscroll( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     MainWndVscroll(hwnd,wParam);
 
 //    GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
-//    ParamCtrlSetSize(mainWndData.iHorzPos,mainWndData.iVertPos);
 
     return rtn;
 }

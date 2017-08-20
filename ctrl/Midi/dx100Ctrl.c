@@ -60,15 +60,18 @@ static S_DX100_CTRL_INFO dx100CtrlInfo;
 
 /*********************************************
  * 内容   : 初期化
- * 引数   : なし
+ * 引数   : HWND hwnd
  * 戻り値 : BOOL
  **********************************************/
 BOOL
-Dx100CtrlInit( void )
+Dx100CtrlInit( HWND hwnd )
 {
     BOOL bRtn = TRUE;
 
     dx100CtrlInfo.nowMode = DX100_CTRL_MODE_PATCH;
+
+    ParamCtrlCreate( hwnd ); /* コントロールを生成 */
+    ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
 
     return bRtn;
 }
@@ -83,6 +86,8 @@ Dx100CtrlModeSet(DX100_CTRL_MODE mode)
 {
     dx100CtrlInfo.nowMode = mode;
 
+    Dx100CtrlDisplayUpdate();
+
     return TRUE;
 }
 
@@ -95,12 +100,10 @@ Dx100CtrlDisplayUpdate( void )
     }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
     {
-        copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
         ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
     }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_ALL_VOICE )
     {
-        copyToParamCtrl(DX100_CTRL_SEQ_ALL_VOICE);
         ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
     }
     else
@@ -657,6 +660,21 @@ Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
         if( dwSize <= dataSize )
         {
             memcpy(tblPtr->rxDataPtr,dataPtr,tblPtr->rxDataSize);
+        }
+        else
+        {
+        }
+
+        if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
+        {
+        }
+        else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
+        {
+            copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
+        }
+        else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_ALL_VOICE )
+        {
+            copyToParamCtrl(DX100_CTRL_SEQ_ALL_VOICE);
         }
         else
         {
