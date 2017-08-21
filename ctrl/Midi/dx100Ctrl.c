@@ -223,6 +223,21 @@ Dx100CtrlCycleProc( void )
 
                 if( dx100CtrlInfo.nowMethod == DX100_CTRL_SEQ_METHOD_GET )
                 {
+                    if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
+                    {
+                    }
+                    else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
+                    {
+                        copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
+                    }
+                    else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_ALL_VOICE )
+                    {
+                        copyToParamCtrl(DX100_CTRL_SEQ_ALL_VOICE);
+                    }
+                    else
+                    {
+                    }
+
                     Dx100CtrlDisplayUpdate();
                 }
                 else
@@ -289,7 +304,6 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
     S_DX100_CTRL_SEQ_DATA *tblPtr;
     INT txSize = (INT)0;
     INT i;
-    BYTE checkSum;
 
     tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
 
@@ -299,8 +313,6 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
         if( method == DX100_CTRL_SEQ_METHOD_SET )
         {
             copyFromParamCtrl( seqId );
-            checkSum = calcCheckSum(tblPtr->rxDataPtr+DX100_SYSEX_1VOICE_DATA,DX100_SYSEX_VCED_MAX);
-            dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_CHECKSUM] = checkSum;
             memcpy((void *)txDataPtr,(void *)tblPtr->rxDataPtr,tblPtr->rxDataSize);
             txSize = DX100_SYSEX_1VOICE_INDEX_MAX;
         }
@@ -331,8 +343,6 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
         }
         break;
     }
-
-    DebugWndPrintf("checkSum:0x%02X\r\n",checkSum);
 
     return txSize;
 }
@@ -468,10 +478,18 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
     TCHAR szBuffer[1024];
     INT toneNum;
     INT i,j;
+    BYTE checkSum;
 
     switch( seqId )
     {
     case DX100_CTRL_SEQ_1VOICE:
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_STATUS    ] = EX_STATUS;
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_ID_NO     ] = EX_ID_NUMBER_YAMAHA;
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_SUB_STATUS] = 0x00;
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_FORMAT_NO ] = DX100_DUMP_REQ_FORMAT_1VOICE;
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_BYTE_COUNT_HIGH   ] = 0x00;
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_BYTE_COUNT_LOW    ] = 0x5D;
+
         for( i=0; i<DX100_SYSEX_VCED_MAX; i++ )
         {
             INT dataIndex = DX100_SYSEX_1VOICE_DATA+i/*DX100_SYSEX_VCED_00...DX100_SYSEX_VCED_92*/;
@@ -516,6 +534,11 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
             }
 
         }
+        checkSum = calcCheckSum(&(dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA]),DX100_SYSEX_VCED_MAX);
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_CHECKSUM] = checkSum;
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_ETX] = EX_ETX;
+
+        DebugWndPrintf("checkSum:0x%02X\r\n",checkSum);
         break;
     case DX100_CTRL_SEQ_ALL_VOICE:
         break;
@@ -621,6 +644,8 @@ Dx100DataGet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
 
     if( seqId < DX100_CTRL_SEQ_NUM_MAX )
     {
+        copyFromParamCtrl( seqId );
+
         tblPtr = &(dx100CtrlSeqDataTbl[seqId]);
         dwSize = tblPtr->rxDataSize;
 
