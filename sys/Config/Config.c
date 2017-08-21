@@ -29,8 +29,8 @@ static S_CONFIG_INFO configInfoTbl[CONFIG_ID_MAX] =
 {
     { TEXT("iWindowPosX"   ),TEXT("0x00000000"), CONFIG_DATA_DWORD },
     { TEXT("iWindowPosY"   ),TEXT("0x00000000"), CONFIG_DATA_DWORD },
-    { TEXT("iWindowPosDX"  ),TEXT("0x00000450"), CONFIG_DATA_DWORD },
-    { TEXT("iWindowPosDY"  ),TEXT("0x0000038E"), CONFIG_DATA_DWORD },
+    { TEXT("iWindowPosDX"  ),TEXT("0x000003CF"), CONFIG_DATA_DWORD },
+    { TEXT("iWindowPosDY"  ),TEXT("0x000002A2"), CONFIG_DATA_DWORD },
     { TEXT("iMidiInNum"    ),TEXT("0x00000000"), CONFIG_DATA_DWORD },
     { TEXT("iMidiOutNum"   ),TEXT("0x00000000"), CONFIG_DATA_DWORD },
     { TEXT("iMidiKeyInNum" ),TEXT("0x00000000"), CONFIG_DATA_DWORD },

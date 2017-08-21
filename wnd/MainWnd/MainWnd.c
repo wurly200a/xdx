@@ -311,7 +311,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
     someCtrlDisableOnMidiOpenOrClose();
 
-    StsBarCreate( hwnd, TRUE ); /* ステータスバー生成、デフォルト表示 */
+//    StsBarCreate( hwnd, TRUE ); /* ステータスバー生成、デフォルト表示 */
 
     MenuCheckItem( IDM_VIEW_STS_BAR );
     MenuCheckItem( IDM_EXTEND_NEWLINE_CRLF );
@@ -358,7 +358,7 @@ onSize( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     SetMainWndAllScrollInfo(hwnd,mainWndData.cxClient,mainWndData.cyClient);
 
     topSizeSum += SomeCtrlSize( mainWndData.cxClient, mainWndData.cyChar ); /* コントロール   */
-    bottomSizeSum += StsBarSize( mainWndData.cxClient, mainWndData.cyChar ); /* ステータスバー */
+//    bottomSizeSum += StsBarSize( mainWndData.cxClient, mainWndData.cyChar ); /* ステータスバー */
 
     GetMainWndAllScrollInfo(hwnd,&(mainWndData.iHorzPos),&(mainWndData.iVertPos));
 
@@ -420,6 +420,7 @@ onClose( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     {
         int iCbNum;
         HWND hComboBox;
+        BOOL bCancel = (BOOL)FALSE;
 
         ConfigSaveDword( CONFIG_ID_WINDOW_POS_X , mainWndData.xWindowPos );
         ConfigSaveDword( CONFIG_ID_WINDOW_POS_Y , mainWndData.yWindowPos );
@@ -467,11 +468,16 @@ onClose( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         {
             int iReturn;
 
-            iReturn = MessageBox( hwnd,TEXT("設定は変更されています。\n\n変更を保存しますか?"),GetAppName(),MB_YESNOCANCEL|MB_ICONEXCLAMATION );
+//            iReturn = MessageBox( hwnd,TEXT("設定は変更されています。\n\n変更を保存しますか?"),GetAppName(),MB_YESNOCANCEL|MB_ICONEXCLAMATION );
+            iReturn = MessageBox( hwnd,TEXT("Configuration is changed.\n\nSave Changes?"),GetAppName(),MB_YESNOCANCEL|MB_ICONEXCLAMATION );
 
             if( (iReturn == IDYES) )
             {
                 ConfigWrite(0,CONFIG_ID_MAX);
+            }
+            else if( iReturn == IDCANCEL )
+            {
+                bCancel = (BOOL)TRUE;
             }
             else
             {
@@ -479,7 +485,14 @@ onClose( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
             }
         }
 
-        DestroyWindow( hwnd );
+        if( !bCancel )
+        {
+            DestroyWindow( hwnd );
+        }
+        else
+        {
+            nop();
+        }
     }
 
     return 0;
@@ -837,12 +850,12 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         if( MenuInqItemChecked(IDM_VIEW_STS_BAR) )
         {
             MenuUnCheckItem( IDM_VIEW_STS_BAR );
-            StsBarShowWindow( FALSE );
+//            StsBarShowWindow( FALSE );
         }
         else
         {
             MenuCheckItem( IDM_VIEW_STS_BAR );
-            StsBarShowWindow( TRUE );
+//            StsBarShowWindow( TRUE );
         }
         SendMessage(hwnd,WM_SIZE,0,MAKELONG(mainWndData.cxClient,mainWndData.cyClient));
         break;
