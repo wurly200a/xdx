@@ -9,7 +9,7 @@ static HWND initializeApp( HINSTANCE hInst, LPSTR szCmdLine, int nCmdShow, HACCE
 
 /* 内部変数定義 */
 static HINSTANCE hInstance;    /* インスタンスのハンドラ     */
-static TCHAR szAppName[] = TEXT("dx100editor"); /* アプリケーションの名称 */
+static TCHAR szAppName[] = TEXT("DX100Editor"); /* アプリケーションの名称 */
 
 /********************************************************************************
  * 内容  : WINDOWSプログラムのエントリポイント
