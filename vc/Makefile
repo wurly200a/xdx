@@ -10,7 +10,30 @@ CFLAGS = //I ../inc //W4 //O2 //MT //EHsc
 LDFLAGS = /SUBSYSTEM:WINDOWS /LIBPATH:$(LIBPATH)
 LDLIBS  = ComCtl32.Lib ComDlg32.Lib User32.Lib Gdi32.Lib kernel32.Lib Imm32.Lib WinMM.Lib
 
-OBJECTS = DebugWnd.o DebugWndMenu.o DebugWndFont.o DebugWndConfig.o Config.o DateTime.o File.o Font.o LinkedList.o Version.o WinMain.o EditWnd.o EditWndBuffer.o EditWndBufferData.o MainWnd.o MainWndMenu.o MainWndScroll.o ModalDialog.o ParamCtrl.o SomeCtrl.o StsBar.o Midi.o dx100Ctrl.o resource.o
+OBJECTS = ..\\develop\\DebugWnd\\DebugWnd.o       \
+          ..\\develop\\DebugWnd\\DebugWndMenu.o   \
+          ..\\develop\\DebugWnd\\DebugWndFont.o   \
+          ..\\develop\\DebugWnd\\DebugWndConfig.o \
+          ..\\sys\\Config\\Config.o               \
+          ..\\sys\\DateTime\\DateTime.o           \
+          ..\\sys\\File\\File.o                   \
+          ..\\sys\\Font\\Font.o                   \
+          ..\\sys\\LinkedList\\LinkedList.o       \
+          ..\\sys\\Version\\Version.o             \
+          ..\\sys\\WinMain\\WinMain.o             \
+          ..\\wnd\\EditWnd\\EditWnd.o             \
+          ..\\wnd\\EditWnd\\EditWndBuffer.o       \
+          ..\\wnd\\EditWnd\\EditWndBufferData.o   \
+          ..\\wnd\\MainWnd\\MainWnd.o             \
+          ..\\wnd\\MainWnd\\MainWndMenu.o         \
+          ..\\wnd\\MainWnd\\MainWndScroll.o       \
+          ..\\wnd\\ModalDlg\\ModalDialog.o        \
+          ..\\wnd\\ParamCtrl\\ParamCtrl.o         \
+          ..\\wnd\\SomeCtrl\\SomeCtrl.o           \
+          ..\\wnd\\StsBar\\StsBar.o               \
+          ..\\sys\\Midi\\Midi.o                   \
+          ..\\ctrl\\Midi\\dx100Ctrl.o             \
+          resource.o
 
 $(TARGET): $(OBJECTS)
 		$(LINK) /OUT:$@ $(LDFLAGS) $^ $(LDLIBS)
@@ -19,73 +42,7 @@ clean:
 		$(RM) $(OBJECTS)
 		$(RM) $(TARGET)
 
-DebugWnd.o: ../develop/DebugWnd/DebugWnd.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-DebugWndMenu.o: ../develop/DebugWnd/DebugWndMenu.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-DebugWndFont.o: ../develop/DebugWnd/DebugWndFont.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-DebugWndConfig.o: ../develop/DebugWnd/DebugWndConfig.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-Config.o: ../sys/Config/Config.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-DateTime.o: ../sys/DateTime/DateTime.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-File.o: ../sys/File/File.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-Font.o: ../sys/Font/Font.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-LinkedList.o: ../sys/LinkedList/LinkedList.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-Version.o: ../sys/Version/Version.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-WinMain.o: ../sys/WinMain/WinMain.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-EditWnd.o: ../wnd/EditWnd/EditWnd.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-EditWndBuffer.o: ../wnd/EditWnd/EditWndBuffer.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-EditWndBufferData.o: ../wnd/EditWnd/EditWndBufferData.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-MainWnd.o: ../wnd/MainWnd/MainWnd.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-MainWndMenu.o: ../wnd/MainWnd/MainWndMenu.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-MainWndScroll.o: ../wnd/MainWnd/MainWndScroll.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-ModalDialog.o: ../wnd/ModalDlg/ModalDialog.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-ParamCtrl.o: ../wnd/ParamCtrl/ParamCtrl.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-SomeCtrl.o: ../wnd/SomeCtrl/SomeCtrl.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-StsBar.o: ../wnd/StsBar/StsBar.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-Midi.o: ../sys/Midi/Midi.c
-		$(CC) //c $< $(CFLAGS) //Fo$@
-
-dx100Ctrl.o: ../ctrl/Midi/dx100Ctrl.c
+.c.o:
 		$(CC) //c $< $(CFLAGS) //Fo$@
 
 resource.o: ../resources/resource.rc
