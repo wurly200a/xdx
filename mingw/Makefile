@@ -15,7 +15,8 @@ CPPFLAGS = -c
 LDFLAGS = -Wl,--subsystem,windows -mwindows
 LDLIBS = -lcomctl32 -lcomdlg32 -luser32 -lgdi32 -lkernel32 -limm32 -lwinmm
 
-OBJECTS = ..\\develop\\DebugWnd\\DebugWnd.o       \
+OBJECTS = \
+          ..\\develop\\DebugWnd\\DebugWnd.o       \
           ..\\develop\\DebugWnd\\DebugWndMenu.o   \
           ..\\develop\\DebugWnd\\DebugWndFont.o   \
           ..\\develop\\DebugWnd\\DebugWndConfig.o \
@@ -23,12 +24,8 @@ OBJECTS = ..\\develop\\DebugWnd\\DebugWnd.o       \
           ..\\sys\\DateTime\\DateTime.o           \
           ..\\sys\\File\\File.o                   \
           ..\\sys\\Font\\Font.o                   \
-          ..\\sys\\LinkedList\\LinkedList.o       \
           ..\\sys\\Version\\Version.o             \
           ..\\sys\\WinMain\\WinMain.o             \
-          ..\\wnd\\EditWnd\\EditWnd.o             \
-          ..\\wnd\\EditWnd\\EditWndBuffer.o       \
-          ..\\wnd\\EditWnd\\EditWndBufferData.o   \
           ..\\wnd\\MainWnd\\MainWnd.o             \
           ..\\wnd\\MainWnd\\MainWndMenu.o         \
           ..\\wnd\\MainWnd\\MainWndScroll.o       \
@@ -39,6 +36,11 @@ OBJECTS = ..\\develop\\DebugWnd\\DebugWnd.o       \
           ..\\sys\\Midi\\Midi.o                   \
           ..\\ctrl\\Midi\\dx100Ctrl.o             \
           ../resources/resource.o                 \
+
+#          ..\\sys\\LinkedList\\LinkedList.o       \
+#          ..\\wnd\\EditWnd\\EditWnd.o             \
+#          ..\\wnd\\EditWnd\\EditWndBuffer.o       \
+#          ..\\wnd\\EditWnd\\EditWndBufferData.o   \
 
 $(TARGET): $(OBJECTS)
 		$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS) -o $@

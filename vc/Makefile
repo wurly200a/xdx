@@ -1,3 +1,5 @@
+.SUFFIXES: .rc .res
+
 TARGET = dx100ed.exe
 CC      = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\cl.exe"
 RC      = "C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe"
@@ -10,7 +12,8 @@ CFLAGS = //I ../inc //W4 //O2 //MT //EHsc
 LDFLAGS = /SUBSYSTEM:WINDOWS /LIBPATH:$(LIBPATH)
 LDLIBS  = ComCtl32.Lib ComDlg32.Lib User32.Lib Gdi32.Lib kernel32.Lib Imm32.Lib WinMM.Lib
 
-OBJECTS = ..\\develop\\DebugWnd\\DebugWnd.o       \
+OBJECTS = \
+          ..\\develop\\DebugWnd\\DebugWnd.o       \
           ..\\develop\\DebugWnd\\DebugWndMenu.o   \
           ..\\develop\\DebugWnd\\DebugWndFont.o   \
           ..\\develop\\DebugWnd\\DebugWndConfig.o \
@@ -18,12 +21,8 @@ OBJECTS = ..\\develop\\DebugWnd\\DebugWnd.o       \
           ..\\sys\\DateTime\\DateTime.o           \
           ..\\sys\\File\\File.o                   \
           ..\\sys\\Font\\Font.o                   \
-          ..\\sys\\LinkedList\\LinkedList.o       \
           ..\\sys\\Version\\Version.o             \
           ..\\sys\\WinMain\\WinMain.o             \
-          ..\\wnd\\EditWnd\\EditWnd.o             \
-          ..\\wnd\\EditWnd\\EditWndBuffer.o       \
-          ..\\wnd\\EditWnd\\EditWndBufferData.o   \
           ..\\wnd\\MainWnd\\MainWnd.o             \
           ..\\wnd\\MainWnd\\MainWndMenu.o         \
           ..\\wnd\\MainWnd\\MainWndScroll.o       \
@@ -33,7 +32,12 @@ OBJECTS = ..\\develop\\DebugWnd\\DebugWnd.o       \
           ..\\wnd\\StsBar\\StsBar.o               \
           ..\\sys\\Midi\\Midi.o                   \
           ..\\ctrl\\Midi\\dx100Ctrl.o             \
-          resource.o
+          ..\\resources\\resource.res             \
+
+#          ..\\sys\\LinkedList\\LinkedList.o       \
+#          ..\\wnd\\EditWnd\\EditWnd.o             \
+#          ..\\wnd\\EditWnd\\EditWndBuffer.o       \
+#          ..\\wnd\\EditWnd\\EditWndBufferData.o   \
 
 $(TARGET): $(OBJECTS)
 		$(LINK) /OUT:$@ $(LDFLAGS) $^ $(LDLIBS)
@@ -45,7 +49,7 @@ clean:
 .c.o:
 		$(CC) //c $< $(CFLAGS) //Fo$@
 
-resource.o: ../resources/resource.rc
+.rc.res:
 		$(RC) -FO $@ $<
 
 
