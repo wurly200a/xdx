@@ -60,17 +60,19 @@ static S_DX100_CTRL_INFO dx100CtrlInfo;
 
 /*********************************************
  * 内容   : 初期化
+ * 引数   : HINSTANCE hInst
+ * 引数   : PTSTR szAppName
  * 引数   : HWND hwnd
  * 戻り値 : BOOL
  **********************************************/
 BOOL
-Dx100CtrlInit( HWND hwnd )
+Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 {
     BOOL bRtn = TRUE;
 
     dx100CtrlInfo.nowMode = DX100_CTRL_MODE_PATCH;
 
-    ParamCtrlCreate( hwnd ); /* コントロールを生成 */
+    ParamCtrlCreate( hInst, szAppName, hwnd ); /* コントロールを生成 */
     ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
 
     return bRtn;

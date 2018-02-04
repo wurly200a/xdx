@@ -10,6 +10,15 @@
 /* 内部関数定義 */
 #include "ParamCtrl.h"
 
+typedef struct
+{
+    HINSTANCE hInstance;
+    PTSTR     szAppName;
+    BOOL      bInitConfig;
+} S_PARM_CTRL_DATA;
+
+static S_PARM_CTRL_DATA paramCtrlData;
+
 static BOOL paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, PARAM_CTRL_ID endId );
 /* 内部変数定義 */
 
@@ -195,12 +204,18 @@ S_PARAM_INFO ctrlParamInfo[PARAM_CTRL_MAX];
 
 /********************************************************************************
  * 内容  : 登録された全てのパラメータコントロールを生成する
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : HWND hwnd 親ウィンドウのハンドラ
  * 戻り値: BOOL
  ***************************************/
 BOOL
-ParamCtrlCreate( HWND hwnd )
+ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 {
+    paramCtrlData.bInitConfig = TRUE;
+    paramCtrlData.hInstance   = hInst;
+    paramCtrlData.szAppName   = szAppName;
+
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_SYSTEM_COMMON,PARAM_CTRL_SYSCMN_SOUNDMODE  ,PARAM_CTRL_SYSCMN_SOUNDMODE  );
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_1VOICE       ,PARAM_CTRL_VOICE_00          ,PARAM_CTRL_VOICE_92          );
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_NAME_23 );
@@ -286,7 +301,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
                                                 infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].width,  /* 幅                 */
                                                 infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].height, /* 高さ               */
                                                 hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+nowId*2),         /* 親ウィンドウ,子ウィンドウID */
-                                                GetHinst(),NULL );                              /* インスタンスハンドル,補助引数 */
+                                                paramCtrlData.hInstance,NULL );                              /* インスタンスハンドル,補助引数 */
             if( infoPtr->hwnd_name != NULL )
             {
                 SendMessage(infoPtr->hwnd_name, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
@@ -321,7 +336,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
                                                 infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width,  /* 幅                 */
                                                 infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
                                                 hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
-                                                GetHinst(),NULL );                        /* インスタンスハンドル,補助引数 */
+                                                paramCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
             if( infoPtr->hwnd_data != NULL )
             {
                 INT j,iCbNum;

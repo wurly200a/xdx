@@ -3,14 +3,21 @@
 /* 個別インクルードファイル */
 
 /* 外部関数定義 */
-#include "WinMain.h"
 
 /* 外部変数定義 */
 /* 内部関数定義 */
 #include "Config.h"
 /* 内部変数定義 */
-static BOOL bInitConfig;
-static TCHAR szIniFileName[512];
+
+typedef struct
+{
+    HINSTANCE hInstance;
+    PTSTR     szAppName;
+    BOOL      bInitConfig;
+    TCHAR     szIniFileName[512];
+} S_CONFIG__DATA;
+
+static S_CONFIG__DATA configData;
 
 typedef enum
 {
@@ -40,31 +47,35 @@ static S_CONFIG_INFO configInfoTbl[CONFIG_ID_MAX] =
 typedef struct
 {
     TCHAR szValue[CONFIG_DATA_STRING_LENGTH_MAX];
-} S_CONFIG_DATA;
+} S_CONFIG_PARAM;
 
-S_CONFIG_DATA configData[CONFIG_ID_MAX];
+S_CONFIG_PARAM configParam[CONFIG_ID_MAX];
 
 /********************************************************************************
  * 内容  : 設定管理モジュールの初期化
- * 引数  : なし
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 戻り値: なし
  ***************************************/
 void
-ConfigInit( void )
+ConfigInit( HINSTANCE hInst, PTSTR szAppName )
 {
     DWORD length;
     int i;
 
-    length = GetModuleFileName(NULL,szIniFileName,512);
-    szIniFileName[length-1] = 'i';
-    szIniFileName[length-2] = 'n';
-    szIniFileName[length-3] = 'i';
+    configData.bInitConfig = TRUE;
+    configData.hInstance   = hInst;
+    configData.szAppName   = szAppName;
+
+    length = GetModuleFileName(NULL,configData.szIniFileName,512);
+    configData.szIniFileName[length-1] = 'i';
+    configData.szIniFileName[length-2] = 'n';
+    configData.szIniFileName[length-3] = 'i';
 
     for( i=0; i<CONFIG_ID_MAX; i++ )
     {
-        GetPrivateProfileString( GetAppName(), configInfoTbl[i].pKeyName, configInfoTbl[i].pInitValue, configData[i].szValue, CONFIG_DATA_STRING_LENGTH_MAX, szIniFileName );
+        GetPrivateProfileString( szAppName, configInfoTbl[i].pKeyName, configInfoTbl[i].pInitValue, configParam[i].szValue, CONFIG_DATA_STRING_LENGTH_MAX, configData.szIniFileName );
     }
-    bInitConfig = TRUE;
 }
 
 /********************************************************************************
@@ -76,14 +87,14 @@ ConfigInit( void )
 void
 ConfigSaveDword( CONFIG_ID id, DWORD data )
 {
-    if( bInitConfig )
+    if( configData.bInitConfig )
     {
         if( (id < CONFIG_ID_MAX) &&
             (configInfoTbl[id].dataType == CONFIG_DATA_DWORD) )
         {
-            wsprintf( configData[id].szValue, "0x%08lX", data );
+            wsprintf( configParam[id].szValue, "0x%08lX", data );
 #ifdef OLD_CONFIG_SAVE_LOAD
-            WritePrivateProfileString( GetAppName(), configInfoTbl[id].pKeyName, configData[id].szValue, szIniFileName );
+            WritePrivateProfileString( configData.szAppName, configInfoTbl[id].pKeyName, configParam[id].szValue, configData.szIniFileName );
 #endif
         }
         else
@@ -107,15 +118,15 @@ ConfigLoadDword( CONFIG_ID id )
 {
     DWORD rtn = (DWORD)0;
 
-    if( bInitConfig )
+    if( configData.bInitConfig )
     {
         if( (id < CONFIG_ID_MAX) &&
             (configInfoTbl[id].dataType == CONFIG_DATA_DWORD) )
         {
 #ifdef OLD_CONFIG_SAVE_LOAD
-            GetPrivateProfileString( GetAppName(), configInfoTbl[id].pKeyName, configInfoTbl[id].pInitValue, configInfoTbl[id].szValue, CONFIG_DATA_STRING_LENGTH_MAX, szIniFileName );
+            GetPrivateProfileString( configData.szAppName, configInfoTbl[id].pKeyName, configInfoTbl[id].pInitValue, configInfoTbl[id].szValue, CONFIG_DATA_STRING_LENGTH_MAX, configData.szIniFileName );
 #endif
-            rtn = strtoul( &(configData[id].szValue[2]),NULL,16 );
+            rtn = strtoul( &(configParam[id].szValue[2]),NULL,16 );
         }
         else
         {
@@ -141,14 +152,14 @@ ConfigLoadDword( CONFIG_ID id )
 void
 ConfigSaveString( CONFIG_ID id, PTSTR ptstrValue )
 {
-    if( bInitConfig )
+    if( configData.bInitConfig )
     {
         if( (id < CONFIG_ID_MAX) &&
             (configInfoTbl[id].dataType == CONFIG_DATA_STRING) )
         {
-            strcpy( configData[id].szValue, ptstrValue );
+            strcpy( configParam[id].szValue, ptstrValue );
 #ifdef OLD_CONFIG_SAVE_LOAD
-            WritePrivateProfileString( GetAppName(), configInfoTbl[id].pKeyName, configData[id].szValue, szIniFileName );
+            WritePrivateProfileString( configData.szAppName, configInfoTbl[id].pKeyName, configParam[id].szValue, configData.szIniFileName );
 #endif
         }
         else
@@ -174,15 +185,15 @@ ConfigLoadString( CONFIG_ID id )
 {
     PTSTR rtn = "\0";
 
-    if( bInitConfig )
+    if( configData.bInitConfig )
     {
         if( (id < CONFIG_ID_MAX) &&
             (configInfoTbl[id].dataType == CONFIG_DATA_STRING) )
         {
 #ifdef OLD_CONFIG_SAVE_LOAD
-            GetPrivateProfileString( GetAppName(), configInfoTbl[id].pKeyName, configInfoTbl[id].pInitValue, configInfoTbl[id].szValue, CONFIG_DATA_STRING_LENGTH_MAX, szIniFileName );
+            GetPrivateProfileString( configData.szAppName, configInfoTbl[id].pKeyName, configInfoTbl[id].pInitValue, configInfoTbl[id].szValue, CONFIG_DATA_STRING_LENGTH_MAX, configData.szIniFileName );
 #endif
-            rtn = configData[id].szValue;
+            rtn = configParam[id].szValue;
         }
         else
         {
@@ -223,7 +234,7 @@ ConfigWrite( CONFIG_ID start_id, CONFIG_ID end_id )
 
     for( i=start_id; i<end_id; i++ )
     {
-        WritePrivateProfileString( GetAppName(), configInfoTbl[i].pKeyName, configData[i].szValue, szIniFileName );
+        WritePrivateProfileString( configData.szAppName, configInfoTbl[i].pKeyName, configParam[i].szValue, configData.szIniFileName );
     }
 }
 
@@ -256,8 +267,8 @@ ConfigIsSame( CONFIG_ID start_id, CONFIG_ID end_id )
     {
         TCHAR szValueTemp[CONFIG_DATA_STRING_LENGTH_MAX];
 
-        GetPrivateProfileString( GetAppName(), configInfoTbl[i].pKeyName, configInfoTbl[i].pInitValue, szValueTemp, CONFIG_DATA_STRING_LENGTH_MAX, szIniFileName );
-        if( !strcmp( szValueTemp, configData[i].szValue ) )
+        GetPrivateProfileString( configData.szAppName, configInfoTbl[i].pKeyName, configInfoTbl[i].pInitValue, szValueTemp, CONFIG_DATA_STRING_LENGTH_MAX, configData.szIniFileName );
+        if( !strcmp( szValueTemp, configParam[i].szValue ) )
         {
         }
         else
@@ -280,9 +291,9 @@ ConfigLoadDebugValue( void )
     TCHAR szDword[11];
     DWORD rtn = (DWORD)0;
 
-    if( bInitConfig )
+    if( configData.bInitConfig )
     {
-        GetPrivateProfileString( GetAppName(), TEXT("DEBUG"), TEXT("0x00000000"), szDword, 11, szIniFileName );
+        GetPrivateProfileString( configData.szAppName, TEXT("DEBUG"), TEXT("0x00000000"), szDword, 11, configData.szIniFileName );
         rtn = strtoul( szDword+2,NULL,16 );
     }
     else

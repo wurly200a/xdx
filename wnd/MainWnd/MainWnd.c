@@ -6,7 +6,6 @@
 #include "MainWndMenu.h"
 
 /* 外部関数定義 */
-#include "WinMain.h"
 #include "SomeCtrl.h"
 #include "File.h"
 #include "StsBar.h"
@@ -94,17 +93,18 @@ static LRESULT (*wndProcTbl[MAINWND_MAX])( HWND hwnd, UINT message, WPARAM wPara
 
 /********************************************************************************
  * 内容  : メインウィンドウクラスの登録、ウィンドウの生成
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : LPSTR szCmdLine
  * 引数  : int nCmdShow
  * 引数  : HACCEL *hAccelPtr
  * 戻り値: HWND
  ***************************************/
 HWND
-MainWndCreate( LPSTR szCmdLine, int nCmdShow, HACCEL *hAccelPtr )
+MainWndCreate( HINSTANCE hInst, PTSTR szAppName, LPSTR szCmdLine, int nCmdShow, HACCEL *hAccelPtr )
 {
     WNDCLASS wc = {0};
-    HINSTANCE hInst = GetHinst();
-    PTSTR pAppName = GetAppName();
+    PTSTR pAppName = szAppName;
     HMENU hMenu = NULL;
 
     hwndMain = NULL;
@@ -115,7 +115,7 @@ MainWndCreate( LPSTR szCmdLine, int nCmdShow, HACCEL *hAccelPtr )
     wc.cbClsExtra       = 0; /* クラス構造体の為の追加領域を予約する */
     wc.cbWndExtra       = 0; /* ウィンドウ構造体の為の追加領域を予約する */
     wc.hInstance        = hInst;
-    wc.hIcon            = LoadIcon( hInst, TEXT("MAIN_ICON") );          /* アイコン */
+    wc.hIcon            = LoadIcon( hInst, pAppName );          /* アイコン */
     wc.hCursor          = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground    = (HBRUSH) (COLOR_BTNFACE + 1); /* 背景 */
     wc.lpszMenuName     = pAppName;
@@ -127,8 +127,12 @@ MainWndCreate( LPSTR szCmdLine, int nCmdShow, HACCEL *hAccelPtr )
     }
     else
     {
+        memset( &mainWndData, 0, sizeof(mainWndData) );
+        mainWndData.hInstance = hInst;
+        mainWndData.szAppName = szAppName;
+
         /* 設定の初期化 */
-        ConfigInit();
+        ConfigInit(mainWndData.hInstance,mainWndData.szAppName);
 
         /* メニューの生成 */
         hMenu = MenuCreate();
@@ -274,8 +278,6 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     TEXTMETRIC tm;
     HFONT hFont,hOldFont;
 
-    memset( &mainWndData, 0, sizeof(mainWndData) );
-
     hdc = GetDC( hwnd );
     hFont = GetStockObject(DEFAULT_GUI_FONT);
     hOldFont = SelectObject(hdc, hFont);
@@ -291,7 +293,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     if( ConfigLoadDebugValue() == 0xDDDDDDDD )
     {
-        mainWndData.hWndDebug = DebugWndCreate(TRUE);
+        mainWndData.hWndDebug = DebugWndCreate(mainWndData.hInstance,mainWndData.szAppName,TRUE);
         DebugWndPrintf("DEBUG=%08lX\r\n",ConfigLoadDebugValue());
     }
     else
@@ -299,7 +301,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         nop();
     }
 
-    ModalDlgInit();
+    ModalDlgInit(mainWndData.hInstance,mainWndData.szAppName);
     FileInitialize( hwnd ); /* ファイル初期化     */
     FontInit();
 
@@ -307,7 +309,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     InitMainWndScrollInfo( hwnd );
 
-    SomeCtrlCreate( hwnd ); /* コントロールを生成 */
+    SomeCtrlCreate( mainWndData.hInstance, mainWndData.szAppName, hwnd ); /* コントロールを生成 */
     SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
     someCtrlDisableOnMidiOpenOrClose();
 
@@ -317,7 +319,7 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     MenuCheckItem( IDM_EXTEND_NEWLINE_CRLF );
 
     MidiInit();
-    Dx100CtrlInit( hwnd );
+    Dx100CtrlInit( mainWndData.hInstance, mainWndData.szAppName, hwnd );
     Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
 
     return rtn;
@@ -468,8 +470,8 @@ onClose( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         {
             int iReturn;
 
-//            iReturn = MessageBox( hwnd,TEXT("設定は変更されています。\n\n変更を保存しますか?"),GetAppName(),MB_YESNOCANCEL|MB_ICONEXCLAMATION );
-            iReturn = MessageBox( hwnd,TEXT("Configuration is changed.\n\nSave Changes?"),GetAppName(),MB_YESNOCANCEL|MB_ICONEXCLAMATION );
+//            iReturn = MessageBox( hwnd,TEXT("設定は変更されています。\n\n変更を保存しますか?"),mainWndData.szAppName,MB_YESNOCANCEL|MB_ICONEXCLAMATION );
+            iReturn = MessageBox( hwnd,TEXT("Configuration is changed.\n\nSave Changes?"),mainWndData.szAppName,MB_YESNOCANCEL|MB_ICONEXCLAMATION );
 
             if( (iReturn == IDYES) )
             {
@@ -517,15 +519,7 @@ onDestroy( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     FileEnd();
 
-    if( mainWndData.hWndDebug )
-    {
-        DebugWndDestroy();
-        mainWndData.hWndDebug = NULL;
-    }
-    else
-    {
-        nop();
-    }
+    DestroyWindow( mainWndData.hWndDebug );
 
     PostQuitMessage(0); /* WM_QUITメッセージをポストする */
     return 0;
@@ -546,7 +540,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     DWORD dwSize;
     PBYTE dataPtr;
     PTSTR strPtr;
-    S_MODAL_DLG_DATA modalDlgData;
+    S_MODAL_DLG_PARAM modalDlgParam;
     static FINDREPLACE fr;
     static TCHAR strFind[80],strRep[80],strMsg[1024];
     HFONT hFontOld;
@@ -665,15 +659,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     case (SOME_CTRL_DEBUG_BUTTON+SOME_CTRL_ID_OFFSET):
 //        Dx100CtrlDisplayContents();
-        if( mainWndData.hWndDebug != NULL )
-        {
-            DebugWndDestroy();
-            mainWndData.hWndDebug = NULL;
-        }
-        else
-        {
-            nop();
-        }
+        DestroyWindow( mainWndData.hWndDebug );
         break;
 
     case (SOME_CTRL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
@@ -681,7 +667,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-        iReturn = MessageBox( hwnd,TEXT("Are you sure?"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+        iReturn = MessageBox( hwnd,TEXT("Are you sure?"),mainWndData.szAppName,MB_YESNO|MB_ICONEXCLAMATION );
         if( (iReturn == IDYES) )
         {
             Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
@@ -771,7 +757,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_ALL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-        iReturn = MessageBox( hwnd,TEXT("Are you sure?"),GetAppName(),MB_YESNO|MB_ICONEXCLAMATION );
+        iReturn = MessageBox( hwnd,TEXT("Are you sure?"),mainWndData.szAppName,MB_YESNO|MB_ICONEXCLAMATION );
         if( (iReturn == IDYES) )
         {
             Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
@@ -865,7 +851,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case IDM_HELP_ABOUT:
-        ModalDlg( MODAL_DLG_ID_ABOUT, &modalDlgData, hwnd, mainWndData.xPos, mainWndData.yPos );
+        ModalDlg( MODAL_DLG_ID_ABOUT, &modalDlgParam, hwnd, mainWndData.xPos, mainWndData.yPos );
         break;
 
     default:
@@ -1180,7 +1166,7 @@ okMessage( HWND hwnd, TCHAR *szMessageFormat, ... )
         szBuffer[0] = '\0';
     }
 
-    return MessageBox( hwnd, szBuffer, GetAppName(), MB_OK | MB_ICONINFORMATION );
+    return MessageBox( hwnd, szBuffer, mainWndData.szAppName, MB_OK | MB_ICONINFORMATION );
 }
 
 /********************************************************************************
@@ -1197,11 +1183,11 @@ doCaption( HWND hwnd, TCHAR* szTitleName, BOOL bNeedSave )
 
      if( bNeedSave )
      {
-         wsprintf( szCaption, TEXT ("*%s - %s"), (szTitleName[0] ? szTitleName : TEXT("無題")),GetAppName() );
+         wsprintf( szCaption, TEXT ("*%s - %s"), (szTitleName[0] ? szTitleName : TEXT("無題")),mainWndData.szAppName );
      }
      else
      {
-         wsprintf( szCaption, TEXT ("%s - %s"), (szTitleName[0] ? szTitleName : TEXT("無題")),GetAppName() );
+         wsprintf( szCaption, TEXT ("%s - %s"), (szTitleName[0] ? szTitleName : TEXT("無題")),mainWndData.szAppName );
      }
 
      SetWindowText( hwnd, szCaption );
@@ -1221,7 +1207,7 @@ AskAboutSave( HWND hwnd, TCHAR * szTitleName )
 
     wsprintf(szBuffer, TEXT("ファイル %s の内容は変更されています。\n\n変更を保存しますか?"), szTitleName[0] ? szTitleName : TEXT("無題") );
 
-    iReturn = MessageBox( hwnd,szBuffer,GetAppName(),MB_YESNOCANCEL|MB_ICONEXCLAMATION );
+    iReturn = MessageBox( hwnd,szBuffer,mainWndData.szAppName,MB_YESNOCANCEL|MB_ICONEXCLAMATION );
 
     if( iReturn == IDYES )
     {

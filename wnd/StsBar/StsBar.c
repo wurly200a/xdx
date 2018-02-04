@@ -3,7 +3,6 @@
 /* 個別インクルードファイル */
 
 /* 外部関数定義 */
-#include "WinMain.h"
 
 /* 外部変数定義 */
 
@@ -17,18 +16,20 @@ static BOOL fSbarEnable;
 
 /********************************************************************************
  * 内容  : ステータスバー生成
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : HWND hwnd 親ウィンドウのハンドラ
  * 引数  : BOOL fShow デフォルト表示するか否か
  * 戻り値: HWND
  ***************************************/
 HWND
-StsBarCreate( HWND hwnd, BOOL fShow )
+StsBarCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd, BOOL fShow )
 {
     hwndSbar = CreateWindowEx(0,
                               STATUSCLASSNAME, NULL,
                               WS_CHILD | SBS_SIZEGRIP | WS_CLIPSIBLINGS | SBT_NOBORDERS,
                               0, 0, 0, 0,
-                              hwnd, (HMENU)1500, GetHinst(), NULL);
+                              hwnd, (HMENU)1500, hInst, NULL);
     if( hwndSbar != NULL )
     {
         if( fShow )

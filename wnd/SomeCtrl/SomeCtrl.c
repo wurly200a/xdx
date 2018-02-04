@@ -3,7 +3,6 @@
 /* 個別インクルードファイル */
 
 /* 外部関数定義 */
-#include "WinMain.h"
 
 /* 外部変数定義 */
 
@@ -76,11 +75,13 @@ static S_SOME_CTRL_INFO ctrlInfo[SOME_CTRL_MAX];
 
 /********************************************************************************
  * 内容  : 登録された全てのコントロールを生成する
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : HWND hwnd 親ウィンドウのハンドラ
  * 戻り値: BOOL
  ***************************************/
 BOOL
-SomeCtrlCreate( HWND hwnd )
+SomeCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 {
     int i,j,iCbNum;
     TCHAR szBuff[128];
@@ -98,7 +99,7 @@ SomeCtrlCreate( HWND hwnd )
                                        tblPtr->width,                    /* 幅                 */
                                        tblPtr->height,                   /* 高さ               */
                                        hwnd,(HMENU)(SOME_CTRL_ID_OFFSET+i),     /* 親ウィンドウ,子ウィンドウID */
-                                       GetHinst(),NULL );                       /* インスタンスハンドル,補助引数 */
+                                       hInst,NULL );                       /* インスタンスハンドル,補助引数 */
         if( infoPtr->hwnd != NULL )
         {
             SendMessage(infoPtr->hwnd, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));

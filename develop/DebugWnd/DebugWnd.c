@@ -6,8 +6,6 @@
 #include "DebugWndMenu.h"
 
 /* 外部関数定義 */
-#include "WinMain.h"
-#include "EditWnd.h"
 #include "DebugWndFont.h"
 #include "DebugWndConfig.h"
 
@@ -77,14 +75,15 @@ static TCHAR szModuleName[] = TEXT("Debug"); /* アプリケーションの名称 */
 
 /********************************************************************************
  * 内容  : デバッグウィンドウクラスの登録、ウィンドウの生成
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : int nCmdShow
  * 戻り値: HWND
  ***************************************/
 HWND
-DebugWndCreate( int nCmdShow )
+DebugWndCreate( HINSTANCE hInst, PTSTR szAppName, int nCmdShow )
 {
     WNDCLASS wc = {0};
-    HINSTANCE hInst = GetHinst();
     PTSTR pAppName = getModuleString();
     HMENU hMenu = NULL;
 
@@ -108,6 +107,10 @@ DebugWndCreate( int nCmdShow )
     }
     else
     {
+        memset( &debugWndData, 0, sizeof(debugWndData) );
+        debugWndData.hInstance = hInst;    
+        debugWndData.szAppName = szAppName;
+
         DebugConfigInit();
         DebugFontInit();
 
@@ -135,24 +138,6 @@ DebugWndCreate( int nCmdShow )
     }
 
     return hDebugWnd;
-}
-
-/********************************************************************************
- * 内容  : デバッグウィンドウの終了
- * 引数  : なし
- * 戻り値: なし
- ***************************************/
-void
-DebugWndDestroy( void )
-{
-    if( hDebugWnd != NULL )
-    {
-        DestroyWindow( hDebugWnd );
-    }
-    else
-    {
-        nop();
-    }
 }
 
 /********************************************************************************
@@ -383,8 +368,6 @@ debugOnCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     TEXTMETRIC tm;
     HFONT hFont,hOldFont;
 
-    memset( &debugWndData, 0, sizeof(debugWndData) );
-
     hdc = GetDC( hwnd );
     hFont = GetStockObject(DEFAULT_GUI_FONT);
     hOldFont = SelectObject(hdc, hFont);
@@ -403,7 +386,7 @@ debugOnCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
                                          WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL |
                                          ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_READONLY,
                                          0, 0, 0, 0,
-                                         hwnd, (HMENU)0, GetHinst(), NULL) ;
+                                         hwnd, (HMENU)0, debugWndData.hInstance, NULL) ;
     debugWndData.hFontIo = NULL;
 
     debugDoCaption( hwnd, "applicationName" );
@@ -517,11 +500,8 @@ debugOnDestroy( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     DebugConfigSaveDword( DEBUG_CONFIG_ID_WINDOW_POS_DY, debugWndData.cyWindow   );
 
     DestroyWindow( debugWndData.hWndEdit );
-    debugWndData.hWndEdit = NULL;
 
     memset( &debugWndData, 0, sizeof(debugWndData) );
-
-    hDebugWnd = NULL;
 
     return 0;
 }

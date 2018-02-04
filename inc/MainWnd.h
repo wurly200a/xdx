@@ -2,12 +2,14 @@
 
 /********************************************************************************
  * 内容  : メインウィンドウクラスの登録、ウィンドウの生成
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : LPSTR szCmdLine
  * 引数  : int nCmdShow
  * 引数  : HACCEL *hAccelPtr
  * 戻り値: HWND
  ***************************************/
-HWND MainWndCreate( LPSTR szCmdLine, int nCmdShow, HACCEL *hAccelPtr );
+HWND MainWndCreate( HINSTANCE hInst, PTSTR szAppName, LPSTR szCmdLine, int nCmdShow, HACCEL *hAccelPtr );
 
 /********************************************************************************
  * 内容  : メインウィンドウ内で処理するメッセージを判定する

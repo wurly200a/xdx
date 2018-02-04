@@ -1,7 +1,7 @@
 #ifndef DX100_CTRL_H
 #define DX100_CTRL_H
 
-BOOL Dx100CtrlInit( HWND hwnd );
+BOOL Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd );
 
 enum
 {

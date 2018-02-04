@@ -56,10 +56,12 @@ typedef enum
 
 /********************************************************************************
  * 内容  : 登録された全てのコントロールを生成する
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : HWND hwnd 親ウィンドウのハンドラ
  * 戻り値: BOOL
  ***************************************/
-BOOL SomeCtrlCreate( HWND hwnd );
+BOOL SomeCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd );
 
 /********************************************************************************
  * 内容  : 指定のグループのコントロールを表示する

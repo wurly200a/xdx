@@ -30,6 +30,7 @@ OBJECTS = \
           ..\\wnd\\MainWnd\\MainWndMenu.o         \
           ..\\wnd\\MainWnd\\MainWndScroll.o       \
           ..\\wnd\\ModalDlg\\ModalDialog.o        \
+          ../wnd/ModalDlg/ModalDialogResource.o	  \
           ..\\wnd\\ParamCtrl\\ParamCtrl.o         \
           ..\\wnd\\SomeCtrl\\SomeCtrl.o           \
           ..\\wnd\\StsBar\\StsBar.o               \

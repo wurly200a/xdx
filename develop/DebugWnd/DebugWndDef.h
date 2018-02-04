@@ -27,6 +27,8 @@ typedef enum
 
 typedef struct
 {
+    HINSTANCE hInstance;
+    PTSTR     szAppName;
     BOOL execute;
     BOOL bAppExit;
     int  xWindowPos;

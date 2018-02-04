@@ -9,11 +9,13 @@ typedef enum
 
 /********************************************************************************
  * 内容  : ステータスバー生成
+ * 引数  : HINSTANCE hInst
+ * 引数  : PTSTR szAppName
  * 引数  : HWND hwnd 親ウィンドウのハンドラ
  * 引数  : BOOL fShow デフォルト表示するか否か
  * 戻り値: HWND
  ***************************************/
-HWND StsBarCreate( HWND hwnd, BOOL fShow );
+HWND StsBarCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd, BOOL fShow );
 
 /********************************************************************************
  * 内容  : ステータスバーのサイズ調整
