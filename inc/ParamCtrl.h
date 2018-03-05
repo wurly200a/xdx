@@ -132,6 +132,14 @@ typedef enum
     PARAM_CTRL_ALL_VOICE_NAME_21               ,
     PARAM_CTRL_ALL_VOICE_NAME_22               ,
     PARAM_CTRL_ALL_VOICE_NAME_23               ,
+    PARAM_CTRL_ALL_VOICE_NAME_24               ,
+    PARAM_CTRL_ALL_VOICE_NAME_25               ,
+    PARAM_CTRL_ALL_VOICE_NAME_26               ,
+    PARAM_CTRL_ALL_VOICE_NAME_27               ,
+    PARAM_CTRL_ALL_VOICE_NAME_28               ,
+    PARAM_CTRL_ALL_VOICE_NAME_29               ,
+    PARAM_CTRL_ALL_VOICE_NAME_30               ,
+    PARAM_CTRL_ALL_VOICE_NAME_31               ,
 
     PARAM_CTRL_MAX
 }PARAM_CTRL_ID;

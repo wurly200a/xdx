@@ -455,7 +455,7 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
 
         }
     case DX100_CTRL_SEQ_ALL_VOICE:
-        for( i=0; i<24; i++ )
+        for( i=0; i<32; i++ )
         {
             INT j;
             memset(&patchName[0],0,10+1);

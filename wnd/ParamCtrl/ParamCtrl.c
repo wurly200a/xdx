@@ -181,6 +181,14 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_EDIT ,TEXT("VOICE_NAME_22"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
     {PCT_EDIT ,TEXT("VOICE_NAME_23"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
     {PCT_EDIT ,TEXT("VOICE_NAME_24"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_25"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_26"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_27"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_28"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_29"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_30"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_31"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_32"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
 };
 
 typedef struct
@@ -218,7 +226,7 @@ ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_SYSTEM_COMMON,PARAM_CTRL_SYSCMN_SOUNDMODE  ,PARAM_CTRL_SYSCMN_SOUNDMODE  );
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_1VOICE       ,PARAM_CTRL_VOICE_00          ,PARAM_CTRL_VOICE_92          );
-    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_NAME_23 );
+    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_NAME_31 );
 
     return TRUE;
 }
@@ -272,7 +280,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
                 class = (PTSTR)TEXT("edit");
                 style = (WS_CHILD|ES_LEFT);
 
-                if( PARAM_CTRL_ALL_VOICE_NAME_00 <= nowId && nowId <= PARAM_CTRL_ALL_VOICE_NAME_23)
+                if( PARAM_CTRL_ALL_VOICE_NAME_00 <= nowId && nowId <= PARAM_CTRL_ALL_VOICE_NAME_31)
                 {
                     style |= ES_READONLY;
                 }
