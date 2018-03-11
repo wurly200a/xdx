@@ -71,7 +71,7 @@ typedef struct
 } S_PARAM_CTRL;
 
 S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
-{/*  type     ,strText                                               ,bEnable,minValue,maxValue,ptstrDataDisp,xBasePosOffsetOnData,yPosAdd,bWrapTrig */
+{/*  type     ,strText                                               ,bEnable,minValue,maxValue,ptstrDataDisp,xBasePosOffsetOnData,yPosAdd,bWrapTrig,widthAddOnData */
     {PCT_COMBO,TEXT("SOUNDMODE"                                     ),TRUE   ,0,  2, NULL                ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("00 OP4 ATTACK RATE"                            ),TRUE   ,0, 31, NULL                ,  0, 0,FALSE,  0},
     {PCT_COMBO,TEXT("01 OP4 DECAY 1 RATE"                           ),TRUE   ,0, 31, NULL                ,  0, 0,FALSE,  0},
@@ -157,38 +157,70 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("90 PITCH EG LEVEL 1"                           ),FALSE  ,0,127, NULL                , 90, 0,FALSE,  0},
     {PCT_COMBO,TEXT("91 PITCH EG LEVEL 2"                           ),FALSE  ,0,127, NULL                , 90, 0,FALSE,  0},
     {PCT_COMBO,TEXT("92 PITCH EG LEVEL 3"                           ),FALSE  ,0,127, NULL                , 90, 0,FALSE,  0},
-    {PCT_EDIT ,TEXT("VOICE_NAME_01"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_02"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_03"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_04"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_05"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_06"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_07"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_08"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_09"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_10"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_11"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_12"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_13"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_14"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_15"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_16"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_17"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_18"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_19"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_20"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_21"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_22"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_23"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_24"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_25"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_26"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_27"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_28"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_29"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_30"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_31"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
-    {PCT_EDIT ,TEXT("VOICE_NAME_32"                                 ),TRUE   ,0,127, NULL                ,  0, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_01"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_02"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_03"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_04"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_05"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_06"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_07"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_08"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_09"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_10"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_11"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_12"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_13"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_14"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_15"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_16"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_17"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_18"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_19"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_20"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_21"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_22"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_23"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_24"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_25"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_26"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_27"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_28"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_29"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_30"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_31"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_NAME_32"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE, 50},
+    {PCT_EDIT ,TEXT("VOICE_BULK_01"                                 ),TRUE   ,0,127, NULL                ,-50, 0,TRUE ,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_02"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_03"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_04"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_05"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_06"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_07"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_08"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_09"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_10"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_11"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_12"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_13"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_14"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_15"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_16"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_17"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_18"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_19"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_20"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_21"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_22"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_23"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_24"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_25"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_26"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_27"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_28"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_29"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_30"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_31"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
+    {PCT_EDIT ,TEXT("VOICE_BULK_32"                                 ),TRUE   ,0,127, NULL                ,-50, 0,FALSE,250},
 };
 
 typedef struct
@@ -226,7 +258,7 @@ ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_SYSTEM_COMMON,PARAM_CTRL_SYSCMN_SOUNDMODE  ,PARAM_CTRL_SYSCMN_SOUNDMODE  );
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_1VOICE       ,PARAM_CTRL_VOICE_00          ,PARAM_CTRL_VOICE_92          );
-    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_NAME_31 );
+    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_BULK_31 );
 
     return TRUE;
 }
@@ -278,9 +310,9 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             else
             {
                 class = (PTSTR)TEXT("edit");
-                style = (WS_CHILD|ES_LEFT);
+                style = (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL);
 
-                if( PARAM_CTRL_ALL_VOICE_NAME_00 <= nowId && nowId <= PARAM_CTRL_ALL_VOICE_NAME_31)
+                if( PARAM_CTRL_ALL_VOICE_NAME_00 <= nowId && nowId <= PARAM_CTRL_ALL_VOICE_BULK_31)
                 {
                     style |= ES_READONLY;
                 }
