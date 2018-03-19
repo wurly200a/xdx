@@ -342,7 +342,7 @@ MidiCycleProc( void )
     DWORD i;
 
     if( midiInfo.bMidiInReq )
-    {
+    { /* 受信中 */
         if( midiInExHeader.dwFlags & MHDR_DONE )
         {
             receiveEndMidiExData();
@@ -358,7 +358,7 @@ MidiCycleProc( void )
     }
 
     if( midiInfo.bMidiOutReq )
-    {
+    { /* 送信中 */
         if( midiOutExHeader.dwFlags & MHDR_DONE )
         {
             MIDI_DRV_DEBUG_PRINTF("midiOutExHeader.dwFlags & MHDR_DONE\r\n");
@@ -446,6 +446,12 @@ MidiInProc( HMIDIIN hMidiIn, UINT wMsg, DWORD dwInstance, DWORD dwParam1, DWORD 
     MIDI_DRV_DEBUG_PRINTF("MidiInProc\r\n");
 }
 
+/*********************************************
+ * 内容   : エクスクルーシヴデータの受信開始
+ * 引数   : BYTE *dataPtr
+ * 引数   : INT *dataSizePtr
+ * 戻り値 : void
+ **********************************************/
 static void
 receiveStartMidiExData( BYTE *dataPtr, INT *dataSizePtr )
 {
@@ -472,6 +478,11 @@ receiveStartMidiExData( BYTE *dataPtr, INT *dataSizePtr )
     }
 }
 
+/*********************************************
+ * 内容   : エクスクルーシヴデータの受信終了
+ * 引数   : void
+ * 戻り値 : void
+ **********************************************/
 static void
 receiveEndMidiExData( void )
 {
@@ -497,6 +508,12 @@ receiveEndMidiExData( void )
     }
 }
 
+/*********************************************
+ * 内容   : エクスクルーシヴデータの送信開始
+ * 引数   : BYTE *dataPtr
+ * 引数   : INT dataSize
+ * 戻り値 : void
+ **********************************************/
 static void
 transmitStartMidiExData( BYTE *dataPtr, INT dataSize )
 {
@@ -523,6 +540,11 @@ transmitStartMidiExData( BYTE *dataPtr, INT dataSize )
     }
 }
 
+/*********************************************
+ * 内容   : エクスクルーシヴデータの送信終了
+ * 引数   : void
+ * 戻り値 : void
+ **********************************************/
 static void
 transmitEndMidiExData( void )
 {

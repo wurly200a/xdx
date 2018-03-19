@@ -180,7 +180,7 @@ Dx100CtrlCycleProc( void )
             if( dx100CtrlInfo.nowMethod == DX100_CTRL_SEQ_METHOD_SET )
             {
                 if( dx100CtrlInfo.nowExecSeqId < dx100CtrlInfo.reqSeqIdEnd )
-                {
+                { /* 次のシーケンスがある */
                     seqStart(dx100CtrlInfo.nowMethod,dx100CtrlInfo.nowExecSeqId+1);
                 }
                 else
@@ -191,7 +191,7 @@ Dx100CtrlCycleProc( void )
                 }
             }
             else
-            {
+            { /* GETの時 */
                 nop();
             }
         }
@@ -208,12 +208,12 @@ Dx100CtrlCycleProc( void )
                 seqEndProc(dx100CtrlInfo.nowExecSeqId,dx100CtrlSeqTempRxSize,dx100CtrlSeqRxTempData);
             }
             else
-            {
+            { /* SETの時 */
                 DebugWndPrintf("RX_NOT_EXEC\r\n");
             }
 
             if( dx100CtrlInfo.nowExecSeqId < dx100CtrlInfo.reqSeqIdEnd )
-            {
+            { /* 次のシーケンスがある */
                 seqStart(dx100CtrlInfo.nowMethod,dx100CtrlInfo.nowExecSeqId+1);
             }
             else

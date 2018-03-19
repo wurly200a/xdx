@@ -1,0 +1,260 @@
+@startuml
+
+class WinMain {
+}
+
+' sys/
+package sys {
+    class Config {
+        ConfigInit()
+        ConfigSaveDword()
+        ConfigLoadDword()
+    }
+    class DateTime {
+        DateTimeGetString()
+    }
+    class File {
+        FileInitialize()
+        FileEnd()
+        FileOpenDlg()
+        FileGetName()
+        FileGetTitleName()
+        FileGetDir()
+        FileSetName()
+        FileReadByte()
+        FileGetLength()
+        FileWrite()
+        FileSaveDlg()
+    }
+    class Font {
+        FontInit()
+        FontChooseFont()
+        FontGetLogFont()
+    }
+    class LinkedList {
+        AddLinkedList()
+        ReplaceLinkedList()
+        RemoveLinkedList()
+        InsertLinkedList()
+    }
+    class Version {
+        VersionStringGet()
+    }
+    class Midi {
+        MidiInit()
+        MidiOutOpen()
+        MidiOutClose()
+        MidiInOpen()
+        MidiInClose()
+        MidiInExclusiveData()
+        MidiOutExclusiveData()
+        MidiNoteOn()
+        MidiNoteOff()
+        MidiCycleProc()
+        MidiInqInExec()
+        MidiInqOutExec()
+        MidiRcvByte()
+        MidiSndByte()
+    }
+}
+
+' wnd/
+package wnd {
+    package MainWnd {
+        class MainWnd {
+            MainWndCreate()
+            IsMainWndMessage()
+            WM_CREATE()
+            WM_SIZE()
+            WM_MOVE()
+            WM_WINDOWPOSCHANGED()
+            WM_CLOSE()
+            WM_DESTROY()
+            WM_COMMAND()
+            WM_MOUSEWHEEL()
+            WM_SETFOCUS()
+            WM_KILLFOCUS()
+            WM_DROPFILES()
+            WM_INITMENUPOPUP()
+            FINDMSGSTRINGÇÃìoò^ÉÅÉbÉZÅ[ÉW()
+            WM_APP()
+        }
+
+        class MainWndMenu {
+            MenuCreate()
+            AccelCreate()
+            MenuInqItemChecked()
+            MenuCheckItem()
+            MenuUnCheckItem()
+            MenuEnableItem()
+            MenuUnEnableItem()
+        }
+
+        MainWnd -- MainWndMenu
+    }
+
+    package EditWnd {
+        class "EditWnd" as EditWnd {
+            EditWndRegisterClass()
+            EditWndDataInit()
+            EditWndDataSet()
+            EditWndDataGet()
+            EditWndGetDataSize()
+            EditWndGetColumnMaxSize()
+            EditWndGetCaretXpos()
+            EditWndNewLineCodeSet()
+            EditWndFindDataSet()
+            WM_CREATE()
+            WM_PAINT()
+            WM_SIZE()
+            WM_CLOSE()
+            WM_DESTROY()
+            WM_COMMAND()
+            WM_KEYUP()
+            WM_KEYDOWN()
+            WM_CHAR()
+            WM_HSCROLL()
+            WM_VSCROLL()
+            WM_SETFOCUS()
+            WM_KILLFOCUS()
+            WM_MOUSEACTIVATE()
+            WM_MOUSEWHEEL()
+            WM_MOUSEMOVE()
+            WM_LBUTTONDOWN()
+            WM_MBUTTONDOWN()
+            WM_RBUTTONDOWN()
+            WM_LBUTTONUP()
+            WM_MBUTTONUP()
+            WM_RBUTTONUP()
+            WM_IME_STARTCOMPOSITION()
+            WM_CUT()
+            WM_COPY()
+            WM_PASTE()
+            WM_CLEAR()
+            WM_UNDO()
+            EM_SETSEL()
+            WM_SETFONT()
+            EM_GETLINECOUNT()
+            EM_LINEFROMCHAR()
+        }
+
+        class "EditWndBuffer" as EditWndBuffer {
+            NewLineType
+            xCaret
+            yCaret
+            tabSize
+            EditWndBuffCreate()
+            EditWndBuffDestroy()
+            EditWndBuffInit()
+            EditWndBuffEnd()
+            EditWndBuffDataSet()
+            EditWndBuffDataGet()
+            EditWndBuffGetDataSize()
+            EditWndBuffGetLineMaxSize()
+            EditWndBuffGetColumnMaxSize()
+            EditWndBuffGetCaretXpos()
+            EditWndBuffGetCaretYpos()
+            EditWndBuffSetCaretPos()
+            EditWndBuffIncCaretXpos()
+            EditWndBuffDecCaretXpos()
+            EditWndBuffIncCaretYpos()
+            EditWndBuffDecCaretYpos()
+            EditWndBuffGetLinePtr()
+            EditWndBuffGetLineNextPtr()
+            EditWndBuffGetDispData()
+            EditWndBuffSetNewLineCode()
+            EditWndBuffRemoveData()
+            EditWndBuffGetNewLineData()
+            EditWndBuffSetTabSize()
+            EditWndBuffSelectOn()
+            EditWndBuffSelectOff()
+            EditWndBuffSelectAll()
+            EditWndBuffFindDataSet()
+            EditWndBuffUndo()
+        }
+        class EditWndBufferData {
+            EditWndBufferAddLinkedList()
+            EditWndBufferRemoveLinkedList()
+            EditWndBufferInsertLinkedList()
+            EditWndBufferReplaceLinkedList()
+            EditWndBufferAllRemoveLinkedList()
+            BuffLineDataCreate()
+            BuffLineDataDestroy()
+            BuffLineDataJoin()
+            BuffLineDataDivide()
+            BuffLineDataShorten()
+            BuffLineDataUpdateLineNumAfter()
+        }
+
+        EditWnd - EditWndBuffer
+        EditWndBuffer - EditWndBufferData
+    }
+
+    class ModalDlg {
+        ModalDlgInit()
+        ModalDlg()
+    }
+
+    class SomeCtrl {
+        SomeCtrlCreate()
+        SomeCtrlSize()
+        SomeCtrlGetHWND()
+        SomeCtrlEnable()
+        SomeCtrlDisable()
+        SomeCtrlGetText()
+    }
+
+    class ParamCtrl {
+        ParamCtrlCreate()
+        ParamCtrlGroupDisplay()
+        ParamCtrlGetHWND()
+        ParamCtrlGetText()
+        ParamCtrlSetSize()
+    }
+
+    class StsBar {
+        StsBarCreate()
+        StsBarSize()
+        StsBarSetText()
+        StsBarShowWindow()
+    }
+}
+
+' ctrl/
+package ctrl {
+    class dx100Ctrl {
+    Dx100CtrlInit()
+    Dx100CtrlModeSet()
+    Dx100CtrlDisplayUpdate()
+    Dx100CtrlSeqStart()
+    Dx100CtrlDisplayContents()
+    Dx100CtrlCycleProc()
+    Dx100GetDataSize()
+    Dx100DataGet()
+    Dx100DataSet()
+    }
+}
+
+
+WinMain -- MainWnd
+
+MainWnd -- EditWnd
+MainWnd -- ModalDlg
+MainWnd -- StsBar
+MainWnd -- SomeCtrl
+MainWnd -- dx100Ctrl
+
+MainWnd ----- Config
+MainWnd ----- DateTime
+MainWnd ----- File
+MainWnd ----- Font
+MainWnd --- Midi
+
+dx100Ctrl --- ParamCtrl
+dx100Ctrl --- Midi
+
+EditWndBufferData -- LinkedList
+
+ModalDlg -- Version
+
+@enduml
