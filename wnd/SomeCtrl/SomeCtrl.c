@@ -50,11 +50,12 @@ static S_SOME_CTRL ctrlListTbl[SOME_CTRL_MAX] =
     {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("SAVE")       ,100, 75,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("GET")        ,180, 75,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("SET")        ,260, 75,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+#if 0
     {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("OP4")        ,  5,135, 300 ,280 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
     {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("OP2")        ,  5,415, 300 ,280 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
     {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("OP3")        ,315,135, 300 ,280 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
     {SOME_CTRL_GROUP_1VOICE   , TEXT("button")   , TEXT("OP1")        ,315,415, 300 ,280 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
-
+#endif
     {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("ACTION")     , 10, 60, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
     {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("LOAD")       , 20, 75,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("SAVE")       ,100, 75,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
