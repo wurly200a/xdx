@@ -34,35 +34,51 @@ char *strTblDetune[7] = {"-3","-2","-1","0","+1","+2","+3"};
 char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1.57","1.73","2.00","2.82","3.00","3.14","3.46","4.00","4.24","4.71","5.00","5.19","5.65","6.00","6.28","6.92","7.00","7.07","7.85","8.00","8.48","8.65","9.00","9.42","9.89","10.00","10.38","10.99","11.00","11.30","12.00","12.11","12.56","12.72","13.00","13.84","14.00","14.10","14.13","15.00","15.55","15.57","15.70","16.96","17.27","17.30","18.37","18.84","19.03","19.78","20.41","20.76","21.20","21.98","22.49","23.55","24.22","25.95"};
 
 /* X方向 */
-#define PARAM_STATIC_X_BASE_POS  20
-#define PARAM_DATA_X_BASE_POS    20
+#define PARAM_STATIC_X_BASE_POS   5
+#define PARAM_DATA_X_BASE_POS     5
 #define PARAM_DATA_WIDTH         50
 #define PARAM_WRAP_X_UNIT        70
 
 /* Y方向 */
 #define PARAM_STATIC_Y_BASE_POS 120
 #define PARAM_DATA_Y_BASE_POS   120
-#ifdef DEBUG_DISP_STATIC_STRING
-#define PARAM_STATIC_Y_UNIT      20
-#define PARAM_DATA_Y_UNIT        20
-#else
 #define PARAM_STATIC_Y_UNIT      10
 #define PARAM_DATA_Y_UNIT        10
-#endif
 
 #define PARAM_STATIC_HEIGHT      15
 #define PARAM_DATA_HEIGHT       300
 
 #define ROW_POS_EDIT0 0
-#define ROW_POS_EDIT1 1
-#define ROW_POS_EDIT2 2
-#define ROW_POS_EDIT3 3
-#define ROW_POS_EDIT4 4
-#define ROW_POS_EDIT5 5
-#define ROW_POS_EDIT6 6
-#define ROW_POS_EDIT7 7
-#define ROW_POS_EDIT8 8
-#define ROW_POS_EDIT9 9
+
+#define ROW_POS_EDIT1 2
+#define ROW_POS_EDIT2 3
+#define ROW_POS_EDIT3 4
+#define ROW_POS_EDIT4 5
+
+#define ROW_POS_EDIT5 7
+#define ROW_POS_EDIT6 8
+#define ROW_POS_EDIT7 9
+#define ROW_POS_EDIT8 10
+
+#define ROW_POS_EDIT9 12
+
+#define COLPOS00  0
+#define COLPOS01  1
+#define COLPOS02  2
+#define COLPOS03  3
+#define COLPOS04  4
+#define COLPOS05  5
+#define COLPOS06  6
+#define COLPOS07  7
+#define COLPOS08  8
+#define COLPOS09  9
+#define COLPOS10 10
+#define COLPOS11 11
+#define COLPOS12 12
+#define COLPOS13 13
+#define COLPOS14 14
+#define COLPOS15 15
+#define COLPOS16 16
 
 enum
 {
@@ -88,91 +104,91 @@ typedef struct
 
 S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
 {/*  type     ,strText                  ,strFullText                                           ,bEnable,minValue,maxValue,ptstrDataDisp   ,addWidth,rowPos        ,colPos */
-    {PCT_COMBO,TEXT("SOUNDMODE"        ),TEXT("SOUNDMODE"                                     ),TRUE   ,0       ,  2     , NULL                ,  0, ROW_POS_EDIT1, 0},
-    {PCT_COMBO,TEXT("AR"               ),TEXT("00 OP4 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8, 2},
-    {PCT_COMBO,TEXT("D1R"              ),TEXT("01 OP4 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8, 3},
-    {PCT_COMBO,TEXT("D2R"              ),TEXT("02 OP4 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8, 5},
-    {PCT_COMBO,TEXT("RR"               ),TEXT("03 OP4 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8, 6},
-    {PCT_COMBO,TEXT("D1L"              ),TEXT("04 OP4 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8, 4},
-    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("05 OP4 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8, 9},
-    {PCT_COMBO,TEXT("RATE"             ),TEXT("06 OP4 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT8, 8},
-    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("07 OP4 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4,11},
-    {PCT_COMBO,TEXT("AME"              ),TEXT("08 OP4 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT4,10},
-    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("09 OP4 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4,12},
-    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("10 OP4 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8, 7},
-    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("11 OP4 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT8, 0},
-    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("12 OP4 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT8, 1},
-    {PCT_COMBO,TEXT("AR"               ),TEXT("13 OP2 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6, 2},
-    {PCT_COMBO,TEXT("D1R"              ),TEXT("14 OP2 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6, 3},
-    {PCT_COMBO,TEXT("D2R"              ),TEXT("15 OP2 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6, 5},
-    {PCT_COMBO,TEXT("RR"               ),TEXT("16 OP2 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6, 6},
-    {PCT_COMBO,TEXT("D1L"              ),TEXT("17 OP2 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6, 4},
-    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("18 OP2 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6, 9},
-    {PCT_COMBO,TEXT("RATE"             ),TEXT("19 OP2 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT6, 8},
-    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("20 OP2 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2,11},
-    {PCT_COMBO,TEXT("AME"              ),TEXT("21 OP2 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT2,10},
-    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("22 OP2 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2,12},
-    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("23 OP2 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6, 7},
-    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("24 OP2 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT6, 0},
-    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("25 OP2 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT6, 1},
-    {PCT_COMBO,TEXT("AR"               ),TEXT("26 OP3 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7, 2},
-    {PCT_COMBO,TEXT("D1R"              ),TEXT("27 OP3 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7, 3},
-    {PCT_COMBO,TEXT("D2R"              ),TEXT("28 OP3 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7, 5},
-    {PCT_COMBO,TEXT("RR"               ),TEXT("29 OP3 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7, 6},
-    {PCT_COMBO,TEXT("D1L"              ),TEXT("30 OP3 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7, 4},
-    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("31 OP3 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7, 9},
-    {PCT_COMBO,TEXT("RATE"             ),TEXT("32 OP3 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT7, 8},
-    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("33 OP3 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3,11},
-    {PCT_COMBO,TEXT("AME"              ),TEXT("34 OP3 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT3,10},
-    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("35 OP3 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3,12},
-    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("36 OP3 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7, 7},
-    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("37 OP3 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT7, 0},
-    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("38 OP3 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT7, 1},
-    {PCT_COMBO,TEXT("AR"               ),TEXT("39 OP1 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5, 2},
-    {PCT_COMBO,TEXT("D1R"              ),TEXT("40 OP1 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5, 3},
-    {PCT_COMBO,TEXT("D2R"              ),TEXT("41 OP1 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5, 5},
-    {PCT_COMBO,TEXT("RR"               ),TEXT("42 OP1 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5, 6},
-    {PCT_COMBO,TEXT("D1L"              ),TEXT("43 OP1 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5, 4},
-    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("44 OP1 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5, 9},
-    {PCT_COMBO,TEXT("RATE"             ),TEXT("45 OP1 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT5, 8},
-    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("46 OP1 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1,11},
-    {PCT_COMBO,TEXT("AME"              ),TEXT("47 OP1 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT1,10},
-    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("48 OP1 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1,12},
-    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("49 OP1 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5, 7},
-    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("50 OP1 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT5, 0},
-    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("51 OP1 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT5, 1},
-    {PCT_COMBO,TEXT("ALGORITHM"        ),TEXT("52 ALGORITHM"                                  ),TRUE   ,0       ,  7     , strTblAlgorithm     ,  0, ROW_POS_EDIT1, 0},
-    {PCT_COMBO,TEXT("FEEDBACK"         ),TEXT("53 FEEDBACK LEVEL"                             ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1, 1},
-    {PCT_COMBO,TEXT("SPEED"            ),TEXT("54 LFO SPEED"                                  ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1, 3},
-    {PCT_COMBO,TEXT("DELAY"            ),TEXT("55 LFO DELAY"                                  ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1, 4},
-    {PCT_COMBO,TEXT("PMD"              ),TEXT("56 PITCH MODULATION DEPTH"                     ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1, 5},
-    {PCT_COMBO,TEXT("AMD"              ),TEXT("57 AMPLITUDE MODULATION DEPTH"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1, 6},
-    {PCT_COMBO,TEXT("LFO SYNC"         ),TEXT("58 LFO SYNC"                                   ),TRUE   ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT1, 7},
-    {PCT_COMBO,TEXT("LFO WAVE"         ),TEXT("59 LFO WAVE"                                   ),TRUE   ,0       ,  3     , strTblLfoWave       ,  0, ROW_POS_EDIT1, 2},
-    {PCT_COMBO,TEXT("PITCH"            ),TEXT("60 PITCH MODULATION SENSITIVITY"               ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1, 8},
-    {PCT_COMBO,TEXT("AMPLITUDE"        ),TEXT("61 AMPLITUDE MODULATION SENSITIVITY"           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1, 9},
-    {PCT_COMBO,TEXT("TRANSPOSE"        ),TEXT("62 TRANSPOSE"                                  ),TRUE   ,0       , 48     , strTblTranspose     , 20, ROW_POS_EDIT9,14},
-    {PCT_COMBO,TEXT("POLY/MONO"        ),TEXT("63 PLAY MODE POLY/MONO"                        ),TRUE   ,0       ,  1     , strTblPolyMono      ,  0, ROW_POS_EDIT9, 0},
-    {PCT_COMBO,TEXT("PB RANGE"         ),TEXT("64 PITCH BEND RANGE"                           ),TRUE   ,0       , 12     , NULL                ,  0, ROW_POS_EDIT9, 1},
-    {PCT_COMBO,TEXT("PORTA MODE"       ),TEXT("65 PORTAMENTO MODE"                            ),TRUE   ,0       ,  1     , strTblPortamentoMode,  0, ROW_POS_EDIT9, 2},
-    {PCT_COMBO,TEXT("PORTA TIME"       ),TEXT("66 PORTAMENTO TIME"                            ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9, 3},
-    {PCT_COMBO,TEXT("FOOT VOLUME RANGE"),TEXT("67 FOOT VOLUME RANGE"                          ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT9, 5},
-    {PCT_COMBO,TEXT("SUSTAIN FOOT SW"  ),TEXT("68 SUSTAIN FOOT SWITCH"                        ),TRUE   ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9, 6},
-    {PCT_COMBO,TEXT("PORTAMENT FOOT SW"),TEXT("69 PORTAMENT FOOT SWITCH"                      ),TRUE   ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9, 4},
-    {PCT_COMBO,TEXT("CHORUS SWITCH"    ),TEXT("70 CHORUS SWITCH"                              ),FALSE  ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9,13},
-    {PCT_COMBO,TEXT("WR PITCH"         ),TEXT("71 MODULATION WHEEL PITCH MODULATION RANGE"    ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9, 7},
-    {PCT_COMBO,TEXT("WR AMPLITUDE"     ),TEXT("72 MODULATION WHEEL AMPLITUDE MODULATION RANGE"),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9, 8},
-    {PCT_COMBO,TEXT("BC PITCH"         ),TEXT("73 BREATH CONTROL PITCH MODULATION RANGE"      ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9, 9},
-    {PCT_COMBO,TEXT("BC AMPLITUDE"     ),TEXT("74 BREATH CONTROL AMPLITUDE MODULATION RANGE"  ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,10},
-    {PCT_COMBO,TEXT("BC PITCH BIAS"    ),TEXT("75 BREATH CONTROL PITCH BIAS RANGE"            ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,11},
-    {PCT_COMBO,TEXT("BC EG BIAS"       ),TEXT("76 BREATH CONTROL EG BIAS RANGE"               ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,12},
-    {PCT_EDIT ,TEXT("PATCHNAME"        ),TEXT("77-86 PATCHNAME"                               ),TRUE   ,0       ,127     , NULL                , 50, ROW_POS_EDIT0, 0},
-    {PCT_COMBO,TEXT("PR1"              ),TEXT("87 PITCH EG RATE 1"                            ),FALSE  ,0       ,127     , NULL                ,  0, 4    ,10},
-    {PCT_COMBO,TEXT("PR2"              ),TEXT("88 PITCH EG RATE 2"                            ),FALSE  ,0       ,127     , NULL                ,  0, 4    ,12},
-    {PCT_COMBO,TEXT("PR3"              ),TEXT("89 PITCH EG RATE 3"                            ),FALSE  ,0       ,127     , NULL                ,  0, 4    ,14},
-    {PCT_COMBO,TEXT("PL1"              ),TEXT("90 PITCH EG LEVEL 1"                           ),FALSE  ,0       ,127     , NULL                ,  0, 4    ,11},
-    {PCT_COMBO,TEXT("PL2"              ),TEXT("91 PITCH EG LEVEL 2"                           ),FALSE  ,0       ,127     , NULL                ,  0, 4    ,13},
-    {PCT_COMBO,TEXT("PL3"              ),TEXT("92 PITCH EG LEVEL 3"                           ),FALSE  ,0       ,127     , NULL                ,  0, 4    ,15},
+    {PCT_COMBO,TEXT("SOUNDMODE"        ),TEXT("SOUNDMODE"                                     ),TRUE   ,0       ,  2     , NULL                ,  0, ROW_POS_EDIT1,COLPOS01},
+    {PCT_COMBO,TEXT("AR"               ),TEXT("00 OP4 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8,COLPOS03},
+    {PCT_COMBO,TEXT("D1R"              ),TEXT("01 OP4 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8,COLPOS04},
+    {PCT_COMBO,TEXT("D2R"              ),TEXT("02 OP4 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8,COLPOS06},
+    {PCT_COMBO,TEXT("RR"               ),TEXT("03 OP4 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8,COLPOS07},
+    {PCT_COMBO,TEXT("D1L"              ),TEXT("04 OP4 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8,COLPOS05},
+    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("05 OP4 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8,COLPOS10},
+    {PCT_COMBO,TEXT("RATE"             ),TEXT("06 OP4 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT8,COLPOS09},
+    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("07 OP4 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4,COLPOS12},
+    {PCT_COMBO,TEXT("AME"              ),TEXT("08 OP4 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT4,COLPOS11},
+    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("09 OP4 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4,COLPOS13},
+    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("10 OP4 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8,COLPOS08},
+    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("11 OP4 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT8,COLPOS01},
+    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("12 OP4 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT8,COLPOS02},
+    {PCT_COMBO,TEXT("AR"               ),TEXT("13 OP2 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6,COLPOS03},
+    {PCT_COMBO,TEXT("D1R"              ),TEXT("14 OP2 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6,COLPOS04},
+    {PCT_COMBO,TEXT("D2R"              ),TEXT("15 OP2 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6,COLPOS06},
+    {PCT_COMBO,TEXT("RR"               ),TEXT("16 OP2 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6,COLPOS07},
+    {PCT_COMBO,TEXT("D1L"              ),TEXT("17 OP2 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6,COLPOS05},
+    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("18 OP2 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6,COLPOS10},
+    {PCT_COMBO,TEXT("RATE"             ),TEXT("19 OP2 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT6,COLPOS09},
+    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("20 OP2 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2,COLPOS12},
+    {PCT_COMBO,TEXT("AME"              ),TEXT("21 OP2 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT2,COLPOS11},
+    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("22 OP2 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2,COLPOS13},
+    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("23 OP2 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6,COLPOS08},
+    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("24 OP2 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT6,COLPOS01},
+    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("25 OP2 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT6,COLPOS02},
+    {PCT_COMBO,TEXT("AR"               ),TEXT("26 OP3 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7,COLPOS03},
+    {PCT_COMBO,TEXT("D1R"              ),TEXT("27 OP3 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7,COLPOS04},
+    {PCT_COMBO,TEXT("D2R"              ),TEXT("28 OP3 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7,COLPOS06},
+    {PCT_COMBO,TEXT("RR"               ),TEXT("29 OP3 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7,COLPOS07},
+    {PCT_COMBO,TEXT("D1L"              ),TEXT("30 OP3 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7,COLPOS05},
+    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("31 OP3 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7,COLPOS10},
+    {PCT_COMBO,TEXT("RATE"             ),TEXT("32 OP3 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT7,COLPOS09},
+    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("33 OP3 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3,COLPOS12},
+    {PCT_COMBO,TEXT("AME"              ),TEXT("34 OP3 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT3,COLPOS11},
+    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("35 OP3 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3,COLPOS13},
+    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("36 OP3 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7,COLPOS08},
+    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("37 OP3 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT7,COLPOS01},
+    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("38 OP3 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT7,COLPOS02},
+    {PCT_COMBO,TEXT("AR"               ),TEXT("39 OP1 ATTACK RATE"                            ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5,COLPOS03},
+    {PCT_COMBO,TEXT("D1R"              ),TEXT("40 OP1 DECAY 1 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5,COLPOS04},
+    {PCT_COMBO,TEXT("D2R"              ),TEXT("41 OP1 DECAY 2 RATE"                           ),TRUE   ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5,COLPOS06},
+    {PCT_COMBO,TEXT("RR"               ),TEXT("42 OP1 RELEASE RATE"                           ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5,COLPOS07},
+    {PCT_COMBO,TEXT("D1L"              ),TEXT("43 OP1 DECAY 1 LEVEL"                          ),TRUE   ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5,COLPOS05},
+    {PCT_COMBO,TEXT("LEVEL"            ),TEXT("44 OP1 KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5,COLPOS10},
+    {PCT_COMBO,TEXT("RATE"             ),TEXT("45 OP1 KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT5,COLPOS09},
+    {PCT_COMBO,TEXT("EG BIAS"          ),TEXT("46 OP1 EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1,COLPOS12},
+    {PCT_COMBO,TEXT("AME"              ),TEXT("47 OP1 AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT1,COLPOS11},
+    {PCT_COMBO,TEXT("VELOCITY"         ),TEXT("48 OP1 KEY VELOCITY"                           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1,COLPOS13},
+    {PCT_COMBO,TEXT("OUT LEVEL"        ),TEXT("49 OP1 OUTPUT LEVEL"                           ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5,COLPOS08},
+    {PCT_COMBO,TEXT("FREQ RATIO"       ),TEXT("50 OP1 OSCILLATOR FREQUENCY"                   ),TRUE   ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT5,COLPOS01},
+    {PCT_COMBO,TEXT("DETUNE"           ),TEXT("51 OP1 DETUNE"                                 ),TRUE   ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT5,COLPOS02},
+    {PCT_COMBO,TEXT("ALGORITHM"        ),TEXT("52 ALGORITHM"                                  ),TRUE   ,0       ,  7     , strTblAlgorithm     ,  0, ROW_POS_EDIT1,COLPOS01},
+    {PCT_COMBO,TEXT("FEEDBACK"         ),TEXT("53 FEEDBACK LEVEL"                             ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1,COLPOS02},
+    {PCT_COMBO,TEXT("SPEED"            ),TEXT("54 LFO SPEED"                                  ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1,COLPOS04},
+    {PCT_COMBO,TEXT("DELAY"            ),TEXT("55 LFO DELAY"                                  ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1,COLPOS05},
+    {PCT_COMBO,TEXT("PMD"              ),TEXT("56 PITCH MODULATION DEPTH"                     ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1,COLPOS06},
+    {PCT_COMBO,TEXT("AMD"              ),TEXT("57 AMPLITUDE MODULATION DEPTH"                 ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1,COLPOS07},
+    {PCT_COMBO,TEXT("LFO SYNC"         ),TEXT("58 LFO SYNC"                                   ),TRUE   ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT1,COLPOS08},
+    {PCT_COMBO,TEXT("LFO WAVE"         ),TEXT("59 LFO WAVE"                                   ),TRUE   ,0       ,  3     , strTblLfoWave       ,  0, ROW_POS_EDIT1,COLPOS03},
+    {PCT_COMBO,TEXT("PITCH"            ),TEXT("60 PITCH MODULATION SENSITIVITY"               ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1,COLPOS09},
+    {PCT_COMBO,TEXT("AMPLITUDE"        ),TEXT("61 AMPLITUDE MODULATION SENSITIVITY"           ),TRUE   ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1,COLPOS10},
+    {PCT_COMBO,TEXT("TRANSPOSE"        ),TEXT("62 TRANSPOSE"                                  ),TRUE   ,0       , 48     , strTblTranspose     , 20, ROW_POS_EDIT9,COLPOS15},
+    {PCT_COMBO,TEXT("POLY/MONO"        ),TEXT("63 PLAY MODE POLY/MONO"                        ),TRUE   ,0       ,  1     , strTblPolyMono      ,  0, ROW_POS_EDIT9,COLPOS01},
+    {PCT_COMBO,TEXT("PB RANGE"         ),TEXT("64 PITCH BEND RANGE"                           ),TRUE   ,0       , 12     , NULL                ,  0, ROW_POS_EDIT9,COLPOS02},
+    {PCT_COMBO,TEXT("PORTA MODE"       ),TEXT("65 PORTAMENTO MODE"                            ),TRUE   ,0       ,  1     , strTblPortamentoMode,  0, ROW_POS_EDIT9,COLPOS03},
+    {PCT_COMBO,TEXT("PORTA TIME"       ),TEXT("66 PORTAMENTO TIME"                            ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,COLPOS04},
+    {PCT_COMBO,TEXT("FOOT VOLUME RANGE"),TEXT("67 FOOT VOLUME RANGE"                          ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT9,COLPOS06},
+    {PCT_COMBO,TEXT("SUSTAIN FOOT SW"  ),TEXT("68 SUSTAIN FOOT SWITCH"                        ),TRUE   ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9,COLPOS07},
+    {PCT_COMBO,TEXT("PORTAMENT FOOT SW"),TEXT("69 PORTAMENT FOOT SWITCH"                      ),TRUE   ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9,COLPOS05},
+    {PCT_COMBO,TEXT("CHORUS SWITCH"    ),TEXT("70 CHORUS SWITCH"                              ),FALSE  ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9,COLPOS14},
+    {PCT_COMBO,TEXT("WR PITCH"         ),TEXT("71 MODULATION WHEEL PITCH MODULATION RANGE"    ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,COLPOS08},
+    {PCT_COMBO,TEXT("WR AMPLITUDE"     ),TEXT("72 MODULATION WHEEL AMPLITUDE MODULATION RANGE"),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,COLPOS09},
+    {PCT_COMBO,TEXT("BC PITCH"         ),TEXT("73 BREATH CONTROL PITCH MODULATION RANGE"      ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,COLPOS10},
+    {PCT_COMBO,TEXT("BC AMPLITUDE"     ),TEXT("74 BREATH CONTROL AMPLITUDE MODULATION RANGE"  ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,COLPOS11},
+    {PCT_COMBO,TEXT("BC PITCH BIAS"    ),TEXT("75 BREATH CONTROL PITCH BIAS RANGE"            ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,COLPOS12},
+    {PCT_COMBO,TEXT("BC EG BIAS"       ),TEXT("76 BREATH CONTROL EG BIAS RANGE"               ),TRUE   ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9,COLPOS13},
+    {PCT_EDIT ,TEXT("PATCHNAME"        ),TEXT("77-86 PATCHNAME"                               ),TRUE   ,0       ,127     , NULL                , 50, ROW_POS_EDIT0,COLPOS01},
+    {PCT_COMBO,TEXT("PR1"              ),TEXT("87 PITCH EG RATE 1"                            ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS11},
+    {PCT_COMBO,TEXT("PR2"              ),TEXT("88 PITCH EG RATE 2"                            ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS13},
+    {PCT_COMBO,TEXT("PR3"              ),TEXT("89 PITCH EG RATE 3"                            ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS15},
+    {PCT_COMBO,TEXT("PL1"              ),TEXT("90 PITCH EG LEVEL 1"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS12},
+    {PCT_COMBO,TEXT("PL2"              ),TEXT("91 PITCH EG LEVEL 2"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS14},
+    {PCT_COMBO,TEXT("PL3"              ),TEXT("92 PITCH EG LEVEL 3"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS16},
     {PCT_EDIT ,TEXT("VOICE_NAME_01"    ),TEXT("VOICE_NAME_01"                                 ),TRUE   ,0       ,127     , NULL                , 50, 0    , 0},
     {PCT_EDIT ,TEXT("VOICE_NAME_02"    ),TEXT("VOICE_NAME_02"                                 ),TRUE   ,0       ,127     , NULL                , 50, 1    , 0},
     {PCT_EDIT ,TEXT("VOICE_NAME_03"    ),TEXT("VOICE_NAME_03"                                 ),TRUE   ,0       ,127     , NULL                , 50, 2    , 0},
@@ -331,7 +347,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             }
             width = PARAM_DATA_WIDTH;
 
-#ifdef DEBUG_DISP_STATIC_STRING
+#if 0
             /* スタティックコントロール(ここから) */
             infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].xPos   = PARAM_STATIC_X_BASE_POS+(PARAM_WRAP_X_UNIT*tblPtr->colPos);
             infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos   = PARAM_STATIC_Y_BASE_POS+(PARAM_STATIC_Y_UNIT*2*tblPtr->rowPos);
@@ -374,6 +390,21 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width  = width + tblPtr->addWidth;
             infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height = height;
 
+#ifdef DEBUG_DISP_STATIC_STRING
+            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width  = width + tblPtr->addWidth;
+            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height = PARAM_STATIC_HEIGHT;
+
+            infoPtr->hwnd_data = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,                    /* 拡張スタイル       */
+                                                (PTSTR)TEXT("edit")/*TEXT("static")*/,      /* クラス名           */
+                                                tblPtr->strText,                             /* ウィンドウテキスト */
+                                                (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL)/*(WS_CHILD|ES_LEFT)*/,/* スタイル           */
+                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos,   /* x座標              */
+                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos,   /* y座標              */
+                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width,  /* 幅                 */
+                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
+                                                hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
+                                                paramCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
+#else
             infoPtr->hwnd_data = CreateWindowEx( exStyle,                                    /* 拡張スタイル       */
                                                 class,                                      /* クラス名           */
                                                 0,                                          /* ウィンドウテキスト */
@@ -384,6 +415,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
                                                 infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
                                                 hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
                                                 paramCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
+#endif
             if( infoPtr->hwnd_data != NULL )
             {
                 INT j,iCbNum;
