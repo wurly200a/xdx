@@ -3,14 +3,6 @@
 
 #define PARAM_CTRL_ID_OFFSET 100
 
-enum
-{
-    PARAM_CTRL_TARGET_NAME,
-    PARAM_CTRL_TARGET_DATA,
-    PARAM_CTRL_TARGET_MAX
-};
-typedef BYTE PARAM_CTRL_TARGET;
-
 typedef enum
 {
     PARAM_CTRL_GROUP_SYSTEM_COMMON,
@@ -21,9 +13,9 @@ typedef enum
 
 typedef enum
 {
-    PARAM_CTRL_SYSCMN_SOUNDMODE                   ,
+    PARAM_CTRL_SYSCMN_SOUNDMODE                ,
 
-    PARAM_CTRL_VOICE_00                        ,
+    PARAM_CTRL_VOICE_00                        ,PARAM_CTRL_1VOICE_START=PARAM_CTRL_VOICE_00,
     PARAM_CTRL_VOICE_01                        ,
     PARAM_CTRL_VOICE_02                        ,
     PARAM_CTRL_VOICE_03                        ,
@@ -107,6 +99,52 @@ typedef enum
     PARAM_CTRL_VOICE_90                        ,
     PARAM_CTRL_VOICE_91                        ,
     PARAM_CTRL_VOICE_92                        ,
+
+    PARAM_CTRL_STATIC_PATCHNAME                ,
+    PARAM_CTRL_STATIC_ALGORITHM                ,
+    PARAM_CTRL_STATIC_FEEDBACK                 ,
+    PARAM_CTRL_STATIC_LFO_WAVE                 ,
+    PARAM_CTRL_STATIC_SPEED                    ,
+    PARAM_CTRL_STATIC_DELAY                    ,
+    PARAM_CTRL_STATIC_PMD                      ,
+    PARAM_CTRL_STATIC_AMD                      ,
+    PARAM_CTRL_STATIC_LFO_SYNC                 ,
+    PARAM_CTRL_STATIC_PITCH                    ,
+    PARAM_CTRL_STATIC_AMPLITUDE                ,
+    PARAM_CTRL_STATIC_AME                      ,
+    PARAM_CTRL_STATIC_EG_BIAS                  ,
+    PARAM_CTRL_STATIC_VELOCITY                 ,
+    PARAM_CTRL_STATIC_FREQ_RATIO               ,
+    PARAM_CTRL_STATIC_DETUNE                   ,
+    PARAM_CTRL_STATIC_AR                       ,
+    PARAM_CTRL_STATIC_D1R                      ,
+    PARAM_CTRL_STATIC_D1L                      ,
+    PARAM_CTRL_STATIC_D2R                      ,
+    PARAM_CTRL_STATIC_RR                       ,
+    PARAM_CTRL_STATIC_OUT_LEVEL                ,
+    PARAM_CTRL_STATIC_RATE                     ,
+    PARAM_CTRL_STATIC_LEVEL                    ,
+    PARAM_CTRL_STATIC_PR1                      ,
+    PARAM_CTRL_STATIC_PL1                      ,
+    PARAM_CTRL_STATIC_PR2                      ,
+    PARAM_CTRL_STATIC_PL2                      ,
+    PARAM_CTRL_STATIC_PR3                      ,
+    PARAM_CTRL_STATIC_PL3                      ,
+    PARAM_CTRL_STATIC_POLY_MONO                ,
+    PARAM_CTRL_STATIC_PB_RANGE                 ,
+    PARAM_CTRL_STATIC_PORTA_MODE               ,
+    PARAM_CTRL_STATIC_PORTA_TIME               ,
+    PARAM_CTRL_STATIC_PORTAMENT_FOOT_SW        ,
+    PARAM_CTRL_STATIC_FOOT_VOLUME_RANGE        ,
+    PARAM_CTRL_STATIC_SUSTAIN_FOOT_SW          ,
+    PARAM_CTRL_STATIC_WR_PITCH                 ,
+    PARAM_CTRL_STATIC_WR_AMPLITUDE             ,
+    PARAM_CTRL_STATIC_BC_PITCH                 ,
+    PARAM_CTRL_STATIC_BC_AMPLITUDE             ,
+    PARAM_CTRL_STATIC_BC_PITCH_BIAS            ,
+    PARAM_CTRL_STATIC_BC_EG_BIAS               ,
+    PARAM_CTRL_STATIC_CHORUS_SWITCH            ,
+    PARAM_CTRL_STATIC_TRANSPOSE                ,PARAM_CTRL_1VOICE_END=PARAM_CTRL_STATIC_TRANSPOSE,
 
     PARAM_CTRL_ALL_VOICE_NAME_00               ,
     PARAM_CTRL_ALL_VOICE_NAME_01               ,

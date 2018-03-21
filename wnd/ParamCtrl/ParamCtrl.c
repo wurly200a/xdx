@@ -48,19 +48,19 @@ char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1.57","1
 #define PARAM_STATIC_HEIGHT      15
 #define PARAM_DATA_HEIGHT       300
 
-#define ROW_POS_EDIT0 0
-
-#define ROW_POS_EDIT1 2
-#define ROW_POS_EDIT2 3
-#define ROW_POS_EDIT3 4
-#define ROW_POS_EDIT4 5
-
-#define ROW_POS_EDIT5 7
-#define ROW_POS_EDIT6 8
-#define ROW_POS_EDIT7 9
-#define ROW_POS_EDIT8 10
-
-#define ROW_POS_EDIT9 12
+#define ROW_POS_EDIT0    0
+#define ROW_POS_STATIC0  1
+#define ROW_POS_EDIT1    2
+#define ROW_POS_EDIT2    3
+#define ROW_POS_EDIT3    4
+#define ROW_POS_EDIT4    5
+#define ROW_POS_STATIC1  6
+#define ROW_POS_EDIT5    7
+#define ROW_POS_EDIT6    8
+#define ROW_POS_EDIT7    9
+#define ROW_POS_EDIT8   10
+#define ROW_POS_STATIC2 11
+#define ROW_POS_EDIT9   12
 
 #define COLPOS00  0
 #define COLPOS01  1
@@ -82,8 +82,9 @@ char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1.57","1
 
 enum
 {
-   PCT_COMBO,
-   PCT_EDIT ,
+   PCT_COMBO ,
+   PCT_EDIT  ,
+   PCT_STATIC,
    PCT_MAX
 };
 typedef BYTE PARAM_CTRL_TYPE;
@@ -189,6 +190,53 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("PL1"              ),TEXT("90 PITCH EG LEVEL 1"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS12},
     {PCT_COMBO,TEXT("PL2"              ),TEXT("91 PITCH EG LEVEL 2"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS14},
     {PCT_COMBO,TEXT("PL3"              ),TEXT("92 PITCH EG LEVEL 3"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS16},
+
+    {PCT_STATIC,TEXT("PATCHNAME"        ),TEXT("PATCHNAME"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_EDIT0  ,COLPOS00},
+    {PCT_STATIC,TEXT("ALGORITHM"        ),TEXT("ALGORITHM"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS01},
+    {PCT_STATIC,TEXT("FEEDBACK"         ),TEXT("FEEDBACK LEVEL"                             ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS02},
+    {PCT_STATIC,TEXT("LFO WAVE"         ),TEXT("LFO WAVE"                                   ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS03},
+    {PCT_STATIC,TEXT("SPEED"            ),TEXT("LFO SPEED"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS04},
+    {PCT_STATIC,TEXT("DELAY"            ),TEXT("LFO DELAY"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS05},
+    {PCT_STATIC,TEXT("PMD"              ),TEXT("PITCH MODULATION DEPTH"                     ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS06},
+    {PCT_STATIC,TEXT("AMD"              ),TEXT("AMPLITUDE MODULATION DEPTH"                 ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS07},
+    {PCT_STATIC,TEXT("LFO SYNC"         ),TEXT("LFO SYNC"                                   ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS08},
+    {PCT_STATIC,TEXT("PITCH"            ),TEXT("PITCH MODULATION SENSITIVITY"               ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS09},
+    {PCT_STATIC,TEXT("AMPLITUDE"        ),TEXT("AMPLITUDE MODULATION SENSITIVITY"           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS10},
+    {PCT_STATIC,TEXT("AME"              ),TEXT("OP? AMPLITUDE MODULATION ENABLE"            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS11},
+    {PCT_STATIC,TEXT("EG BIAS"          ),TEXT("OP? EG BIAS SENSITIVITY"                    ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS12},
+    {PCT_STATIC,TEXT("VELOCITY"         ),TEXT("OP? KEY VELOCITY"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS13},
+    {PCT_STATIC,TEXT("FREQ RATIO"       ),TEXT("OP? OSCILLATOR FREQUENCY"                   ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS01},
+    {PCT_STATIC,TEXT("DETUNE"           ),TEXT("OP? DETUNE"                                 ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS02},
+    {PCT_STATIC,TEXT("AR"               ),TEXT("OP? ATTACK RATE"                            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS03},
+    {PCT_STATIC,TEXT("D1R"              ),TEXT("OP? DECAY 1 RATE"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS04},
+    {PCT_STATIC,TEXT("D1L"              ),TEXT("OP? DECAY 1 LEVEL"                          ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS05},
+    {PCT_STATIC,TEXT("D2R"              ),TEXT("OP? DECAY 2 RATE"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS06},
+    {PCT_STATIC,TEXT("RR"               ),TEXT("OP? RELEASE RATE"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS07},
+    {PCT_STATIC,TEXT("OUT LEVEL"        ),TEXT("OP? OUTPUT LEVEL"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS08},
+    {PCT_STATIC,TEXT("RATE"             ),TEXT("OP? KEYBOARD SCALING RATE"                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS09},
+    {PCT_STATIC,TEXT("LEVEL"            ),TEXT("OP? KEYBOARD SCALING LEVEL"                 ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS10},
+    {PCT_STATIC,TEXT("PR1"              ),TEXT("PITCH EG RATE 1"                            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS11},
+    {PCT_STATIC,TEXT("PL1"              ),TEXT("PITCH EG LEVEL 1"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS12},
+    {PCT_STATIC,TEXT("PR2"              ),TEXT("PITCH EG RATE 2"                            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS13},
+    {PCT_STATIC,TEXT("PL2"              ),TEXT("PITCH EG LEVEL 2"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS14},
+    {PCT_STATIC,TEXT("PR3"              ),TEXT("PITCH EG RATE 3"                            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS15},
+    {PCT_STATIC,TEXT("PL3"              ),TEXT("PITCH EG LEVEL 3"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS16},
+    {PCT_STATIC,TEXT("POLY/MONO"        ),TEXT("PLAY MODE POLY/MONO"                        ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS01},
+    {PCT_STATIC,TEXT("PB RANGE"         ),TEXT("PITCH BEND RANGE"                           ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS02},
+    {PCT_STATIC,TEXT("PORTA MODE"       ),TEXT("PORTAMENTO MODE"                            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS03},
+    {PCT_STATIC,TEXT("PORTA TIME"       ),TEXT("PORTAMENTO TIME"                            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS04},
+    {PCT_STATIC,TEXT("PORTAMENT FOOT SW"),TEXT("PORTAMENT FOOT SWITCH"                      ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS05},
+    {PCT_STATIC,TEXT("FOOT VOLUME RANGE"),TEXT("FOOT VOLUME RANGE"                          ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS06},
+    {PCT_STATIC,TEXT("SUSTAIN FOOT SW"  ),TEXT("SUSTAIN FOOT SWITCH"                        ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS07},
+    {PCT_STATIC,TEXT("WR PITCH"         ),TEXT("MODULATION WHEEL PITCH MODULATION RANGE"    ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS08},
+    {PCT_STATIC,TEXT("WR AMPLITUDE"     ),TEXT("MODULATION WHEEL AMPLITUDE MODULATION RANGE"),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS09},
+    {PCT_STATIC,TEXT("BC PITCH"         ),TEXT("BREATH CONTROL PITCH MODULATION RANGE"      ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS10},
+    {PCT_STATIC,TEXT("BC AMPLITUDE"     ),TEXT("BREATH CONTROL AMPLITUDE MODULATION RANGE"  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS11},
+    {PCT_STATIC,TEXT("BC PITCH BIAS"    ),TEXT("BREATH CONTROL PITCH BIAS RANGE"            ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS12},
+    {PCT_STATIC,TEXT("BC EG BIAS"       ),TEXT("BREATH CONTROL EG BIAS RANGE"               ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS13},
+    {PCT_STATIC,TEXT("CHORUS SWITCH"    ),TEXT("CHORUS SWITCH"                              ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS14},
+    {PCT_STATIC,TEXT("TRANSPOSE"        ),TEXT("TRANSPOSE"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS15},
+
     {PCT_EDIT ,TEXT("VOICE_NAME_01"    ),TEXT("VOICE_NAME_01"                                 ),TRUE   ,0       ,127     , NULL                , 50, 0    , 0},
     {PCT_EDIT ,TEXT("VOICE_NAME_02"    ),TEXT("VOICE_NAME_02"                                 ),TRUE   ,0       ,127     , NULL                , 50, 1    , 0},
     {PCT_EDIT ,TEXT("VOICE_NAME_03"    ),TEXT("VOICE_NAME_03"                                 ),TRUE   ,0       ,127     , NULL                , 50, 2    , 0},
@@ -266,9 +314,8 @@ typedef struct
 typedef struct
 {
     BOOL                exist                        ; /* ウィンドウが生成されているかどうか */
-    HWND                hwnd_name                    ; /* ウィンドウのハンドラ               */
     HWND                hwnd_data                    ; /* ウィンドウのハンドラ               */
-    S_PARAM_WINDOW_INFO wtInfo[PARAM_CTRL_TARGET_MAX];
+    S_PARAM_WINDOW_INFO wtInfo                       ;
     PARAM_CTRL_GROUP_ID groupId                      ;
 } S_PARAM_INFO;
 
@@ -289,7 +336,7 @@ ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     paramCtrlData.szAppName   = szAppName;
 
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_SYSTEM_COMMON,PARAM_CTRL_SYSCMN_SOUNDMODE  ,PARAM_CTRL_SYSCMN_SOUNDMODE  );
-    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_1VOICE       ,PARAM_CTRL_VOICE_00          ,PARAM_CTRL_VOICE_92          );
+    paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_1VOICE       ,PARAM_CTRL_1VOICE_START      ,PARAM_CTRL_1VOICE_END        );
     paramCtrlCreate(hwnd,PARAM_CTRL_GROUP_ALL_VOICE    ,PARAM_CTRL_ALL_VOICE_NAME_00 ,PARAM_CTRL_ALL_VOICE_BULK_31 );
 
     return TRUE;
@@ -315,6 +362,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             PTSTR class;
             DWORD style;
             DWORD exStyle;
+            PTSTR strText;
             DWORD height;
             INT   width;
             INT xPos;
@@ -324,13 +372,23 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             if( tblPtr->type == PCT_COMBO )
             {
                 class = (PTSTR)TEXT("combobox");
+                strText = (PTSTR)0;
                 style = (WS_CHILD|WS_VSCROLL|CBS_DROPDOWNLIST);
                 exStyle = 0;
                 height = PARAM_DATA_HEIGHT;
             }
+            else if( tblPtr->type == PCT_STATIC )
+            {
+                class = (PTSTR)TEXT("static");
+                strText = (PTSTR)tblPtr->strText;
+                style = (WS_CHILD|ES_LEFT);
+                exStyle = 0;
+                height = PARAM_STATIC_HEIGHT;
+            }
             else
             {
                 class = (PTSTR)TEXT("edit");
+                strText = (PTSTR)0;
                 style = (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL);
 
                 if( PARAM_CTRL_ALL_VOICE_NAME_00 <= nowId && nowId <= PARAM_CTRL_ALL_VOICE_BULK_31)
@@ -347,72 +405,35 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
             }
             width = PARAM_DATA_WIDTH;
 
-#if 0
-            /* スタティックコントロール(ここから) */
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].xPos   = PARAM_STATIC_X_BASE_POS+(PARAM_WRAP_X_UNIT*tblPtr->colPos);
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos   = PARAM_STATIC_Y_BASE_POS+(PARAM_STATIC_Y_UNIT*2*tblPtr->rowPos);
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].width  = strlen(tblPtr->strText)*8;
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].height = PARAM_STATIC_HEIGHT;
-
-            infoPtr->hwnd_name = CreateWindowEx( 0,                                              /* 拡張スタイル       */
-                                                TEXT("static"),                                 /* クラス名           */
-                                                tblPtr->strText,                        /* ウィンドウテキスト */
-                                                (WS_CHILD|ES_LEFT),                             /* スタイル           */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].xPos,   /* x座標              */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos,   /* y座標              */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].width,  /* 幅                 */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].height, /* 高さ               */
-                                                hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+nowId*2),         /* 親ウィンドウ,子ウィンドウID */
-                                                paramCtrlData.hInstance,NULL );                              /* インスタンスハンドル,補助引数 */
-            if( infoPtr->hwnd_name != NULL )
-            {
-                SendMessage(infoPtr->hwnd_name, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
-
-                /* 個別に処理するもの */
-                switch( nowId )
-                {
-                default:
-                    break;
-                }
-
-                ShowWindow(infoPtr->hwnd_name, SW_HIDE);
-            }
-            else
-            {
-                /* do nothing */
-            }
-            /* スタティックコントロール(ここまで) */
-#endif
-
             /* パラメータを管理するコントロール(ここから) */
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos   = PARAM_DATA_X_BASE_POS+(PARAM_WRAP_X_UNIT*tblPtr->colPos);
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos   = PARAM_DATA_Y_BASE_POS+(PARAM_DATA_Y_UNIT*2*tblPtr->rowPos+PARAM_DATA_Y_UNIT);
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width  = width + tblPtr->addWidth;
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height = height;
+            infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS+(PARAM_WRAP_X_UNIT*tblPtr->colPos);
+            infoPtr->wtInfo.yPos   = PARAM_DATA_Y_BASE_POS+(PARAM_DATA_Y_UNIT*2*tblPtr->rowPos+PARAM_DATA_Y_UNIT);
+            infoPtr->wtInfo.width  = width + tblPtr->addWidth;
+            infoPtr->wtInfo.height = height;
 
 #ifdef DEBUG_DISP_STATIC_STRING
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width  = width + tblPtr->addWidth;
-            infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height = PARAM_STATIC_HEIGHT;
+            infoPtr->wtInfo.width  = width + tblPtr->addWidth;
+            infoPtr->wtInfo.height = PARAM_STATIC_HEIGHT;
 
             infoPtr->hwnd_data = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,                    /* 拡張スタイル       */
                                                 (PTSTR)TEXT("edit")/*TEXT("static")*/,      /* クラス名           */
                                                 tblPtr->strText,                             /* ウィンドウテキスト */
                                                 (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL)/*(WS_CHILD|ES_LEFT)*/,/* スタイル           */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos,   /* x座標              */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos,   /* y座標              */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width,  /* 幅                 */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
+                                                infoPtr->wtInfo.xPos,   /* x座標              */
+                                                infoPtr->wtInfo.yPos,   /* y座標              */
+                                                infoPtr->wtInfo.width,  /* 幅                 */
+                                                infoPtr->wtInfo.height, /* 高さ               */
                                                 hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
                                                 paramCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #else
             infoPtr->hwnd_data = CreateWindowEx( exStyle,                                    /* 拡張スタイル       */
                                                 class,                                      /* クラス名           */
-                                                0,                                          /* ウィンドウテキスト */
+                                                strText,                                    /* ウィンドウテキスト */
                                                 style,                                      /* スタイル           */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos,   /* x座標              */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos,   /* y座標              */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width,  /* 幅                 */
-                                                infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
+                                                infoPtr->wtInfo.xPos,   /* x座標              */
+                                                infoPtr->wtInfo.yPos,   /* y座標              */
+                                                infoPtr->wtInfo.width,  /* 幅                 */
+                                                infoPtr->wtInfo.height, /* 高さ               */
                                                 hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
                                                 paramCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #endif
@@ -496,12 +517,10 @@ ParamCtrlGroupDisplay( PARAM_CTRL_GROUP_ID groupId )
 
         if( infoPtr->groupId == groupId )
         {
-            ShowWindow(infoPtr->hwnd_name, SW_SHOW);
             ShowWindow(infoPtr->hwnd_data, SW_SHOW);
         }
         else
         {
-            ShowWindow(infoPtr->hwnd_name, SW_HIDE);
             ShowWindow(infoPtr->hwnd_data, SW_HIDE);
         }
     }
@@ -591,18 +610,11 @@ ParamCtrlSetSize( int xPos, int yPos )
     {
         S_PARAM_INFO *infoPtr = &ctrlParamInfo[i];
 
-        MoveWindow( infoPtr->hwnd_name,
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].xPos - xPos,   /* x座標              */
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].yPos - yPos,   /* y座標              */
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].width,  /* 幅                 */
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_NAME].height, /* 高さ               */
-                    TRUE);
-
         MoveWindow( infoPtr->hwnd_data,
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].xPos - xPos,   /* x座標              */
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].yPos - yPos,   /* y座標              */
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].width,  /* 幅                 */
-                    infoPtr->wtInfo[PARAM_CTRL_TARGET_DATA].height, /* 高さ               */
+                    infoPtr->wtInfo.xPos - xPos,   /* x座標              */
+                    infoPtr->wtInfo.yPos - yPos,   /* y座標              */
+                    infoPtr->wtInfo.width,  /* 幅                 */
+                    infoPtr->wtInfo.height, /* 高さ               */
                     TRUE);
     }
 }
