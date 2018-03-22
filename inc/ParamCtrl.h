@@ -105,6 +105,11 @@ typedef enum
     PARAM_CTRL_STATIC_3                        ,
     PARAM_CTRL_STATIC_4                        ,
     PARAM_CTRL_STATIC_PATCHNAME                ,
+
+    PARAM_CTRL_STATIC_LFO                      ,
+    PARAM_CTRL_STATIC_MOD_SENS                 ,
+    PARAM_CTRL_STATIC_KEY                      ,
+
     PARAM_CTRL_STATIC_ALGORITHM                ,
     PARAM_CTRL_STATIC_FEEDBACK                 ,
     PARAM_CTRL_STATIC_LFO_WAVE                 ,
@@ -118,6 +123,13 @@ typedef enum
     PARAM_CTRL_STATIC_AME                      ,
     PARAM_CTRL_STATIC_EG_BIAS                  ,
     PARAM_CTRL_STATIC_VELOCITY                 ,
+
+    PARAM_CTRL_STATIC_OSCILLATOR               ,
+    PARAM_CTRL_STATIC_ENVELOPE_GENERATOR       ,
+    PARAM_CTRL_STATIC_OPERATOR                 ,
+    PARAM_CTRL_STATIC_KEY_SCALING              ,
+    PARAM_CTRL_STATIC_PITCH_ENVELOPE_GENERATOR ,
+
     PARAM_CTRL_STATIC_FREQ_RATIO               ,
     PARAM_CTRL_STATIC_DETUNE                   ,
     PARAM_CTRL_STATIC_AR                       ,
@@ -134,6 +146,13 @@ typedef enum
     PARAM_CTRL_STATIC_PL2                      ,
     PARAM_CTRL_STATIC_PR3                      ,
     PARAM_CTRL_STATIC_PL3                      ,
+
+    PARAM_CTRL_STATIC_PITCH_BEND               ,
+    PARAM_CTRL_STATIC_PORTAMENTO               ,
+    PARAM_CTRL_STATIC_FOOT_CONTROL             ,
+    PARAM_CTRL_STATIC_WHEEL_RANGE              ,
+    PARAM_CTRL_STATIC_BREATH_CONTROLLER_RANGE  ,
+
     PARAM_CTRL_STATIC_POLY_MONO                ,
     PARAM_CTRL_STATIC_PB_RANGE                 ,
     PARAM_CTRL_STATIC_PORTA_MODE               ,
