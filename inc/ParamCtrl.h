@@ -100,6 +100,10 @@ typedef enum
     PARAM_CTRL_VOICE_91                        ,
     PARAM_CTRL_VOICE_92                        ,
 
+    PARAM_CTRL_STATIC_1                        ,
+    PARAM_CTRL_STATIC_2                        ,
+    PARAM_CTRL_STATIC_3                        ,
+    PARAM_CTRL_STATIC_4                        ,
     PARAM_CTRL_STATIC_PATCHNAME                ,
     PARAM_CTRL_STATIC_ALGORITHM                ,
     PARAM_CTRL_STATIC_FEEDBACK                 ,

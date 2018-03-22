@@ -37,30 +37,33 @@ char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1.57","1
 #define PARAM_STATIC_X_BASE_POS   5
 #define PARAM_DATA_X_BASE_POS     5
 #define PARAM_DATA_WIDTH         50
+#define PARAM_STATIC_WIDTH       70
 #define PARAM_WRAP_X_UNIT        70
 
 /* Y方向 */
-#define PARAM_STATIC_Y_BASE_POS 120
+#define PARAM_STATIC_Y_BASE_POS 125
 #define PARAM_DATA_Y_BASE_POS   120
-#define PARAM_STATIC_Y_UNIT      10
 #define PARAM_DATA_Y_UNIT        10
 
 #define PARAM_STATIC_HEIGHT      15
 #define PARAM_DATA_HEIGHT       300
 
 #define ROW_POS_EDIT0    0
-#define ROW_POS_STATIC0  1
-#define ROW_POS_EDIT1    2
-#define ROW_POS_EDIT2    3
-#define ROW_POS_EDIT3    4
-#define ROW_POS_EDIT4    5
-#define ROW_POS_STATIC1  6
-#define ROW_POS_EDIT5    7
-#define ROW_POS_EDIT6    8
-#define ROW_POS_EDIT7    9
-#define ROW_POS_EDIT8   10
-#define ROW_POS_STATIC2 11
-#define ROW_POS_EDIT9   12
+
+#define ROW_POS_STATIC0  2
+#define ROW_POS_EDIT1    3
+#define ROW_POS_EDIT2    4
+#define ROW_POS_EDIT3    5
+#define ROW_POS_EDIT4    6
+
+#define ROW_POS_STATIC1  8
+#define ROW_POS_EDIT5    9
+#define ROW_POS_EDIT6   10
+#define ROW_POS_EDIT7   11
+#define ROW_POS_EDIT8   12
+
+#define ROW_POS_STATIC2 14
+#define ROW_POS_EDIT9   15
 
 #define COLPOS00  0
 #define COLPOS01  1
@@ -191,6 +194,10 @@ S_PARAM_CTRL paramListTbl[PARAM_CTRL_MAX] =
     {PCT_COMBO,TEXT("PL2"              ),TEXT("91 PITCH EG LEVEL 2"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS14},
     {PCT_COMBO,TEXT("PL3"              ),TEXT("92 PITCH EG LEVEL 3"                           ),FALSE  ,0       ,127     , NULL                ,  0, ROW_POS_EDIT5,COLPOS16},
 
+    {PCT_STATIC,TEXT("OPERATOR1"        ),TEXT("OPERATOR1"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS00},
+    {PCT_STATIC,TEXT("OPERATOR2"        ),TEXT("OPERATOR2"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS00},
+    {PCT_STATIC,TEXT("OPERATOR3"        ),TEXT("OPERATOR3"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS00},
+    {PCT_STATIC,TEXT("OPERATOR4"        ),TEXT("OPERATOR4"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS00},
     {PCT_STATIC,TEXT("PATCHNAME"        ),TEXT("PATCHNAME"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_EDIT0  ,COLPOS00},
     {PCT_STATIC,TEXT("ALGORITHM"        ),TEXT("ALGORITHM"                                  ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS01},
     {PCT_STATIC,TEXT("FEEDBACK"         ),TEXT("FEEDBACK LEVEL"                             ),TRUE   ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS02},
@@ -403,11 +410,19 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
                 exStyle = WS_EX_OVERLAPPEDWINDOW;
                 height = 20;
             }
-            width = PARAM_DATA_WIDTH;
 
-            /* パラメータを管理するコントロール(ここから) */
-            infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS+(PARAM_WRAP_X_UNIT*tblPtr->colPos);
-            infoPtr->wtInfo.yPos   = PARAM_DATA_Y_BASE_POS+(PARAM_DATA_Y_UNIT*2*tblPtr->rowPos+PARAM_DATA_Y_UNIT);
+            if( tblPtr->type == PCT_STATIC )
+            {
+                width = PARAM_STATIC_WIDTH;
+                infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS+(PARAM_WRAP_X_UNIT*tblPtr->colPos);
+                infoPtr->wtInfo.yPos   = PARAM_STATIC_Y_BASE_POS+(PARAM_DATA_Y_UNIT*2*tblPtr->rowPos);
+            }
+            else
+            {
+                width = PARAM_DATA_WIDTH;
+                infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS+(PARAM_WRAP_X_UNIT*tblPtr->colPos);
+                infoPtr->wtInfo.yPos   = PARAM_DATA_Y_BASE_POS+(PARAM_DATA_Y_UNIT*2*tblPtr->rowPos);
+            }
             infoPtr->wtInfo.width  = width + tblPtr->addWidth;
             infoPtr->wtInfo.height = height;
 
