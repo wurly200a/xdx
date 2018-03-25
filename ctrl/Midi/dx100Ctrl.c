@@ -471,7 +471,7 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
             {
                 sprintf(&szBuffer[j*2],"%02X",dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + j]);
             }
-            SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_ALL_VOICE_BULK_00+i),&szBuffer[0]);
+//            SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_ALL_VOICE_BULK_00+i),&szBuffer[0]);
         }
         break;
     }

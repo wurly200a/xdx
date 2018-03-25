@@ -165,7 +165,8 @@ typedef enum
     PARAM_CTRL_STATIC_BC_EG_BIAS               ,
     PARAM_CTRL_STATIC_CHORUS_SWITCH            ,
     PARAM_CTRL_STATIC_TRANSPOSE                ,PARAM_CTRL_1VOICE_END=PARAM_CTRL_STATIC_TRANSPOSE,
-    PARAM_CTRL_ALL_VOICE_NAME_00               ,
+
+    PARAM_CTRL_ALL_VOICE_NAME_00               ,PARAM_CTRL_ALL_VOICE_START = PARAM_CTRL_ALL_VOICE_NAME_00,
     PARAM_CTRL_ALL_VOICE_NAME_01               ,
     PARAM_CTRL_ALL_VOICE_NAME_02               ,
     PARAM_CTRL_ALL_VOICE_NAME_03               ,
@@ -196,7 +197,8 @@ typedef enum
     PARAM_CTRL_ALL_VOICE_NAME_28               ,
     PARAM_CTRL_ALL_VOICE_NAME_29               ,
     PARAM_CTRL_ALL_VOICE_NAME_30               ,
-    PARAM_CTRL_ALL_VOICE_NAME_31               ,
+    PARAM_CTRL_ALL_VOICE_NAME_31               ,PARAM_CTRL_ALL_VOICE_END = PARAM_CTRL_ALL_VOICE_NAME_31,
+#if 0
     PARAM_CTRL_ALL_VOICE_BULK_00               ,
     PARAM_CTRL_ALL_VOICE_BULK_01               ,
     PARAM_CTRL_ALL_VOICE_BULK_02               ,
@@ -229,7 +231,7 @@ typedef enum
     PARAM_CTRL_ALL_VOICE_BULK_29               ,
     PARAM_CTRL_ALL_VOICE_BULK_30               ,
     PARAM_CTRL_ALL_VOICE_BULK_31               ,
-
+#endif
     PARAM_CTRL_MAX
 }PARAM_CTRL_ID;
 
