@@ -509,7 +509,7 @@ paramCtrlCreate( HWND hwnd, PARAM_CTRL_GROUP_ID groupId, PARAM_CTRL_ID startId, 
                                                 infoPtr->wtInfo.yPos,   /* y座標              */
                                                 infoPtr->wtInfo.width,  /* 幅                 */
                                                 infoPtr->wtInfo.height, /* 高さ               */
-                                                hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
+                                                hwnd,(HMENU)(PARAM_CTRL_ID_OFFSET+nowId),/* 親ウィンドウ,子ウィンドウID */
                                                 paramCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #endif
             if( infoPtr->hwnd_data != NULL )
