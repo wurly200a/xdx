@@ -733,6 +733,120 @@ Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
     return TRUE;
 }
 
+/********************************************************************************
+ * 内容  : ボイスコピー(ALL VOICEから1VOICEへ)
+ * 引数  : INT voiceNum
+ * 戻り値: BOOL
+ ***************************************/
+BOOL
+Dx100voiceCopyFromAllToOne( INT voiceNum )
+{
+    if( voiceNum < 32 )
+    {
+        INT topNum = DX100_SYSEX_ALL_VOICE_DATA + (voiceNum*DX100_SYSEX_VMEM_MAX);
+
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_00]/* OP4 ATTACK RATE                                  */ = dx100CtrlDataAllVoice[topNum+ 0];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_01]/* OP4 DECAY 1 RATE                                 */ = dx100CtrlDataAllVoice[topNum+ 1];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_02]/* OP4 DECAY 2 RATE                                 */ = dx100CtrlDataAllVoice[topNum+ 2];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_03]/* OP4 RELEASE RATE                                 */ = dx100CtrlDataAllVoice[topNum+ 3];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_04]/* OP4 DECAY 1 LEVEL                                */ = dx100CtrlDataAllVoice[topNum+ 4];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_05]/* OP4 KEYBOARD SCALING LEVEL                       */ = dx100CtrlDataAllVoice[topNum+ 5];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_06]/* OP4 KEYBOARD SCALING RATE                        */ = (dx100CtrlDataAllVoice[topNum+ 9])>>3; /* BIT4-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_07]/* OP4 EG BIAS SENSITIVITY                          */ = ((dx100CtrlDataAllVoice[topNum+ 6])&0x38)>>3; /* BIT5-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_08]/* OP4 AMPLITUDE MODULATION ENABLE                  */ = (dx100CtrlDataAllVoice[topNum+ 6])>>6; /* BIT6 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_09]/* OP4 KEY VELOCITY                                 */ = (dx100CtrlDataAllVoice[topNum+ 6])&0x3; /* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_10]/* OP4 OUTPUT LEVEL                                 */ = dx100CtrlDataAllVoice[topNum+ 7];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_11]/* OP4 OSCILLATOR FREQUENCY                         */ = dx100CtrlDataAllVoice[topNum+ 8];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_12]/* OP4 DETUNE                                       */ = (dx100CtrlDataAllVoice[topNum+ 9])&0x7; /* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_13]/* OP2 ATTACK RATE                                  */ = dx100CtrlDataAllVoice[topNum+10];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_14]/* OP2 DECAY 1 RATE                                 */ = dx100CtrlDataAllVoice[topNum+11];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_15]/* OP2 DECAY 2 RATE                                 */ = dx100CtrlDataAllVoice[topNum+12];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_16]/* OP2 RELEASE RATE                                 */ = dx100CtrlDataAllVoice[topNum+13];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_17]/* OP2 DECAY 1 LEVEL                                */ = dx100CtrlDataAllVoice[topNum+14];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_18]/* OP2 KEYBOARD SCALING LEVEL                       */ = dx100CtrlDataAllVoice[topNum+15];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_19]/* OP2 KEYBOARD SCALING RATE                        */ = (dx100CtrlDataAllVoice[topNum+19])>>3; /* BIT4-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_20]/* OP2 EG BIAS SENSITIVITY                          */ = ((dx100CtrlDataAllVoice[topNum+16])&0x38)>>3; /* BIT5-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_21]/* OP2 AMPLITUDE MODULATION ENABLE                  */ = (dx100CtrlDataAllVoice[topNum+16])>>6; /* BIT6 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_22]/* OP2 KEY VELOCITY                                 */ = (dx100CtrlDataAllVoice[topNum+16])&0x3; /* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_23]/* OP2 OUTPUT LEVEL                                 */ = dx100CtrlDataAllVoice[topNum+17];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_24]/* OP2 OSCILLATOR FREQUENCY                         */ = dx100CtrlDataAllVoice[topNum+18];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_25]/* OP2 DETUNE                                       */ = (dx100CtrlDataAllVoice[topNum+19])&0x7; /* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_26]/* OP3 ATTACK RATE                                  */ = dx100CtrlDataAllVoice[topNum+20];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_27]/* OP3 DECAY 1 RATE                                 */ = dx100CtrlDataAllVoice[topNum+21];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_28]/* OP3 DECAY 2 RATE                                 */ = dx100CtrlDataAllVoice[topNum+22];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_29]/* OP3 RELEASE RATE                                 */ = dx100CtrlDataAllVoice[topNum+23];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_30]/* OP3 DECAY 1 LEVEL                                */ = dx100CtrlDataAllVoice[topNum+24];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_31]/* OP3 KEYBOARD SCALING LEVEL                       */ = dx100CtrlDataAllVoice[topNum+25];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_32]/* OP3 KEYBOARD SCALING RATE                        */ = (dx100CtrlDataAllVoice[topNum+29])>>3; /* BIT4-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_33]/* OP3 EG BIAS SENSITIVITY                          */ = ((dx100CtrlDataAllVoice[topNum+26])&0x38)>>3;/* BIT5-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_34]/* OP3 AMPLITUDE MODULATION ENABLE                  */ = (dx100CtrlDataAllVoice[topNum+26])>>6;/* BIT6 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_35]/* OP3 KEY VELOCITY                                 */ = (dx100CtrlDataAllVoice[topNum+26])&0x3;/* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_36]/* OP3 OUTPUT LEVEL                                 */ = dx100CtrlDataAllVoice[topNum+27];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_37]/* OP3 OSCILLATOR FREQUENCY                         */ = dx100CtrlDataAllVoice[topNum+28];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_38]/* OP3 DETUNE                                       */ = (dx100CtrlDataAllVoice[topNum+29])&0x7; /*BIT2-0*/
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_39]/* OP1 ATTACK RATE                                  */ = dx100CtrlDataAllVoice[topNum+30];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_40]/* OP1 DECAY 1 RATE                                 */ = dx100CtrlDataAllVoice[topNum+31];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_41]/* OP1 DECAY 2 RATE                                 */ = dx100CtrlDataAllVoice[topNum+32];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_42]/* OP1 RELEASE RATE                                 */ = dx100CtrlDataAllVoice[topNum+33];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_43]/* OP1 DECAY 1 LEVEL                                */ = dx100CtrlDataAllVoice[topNum+34];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_44]/* OP1 KEYBOARD SCALING LEVEL                       */ = dx100CtrlDataAllVoice[topNum+35];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_45]/* OP1 KEYBOARD SCALING RATE                        */ = (dx100CtrlDataAllVoice[topNum+39])>>3; /* BIT4-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_46]/* OP1 EG BIAS SENSITIVITY                          */ = ((dx100CtrlDataAllVoice[topNum+36])&0x38)>>3;/* BIT5-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_47]/* OP1 AMPLITUDE MODULATION ENABLE                  */ = (dx100CtrlDataAllVoice[topNum+36])>>6;/* BIT6 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_48]/* OP1 KEY VELOCITY                                 */ = (dx100CtrlDataAllVoice[topNum+36])&0x3;/* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_49]/* OP1 OUTPUT LEVEL                                 */ = dx100CtrlDataAllVoice[topNum+37];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_50]/* OP1 OSCILLATOR FREQUENCY                         */ = dx100CtrlDataAllVoice[topNum+38];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_51]/* OP1 DETUNE                                       */ = (dx100CtrlDataAllVoice[topNum+39])&7; /* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_52]/* ALGORITHM                                        */ = (dx100CtrlDataAllVoice[topNum+40])&7; /* BIT2-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_53]/* FEEDBACK LEVEL                                   */ = ((dx100CtrlDataAllVoice[topNum+40])>>3)&7; /* BIT5-3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_54]/* LFO SPEED                                        */ = dx100CtrlDataAllVoice[topNum+41];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_55]/* LFO DELAY                                        */ = dx100CtrlDataAllVoice[topNum+42];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_56]/* PITCH MODULATION DEPTH                           */ = dx100CtrlDataAllVoice[topNum+43];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_57]/* amplitude MODULATION depth                       */ = dx100CtrlDataAllVoice[topNum+44];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_58]/* LFO SYNC                                         */ = (dx100CtrlDataAllVoice[topNum+40])>>6; /* BIT7-6 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_59]/* lfo wave                                         */ = (dx100CtrlDataAllVoice[topNum+45])&3; /* BIT1-0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_60]/* pitch modulation sensitivity                     */ = ((dx100CtrlDataAllVoice[topNum+45])>>4)&7; /* BIT6-4 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_61]/* amplitude modulation sensitivity                 */ = ((dx100CtrlDataAllVoice[topNum+45])>>2)&3; /* BIT3-2 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_62]/* transpose                                        */ = dx100CtrlDataAllVoice[topNum+46];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_63]/* play mode poly/mono                              */ = ((dx100CtrlDataAllVoice[topNum+48])>>3)&1; /* BIT3 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_64]/* pitch bend range                                 */ = dx100CtrlDataAllVoice[topNum+47];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_65]/* portamento mode                                  */ = (dx100CtrlDataAllVoice[topNum+48])&1; /* BIT0 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_66]/* portamento time                                  */ = dx100CtrlDataAllVoice[topNum+49];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_67]/* foot volume range                                */ = dx100CtrlDataAllVoice[topNum+50];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_68]/* sustain foot switch                              */ = ((dx100CtrlDataAllVoice[topNum+48])>>2)&1; /* BIT2 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_69]/* portamento foot switch                           */ = ((dx100CtrlDataAllVoice[topNum+48])>>1)&1; /* BIT1 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_70]/* chorus switch                                    */ = ((dx100CtrlDataAllVoice[topNum+48])>>4)&1; /* BIT4 */
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_71]/* modulation wheel pitch modulation range          */ = dx100CtrlDataAllVoice[topNum+51];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_72]/* modulation wheel amplitude modulation range      */ = dx100CtrlDataAllVoice[topNum+52];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_73]/* breath control pitch modulation range            */ = dx100CtrlDataAllVoice[topNum+53];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_74]/* breath control amplitude modulation range        */ = dx100CtrlDataAllVoice[topNum+54];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_75]/* breath control pitch bias range                  */ = dx100CtrlDataAllVoice[topNum+55];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_76]/* breath control eg bias range                     */ = dx100CtrlDataAllVoice[topNum+56];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_77]/* voice name 1                                     */ = dx100CtrlDataAllVoice[topNum+57];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_78]/* voice name 2                                     */ = dx100CtrlDataAllVoice[topNum+58];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_79]/* voice name 3                                     */ = dx100CtrlDataAllVoice[topNum+59];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_80]/* voice name 4                                     */ = dx100CtrlDataAllVoice[topNum+60];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_81]/* voice name 5                                     */ = dx100CtrlDataAllVoice[topNum+61];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_82]/* voice name 6                                     */ = dx100CtrlDataAllVoice[topNum+62];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_83]/* voice name 7                                     */ = dx100CtrlDataAllVoice[topNum+63];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_84]/* voice name 8                                     */ = dx100CtrlDataAllVoice[topNum+64];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_85]/* voice name 9                                     */ = dx100CtrlDataAllVoice[topNum+65];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_86]/* voice name 10                                    */ = dx100CtrlDataAllVoice[topNum+66];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_87]/* pitch eg rate 1                                  */ = dx100CtrlDataAllVoice[topNum+67];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_88]/* pitch eg rate 2                                  */ = dx100CtrlDataAllVoice[topNum+68];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_89]/* pitch eg rate 3                                  */ = dx100CtrlDataAllVoice[topNum+69];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_90]/* pitch eg level 1                                 */ = dx100CtrlDataAllVoice[topNum+70];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_91]/* pitch eg level 2                                 */ = dx100CtrlDataAllVoice[topNum+71];
+        dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_92]/* pitch eg level 3                                 */ = dx100CtrlDataAllVoice[topNum+72];
+
+        copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
+    }
+    else
+    {
+        nop();
+    }
+}
+
 //#define DX100_CTRL_DEBUG_DATA_DISP
 /*********************************************
  * 内容   : 
