@@ -51,7 +51,6 @@ static LRESULT onDefault         ( HWND hwnd, UINT message, WPARAM wParam, LPARA
 
 int okMessage( HWND hwnd, TCHAR *szMessageFormat, ... );
 void doCaption( HWND hwnd, TCHAR* szTitleName, BOOL bNeedSave );
-short AskAboutSave( HWND hwnd, TCHAR * szTitleName );
 static void someCtrlDisableOnMidiOpenOrClose( void );
 
 /* 内部変数定義 */
@@ -1230,41 +1229,6 @@ doCaption( HWND hwnd, TCHAR* szTitleName, BOOL bNeedSave )
      }
 
      SetWindowText( hwnd, szCaption );
-}
-
-/********************************************************************************
- * 内容  :
- * 引数  : HWND hwnd
- * 引数  : TCHAR* szTitleName
- * 戻り値: なし
- ***************************************/
-short
-AskAboutSave( HWND hwnd, TCHAR * szTitleName )
-{
-    TCHAR szBuffer[64 + MAX_PATH];
-    int   iReturn;
-
-    wsprintf(szBuffer, TEXT("ファイル %s の内容は変更されています。\n\n変更を保存しますか?"), szTitleName[0] ? szTitleName : TEXT("無題") );
-
-    iReturn = MessageBox( hwnd,szBuffer,mainWndData.szAppName,MB_YESNOCANCEL|MB_ICONEXCLAMATION );
-
-    if( iReturn == IDYES )
-    {
-        if( !SendMessage( hwnd,WM_COMMAND,IDM_FILE_SAVE,0) )
-        {
-            iReturn = IDCANCEL;
-        }
-        else
-        {
-            nop();
-        }
-    }
-    else
-    {
-        nop();
-    }
-
-    return iReturn;
 }
 
 /********************************************************************************
