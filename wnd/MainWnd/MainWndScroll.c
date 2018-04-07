@@ -24,7 +24,7 @@ typedef struct
 static S_MAINWND_SCROLL_DATA mainWndScrollData;
 
 #define SCROLL_RANGE_HORZ_MAX 1100
-#define SCROLL_RANGE_VERT_MAX  810
+#define SCROLL_RANGE_VERT_MAX  450
 
 /********************************************************************************
  * 内容  : スクロール情報のセット
