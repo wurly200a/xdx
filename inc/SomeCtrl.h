@@ -12,6 +12,7 @@ typedef enum
 
 typedef enum
 {
+    SOME_CTRL_GROUP_MIDI             ,
     SOME_CTRL_MIDI_IN_STATIC         ,
     SOME_CTRL_MIDI_IN                ,
     SOME_CTRL_MIDI_IN_OPEN_BUTTON    ,
