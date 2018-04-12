@@ -546,12 +546,46 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     HFONT hFontOld;
 
     static TCHAR szMidiDev[50];
+    static TCHAR szDevice[50];
     int iCbNum,iDevNum;
     HWND hComboBox;
     int iReturn;
 
     switch( LOWORD(wParam) )
     {
+    case (SOME_CTRL_DEVICE_SELECT+SOME_CTRL_ID_OFFSET):
+//        DebugWndPrintf("WndProc,message=0x%08lX,wParam=0x%08lX,wParam=0x%08lX\r\n",message,wParam,lParam);
+        if( HIWORD(wParam) == CBN_SELCHANGE )
+        {
+            hComboBox = SomeCtrlGetHWND(SOME_CTRL_DEVICE_SELECT);
+            iCbNum = SendMessage(hComboBox,CB_GETCURSEL,0,0);
+
+            if( iCbNum != CB_ERR )
+            {
+                iDevNum = SendMessage( hComboBox , CB_GETITEMDATA, iCbNum, (LPARAM)0 );
+                SomeCtrlGetText( SOME_CTRL_DEVICE_SELECT, szDevice );
+                DebugWndPrintf("%s:%d\r\n",szDevice,iDevNum);
+
+                if( iDevNum == 1 )
+                {
+                    Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+                }
+                else
+                {
+                    Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM);
+                }
+            }
+            else
+            {
+                DebugWndPrintf("Not Selected\r\n");
+            }
+        }
+        else
+        {
+            nop();
+        }
+        break;
+
     case (SOME_CTRL_MIDI_IN_OPEN_BUTTON+SOME_CTRL_ID_OFFSET):
         if( !hMidiIn )
         {

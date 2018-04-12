@@ -29,14 +29,16 @@ typedef struct
 static S_SOME_CTRL ctrlListTbl[SOME_CTRL_MAX] =
 {
     /*                        , class            , value              , x , y  , w  , h ,bSAdj  ,wOfst, hOfst,exStyle,style  */
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("DEVICE")     ,600, 25,  50 , 15 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("combobox") , TEXT("")           ,650, 20, 150 ,300 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
     {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("MIDI")       ,220,  5, 350 ,100 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
-    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("MIDI IN")    ,230, 25,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("MIDI IN")    ,230, 25,  80 , 15 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_ALWAYS   , TEXT("combobox") , TEXT("")           ,295, 20, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
     {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("Open")       ,510, 20,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("MIDI OUT")   ,230, 45,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_ALWAYS   , TEXT("static")   , TEXT("MIDI OUT")   ,230, 45,  80 , 15 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_ALWAYS   , TEXT("combobox") , TEXT("")           ,295, 40, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
     {SOME_CTRL_GROUP_ALWAYS   , TEXT("button")   , TEXT("Open")       ,510, 40,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_DISABLE  , TEXT("static")   , TEXT("MIDI KEY IN"),365, 55,  80 , 15 ,TRUE  ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_DISABLE  , TEXT("static")   , TEXT("MIDI KEY IN"),365, 55,  80 , 15 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_DISABLE  , TEXT("combobox") , TEXT("")           ,430, 50, 200 , 300,FALSE ,0    , 0    ,0                ,(WS_CHILD|CBS_SORT|CBS_DROPDOWNLIST)    },
     {SOME_CTRL_GROUP_DISABLE  , TEXT("button")   , TEXT("Open")       ,645, 50,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_DISABLE  , TEXT("button")   , TEXT("DEBUG")      ,720, 30,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
@@ -63,9 +65,9 @@ static S_SOME_CTRL ctrlListTbl[SOME_CTRL_MAX] =
     {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("GET")        ,325, 75,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
     {SOME_CTRL_GROUP_ALL_VOICE, TEXT("button")   , TEXT("SET")        ,405, 75,  50 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
 
-    {SOME_CTRL_GROUP_SYSTEM   , TEXT("button")   , TEXT("ACTION")     , 10, 60, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
-    {SOME_CTRL_GROUP_SYSTEM   , TEXT("button")   , TEXT("GET")        , 50, 75,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
-    {SOME_CTRL_GROUP_SYSTEM   , TEXT("button")   , TEXT("SET")        ,150, 75,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_DISABLE  , TEXT("button")   , TEXT("ACTION")     , 10, 60, 350 , 45 ,FALSE ,0    , 0    ,WS_EX_TRANSPARENT,(WS_CHILD|BS_GROUPBOX)                  },
+    {SOME_CTRL_GROUP_DISABLE  , TEXT("button")   , TEXT("GET")        , 50, 75,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
+    {SOME_CTRL_GROUP_DISABLE  , TEXT("button")   , TEXT("SET")        ,150, 75,  40 , 20 ,FALSE ,0    , 0    ,0                ,(WS_CHILD|ES_LEFT)                      },
 };
 
 typedef struct
@@ -93,52 +95,66 @@ SomeCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
         S_SOME_CTRL *tblPtr = &(ctrlListTbl[i]);
         S_SOME_CTRL_INFO *infoPtr = &(ctrlInfo[i]);
 
-        infoPtr->hwnd = CreateWindowEx( tblPtr->exStyle,                  /* 拡張スタイル       */
-                                       tblPtr->class,                    /* クラス名           */
-                                       tblPtr->value,                    /* ウィンドウテキスト */
-                                       tblPtr->style,                    /* スタイル           */
-                                       tblPtr->x,tblPtr->y,       /* x座標,y座標        */
-                                       tblPtr->width,                    /* 幅                 */
-                                       tblPtr->height,                   /* 高さ               */
-                                       hwnd,(HMENU)(SOME_CTRL_ID_OFFSET+i),     /* 親ウィンドウ,子ウィンドウID */
-                                       hInst,NULL );                       /* インスタンスハンドル,補助引数 */
-        if( infoPtr->hwnd != NULL )
+        if( tblPtr->groupId != SOME_CTRL_GROUP_DISABLE )
         {
-            SendMessage(infoPtr->hwnd, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
-
-            /* 個別に処理するもの */
-#if 0
-            switch( i )
+            infoPtr->hwnd = CreateWindowEx( tblPtr->exStyle,                  /* 拡張スタイル       */
+                                            tblPtr->class,                    /* クラス名           */
+                                            tblPtr->value,                    /* ウィンドウテキスト */
+                                            tblPtr->style,                    /* スタイル           */
+                                            tblPtr->x,tblPtr->y,       /* x座標,y座標        */
+                                            tblPtr->width,                    /* 幅                 */
+                                            tblPtr->height,                   /* 高さ               */
+                                            hwnd,(HMENU)(SOME_CTRL_ID_OFFSET+i),     /* 親ウィンドウ,子ウィンドウID */
+                                            hInst,NULL );                       /* インスタンスハンドル,補助引数 */
+            if( infoPtr->hwnd != NULL )
             {
-            case SOME_CTRL_PATCH_NUM_SELECT:
-                iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)"Temporary");
-                SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)0 );
-                for(j=1; j<=128; j++ )
+                SendMessage(infoPtr->hwnd, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0));
+
+                /* 個別に処理するもの */
+                switch( i )
                 {
-                    wsprintf(szBuff,TEXT("%d"),j);
-                    iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)&szBuff[0]);
-                    SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)j );
-                }
-                SendMessage( infoPtr->hwnd , CB_SETCURSEL, 0, (LPARAM)0 );
-                break;
-            default:
-                break;
-            }
-#endif
+                case SOME_CTRL_DEVICE_SELECT:
+#if 1
+                    iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)TEXT("6 OPERATOR(DX7)"));
+                    SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)0 );
 
-            if( tblPtr->groupId == SOME_CTRL_GROUP_ALWAYS )
-            {
-                ShowWindow(infoPtr->hwnd, SW_SHOW);
+                    iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)TEXT("4 OPERATOR(DX100)"));
+                    SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)1 );
+                    SendMessage( infoPtr->hwnd , CB_SETCURSEL, iCbNum, (LPARAM)0 );
+#else
+                    iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)"Temporary");
+                    SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)0 );
+                    for(j=1; j<=128; j++ )
+                    {
+                        wsprintf(szBuff,TEXT("%d"),j);
+                        iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)&szBuff[0]);
+                        SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)j );
+                    }
+                    SendMessage( infoPtr->hwnd , CB_SETCURSEL, 0, (LPARAM)0 );
+#endif
+                    break;
+                default:
+                    break;
+                }
+
+                if( tblPtr->groupId == SOME_CTRL_GROUP_ALWAYS )
+                {
+                    ShowWindow(infoPtr->hwnd, SW_SHOW);
+                }
+                else
+                {
+                    nop();
+                }
+                infoPtr->exist = TRUE;
             }
             else
             {
-                nop();
+                /* do nothing */
             }
-            infoPtr->exist = TRUE;
         }
         else
         {
-            /* do nothing */
+            nop();
         }
     }
 

@@ -12,6 +12,8 @@ typedef enum
 
 typedef enum
 {
+    SOME_CTRL_DEVICE_SELECT_STATIC   ,
+    SOME_CTRL_DEVICE_SELECT          ,
     SOME_CTRL_GROUP_MIDI             ,
     SOME_CTRL_MIDI_IN_STATIC         ,
     SOME_CTRL_MIDI_IN                ,
