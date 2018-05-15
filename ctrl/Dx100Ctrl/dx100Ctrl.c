@@ -21,6 +21,7 @@ static BOOL copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BYTE getParamCtrlValue( PARAM_CTRL_ID id );
 static BOOL displayContents( void );
 static BYTE calcCheckSum( BYTE *dataPtr, INT dataSize );
+static BOOL dx100voiceCopyFromAllToOne( INT voiceNum );
 static void debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle );
 
 /* 内部変数定義 */
@@ -733,13 +734,68 @@ Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
     return TRUE;
 }
 
+/*********************************************
+ * 内容   : 
+ * 引数   : 
+ * 戻り値 : 
+ **********************************************/
+BOOL
+Dx100CtrlOnCommand( WORD code )
+{
+    BOOL bRtn = (BOOL)FALSE;
+
+    switch( code )
+    {
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_01+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_02+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_03+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_04+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_05+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_06+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_07+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_08+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_09+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_10+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_11+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_12+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_13+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_14+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_15+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_16+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_17+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_18+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_19+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_20+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_21+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_22+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_23+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_24+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_25+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_26+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_27+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_28+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_29+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_30+PARAM_CTRL_ID_OFFSET):
+    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_31+PARAM_CTRL_ID_OFFSET):
+        DebugWndPrintf("TO 1VOICE,%d\r\n",code-(PARAM_CTRL_ID_OFFSET+PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
+        dx100voiceCopyFromAllToOne(code-(PARAM_CTRL_ID_OFFSET+PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
+        bRtn = (BOOL)TRUE;
+        break;
+    default:
+        break;
+    }
+
+    return bRtn;
+}
+
 /********************************************************************************
  * 内容  : ボイスコピー(ALL VOICEから1VOICEへ)
  * 引数  : INT voiceNum
  * 戻り値: BOOL
  ***************************************/
-BOOL
-Dx100voiceCopyFromAllToOne( INT voiceNum )
+static BOOL
+dx100voiceCopyFromAllToOne( INT voiceNum )
 {
     if( voiceNum < 32 )
     {
