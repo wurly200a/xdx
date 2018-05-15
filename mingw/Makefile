@@ -31,11 +31,11 @@ OBJECTS = \
           ..\\wnd\\MainWnd\\MainWndScroll.o       \
           ..\\wnd\\ModalDlg\\ModalDialog.o        \
           ../wnd/ModalDlg/ModalDialogResource.o	  \
-          ..\\wnd\\ParamCtrl\\ParamCtrl.o         \
           ..\\wnd\\SomeCtrl\\SomeCtrl.o           \
           ..\\wnd\\StsBar\\StsBar.o               \
           ..\\sys\\Midi\\Midi.o                   \
           ..\\ctrl\\Dx100Ctrl\\dx100Ctrl.o        \
+          ..\\ctrl\\Dx100Ctrl\\ParamCtrl.o        \
           ../resources/resource.o                 \
 
 #          ..\\sys\\LinkedList\\LinkedList.o       \
