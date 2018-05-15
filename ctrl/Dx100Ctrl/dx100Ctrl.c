@@ -18,7 +18,7 @@ static INT seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, 
 static BOOL seqEndProc( DX100_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr );
 static BOOL copyToParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BOOL copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId );
-static BYTE getParamCtrlValue( PARAM_CTRL_ID id );
+static BYTE getParamCtrlValue( DX100_PARAM_CTRL_ID id );
 static BOOL displayContents( void );
 static BYTE calcCheckSum( BYTE *dataPtr, INT dataSize );
 static BOOL dx100voiceCopyFromAllToOne( INT voiceNum );
@@ -73,8 +73,8 @@ Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 
     dx100CtrlInfo.nowMode = DX100_CTRL_MODE_PATCH;
 
-    ParamCtrlCreate( hInst, szAppName, hwnd ); /* コントロールを生成 */
-    ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
+    Dx100ParamCtrlCreate( hInst, szAppName, hwnd ); /* コントロールを生成 */
+    Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_1VOICE);
 
     return bRtn;
 }
@@ -99,15 +99,15 @@ Dx100CtrlDisplayUpdate( void )
 {
     if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
     {
-        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_SYSTEM_COMMON);
+        Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_SYSTEM_COMMON);
     }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
     {
-        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_1VOICE);
+        Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_1VOICE);
     }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_ALL_VOICE )
     {
-        ParamCtrlGroupDisplay(PARAM_CTRL_GROUP_ALL_VOICE);
+        Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_ALL_VOICE);
     }
     else
     {
@@ -419,9 +419,9 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
 
             if( i < DX100_SYSEX_VCED_77 )
             {
-                paramCtrlIndex = PARAM_CTRL_VOICE_00 + i/*PARAM_CTRL_VOICE_00...PARAM_CTRL_VOICE_76*/;
+                paramCtrlIndex = DX100_PARAM_CTRL_VOICE_00 + i/*DX100_PARAM_CTRL_VOICE_00...DX100_PARAM_CTRL_VOICE_76*/;
 
-                SendMessage( ParamCtrlGetHWND(paramCtrlIndex), CB_SETCURSEL, dx100CtrlDataOneVoice[dataIndex], (LPARAM)0 );
+                SendMessage( Dx100ParamCtrlGetHWND(paramCtrlIndex), CB_SETCURSEL, dx100CtrlDataOneVoice[dataIndex], (LPARAM)0 );
             }
             else if( (DX100_SYSEX_VCED_77 <= i) && (i <= DX100_SYSEX_VCED_86) )
             {
@@ -441,7 +441,7 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
                             break;
                         }
                     }
-                    SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_VOICE_NAME),&patchName[0]);
+                    SetWindowText( Dx100ParamCtrlGetHWND(DX100_PARAM_CTRL_VOICE_NAME),&patchName[0]);
                 }
                 else
                 {
@@ -449,9 +449,9 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
             }
             else
             {
-                paramCtrlIndex = PARAM_CTRL_VOICE_87 + (i-DX100_SYSEX_VCED_87)/*PARAM_CTRL_VOICE_87...PARAM_CTRL_VOICE_92*/;
+                paramCtrlIndex = DX100_PARAM_CTRL_VOICE_87 + (i-DX100_SYSEX_VCED_87)/*DX100_PARAM_CTRL_VOICE_87...DX100_PARAM_CTRL_VOICE_92*/;
 
-                SendMessage( ParamCtrlGetHWND(paramCtrlIndex), CB_SETCURSEL, dx100CtrlDataOneVoice[dataIndex], (LPARAM)0 );
+                SendMessage( Dx100ParamCtrlGetHWND(paramCtrlIndex), CB_SETCURSEL, dx100CtrlDataOneVoice[dataIndex], (LPARAM)0 );
             }
 
         }
@@ -462,7 +462,7 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
             INT j;
             memset(&patchName[0],0,10+1);
             strncpy(&patchName[0],&dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_57],10);
-            SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_ALL_VOICE_NAME_00+i),&patchName[0]);
+            SetWindowText( Dx100ParamCtrlGetHWND(DX100_PARAM_CTRL_ALL_VOICE_NAME_00+i),&patchName[0]);
 #if 0 /* パッチ名を出力 */
             DebugWndPrintf("%s\r\n",&patchName[0]);
 #endif
@@ -476,7 +476,7 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
             {
                 sprintf(&szBuffer[j*2],"%02X",dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + j]);
             }
-//            SetWindowText( ParamCtrlGetHWND(PARAM_CTRL_ALL_VOICE_BULK_00+i),&szBuffer[0]);
+//            SetWindowText( Dx100ParamCtrlGetHWND(DX100_PARAM_CTRL_ALL_VOICE_BULK_00+i),&szBuffer[0]);
 
 #if 0 /* バルクダンプのテキストを出力 */
             DebugWndPrintf("%s\r\n",&szBuffer[0]);
@@ -519,7 +519,7 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
 
             if( i < DX100_SYSEX_VCED_77 )
             {
-                paramCtrlIndex = PARAM_CTRL_VOICE_00 + i/*PARAM_CTRL_VOICE_00...PARAM_CTRL_VOICE_76*/;
+                paramCtrlIndex = DX100_PARAM_CTRL_VOICE_00 + i/*DX100_PARAM_CTRL_VOICE_00...DX100_PARAM_CTRL_VOICE_76*/;
 
                 dx100CtrlDataOneVoice[dataIndex] = getParamCtrlValue(paramCtrlIndex);
             }
@@ -528,7 +528,7 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
                 if( DX100_SYSEX_VCED_77 == i )
                 {
                     memset(&patchName[0],0,10+1);
-                    ParamCtrlGetText(PARAM_CTRL_VOICE_NAME,patchName);
+                    Dx100ParamCtrlGetText(DX100_PARAM_CTRL_VOICE_NAME,patchName);
                     memset(&dx100CtrlDataOneVoice[dataIndex],0,10+1);
                     strncpy(&dx100CtrlDataOneVoice[dataIndex],&patchName[0],10);
 
@@ -550,7 +550,7 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
             }
             else
             {
-                paramCtrlIndex = PARAM_CTRL_VOICE_87 + (i-DX100_SYSEX_VCED_87)/*PARAM_CTRL_VOICE_87...PARAM_CTRL_VOICE_92*/;
+                paramCtrlIndex = DX100_PARAM_CTRL_VOICE_87 + (i-DX100_SYSEX_VCED_87)/*DX100_PARAM_CTRL_VOICE_87...DX100_PARAM_CTRL_VOICE_92*/;
 
                 dx100CtrlDataOneVoice[dataIndex] = getParamCtrlValue(paramCtrlIndex);
             }
@@ -575,13 +575,13 @@ copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId )
  * 戻り値 : BOOL
  **********************************************/
 static BYTE
-getParamCtrlValue( PARAM_CTRL_ID id )
+getParamCtrlValue( DX100_PARAM_CTRL_ID id )
 {
     BYTE value = (BYTE)0x00;
     int iCbNum;
     HWND hComboBox;
 
-    hComboBox = ParamCtrlGetHWND(id);
+    hComboBox = Dx100ParamCtrlGetHWND(id);
     if( hComboBox )
     {
         value = SendMessage(hComboBox,CB_GETCURSEL,0,0);
@@ -746,40 +746,40 @@ Dx100CtrlOnCommand( WORD code )
 
     switch( code )
     {
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_01+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_02+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_03+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_04+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_05+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_06+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_07+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_08+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_09+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_10+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_11+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_12+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_13+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_14+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_15+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_16+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_17+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_18+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_19+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_20+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_21+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_22+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_23+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_24+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_25+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_26+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_27+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_28+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_29+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_30+PARAM_CTRL_ID_OFFSET):
-    case (PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_31+PARAM_CTRL_ID_OFFSET):
-        DebugWndPrintf("TO 1VOICE,%d\r\n",code-(PARAM_CTRL_ID_OFFSET+PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
-        dx100voiceCopyFromAllToOne(code-(PARAM_CTRL_ID_OFFSET+PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_01+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_02+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_03+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_04+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_05+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_06+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_07+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_08+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_09+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_10+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_11+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_12+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_13+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_14+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_15+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_16+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_17+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_18+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_19+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_20+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_21+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_22+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_23+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_24+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_25+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_26+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_27+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_28+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_29+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_30+DX100_PARAM_CTRL_ID_OFFSET):
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_31+DX100_PARAM_CTRL_ID_OFFSET):
+        DebugWndPrintf("TO 1VOICE,%d\r\n",code-(DX100_PARAM_CTRL_ID_OFFSET+DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
+        dx100voiceCopyFromAllToOne(code-(DX100_PARAM_CTRL_ID_OFFSET+DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
         bRtn = (BOOL)TRUE;
         break;
     default:
