@@ -5,7 +5,7 @@
 
 typedef enum
 {
-    DX100_PARAM_CTRL_GROUP_SYSTEM_COMMON,
+    DX100_PARAM_CTRL_GROUP_NONE         ,
     DX100_PARAM_CTRL_GROUP_1VOICE       ,
     DX100_PARAM_CTRL_GROUP_ALL_VOICE    ,
     DX100_PARAM_CTRL_GROUP_MAX
@@ -13,8 +13,6 @@ typedef enum
 
 typedef enum
 {
-    DX100_PARAM_CTRL_SYSCMN_SOUNDMODE                ,
-
     DX100_PARAM_CTRL_VOICE_00                        ,DX100_PARAM_CTRL_1VOICE_START=DX100_PARAM_CTRL_VOICE_00,
     DX100_PARAM_CTRL_VOICE_01                        ,
     DX100_PARAM_CTRL_VOICE_02                        ,

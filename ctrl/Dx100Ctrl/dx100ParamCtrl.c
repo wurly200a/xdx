@@ -112,7 +112,6 @@ typedef struct
 
 S_DX100_PARAM_CTRL paramListTbl[DX100_PARAM_CTRL_MAX] =
 {/*  type     ,strText                               ,wTLen,bEnable  ,minValue,maxValue,ptstrDataDisp   ,addWidth,rowPos          ,colPos  ,yPosAdj*/       /*strFullText                                    */
-    {PCT_COMBO ,TEXT("SOUNDMODE"                     ),0    ,TRUE    ,0       ,  2     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS01,0   },      /*"SOUNDMODE"                                     */
     {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS03,0   },      /*"00 OP4 ATTACK RATE"                            */
     {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS04,0   },      /*"01 OP4 DECAY 1 RATE"                           */
     {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS06,0   },      /*"02 OP4 DECAY 2 RATE"                           */
@@ -362,7 +361,6 @@ Dx100ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     dx100ParamCtrlData.hInstance   = hInst;
     dx100ParamCtrlData.szAppName   = szAppName;
 
-    dx100ParamCtrlCreate(hwnd,DX100_PARAM_CTRL_GROUP_SYSTEM_COMMON,DX100_PARAM_CTRL_SYSCMN_SOUNDMODE  ,DX100_PARAM_CTRL_SYSCMN_SOUNDMODE  );
     dx100ParamCtrlCreate(hwnd,DX100_PARAM_CTRL_GROUP_1VOICE       ,DX100_PARAM_CTRL_1VOICE_START      ,DX100_PARAM_CTRL_1VOICE_END        );
     dx100ParamCtrlCreate(hwnd,DX100_PARAM_CTRL_GROUP_ALL_VOICE    ,DX100_PARAM_CTRL_ALL_VOICE_START   ,DX100_PARAM_CTRL_ALL_VOICE_END     );
 

@@ -571,7 +571,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
                 }
                 else
                 {
-                    Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM);
+                    Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
                 }
             }
             else
@@ -674,7 +674,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     case (SOME_CTRL_MODE_SYSTEM     +SOME_CTRL_ID_OFFSET):
         DebugWndPrintf("SYSTEM MODE\r\n");
-        Dx100CtrlModeSet(DX100_CTRL_MODE_SYSTEM);
+        Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
         SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
         break;
 

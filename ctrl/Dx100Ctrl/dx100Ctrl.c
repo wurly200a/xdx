@@ -97,9 +97,9 @@ Dx100CtrlModeSet(DX100_CTRL_MODE mode)
 BOOL
 Dx100CtrlDisplayUpdate( void )
 {
-    if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
+    if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_NONE )
     {
-        Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_SYSTEM_COMMON);
+        Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_NONE);
     }
     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
     {
@@ -226,7 +226,7 @@ Dx100CtrlCycleProc( void )
 
                 if( dx100CtrlInfo.nowMethod == DX100_CTRL_SEQ_METHOD_GET )
                 {
-                    if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
+                    if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_NONE )
                     {
                     }
                     else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
@@ -712,7 +712,7 @@ Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
         {
         }
 
-        if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_SYSTEM )
+        if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_NONE )
         {
         }
         else if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH )
