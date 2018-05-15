@@ -16,6 +16,14 @@ package ctrl {
     Dx100DataGet()
     Dx100DataSet()
     }
+
+    class dx100ParamCtrl {
+        Dx100ParamCtrlCreate()
+        Dx100ParamCtrlGroupDisplay()
+        Dx100ParamCtrlGetHWND()
+        Dx100ParamCtrlGetText()
+        Dx100ParamCtrlSetSize()
+    }
 }
 
 ' sys/
@@ -219,14 +227,6 @@ package wnd {
         SomeCtrlGetText()
     }
 
-    class ParamCtrl {
-        ParamCtrlCreate()
-        ParamCtrlGroupDisplay()
-        ParamCtrlGetHWND()
-        ParamCtrlGetText()
-        ParamCtrlSetSize()
-    }
-
     class StsBar {
         StsBarCreate()
         StsBarSize()
@@ -242,19 +242,19 @@ WinMain -- MainWnd
 MainWnd -- ModalDlg
 MainWnd -- StsBar
 MainWnd -- SomeCtrl
-MainWnd -- dx100Ctrl
+MainWnd --- dx100Ctrl
 
-MainWnd ----- Config
-MainWnd ----- DateTime
-MainWnd ----- File
-MainWnd ----- Font
-MainWnd --- Midi
-
-dx100Ctrl ---- ParamCtrl
+dx100Ctrl -- dx100ParamCtrl
 dx100Ctrl --- Midi
+
+MainWnd --- Config
+MainWnd --- DateTime
+MainWnd --- File
+MainWnd --- Font
+MainWnd --- Midi
 
 'EditWndBufferData -- LinkedList
 
-ModalDlg -- Version
+ModalDlg ---- Version
 
 @enduml
