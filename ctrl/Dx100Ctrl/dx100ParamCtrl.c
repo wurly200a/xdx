@@ -8,7 +8,7 @@
 /* ŠO•”•Ï”’è‹` */
 
 /* “à•”ŠÖ”’è‹` */
-#include "ParamCtrl.h"
+#include "dx100ParamCtrl.h"
 
 //#define DEBUG_DISP_STATIC_STRING
 

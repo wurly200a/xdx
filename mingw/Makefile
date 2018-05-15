@@ -35,7 +35,7 @@ OBJECTS = \
           ..\\wnd\\StsBar\\StsBar.o               \
           ..\\sys\\Midi\\Midi.o                   \
           ..\\ctrl\\Dx100Ctrl\\dx100Ctrl.o        \
-          ..\\ctrl\\Dx100Ctrl\\ParamCtrl.o        \
+          ..\\ctrl\\Dx100Ctrl\\dx100ParamCtrl.o   \
           ../resources/resource.o                 \
 
 #          ..\\sys\\LinkedList\\LinkedList.o       \

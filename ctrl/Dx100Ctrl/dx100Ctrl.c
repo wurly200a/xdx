@@ -2,7 +2,7 @@
 #include "common.h"
 /* 個別インクルードファイル */
 #include "SomeCtrl.h"
-#include "ParamCtrl.h"
+#include "dx100ParamCtrl.h"
 #include "Midi.h"
 #include "dx100Ctrl.h"
 #include "DebugWnd.h"
