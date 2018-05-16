@@ -8,7 +8,7 @@
 /* 外部変数定義 */
 
 /* 内部関数定義 */
-#include "dx100ParamCtrl.h"
+#include "dx7ParamCtrl.h"
 
 //#define DEBUG_DISP_STATIC_STRING
 
@@ -17,11 +17,11 @@ typedef struct
     HINSTANCE hInstance;
     PTSTR     szAppName;
     BOOL      bInitConfig;
-} S_DX100_PARM_CTRL_DATA;
+} S_DX7_PARM_CTRL_DATA;
 
-static S_DX100_PARM_CTRL_DATA dx100ParamCtrlData;
+static S_DX7_PARM_CTRL_DATA dx7ParamCtrlData;
 
-static BOOL dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_CTRL_ID startId, DX100_PARAM_CTRL_ID endId );
+static BOOL dx7ParamCtrlCreate( HWND hwnd, DX7_PARAM_CTRL_GROUP_ID groupId, DX7_PARAM_CTRL_ID startId, DX7_PARAM_CTRL_ID endId );
 /* 内部変数定義 */
 
 static char *strTblOnOff[2] = {"OFF","ON"};
@@ -93,11 +93,11 @@ enum
    PCT_STATIC,
    PCT_MAX
 };
-typedef BYTE DX100_PARAM_CTRL_TYPE;
+typedef BYTE DX7_PARAM_CTRL_TYPE;
 
 typedef struct
 {
-    DX100_PARAM_CTRL_TYPE type         ;
+    DX7_PARAM_CTRL_TYPE type         ;
     PTSTR           strText      ; /* ウィンドウテキスト                         */
     INT             withTextLen  ; /* 左側にテキストを追加する場合の長さ(0の時追加しない) */
     BOOL            bEnable      ;
@@ -108,9 +108,9 @@ typedef struct
     INT             rowPos       ;/* 行 */
     INT             colPos       ;/* 列 */
     INT             yPosAdj      ;
-} S_DX100_PARAM_CTRL;
+} S_DX7_PARAM_CTRL;
 
-static S_DX100_PARAM_CTRL paramListTbl[DX100_PARAM_CTRL_MAX] =
+static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
 {/*  type     ,strText                               ,wTLen,bEnable  ,minValue,maxValue,ptstrDataDisp   ,addWidth,rowPos          ,colPos  ,yPosAdj*/       /*strFullText                                    */
     {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS03,0   },      /*"00 OP4 ATTACK RATE"                            */
     {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS04,0   },      /*"01 OP4 DECAY 1 RATE"                           */
@@ -334,18 +334,18 @@ typedef struct
     INT yPos  ;
     INT width ;
     INT height;
-} S_DX100_PARAM_WINDOW_INFO;
+} S_DX7_PARAM_WINDOW_INFO;
 
 typedef struct
 {
     BOOL                exist                        ; /* ウィンドウが生成されているかどうか */
     HWND                hwnd_static_text             ; /* ウィンドウのハンドラ               */
     HWND                hwnd_data                    ; /* ウィンドウのハンドラ               */
-    S_DX100_PARAM_WINDOW_INFO wtInfo                       ;
-    DX100_PARAM_CTRL_GROUP_ID groupId                      ;
-} S_DX100_PARAM_INFO;
+    S_DX7_PARAM_WINDOW_INFO wtInfo                       ;
+    DX7_PARAM_CTRL_GROUP_ID groupId                      ;
+} S_DX7_PARAM_INFO;
 
-S_DX100_PARAM_INFO ctrlParamInfo[DX100_PARAM_CTRL_MAX];
+S_DX7_PARAM_INFO ctrlParamInfo[DX7_PARAM_CTRL_MAX];
 
 /********************************************************************************
  * 内容  : 登録された全てのパラメータコントロールを生成する
@@ -355,14 +355,14 @@ S_DX100_PARAM_INFO ctrlParamInfo[DX100_PARAM_CTRL_MAX];
  * 戻り値: BOOL
  ***************************************/
 BOOL
-Dx100ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
+Dx7ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 {
-    dx100ParamCtrlData.bInitConfig = TRUE;
-    dx100ParamCtrlData.hInstance   = hInst;
-    dx100ParamCtrlData.szAppName   = szAppName;
+    dx7ParamCtrlData.bInitConfig = TRUE;
+    dx7ParamCtrlData.hInstance   = hInst;
+    dx7ParamCtrlData.szAppName   = szAppName;
 
-    dx100ParamCtrlCreate(hwnd,DX100_PARAM_CTRL_GROUP_1VOICE       ,DX100_PARAM_CTRL_1VOICE_START      ,DX100_PARAM_CTRL_1VOICE_END        );
-    dx100ParamCtrlCreate(hwnd,DX100_PARAM_CTRL_GROUP_ALL_VOICE    ,DX100_PARAM_CTRL_ALL_VOICE_START   ,DX100_PARAM_CTRL_ALL_VOICE_END     );
+    dx7ParamCtrlCreate(hwnd,DX7_PARAM_CTRL_GROUP_1VOICE       ,DX7_PARAM_CTRL_1VOICE_START      ,DX7_PARAM_CTRL_1VOICE_END        );
+    dx7ParamCtrlCreate(hwnd,DX7_PARAM_CTRL_GROUP_ALL_VOICE    ,DX7_PARAM_CTRL_ALL_VOICE_START   ,DX7_PARAM_CTRL_ALL_VOICE_END     );
 
     return TRUE;
 }
@@ -370,17 +370,17 @@ Dx100ParamCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 /********************************************************************************
  * 内容  : 登録された全てのパラメータコントロールを生成する
  * 引数  : HWND hwnd 親ウィンドウのハンドラ
- * 引数  : DX100_PARAM_CTRL_GROUP_ID groupId
- * 引数  : DX100_PARAM_CTRL_ID       startId
- * 引数  : DX100_PARAM_CTRL_ID       endId
+ * 引数  : DX7_PARAM_CTRL_GROUP_ID groupId
+ * 引数  : DX7_PARAM_CTRL_ID       startId
+ * 引数  : DX7_PARAM_CTRL_ID       endId
  * 戻り値: BOOL
  ***************************************/
 static BOOL
-dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_CTRL_ID startId, DX100_PARAM_CTRL_ID endId )
+dx7ParamCtrlCreate( HWND hwnd, DX7_PARAM_CTRL_GROUP_ID groupId, DX7_PARAM_CTRL_ID startId, DX7_PARAM_CTRL_ID endId )
 {
     int nowId;
 
-    if( (startId <= endId) && (endId < DX100_PARAM_CTRL_MAX) )
+    if( (startId <= endId) && (endId < DX7_PARAM_CTRL_MAX) )
     {
         for(nowId=startId; nowId<=endId; nowId++ )
         {
@@ -392,8 +392,8 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
             INT   width;
             INT   xBasePos,yBasePos;
             INT xPos;
-            S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
-            S_DX100_PARAM_CTRL *tblPtr = &paramListTbl[nowId];
+            S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
+            S_DX7_PARAM_CTRL *tblPtr = &paramListTbl[nowId];
 
             if( tblPtr->type == PCT_COMBO )
             {
@@ -425,7 +425,7 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                 strText = (PTSTR)0;
                 style = (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL);
 
-                if( DX100_PARAM_CTRL_ALL_VOICE_START <= nowId && nowId <= DX100_PARAM_CTRL_ALL_VOICE_END )
+                if( DX7_PARAM_CTRL_ALL_VOICE_START <= nowId && nowId <= DX7_PARAM_CTRL_ALL_VOICE_END )
                 {
                     style |= ES_READONLY;
                 }
@@ -467,7 +467,7 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                                             tblPtr->withTextLen,    /* 幅                 */
                                             infoPtr->wtInfo.height, /* 高さ               */
                                             hwnd,(HMENU)0,
-                                            dx100ParamCtrlData.hInstance,NULL );               /* インスタンスハンドル,補助引数 */
+                                            dx7ParamCtrlData.hInstance,NULL );               /* インスタンスハンドル,補助引数 */
 
                 if( infoPtr->hwnd_static_text != NULL )
                 {
@@ -496,8 +496,8 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                                                 infoPtr->wtInfo.yPos,   /* y座標              */
                                                 infoPtr->wtInfo.width,  /* 幅                 */
                                                 infoPtr->wtInfo.height, /* 高さ               */
-                                                hwnd,(HMENU)(DX100_PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
-                                                dx100ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
+                                                hwnd,(HMENU)(DX7_PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
+                                                dx7ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #else
             infoPtr->hwnd_data = CreateWindowEx( exStyle,                                    /* 拡張スタイル       */
                                                 class,                                      /* クラス名           */
@@ -507,8 +507,8 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                                                 infoPtr->wtInfo.yPos,   /* y座標              */
                                                 infoPtr->wtInfo.width,  /* 幅                 */
                                                 infoPtr->wtInfo.height, /* 高さ               */
-                                                hwnd,(HMENU)(DX100_PARAM_CTRL_ID_OFFSET+nowId),/* 親ウィンドウ,子ウィンドウID */
-                                                dx100ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
+                                                hwnd,(HMENU)(DX7_PARAM_CTRL_ID_OFFSET+nowId),/* 親ウィンドウ,子ウィンドウID */
+                                                dx7ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #endif
             if( infoPtr->hwnd_data != NULL )
             {
@@ -576,17 +576,17 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
 
 /********************************************************************************
  * 内容  : 指定のグループのパラメータコントロールを表示
- * 引数  : DX100_PARAM_CTRL_GROUP_ID groupId
+ * 引数  : DX7_PARAM_CTRL_GROUP_ID groupId
  * 戻り値: BOOL
  ***************************************/
 BOOL
-Dx100ParamCtrlGroupDisplay( DX100_PARAM_CTRL_GROUP_ID groupId )
+Dx7ParamCtrlGroupDisplay( DX7_PARAM_CTRL_GROUP_ID groupId )
 {
     int nowId;
 
-    for(nowId=0; nowId<DX100_PARAM_CTRL_MAX; nowId++ )
+    for(nowId=0; nowId<DX7_PARAM_CTRL_MAX; nowId++ )
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
+        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
 
         if( infoPtr->groupId == groupId )
         {
@@ -620,17 +620,17 @@ Dx100ParamCtrlGroupDisplay( DX100_PARAM_CTRL_GROUP_ID groupId )
 
 /********************************************************************************
  * 内容  : ウィンドウハンドラを取得する
- * 引数  : DX100_PARAM_CTRL_ID id
+ * 引数  : DX7_PARAM_CTRL_ID id
  * 戻り値: HWND
  ***************************************/
 HWND
-Dx100ParamCtrlGetHWND( DX100_PARAM_CTRL_ID id )
+Dx7ParamCtrlGetHWND( DX7_PARAM_CTRL_ID id )
 {
     HWND rtn = (HWND)0;
 
-    if( id < DX100_PARAM_CTRL_MAX )
+    if( id < DX7_PARAM_CTRL_MAX )
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
+        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
 
         if( infoPtr->exist == TRUE )
         {
@@ -651,19 +651,19 @@ Dx100ParamCtrlGetHWND( DX100_PARAM_CTRL_ID id )
 
 /********************************************************************************
  * 内容  : ウィンドウからテキストを取得する
- * 引数  : DX100_PARAM_CTRL_ID id
+ * 引数  : DX7_PARAM_CTRL_ID id
  * 引数  : PTSTR ptstrText
  * 戻り値: BOOL
  ***************************************/
 BOOL
-Dx100ParamCtrlGetText( DX100_PARAM_CTRL_ID id, PTSTR ptstrText )
+Dx7ParamCtrlGetText( DX7_PARAM_CTRL_ID id, PTSTR ptstrText )
 {
     BOOL rtn = FALSE;
     INT iLength;
 
-    if( id < DX100_PARAM_CTRL_MAX )
+    if( id < DX7_PARAM_CTRL_MAX )
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
+        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
 
         if( infoPtr->exist == TRUE )
         {
@@ -691,13 +691,13 @@ Dx100ParamCtrlGetText( DX100_PARAM_CTRL_ID id, PTSTR ptstrText )
  * 戻り値: なし
  ***************************************/
 void
-Dx100ParamCtrlSetSize( int xPos, int yPos )
+Dx7ParamCtrlSetSize( int xPos, int yPos )
 {
     int i;
 
-    for(i=0; i<DX100_PARAM_CTRL_MAX; i++)
+    for(i=0; i<DX7_PARAM_CTRL_MAX; i++)
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[i];
+        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[i];
 
         MoveWindow( infoPtr->hwnd_data,
                     infoPtr->wtInfo.xPos - xPos,   /* x座標              */

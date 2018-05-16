@@ -36,6 +36,8 @@ OBJECTS = \
           ..\\sys\\Midi\\Midi.o                   \
           ..\\ctrl\\Dx100Ctrl\\dx100Ctrl.o        \
           ..\\ctrl\\Dx100Ctrl\\dx100ParamCtrl.o   \
+          ..\\ctrl\\Dx7Ctrl\\dx7Ctrl.o            \
+          ..\\ctrl\\Dx7Ctrl\\dx7ParamCtrl.o       \
           ../resources/resource.o                 \
 
 #          ..\\sys\\LinkedList\\LinkedList.o       \
