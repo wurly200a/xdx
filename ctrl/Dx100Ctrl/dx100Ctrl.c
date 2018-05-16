@@ -74,7 +74,6 @@ Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     dx100CtrlInfo.nowMode = DX100_CTRL_MODE_PATCH;
 
     Dx100ParamCtrlCreate( hInst, szAppName, hwnd ); /* ÉRÉìÉgÉçÅ[ÉãÇê∂ê¨ */
-    Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_1VOICE);
 
     return bRtn;
 }

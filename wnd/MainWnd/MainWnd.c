@@ -18,6 +18,7 @@
 #include "DebugWnd.h"
 #include "Midi.h"
 #include "dx100Ctrl.h"
+#include "dx7Ctrl.h"
 
 /* ŠO•”•Ï”’è‹` */
 
@@ -319,6 +320,8 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     MidiInit();
     Dx100CtrlInit( mainWndData.hInstance, mainWndData.szAppName, hwnd );
+    Dx7CtrlInit( mainWndData.hInstance, mainWndData.szAppName, hwnd );
+
     Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
 
     return rtn;

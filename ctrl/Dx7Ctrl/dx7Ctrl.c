@@ -74,7 +74,6 @@ Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     dx7CtrlInfo.nowMode = DX7_CTRL_MODE_PATCH;
 
     Dx7ParamCtrlCreate( hInst, szAppName, hwnd ); /* ÉRÉìÉgÉçÅ[ÉãÇê∂ê¨ */
-    Dx7ParamCtrlGroupDisplay(DX7_PARAM_CTRL_GROUP_1VOICE);
 
     return bRtn;
 }
