@@ -10,7 +10,7 @@
 /* 内部関数定義 */
 #include "dx7ParamCtrl.h"
 
-#define DEBUG_DISP_STATIC_STRING
+//#define DEBUG_DISP_STATIC_STRING
 
 typedef struct
 {
@@ -54,30 +54,30 @@ static char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1
 #define ROW_POS_STATIC0  1 /*           LFO            */
 #define ROW_POS_STATIC1  2 /* ALGORITHM                */
 #define ROW_POS_EDIT01   3 /* [      ]      [    ]     */
-#define ROW_POS_EDIT02   4 /*               [    ]     */
-#define ROW_POS_EDIT03   5 /*               [    ]     */
-#define ROW_POS_EDIT04   6 /*               [    ]     */
-#define ROW_POS_EDIT05   7 /*               [    ]     */
-#define ROW_POS_EDIT06   8 /*               [    ]     */
-#define ROW_POS_STATIC2  9 /* OSCILLATOR               */
-#define ROW_POS_STATIC3 10 /* RATIO                    */
-#define ROW_POS_EDIT07  11 /* OSCILLATOR1   [    ]     */
-#define ROW_POS_EDIT08  12 /* OSCILLATOR2   [    ]     */
-#define ROW_POS_EDIT09  13 /* OSCILLATOR3   [    ]     */
-#define ROW_POS_EDIT10  14 /* OSCILLATOR4   [    ]     */
-#define ROW_POS_EDIT11  15 /* OSCILLATOR5   [    ]     */
-#define ROW_POS_EDIT12  16 /* OSCILLATOR6   [    ]     */
-#define ROW_POS_STATIC4 17 /*               PITCH BEND */
-#define ROW_POS_STATIC5 18 /* POLY/MONO                */
-#define ROW_POS_EDIT13  19 /* OSCILLATOR1   [    ]     */
-#define ROW_POS_EDIT14  20 /* OSCILLATOR2   [    ]     */
-#define ROW_POS_EDIT15  21 /* OSCILLATOR3   [    ]     */
-#define ROW_POS_EDIT16  22 /* OSCILLATOR4   [    ]     */
-#define ROW_POS_EDIT17  23 /* OSCILLATOR5   [    ]     */
-#define ROW_POS_EDIT18  24 /* OSCILLATOR6   [    ]     */
-#define ROW_POS_STATIC5 25 /*               PITCH BEND */
-#define ROW_POS_STATIC6 26 /* POLY/MONO                */
-#define ROW_POS_EDIT19  27 /* [      ]                 */
+/*      ROW_POS_EDIT02                      [    ]     */
+/*      ROW_POS_EDIT03                      [    ]     */
+/*      ROW_POS_EDIT04                      [    ]     */
+/*      ROW_POS_EDIT05                      [    ]     */
+/*      ROW_POS_EDIT06                      [    ]     */
+#define ROW_POS_STATIC2  4 /* MODULATION SENSITIVITY   */
+#define ROW_POS_STATIC3  5 /* PITCH      AMPLITUDE     */
+#define ROW_POS_EDIT07   6 /* OSCILLATOR1   [    ]     */
+#define ROW_POS_EDIT08   7 /* OSCILLATOR2   [    ]     */
+#define ROW_POS_EDIT09   8 /* OSCILLATOR3   [    ]     */
+#define ROW_POS_EDIT10   9 /* OSCILLATOR4   [    ]     */
+#define ROW_POS_EDIT11  10 /* OSCILLATOR5   [    ]     */
+#define ROW_POS_EDIT12  11 /* OSCILLATOR6   [    ]     */
+#define ROW_POS_STATIC4 12 /*                          */
+#define ROW_POS_STATIC5 13 /*                          */
+#define ROW_POS_EDIT13  14 /* OSCILLATOR1   [    ]     */
+#define ROW_POS_EDIT14  15 /* OSCILLATOR2   [    ]     */
+#define ROW_POS_EDIT15  16 /* OSCILLATOR3   [    ]     */
+#define ROW_POS_EDIT16  17 /* OSCILLATOR4   [    ]     */
+#define ROW_POS_EDIT17  18 /* OSCILLATOR5   [    ]     */
+#define ROW_POS_EDIT18  19 /* OSCILLATOR6   [    ]     */
+#define ROW_POS_STATIC6 20 /*                          */
+#define ROW_POS_STATIC7 21 /*                          */
+#define ROW_POS_EDIT19  22 /* [      ]                 */
 
 #define COLPOS00  0
 #define COLPOS01  1
@@ -143,14 +143,13 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS02,0   },      /*11     OP6 LEFT CURVE                           */
     {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS03,0   },      /*12     OP6 RIGHT CURVE                          */
     {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS06,0   },      /*13     OP6 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT06 ,COLPOS10,0   },      /*14     OP6 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS02,0   },      /*14     OP6 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS08,0   },      /*15     OP6 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS07,0   },      /*16     OP6 OPERATOR OUTPUT LEVEL                */
     {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS04,0   },      /*17     OP6 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS06,0   },      /*18     OP6 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS07,0   },      /*19     OP6 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS08,0   },      /*20     OP6 DETUNE                               */
-
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS09,0   },      /*21     OP5 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS10,0   },      /*22     OP5 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS11,0   },      /*23     OP5 EG RATE 3                            */
@@ -165,14 +164,13 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS02,0   },      /*32     OP5 LEFT CURVE                           */
     {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS03,0   },      /*33     OP5 RIGHT CURVE                          */
     {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS06,0   },      /*34     OP5 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT05 ,COLPOS10,0   },      /*35     OP5 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS02,0   },      /*35     OP5 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS08,0   },      /*36     OP5 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS07,0   },      /*37     OP5 OPERATOR OUTPUT LEVEL                */
     {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS04,0   },      /*38     OP5 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS06,0   },      /*39     OP5 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS07,0   },      /*40     OP5 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS08,0   },      /*41     OP5 DETUNE                               */
-
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS09,0   },      /*42     OP4 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS10,0   },      /*43     OP4 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS11,0   },      /*44     OP4 EG RATE 3                            */
@@ -187,14 +185,13 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS02,0   },      /*53     OP4 LEFT CURVE                           */
     {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS03,0   },      /*54     OP4 RIGHT CURVE                          */
     {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS06,0   },      /*55     OP4 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT04 ,COLPOS10,0   },      /*56     OP4 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS02,0   },      /*56     OP4 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS08,0   },      /*57     OP4 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS07,0   },      /*58     OP4 OPERATOR OUTPUT LEVEL                */
     {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS04,0   },      /*59     OP4 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS06,0   },      /*60     OP4 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS07,0   },      /*61     OP4 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS08,0   },      /*62     OP4 DETUNE                               */
-
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS09,0   },      /*63     OP3 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS10,0   },      /*64     OP3 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS11,0   },      /*65     OP3 EG RATE 3                            */
@@ -209,14 +206,13 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS02,0   },      /*74     OP3 LEFT CURVE                           */
     {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS03,0   },      /*75     OP3 RIGHT CURVE                          */
     {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS06,0   },      /*76     OP3 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT03 ,COLPOS10,0   },      /*77     OP3 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS02,0   },      /*77     OP3 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS08,0   },      /*78     OP3 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS07,0   },      /*79     OP3 OPERATOR OUTPUT LEVEL                */
     {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS04,0   },      /*80     OP3 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS06,0   },      /*81     OP3 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS07,0   },      /*82     OP3 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS08,0   },      /*83     OP3 DETUNE                               */
-
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS09,0   },      /*84     OP2 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS10,0   },      /*85     OP2 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS11,0   },      /*86     OP2 EG RATE 3                            */
@@ -231,14 +227,13 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS02,0   },      /*95     OP2 LEFT CURVE                           */
     {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS03,0   },      /*96     OP2 RIGHT CURVE                          */
     {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS06,0   },      /*97     OP2 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT02 ,COLPOS10,0   },      /*98     OP2 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS02,0   },      /*98     OP2 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS08,0   },      /*99     OP2 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS07,0   },      /*100    OP2 OPERATOR OUTPUT LEVEL                */
     {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS04,0   },      /*101    OP2 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS06,0   },      /*102    OP2 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS07,0   },      /*103    OP2 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS08,0   },      /*104    OP2 DETUNE                               */
-
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS09,0   },      /*105    OP1 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS10,0   },      /*106    OP1 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS11,0   },      /*107    OP1 EG RATE 3                            */
@@ -253,14 +248,13 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS02,0   },      /*116    OP1 LEFT CURVE                           */
     {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS03,0   },      /*117    OP1 RIGHT CURVE                          */
     {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS06,0   },      /*118    OP1 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS10,0   },      /*119    OP1 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS02,0   },      /*119    OP1 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS08,0   },      /*120    OP1 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS07,0   },      /*121    OP1 OPERATOR OUTPUT LEVEL                */
     {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS04,0   },      /*122    OP1 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS06,0   },      /*123    OP1 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS07,0   },      /*124    OP1 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS08,0   },      /*125    OP1 DETUNE                               */
-
     {PCT_COMBO ,TEXT("PEG R1"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS09,0   },      /*126        PITCH EG RATE 1                      */
     {PCT_COMBO ,TEXT("PEG R2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS10,0   },      /*127        PITCH EG RATE 2                      */
     {PCT_COMBO ,TEXT("PEG R3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS11,0   },      /*128        PITCH EG RATE 3                      */
@@ -269,94 +263,84 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("PEG L2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS14,0   },      /*131        PITCH EG LEVEL 2                     */
     {PCT_COMBO ,TEXT("PEG L3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS15,0   },      /*132        PITCH EG LEVEL 3                     */
     {PCT_COMBO ,TEXT("PEG L4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS16,0   },      /*133        PITCH EG LEVEL 4                     */
-    {PCT_COMBO ,TEXT("ALGORITHM SELECT"              ),0    ,TRUE/**/,0       ,  7     , strTblAlgorithm     ,  0, ROW_POS_EDIT01 ,COLPOS01,0   },      /*134        ALGORITHM SELECT                     */
-    {PCT_COMBO ,TEXT("FEED BACK"                     ),0    ,TRUE/**/,0       ,  7     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS02,0   },      /*135        FEED BACK                            */
-    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS05,0   },      /*136        OSILLATOR SYNC                       */
-    {PCT_COMBO ,TEXT("SPEED"                         ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS04,0   },      /*137        LFO SPEED                            */
-    {PCT_COMBO ,TEXT("DELAY"                         ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS05,0   },      /*138        LFO DELAY                            */
-    {PCT_COMBO ,TEXT("PMD"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS06,0   },      /*139        LFO PMD                              */
-    {PCT_COMBO ,TEXT("AMD"                           ),0    ,TRUE/**/,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT01 ,COLPOS07,0   },      /*140        LFO AMD                              */
-    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE/**/,0       ,  3     , strTblLfoWave       ,  0, ROW_POS_EDIT01 ,COLPOS08,0   },      /*141        LFO SYNC                             */
-    {PCT_COMBO ,TEXT("WAVE"                          ),0    ,TRUE/**/,0       ,  7     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS03,0   },      /*142        LFO WAVE                             */
-    {PCT_COMBO ,TEXT("PITCH"                         ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS09,0   },      /*143        MOD SENSITIVITY PITCH                */
+    {PCT_COMBO ,TEXT("ALGORITHM SELECT"              ),0    ,TRUE    ,0       ,  7     , strTblAlgorithm     ,  0, ROW_POS_EDIT01 ,COLPOS01,0   },      /*134        ALGORITHM SELECT                     */
+    {PCT_COMBO ,TEXT("FEED BACK"                     ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS02,0   },      /*135        FEED BACK                            */
+    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS05,0   },      /*136        OSILLATOR SYNC                       */
+    {PCT_COMBO ,TEXT("SPEED"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS04,0   },      /*137        LFO SPEED                            */
+    {PCT_COMBO ,TEXT("DELAY"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS05,0   },      /*138        LFO DELAY                            */
+    {PCT_COMBO ,TEXT("PMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS06,0   },      /*139        LFO PMD                              */
+    {PCT_COMBO ,TEXT("AMD"                           ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT01 ,COLPOS07,0   },      /*140        LFO AMD                              */
+    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  3     , strTblLfoWave       ,  0, ROW_POS_EDIT01 ,COLPOS08,0   },      /*141        LFO SYNC                             */
+    {PCT_COMBO ,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS03,0   },      /*142        LFO WAVE                             */
+    {PCT_COMBO ,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,127     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS01,0   },      /*143        MOD SENSITIVITY PITCH                */
     {PCT_COMBO ,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       , 48     , strTblTranspose     ,  0, ROW_POS_EDIT19 ,COLPOS01,0   },      /*144        TRANSPOSE                            */
     {PCT_EDIT  ,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,127     , NULL                , 50, ROW_POS_EDIT00 ,COLPOS01,0   },      /*145-154    VOICE NAME                           */
-    {PCT_COMBO ,TEXT("OPERATOR ON/OFF"               ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT19 ,COLPOS02,0   },      /*155        OPERATOR ON/OFF                      */
-
-    {PCT_STATIC,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT00 ,COLPOS00,0   },    /*"PATCHNAME"                                     */
-    {PCT_STATIC,TEXT("LFO"                           ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC0,COLPOS03,5   },    /*"ALGORITHM"                                     */
-    {PCT_STATIC,TEXT("MODULATION SENSITVITY"         ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC0,COLPOS09,5   },    /*"MODULATION SENSITIVITY"                        */
-    {PCT_STATIC,TEXT("ALGORITHM"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS01,0   },    /*"ALGORITHM"                                     */
-    {PCT_STATIC,TEXT("FEEDBACK"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS02,0   },    /*"FEEDBACK LEVEL"                                */
-    {PCT_STATIC,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS03,0   },    /*"LFO WAVE"                                      */
-    {PCT_STATIC,TEXT("SPEED"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS04,0   },    /*"LFO SPEED"                                     */
-    {PCT_STATIC,TEXT("DELAY"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS05,0   },    /*"LFO DELAY"                                     */
-    {PCT_STATIC,TEXT("PMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS06,0   },    /*"PITCH MODULATION DEPTH"                        */
-    {PCT_STATIC,TEXT("AMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS07,0   },    /*"AMPLITUDE MODULATION DEPTH"                    */
-    {PCT_STATIC,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS08,0   },    /*"LFO SYNC"                                      */
-    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS09,0   },    /*"PITCH MODULATION SENSITIVITY"                  */
-    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS10,0   },    /*"AMPLITUDE MODULATION SENSITIVITY"              */
-    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS11,0   },    /*"OPERATOR1"*/
-    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT02 ,COLPOS11,0   },    /*"OPERATOR2"*/
-    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT03 ,COLPOS11,0   },    /*"OPERATOR3"*/
-    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT04 ,COLPOS11,0   },    /*"OPERATOR4"*/
-    {PCT_STATIC,TEXT("OPERATOR5"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT05 ,COLPOS11,0   },    /*"OPERATOR5"*/
-    {PCT_STATIC,TEXT("OPERATOR6"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT06 ,COLPOS11,0   },    /*"OPERATOR6"*/
-    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS00,0   },    /*"OPERATOR1"                                     */
-    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS00,0   },    /*"OPERATOR2"                                     */
-    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS00,0   },    /*"OPERATOR3"                                     */
-    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS00,0   },    /*"OPERATOR4"                                     */
-    {PCT_STATIC,TEXT("OPERATOR5"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS00,0   },    /*"OPERATOR5"                                     */
-    {PCT_STATIC,TEXT("OPERATOR6"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS00,0   },    /*"OPERATOR6"                                     */
-    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS00,0   },    /*"OPERATOR1"                                     */
-    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS00,0   },    /*"OPERATOR2"                                     */
-    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS00,0   },    /*"OPERATOR3"                                     */
-    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS00,0   },    /*"OPERATOR4"                                     */
-    {PCT_STATIC,TEXT("OPERATOR5"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS00,0   },    /*"OPERATOR5"                                     */
-    {PCT_STATIC,TEXT("OPERATOR6"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS00,0   },    /*"OPERATOR6"                                     */
-
-    {PCT_STATIC,TEXT("OSCILLATOR"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS01,5   },    /*""                      */
-    {PCT_STATIC,TEXT("MODE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC6,COLPOS01,0   },    /*""                      */
 #if 0
-    {PCT_STATIC,TEXT("ENVELOPE GENERATOR"            ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC2,COLPOS03,5   },    /*""*/
-    {PCT_STATIC,TEXT("OPERATOR"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS08,5   },    /*""*/
-    {PCT_STATIC,TEXT("KEY SCALING"                   ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC2,COLPOS09,5   },    /*""*/
-    {PCT_STATIC,TEXT("PITCH ENVELOPE GENERATOR"      ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC2,COLPOS11,5   },    /*""*/
-    {PCT_STATIC,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS02,0   },    /*"OP? DETUNE"                                    */
-    {PCT_STATIC,TEXT("AR"                            ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS03,0   },    /*"OP? ATTACK RATE"                               */
-    {PCT_STATIC,TEXT("D1R"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS04,0   },    /*"OP? DECAY 1 RATE"                              */
-    {PCT_STATIC,TEXT("D1L"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS05,0   },    /*"OP? DECAY 1 LEVEL"                             */
-    {PCT_STATIC,TEXT("D2R"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS06,0   },    /*"OP? DECAY 2 RATE"                              */
-    {PCT_STATIC,TEXT("RR"                            ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS07,0   },    /*"OP? RELEASE RATE"                              */
-    {PCT_STATIC,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS08,0   },    /*"OP? OUTPUT LEVEL"                              */
-    {PCT_STATIC,TEXT("RATE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS09,0   },    /*"OP? KEYBOARD SCALING RATE"                     */
-    {PCT_STATIC,TEXT("LEVEL"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS10,0   },    /*"OP? KEYBOARD SCALING LEVEL"                    */
-    {PCT_STATIC,TEXT("PR1"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS11,0   },    /*"PITCH EG RATE 1"                               */
-    {PCT_STATIC,TEXT("PL1"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS12,0   },    /*"PITCH EG LEVEL 1"                              */
-    {PCT_STATIC,TEXT("PR2"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS13,0   },    /*"PITCH EG RATE 2"                               */
-    {PCT_STATIC,TEXT("PL2"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS14,0   },    /*"PITCH EG LEVEL 2"                              */
-    {PCT_STATIC,TEXT("PR3"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS15,0   },    /*"PITCH EG RATE 3"                               */
-    {PCT_STATIC,TEXT("PL3"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS16,0   },    /*"PITCH EG LEVEL 3"                              */
-    {PCT_STATIC,TEXT("PITCH BEND"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC4,COLPOS02,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("PORTAMENTO"                    ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS03,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("FOOT CONTROL"                  ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS06,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("WHEEL RANGE"                   ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS08,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("BREATH CONTROLLER RANGE"       ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC4,COLPOS10,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("POLY/MONO"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS01,0   },    /*"PLAY MODE POLY/MONO"                           */
-    {PCT_STATIC,TEXT("RANGE"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS02,0   },    /*"PITCH BEND RANGE"                              */
-    {PCT_STATIC,TEXT("MODE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS03,0   },    /*"PORTAMENTO MODE"                               */
-    {PCT_STATIC,TEXT("TIME"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS04,0   },    /*"PORTAMENTO TIME"                               */
-    {PCT_STATIC,TEXT("FOOT SW"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS05,0   },    /*"PORTAMENT FOOT SWITCH"                         */
-    {PCT_STATIC,TEXT("VOLUME"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS06,0   },    /*"FOOT VOLUME RANGE"                             */
-    {PCT_STATIC,TEXT("SUSTAIN"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS07,0   },    /*"SUSTAIN FOOT SWITCH"                           */
-    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS08,0   },    /*"MODULATION WHEEL PITCH MODULATION RANGE"       */
-    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS09,0   },    /*"MODULATION WHEEL AMPLITUDE MODULATION RANGE"   */
-    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS10,0   },    /*"BREATH CONTROL PITCH MODULATION RANGE"         */
-    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS11,0   },    /*"BREATH CONTROL AMPLITUDE MODULATION RANGE"     */
-    {PCT_STATIC,TEXT("PITCH BIAS"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS12,0   },    /*"BREATH CONTROL PITCH BIAS RANGE"               */
-    {PCT_STATIC,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS13,0   },    /*"BREATH CONTROL EG BIAS RANGE"                  */
-    {PCT_STATIC,TEXT("CHORUS"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS14,0   },    /*"CHORUS SWITCH"                                 */
-    {PCT_STATIC,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS15,0   },    /*"TRANSPOSE"                                     */
+    {PCT_COMBO ,TEXT("OPERATOR ON/OFF"               ),0    ,FALSE   ,0       ,127     , NULL                ,  0, ROW_POS_EDIT19 ,COLPOS02,0   },      /*155        OPERATOR ON/OFF                      */
+#endif
+    {PCT_STATIC,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT00 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("LFO"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS03,5   },      /**/
+    {PCT_STATIC,TEXT("MODULATION SENSITVITY"         ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC2,COLPOS01,5   },      /**/
+    {PCT_STATIC,TEXT("ALGORITHM"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS01,0   },      /**/
+    {PCT_STATIC,TEXT("FEEDBACK"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS02,0   },      /**/
+    {PCT_STATIC,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS03,0   },      /**/
+    {PCT_STATIC,TEXT("SPEED"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS04,0   },      /**/
+    {PCT_STATIC,TEXT("DELAY"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT("PMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS06,0   },      /**/
+    {PCT_STATIC,TEXT("AMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS07,0   },      /**/
+    {PCT_STATIC,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS08,0   },      /**/
+    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS01,0   },      /**/
+    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS02,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR5"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR6"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR5"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR6"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS00,0   },      /**/
+    {PCT_STATIC,TEXT("OSCILLATOR"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS04,5   },      /**/
+    {PCT_STATIC,TEXT("MODE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS04,0   },      /**/
+    {PCT_STATIC,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT("FREQUENCY"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS06,5   },      /**/
+    {PCT_STATIC,TEXT("COARSE"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS06,0   },      /**/
+    {PCT_STATIC,TEXT("FINE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS07,0   },      /**/
+    {PCT_STATIC,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS08,0   },      /**/
+    {PCT_STATIC,TEXT("EG"                            ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS09,5   },      /**/
+    {PCT_STATIC,TEXT("RATE1"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS09,0   },      /**/
+    {PCT_STATIC,TEXT("RATE2"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS10,0   },      /**/
+    {PCT_STATIC,TEXT("RATE3"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS11,0   },      /**/
+    {PCT_STATIC,TEXT("RATE4"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS12,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL1"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS13,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS14,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS15,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS16,0   },      /**/
+    {PCT_STATIC,TEXT("KEYBOARD LEVEL SCALING"        ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC4,COLPOS01,5   },      /**/
+    {PCT_STATIC,TEXT("BREAK"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS01,0   },      /**/
+    {PCT_STATIC,TEXT("CURVE L"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS02,0   },      /**/
+    {PCT_STATIC,TEXT("CURVE R"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS03,0   },      /**/
+    {PCT_STATIC,TEXT("DEPTH L"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS04,0   },      /**/
+    {PCT_STATIC,TEXT("DEPTH R"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT("RATE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC4,COLPOS06,5   },      /**/
+    {PCT_STATIC,TEXT("SCALING"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS06,0   },      /**/
+    {PCT_STATIC,TEXT("OPERATOR"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC4,COLPOS07,5   },      /**/
+    {PCT_STATIC,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS07,0   },      /**/
+    {PCT_STATIC,TEXT("VELO SENS"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS08,0   },      /**/
+    {PCT_STATIC,TEXT("PITCH EG"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC4,COLPOS09,5   },      /**/
+    {PCT_STATIC,TEXT("RATE1"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS09,0   },      /**/
+    {PCT_STATIC,TEXT("RATE2"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS10,0   },      /**/
+    {PCT_STATIC,TEXT("RATE3"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS11,0   },      /**/
+    {PCT_STATIC,TEXT("RATE4"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS12,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL1"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS13,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS14,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS15,0   },      /**/
+    {PCT_STATIC,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS16,0   },      /**/
+    {PCT_STATIC,TEXT("KEY TRANSPOSE"                 ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC7,COLPOS01,0   },      /**/
+#if 0
 #endif
     {PCT_EDIT  ,TEXT("01"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 0              , 0      ,0   },    /*"VOICE_NAME_01"                                 */
     {PCT_EDIT  ,TEXT("02"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 1              , 0      ,0   },    /*"VOICE_NAME_02"                                 */
@@ -581,35 +565,19 @@ dx7ParamCtrlCreate( HWND hwnd, DX7_PARAM_CTRL_GROUP_ID groupId, DX7_PARAM_CTRL_I
             }
 
 #ifdef DEBUG_DISP_STATIC_STRING
-            if( tblPtr->type == PCT_STATIC )
-            {
-                infoPtr->hwnd_data = CreateWindowEx( exStyle,                                    /* 拡張スタイル       */
-                                                     class,                                      /* クラス名           */
-                                                     strText,                                    /* ウィンドウテキスト */
-                                                     style,                                      /* スタイル           */
-                                                     infoPtr->wtInfo.xPos,   /* x座標              */
-                                                     infoPtr->wtInfo.yPos,   /* y座標              */
-                                                     infoPtr->wtInfo.width,  /* 幅                 */
-                                                     infoPtr->wtInfo.height, /* 高さ               */
-                                                     hwnd,(HMENU)(DX7_PARAM_CTRL_ID_OFFSET+nowId),/* 親ウィンドウ,子ウィンドウID */
-                                                     dx7ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
-            }
-            else
-            {
-                infoPtr->wtInfo.width  = width + tblPtr->addWidth;
-                infoPtr->wtInfo.height = PARAM_STATIC_HEIGHT;
+            infoPtr->wtInfo.width  = width + tblPtr->addWidth;
+            infoPtr->wtInfo.height = PARAM_STATIC_HEIGHT;
 
-                infoPtr->hwnd_data = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,                    /* 拡張スタイル       */
-                                                     (PTSTR)TEXT("edit")/*TEXT("static")*/,      /* クラス名           */
-                                                     tblPtr->strText,                             /* ウィンドウテキスト */
-                                                     (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL)/*(WS_CHILD|ES_LEFT)*/,/* スタイル           */
-                                                     infoPtr->wtInfo.xPos,   /* x座標              */
-                                                     infoPtr->wtInfo.yPos,   /* y座標              */
-                                                     infoPtr->wtInfo.width,  /* 幅                 */
-                                                     infoPtr->wtInfo.height, /* 高さ               */
-                                                     hwnd,(HMENU)(DX7_PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
-                                                     dx7ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
-            }
+            infoPtr->hwnd_data = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,                    /* 拡張スタイル       */
+                                                (PTSTR)TEXT("edit")/*TEXT("static")*/,      /* クラス名           */
+                                                tblPtr->strText,                             /* ウィンドウテキスト */
+                                                (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL)/*(WS_CHILD|ES_LEFT)*/,/* スタイル           */
+                                                infoPtr->wtInfo.xPos,   /* x座標              */
+                                                infoPtr->wtInfo.yPos,   /* y座標              */
+                                                infoPtr->wtInfo.width,  /* 幅                 */
+                                                infoPtr->wtInfo.height, /* 高さ               */
+                                                hwnd,(HMENU)(DX7_PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
+                                                dx100ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #else
             infoPtr->hwnd_data = CreateWindowEx( exStyle,                                    /* 拡張スタイル       */
                                                 class,                                      /* クラス名           */
