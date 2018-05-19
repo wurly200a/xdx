@@ -739,7 +739,7 @@ Dx7DataSet( DX7_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
  * –ß‚è’l : 
  **********************************************/
 BOOL
-Dx7CtrlOnCommand( WORD code )
+Dx7CtrlOnCommand( WORD code, WORD notifyCode )
 {
     BOOL bRtn = (BOOL)FALSE;
 
@@ -777,9 +777,16 @@ Dx7CtrlOnCommand( WORD code )
     case (DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_29+DX7_PARAM_CTRL_ID_OFFSET):
     case (DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_30+DX7_PARAM_CTRL_ID_OFFSET):
     case (DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_31+DX7_PARAM_CTRL_ID_OFFSET):
-        DebugWndPrintf("TO 1VOICE,%d\r\n",code-(DX7_PARAM_CTRL_ID_OFFSET+DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
-        dx7voiceCopyFromAllToOne(code-(DX7_PARAM_CTRL_ID_OFFSET+DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
-        bRtn = (BOOL)TRUE;
+        DebugWndPrintf("[DX7] TO 1VOICE,%d=0x%04X\r\n",code-(DX7_PARAM_CTRL_ID_OFFSET+DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00),notifyCode);
+        if( notifyCode == 0 )
+        {
+            dx7voiceCopyFromAllToOne(code-(DX7_PARAM_CTRL_ID_OFFSET+DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
+            bRtn = (BOOL)TRUE;
+        }
+        else
+        {
+            nop();
+        }
         break;
     default:
         break;

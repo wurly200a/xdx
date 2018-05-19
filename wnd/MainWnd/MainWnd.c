@@ -319,10 +319,26 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     MenuCheckItem( IDM_EXTEND_NEWLINE_CRLF );
 
     MidiInit();
+
+    {
+        int iCbNum;
+
+        iCbNum = SendMessage( SomeCtrlGetHWND(SOME_CTRL_DEVICE_SELECT), CB_ADDSTRING, 0, (LPARAM)TEXT("6 OPERATOR(DX7)") );
+        SendMessage( SomeCtrlGetHWND(SOME_CTRL_DEVICE_SELECT)         , CB_SETITEMDATA, iCbNum, (LPARAM)1 );
+
+        iCbNum = SendMessage( SomeCtrlGetHWND(SOME_CTRL_DEVICE_SELECT), CB_ADDSTRING, 0, (LPARAM)TEXT("4 OPERATOR(DX100)") );
+        SendMessage( SomeCtrlGetHWND(SOME_CTRL_DEVICE_SELECT)         , CB_SETITEMDATA, iCbNum, (LPARAM)2 );
+
+        SendMessage( SomeCtrlGetHWND(SOME_CTRL_DEVICE_SELECT)         , CB_SETCURSEL, 1, (LPARAM)0 );
+    }
+
+    mainWndData.dxDeviceMode = DX_DEVICE_MODE_DX7;
+
     Dx100CtrlInit( mainWndData.hInstance, mainWndData.szAppName, hwnd );
     Dx7CtrlInit( mainWndData.hInstance, mainWndData.szAppName, hwnd );
 
-    Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+//    Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+    Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
 
     return rtn;
 }
@@ -568,12 +584,23 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
                 SomeCtrlGetText( SOME_CTRL_DEVICE_SELECT, szDevice );
                 DebugWndPrintf("%s:%d\r\n",szDevice,iDevNum);
 
-                if( iDevNum == 1 )
+                if( iDevNum == 2 )
                 {
+                    mainWndData.dxDeviceMode = DX_DEVICE_MODE_DX100;
+                }
+                else
+                {
+                    mainWndData.dxDeviceMode = DX_DEVICE_MODE_DX7;
+                }
+
+                if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+                {
+                    Dx7CtrlModeSet(DX7_CTRL_MODE_NONE);
                     Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
                 }
                 else
                 {
+                    Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
                     Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
                 }
             }
@@ -891,7 +918,12 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     default:
-        if( Dx100CtrlOnCommand(LOWORD(wParam)) )
+        if( (mainWndData.dxDeviceMode==DX_DEVICE_MODE_DX7) && (Dx7CtrlOnCommand(LOWORD(wParam),HIWORD(wParam))) )
+        {
+            Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
+            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+        }
+        else if( (mainWndData.dxDeviceMode==DX_DEVICE_MODE_DX100) && (Dx100CtrlOnCommand(LOWORD(wParam),HIWORD(wParam))) )
         {
             Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
             SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);

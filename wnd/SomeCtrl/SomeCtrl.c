@@ -113,26 +113,6 @@ SomeCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
                 /* ŒÂ•Ê‚Éˆ—‚·‚é‚à‚Ì */
                 switch( i )
                 {
-                case SOME_CTRL_DEVICE_SELECT:
-#if 1
-                    iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)TEXT("6 OPERATOR(DX7)"));
-                    SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)0 );
-
-                    iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)TEXT("4 OPERATOR(DX100)"));
-                    SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)1 );
-                    SendMessage( infoPtr->hwnd , CB_SETCURSEL, iCbNum, (LPARAM)0 );
-#else
-                    iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)"Temporary");
-                    SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)0 );
-                    for(j=1; j<=128; j++ )
-                    {
-                        wsprintf(szBuff,TEXT("%d"),j);
-                        iCbNum = SendMessage(infoPtr->hwnd , CB_ADDSTRING, 0, (LPARAM)&szBuff[0]);
-                        SendMessage( infoPtr->hwnd , CB_SETITEMDATA, iCbNum, (LPARAM)j );
-                    }
-                    SendMessage( infoPtr->hwnd , CB_SETCURSEL, 0, (LPARAM)0 );
-#endif
-                    break;
                 default:
                     break;
                 }

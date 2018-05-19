@@ -10,7 +10,7 @@
 /* 内部関数定義 */
 #include "dx7ParamCtrl.h"
 
-#define DEBUG_DISP_STATIC_STRING
+//#define DEBUG_DISP_STATIC_STRING
 
 typedef struct
 {
@@ -414,7 +414,7 @@ typedef struct
     DX7_PARAM_CTRL_GROUP_ID groupId                      ;
 } S_DX7_PARAM_INFO;
 
-S_DX7_PARAM_INFO ctrlParamInfo[DX7_PARAM_CTRL_MAX];
+static S_DX7_PARAM_INFO dx7ctrlParamInfo[DX7_PARAM_CTRL_MAX];
 
 /********************************************************************************
  * 内容  : 登録された全てのパラメータコントロールを生成する
@@ -461,7 +461,7 @@ dx7ParamCtrlCreate( HWND hwnd, DX7_PARAM_CTRL_GROUP_ID groupId, DX7_PARAM_CTRL_I
             INT   width;
             INT   xBasePos,yBasePos;
             INT xPos;
-            S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
+            S_DX7_PARAM_INFO *infoPtr = &dx7ctrlParamInfo[nowId];
             S_DX7_PARAM_CTRL *tblPtr = &paramListTbl[nowId];
 
             if( tblPtr->type == PCT_COMBO )
@@ -671,7 +671,7 @@ Dx7ParamCtrlGroupDisplay( DX7_PARAM_CTRL_GROUP_ID groupId )
 
     for(nowId=0; nowId<DX7_PARAM_CTRL_MAX; nowId++ )
     {
-        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
+        S_DX7_PARAM_INFO *infoPtr = &dx7ctrlParamInfo[nowId];
 
         if( infoPtr->groupId == groupId )
         {
@@ -715,7 +715,7 @@ Dx7ParamCtrlGetHWND( DX7_PARAM_CTRL_ID id )
 
     if( id < DX7_PARAM_CTRL_MAX )
     {
-        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
+        S_DX7_PARAM_INFO *infoPtr = &dx7ctrlParamInfo[id];
 
         if( infoPtr->exist == TRUE )
         {
@@ -748,7 +748,7 @@ Dx7ParamCtrlGetText( DX7_PARAM_CTRL_ID id, PTSTR ptstrText )
 
     if( id < DX7_PARAM_CTRL_MAX )
     {
-        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
+        S_DX7_PARAM_INFO *infoPtr = &dx7ctrlParamInfo[id];
 
         if( infoPtr->exist == TRUE )
         {
@@ -782,7 +782,7 @@ Dx7ParamCtrlSetSize( int xPos, int yPos )
 
     for(i=0; i<DX7_PARAM_CTRL_MAX; i++)
     {
-        S_DX7_PARAM_INFO *infoPtr = &ctrlParamInfo[i];
+        S_DX7_PARAM_INFO *infoPtr = &dx7ctrlParamInfo[i];
 
         MoveWindow( infoPtr->hwnd_data,
                     infoPtr->wtInfo.xPos - xPos,   /* x座標              */

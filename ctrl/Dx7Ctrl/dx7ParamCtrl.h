@@ -1,7 +1,7 @@
 #ifndef DX7_PARAM_CTRL_H
 #define DX7_PARAM_CTRL_H
 
-#define DX7_PARAM_CTRL_ID_OFFSET 100
+#define DX7_PARAM_CTRL_ID_OFFSET 2000
 
 typedef enum
 {

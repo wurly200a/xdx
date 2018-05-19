@@ -345,7 +345,7 @@ typedef struct
     DX100_PARAM_CTRL_GROUP_ID groupId                      ;
 } S_DX100_PARAM_INFO;
 
-S_DX100_PARAM_INFO ctrlParamInfo[DX100_PARAM_CTRL_MAX];
+static S_DX100_PARAM_INFO dx100ctrlParamInfo[DX100_PARAM_CTRL_MAX];
 
 /********************************************************************************
  * 内容  : 登録された全てのパラメータコントロールを生成する
@@ -392,7 +392,7 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
             INT   width;
             INT   xBasePos,yBasePos;
             INT xPos;
-            S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
+            S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[nowId];
             S_DX100_PARAM_CTRL *tblPtr = &paramListTbl[nowId];
 
             if( tblPtr->type == PCT_COMBO )
@@ -586,7 +586,7 @@ Dx100ParamCtrlGroupDisplay( DX100_PARAM_CTRL_GROUP_ID groupId )
 
     for(nowId=0; nowId<DX100_PARAM_CTRL_MAX; nowId++ )
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[nowId];
+        S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[nowId];
 
         if( infoPtr->groupId == groupId )
         {
@@ -630,7 +630,7 @@ Dx100ParamCtrlGetHWND( DX100_PARAM_CTRL_ID id )
 
     if( id < DX100_PARAM_CTRL_MAX )
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
+        S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[id];
 
         if( infoPtr->exist == TRUE )
         {
@@ -663,7 +663,7 @@ Dx100ParamCtrlGetText( DX100_PARAM_CTRL_ID id, PTSTR ptstrText )
 
     if( id < DX100_PARAM_CTRL_MAX )
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[id];
+        S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[id];
 
         if( infoPtr->exist == TRUE )
         {
@@ -697,7 +697,7 @@ Dx100ParamCtrlSetSize( int xPos, int yPos )
 
     for(i=0; i<DX100_PARAM_CTRL_MAX; i++)
     {
-        S_DX100_PARAM_INFO *infoPtr = &ctrlParamInfo[i];
+        S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[i];
 
         MoveWindow( infoPtr->hwnd_data,
                     infoPtr->wtInfo.xPos - xPos,   /* x座標              */

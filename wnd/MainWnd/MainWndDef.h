@@ -27,6 +27,14 @@ typedef enum
     MAINWND_MAX
 } MAINWND_INDEX;
 
+enum
+{
+    DX_DEVICE_MODE_DX7,
+    DX_DEVICE_MODE_DX100,
+    DX_DEVICE_MODE_NUM_MAX
+};
+typedef INT DX_DEVICE_MODE;
+
 typedef struct
 {
     HINSTANCE hInstance;
@@ -52,6 +60,8 @@ typedef struct
     UINT messageFindReplace;
     HWND hDlgModeless;
     HWND hWndDebug;
+
+    DX_DEVICE_MODE dxDeviceMode;
 } S_MAINWND_DATA;
 
 #define MAINWND_DEF_H

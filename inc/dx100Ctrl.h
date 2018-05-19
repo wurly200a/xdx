@@ -41,6 +41,6 @@ void Dx100CtrlCycleProc( void );
 DWORD Dx100GetDataSize( DX100_CTRL_SEQ_ID seqId );
 BOOL Dx100DataGet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
 BOOL Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
-BOOL Dx100CtrlOnCommand( WORD code );
+BOOL Dx100CtrlOnCommand( WORD code, WORD notifyCode );
 
 #endif /* DX100_CTRL_H */

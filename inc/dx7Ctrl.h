@@ -41,6 +41,6 @@ void Dx7CtrlCycleProc( void );
 DWORD Dx7GetDataSize( DX7_CTRL_SEQ_ID seqId );
 BOOL Dx7DataGet( DX7_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
 BOOL Dx7DataSet( DX7_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
-BOOL Dx7CtrlOnCommand( WORD code );
+BOOL Dx7CtrlOnCommand( WORD code, WORD notifyCode );
 
 #endif /* DX7_CTRL_H */
