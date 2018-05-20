@@ -25,13 +25,19 @@ static BOOL dx7ParamCtrlCreate( HWND hwnd, DX7_PARAM_CTRL_GROUP_ID groupId, DX7_
 /* ì‡ïîïœêîíËã` */
 
 static char *strTblOnOff[2] = {"OFF","ON"};
-static char *strTblAlgorithm[8] = {"1","2","3","4","5","6","7","8"};
-static char *strTblLfoWave[4]   = {"SAW","SQU","TRI","S/H"};
+static char *strTblAlgorithm[32] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"};
+static char *strTblLfoWave[6]   = {"TRI","SAW DWN","SAW UP","SQU","SINE","S/H"};
 static char *strTblTranspose[49]  = {"C 1","C#1","D 1","D#1","E 1","F 1","F#1","G 1","G#1","A 1","A#1","B 1","C 2","C#2","D 2","D#2","E 2","F 2","F#2","G 2","G#2","A 2","A#2","B 2","C 3","C#3","D 3","D#3","E 3","F 3","F#3","G 3","G#3","A 3","A#3","B 3","C 4","C#4","D 4","D#4","E 4","F 4","F#4","G 4","G#4","A 4","A#4","B 4","C 5"};
+static char *strTblFreqMode[2] = {"FIXED","RATIO"};
+static char *strTblBreakPoint[100]  = {"A -1","A#-1","B -1","C 0","C#0","D 0","D#0","E 0","F 0","F#0","G 0","G#0","A 0","A#0","B 0","C 1","C#1","D 1","D#1","E 1","F 1","F#1","G 1","G#1","A 1","A#1","B 1","C 2","C#2","D 2","D#2","E 2","F 2","F#2","G 2","G#2","A 2","A#2","B 2","C 3","C#3","D 3","D#3","E 3","F 3","F#3","G 3","G#3","A 3","A#3","B 3","C 4","C#4","D 4","D#4","E 4","F 4","F#4","G 4","G#4","A 4","A#4","B 4","C 5","C#5","D 5","D#5","E 5","F 5","F#5","G 5","G#5","A 5","A#5","B 5","C 6","C#6","D 6","D#6","E 6","F 6","F#6","G 6","G#6","A 6","A#6","B 6","C 7","C#7","D 7","D#7","E 7","F 7","F#7","G 7","G#7","A 7","A#7","B 7","C 8"};
+static char *strTblCurve[4] = {"-LIN","-EXP","+EXP","+LIN"};
+
+#if 0
 static char *strTblPolyMono[2] = {"POLY","MONO"};
 static char *strTblPortamentoMode[2] = {"Full","Fing"};
 static char *strTblDetune[7] = {"-3","-2","-1","0","+1","+2","+3"};
 static char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1.57","1.73","2.00","2.82","3.00","3.14","3.46","4.00","4.24","4.71","5.00","5.19","5.65","6.00","6.28","6.92","7.00","7.07","7.85","8.00","8.48","8.65","9.00","9.42","9.89","10.00","10.38","10.99","11.00","11.30","12.00","12.11","12.56","12.72","13.00","13.84","14.00","14.10","14.13","15.00","15.55","15.57","15.70","16.96","17.27","17.30","18.37","18.84","19.03","19.78","20.41","20.76","21.20","21.98","22.49","23.55","24.22","25.95"};
+#endif
 
 /* Xï˚å¸ */
 #define PARAM_STATIC_X_BASE_POS   5
@@ -137,19 +143,19 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS14,0   },      /* 5     OP6 EG LEVEL 2                           */
     {PCT_COMBO ,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS15,0   },      /* 6     OP6 EG LEVEL 3                           */
     {PCT_COMBO ,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS16,0   },      /* 7     OP6 EG LEVEL 4                           */
-    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS01,0   },      /* 8     OP6 BREAK POINT                          */
+    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , strTblBreakPoint    ,  0, ROW_POS_EDIT18 ,COLPOS01,0   },      /* 8     OP6 BREAK POINT                          */
     {PCT_COMBO ,TEXT("L DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS04,0   },      /* 9     OP6 LEFT DEPTH                           */
     {PCT_COMBO ,TEXT("R DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS05,0   },      /*10     OP6 RIGHT DEPTH                          */
-    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS02,0   },      /*11     OP6 LEFT CURVE                           */
-    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS03,0   },      /*12     OP6 RIGHT CURVE                          */
-    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS06,0   },      /*13     OP6 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS02,0   },      /*14     OP6 MOD SENSITIVITY AMPLITUDE            */
-    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS08,0   },      /*15     OP6 OPERATOR KEY VELOCITY SENSITIVITY    */
+    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT18 ,COLPOS02,0   },      /*11     OP6 LEFT CURVE                           */
+    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT18 ,COLPOS03,0   },      /*12     OP6 RIGHT CURVE                          */
+    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS06,0   },      /*13     OP6 KEY BOARD RATE SCALING               */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS02,0   },      /*14     OP6 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS08,0   },      /*15     OP6 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS07,0   },      /*16     OP6 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS04,0   },      /*17     OP6 OSILLATOR MODE                       */
-    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS06,0   },      /*18     OP6 OSILLATOR FREQUENCY COARSE           */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT12 ,COLPOS04,0   },      /*17     OP6 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS06,0   },      /*18     OP6 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS07,0   },      /*19     OP6 OSILLATOR FREQUENCY FINE             */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS08,0   },      /*20     OP6 DETUNE                               */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS08,0   },      /*20     OP6 DETUNE                               */
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS09,0   },      /*21     OP5 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS10,0   },      /*22     OP5 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS11,0   },      /*23     OP5 EG RATE 3                            */
@@ -158,19 +164,19 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS14,0   },      /*26     OP5 EG LEVEL 2                           */
     {PCT_COMBO ,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS15,0   },      /*27     OP5 EG LEVEL 3                           */
     {PCT_COMBO ,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS16,0   },      /*28     OP5 EG LEVEL 4                           */
-    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS01,0   },      /*29     OP5 BREAK POINT                          */
+    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , strTblBreakPoint    ,  0, ROW_POS_EDIT17 ,COLPOS01,0   },      /*29     OP5 BREAK POINT                          */
     {PCT_COMBO ,TEXT("L DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS04,0   },      /*30     OP5 LEFT DEPTH                           */
     {PCT_COMBO ,TEXT("R DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS05,0   },      /*31     OP5 RIGHT DEPTH                          */
-    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS02,0   },      /*32     OP5 LEFT CURVE                           */
-    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS03,0   },      /*33     OP5 RIGHT CURVE                          */
-    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS06,0   },      /*34     OP5 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS02,0   },      /*35     OP5 MOD SENSITIVITY AMPLITUDE            */
-    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS08,0   },      /*36     OP5 OPERATOR KEY VELOCITY SENSITIVITY    */
+    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT17 ,COLPOS02,0   },      /*32     OP5 LEFT CURVE                           */
+    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT17 ,COLPOS03,0   },      /*33     OP5 RIGHT CURVE                          */
+    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS06,0   },      /*34     OP5 KEY BOARD RATE SCALING               */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS02,0   },      /*35     OP5 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS08,0   },      /*36     OP5 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS07,0   },      /*37     OP5 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS04,0   },      /*38     OP5 OSILLATOR MODE                       */
-    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS06,0   },      /*39     OP5 OSILLATOR FREQUENCY COARSE           */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT11 ,COLPOS04,0   },      /*38     OP5 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS06,0   },      /*39     OP5 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS07,0   },      /*40     OP5 OSILLATOR FREQUENCY FINE             */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS08,0   },      /*41     OP5 DETUNE                               */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS08,0   },      /*41     OP5 DETUNE                               */
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS09,0   },      /*42     OP4 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS10,0   },      /*43     OP4 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS11,0   },      /*44     OP4 EG RATE 3                            */
@@ -179,19 +185,19 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS14,0   },      /*47     OP4 EG LEVEL 2                           */
     {PCT_COMBO ,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS15,0   },      /*48     OP4 EG LEVEL 3                           */
     {PCT_COMBO ,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS16,0   },      /*49     OP4 EG LEVEL 4                           */
-    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS01,0   },      /*50     OP4 BREAK POINT                          */
+    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , strTblBreakPoint    ,  0, ROW_POS_EDIT16 ,COLPOS01,0   },      /*50     OP4 BREAK POINT                          */
     {PCT_COMBO ,TEXT("L DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS04,0   },      /*51     OP4 LEFT DEPTH                           */
     {PCT_COMBO ,TEXT("R DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS05,0   },      /*52     OP4 RIGHT DEPTH                          */
-    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS02,0   },      /*53     OP4 LEFT CURVE                           */
-    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS03,0   },      /*54     OP4 RIGHT CURVE                          */
-    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS06,0   },      /*55     OP4 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS02,0   },      /*56     OP4 MOD SENSITIVITY AMPLITUDE            */
-    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS08,0   },      /*57     OP4 OPERATOR KEY VELOCITY SENSITIVITY    */
+    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT16 ,COLPOS02,0   },      /*53     OP4 LEFT CURVE                           */
+    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT16 ,COLPOS03,0   },      /*54     OP4 RIGHT CURVE                          */
+    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS06,0   },      /*55     OP4 KEY BOARD RATE SCALING               */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS02,0   },      /*56     OP4 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS08,0   },      /*57     OP4 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS07,0   },      /*58     OP4 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS04,0   },      /*59     OP4 OSILLATOR MODE                       */
-    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS06,0   },      /*60     OP4 OSILLATOR FREQUENCY COARSE           */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT10 ,COLPOS04,0   },      /*59     OP4 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS06,0   },      /*60     OP4 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS07,0   },      /*61     OP4 OSILLATOR FREQUENCY FINE             */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS08,0   },      /*62     OP4 DETUNE                               */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS08,0   },      /*62     OP4 DETUNE                               */
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS09,0   },      /*63     OP3 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS10,0   },      /*64     OP3 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS11,0   },      /*65     OP3 EG RATE 3                            */
@@ -200,19 +206,19 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS14,0   },      /*68     OP3 EG LEVEL 2                           */
     {PCT_COMBO ,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS15,0   },      /*69     OP3 EG LEVEL 3                           */
     {PCT_COMBO ,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS16,0   },      /*70     OP3 EG LEVEL 4                           */
-    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS01,0   },      /*71     OP3 BREAK POINT                          */
+    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , strTblBreakPoint    ,  0, ROW_POS_EDIT15 ,COLPOS01,0   },      /*71     OP3 BREAK POINT                          */
     {PCT_COMBO ,TEXT("L DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS04,0   },      /*72     OP3 LEFT DEPTH                           */
     {PCT_COMBO ,TEXT("R DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS05,0   },      /*73     OP3 RIGHT DEPTH                          */
-    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS02,0   },      /*74     OP3 LEFT CURVE                           */
-    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS03,0   },      /*75     OP3 RIGHT CURVE                          */
-    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS06,0   },      /*76     OP3 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS02,0   },      /*77     OP3 MOD SENSITIVITY AMPLITUDE            */
-    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS08,0   },      /*78     OP3 OPERATOR KEY VELOCITY SENSITIVITY    */
+    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT15 ,COLPOS02,0   },      /*74     OP3 LEFT CURVE                           */
+    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT15 ,COLPOS03,0   },      /*75     OP3 RIGHT CURVE                          */
+    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS06,0   },      /*76     OP3 KEY BOARD RATE SCALING               */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS02,0   },      /*77     OP3 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS08,0   },      /*78     OP3 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS07,0   },      /*79     OP3 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS04,0   },      /*80     OP3 OSILLATOR MODE                       */
-    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS06,0   },      /*81     OP3 OSILLATOR FREQUENCY COARSE           */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT09 ,COLPOS04,0   },      /*80     OP3 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS06,0   },      /*81     OP3 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS07,0   },      /*82     OP3 OSILLATOR FREQUENCY FINE             */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS08,0   },      /*83     OP3 DETUNE                               */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS08,0   },      /*83     OP3 DETUNE                               */
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS09,0   },      /*84     OP2 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS10,0   },      /*85     OP2 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS11,0   },      /*86     OP2 EG RATE 3                            */
@@ -221,19 +227,19 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS14,0   },      /*89     OP2 EG LEVEL 2                           */
     {PCT_COMBO ,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS15,0   },      /*90     OP2 EG LEVEL 3                           */
     {PCT_COMBO ,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS16,0   },      /*91     OP2 EG LEVEL 4                           */
-    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS01,0   },      /*92     OP2 BREAK POINT                          */
+    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , strTblBreakPoint    ,  0, ROW_POS_EDIT14 ,COLPOS01,0   },      /*92     OP2 BREAK POINT                          */
     {PCT_COMBO ,TEXT("L DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS04,0   },      /*93     OP2 LEFT DEPTH                           */
     {PCT_COMBO ,TEXT("R DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS05,0   },      /*94     OP2 RIGHT DEPTH                          */
-    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS02,0   },      /*95     OP2 LEFT CURVE                           */
-    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS03,0   },      /*96     OP2 RIGHT CURVE                          */
-    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS06,0   },      /*97     OP2 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS02,0   },      /*98     OP2 MOD SENSITIVITY AMPLITUDE            */
-    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS08,0   },      /*99     OP2 OPERATOR KEY VELOCITY SENSITIVITY    */
+    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT14 ,COLPOS02,0   },      /*95     OP2 LEFT CURVE                           */
+    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT14 ,COLPOS03,0   },      /*96     OP2 RIGHT CURVE                          */
+    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS06,0   },      /*97     OP2 KEY BOARD RATE SCALING               */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS02,0   },      /*98     OP2 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS08,0   },      /*99     OP2 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS07,0   },      /*100    OP2 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS04,0   },      /*101    OP2 OSILLATOR MODE                       */
-    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS06,0   },      /*102    OP2 OSILLATOR FREQUENCY COARSE           */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT08 ,COLPOS04,0   },      /*101    OP2 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS06,0   },      /*102    OP2 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS07,0   },      /*103    OP2 OSILLATOR FREQUENCY FINE             */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS08,0   },      /*104    OP2 DETUNE                               */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS08,0   },      /*104    OP2 DETUNE                               */
     {PCT_COMBO ,TEXT("RATE1"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS09,0   },      /*105    OP1 EG RATE 1                            */
     {PCT_COMBO ,TEXT("RATE2"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS10,0   },      /*106    OP1 EG RATE 2                            */
     {PCT_COMBO ,TEXT("RATE3"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS11,0   },      /*107    OP1 EG RATE 3                            */
@@ -242,19 +248,19 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("LEVEL2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS14,0   },      /*110    OP1 EG LEVEL 2                           */
     {PCT_COMBO ,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS15,0   },      /*111    OP1 EG LEVEL 3                           */
     {PCT_COMBO ,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS16,0   },      /*112    OP1 EG LEVEL 4                           */
-    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS01,0   },      /*113    OP1 BREAK POINT                          */
+    {PCT_COMBO ,TEXT("BREAK POINT"                   ),0    ,TRUE    ,0       , 99     , strTblBreakPoint    ,  0, ROW_POS_EDIT13 ,COLPOS01,0   },      /*113    OP1 BREAK POINT                          */
     {PCT_COMBO ,TEXT("L DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS04,0   },      /*114    OP1 LEFT DEPTH                           */
     {PCT_COMBO ,TEXT("R DEPTH"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS05,0   },      /*115    OP1 RIGHT DEPTH                          */
-    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS02,0   },      /*116    OP1 LEFT CURVE                           */
-    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS03,0   },      /*117    OP1 RIGHT CURVE                          */
-    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS06,0   },      /*118    OP1 KEY BOARD RATE SCALING               */
-    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS02,0   },      /*119    OP1 MOD SENSITIVITY AMPLITUDE            */
-    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS08,0   },      /*120    OP1 OPERATOR KEY VELOCITY SENSITIVITY    */
+    {PCT_COMBO ,TEXT("L CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT13 ,COLPOS02,0   },      /*116    OP1 LEFT CURVE                           */
+    {PCT_COMBO ,TEXT("R CURVE"                       ),0    ,TRUE    ,0       ,  3     , strTblCurve         ,  0, ROW_POS_EDIT13 ,COLPOS03,0   },      /*117    OP1 RIGHT CURVE                          */
+    {PCT_COMBO ,TEXT("KEY BOARD RATE SCALING"        ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS06,0   },      /*118    OP1 KEY BOARD RATE SCALING               */
+    {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS02,0   },      /*119    OP1 MOD SENSITIVITY AMPLITUDE            */
+    {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS08,0   },      /*120    OP1 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS07,0   },      /*121    OP1 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS04,0   },      /*122    OP1 OSILLATOR MODE                       */
-    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS06,0   },      /*123    OP1 OSILLATOR FREQUENCY COARSE           */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT07 ,COLPOS04,0   },      /*122    OP1 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS06,0   },      /*123    OP1 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS07,0   },      /*124    OP1 OSILLATOR FREQUENCY FINE             */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS08,0   },      /*125    OP1 DETUNE                               */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS08,0   },      /*125    OP1 DETUNE                               */
     {PCT_COMBO ,TEXT("PEG R1"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS09,0   },      /*126        PITCH EG RATE 1                      */
     {PCT_COMBO ,TEXT("PEG R2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS10,0   },      /*127        PITCH EG RATE 2                      */
     {PCT_COMBO ,TEXT("PEG R3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS11,0   },      /*128        PITCH EG RATE 3                      */
@@ -263,16 +269,16 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("PEG L2"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS14,0   },      /*131        PITCH EG LEVEL 2                     */
     {PCT_COMBO ,TEXT("PEG L3"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS15,0   },      /*132        PITCH EG LEVEL 3                     */
     {PCT_COMBO ,TEXT("PEG L4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS16,0   },      /*133        PITCH EG LEVEL 4                     */
-    {PCT_COMBO ,TEXT("ALGORITHM SELECT"              ),0    ,TRUE    ,0       ,  7     , strTblAlgorithm     ,  0, ROW_POS_EDIT01 ,COLPOS01,0   },      /*134        ALGORITHM SELECT                     */
+    {PCT_COMBO ,TEXT("ALGORITHM SELECT"              ),0    ,TRUE    ,0       , 31     , strTblAlgorithm     ,  0, ROW_POS_EDIT01 ,COLPOS01,0   },      /*134        ALGORITHM SELECT                     */
     {PCT_COMBO ,TEXT("FEED BACK"                     ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS02,0   },      /*135        FEED BACK                            */
-    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS05,0   },      /*136        OSILLATOR SYNC                       */
+    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT07 ,COLPOS05,0   },      /*136        OSILLATOR SYNC                       */
     {PCT_COMBO ,TEXT("SPEED"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS04,0   },      /*137        LFO SPEED                            */
     {PCT_COMBO ,TEXT("DELAY"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS05,0   },      /*138        LFO DELAY                            */
     {PCT_COMBO ,TEXT("PMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS06,0   },      /*139        LFO PMD                              */
-    {PCT_COMBO ,TEXT("AMD"                           ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT01 ,COLPOS07,0   },      /*140        LFO AMD                              */
-    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  3     , strTblLfoWave       ,  0, ROW_POS_EDIT01 ,COLPOS08,0   },      /*141        LFO SYNC                             */
-    {PCT_COMBO ,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS03,0   },      /*142        LFO WAVE                             */
-    {PCT_COMBO ,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,127     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS01,0   },      /*143        MOD SENSITIVITY PITCH                */
+    {PCT_COMBO ,TEXT("AMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS07,0   },      /*140        LFO AMD                              */
+    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS08,0   },      /*141        LFO SYNC                             */
+    {PCT_COMBO ,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,  5     , strTblLfoWave       ,  0, ROW_POS_EDIT01 ,COLPOS03,0   },      /*142        LFO WAVE                             */
+    {PCT_COMBO ,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS01,0   },      /*143        MOD SENSITIVITY PITCH                */
     {PCT_COMBO ,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       , 48     , strTblTranspose     ,  0, ROW_POS_EDIT19 ,COLPOS01,0   },      /*144        TRANSPOSE                            */
     {PCT_EDIT  ,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,127     , NULL                , 50, ROW_POS_EDIT00 ,COLPOS01,0   },      /*145-154    VOICE NAME                           */
 #if 0
@@ -340,8 +346,6 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_STATIC,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS15,0   },      /**/
     {PCT_STATIC,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS16,0   },      /**/
     {PCT_STATIC,TEXT("KEY TRANSPOSE"                 ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC7,COLPOS01,0   },      /**/
-#if 0
-#endif
     {PCT_EDIT  ,TEXT("01"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 0              , 0      ,0   },    /*"VOICE_NAME_01"                                 */
     {PCT_EDIT  ,TEXT("02"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 1              , 0      ,0   },    /*"VOICE_NAME_02"                                 */
     {PCT_EDIT  ,TEXT("03"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 2              , 0      ,0   },    /*"VOICE_NAME_03"                                 */

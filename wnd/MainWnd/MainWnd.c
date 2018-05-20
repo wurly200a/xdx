@@ -704,19 +704,37 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     case (SOME_CTRL_MODE_SYSTEM     +SOME_CTRL_ID_OFFSET):
         DebugWndPrintf("SYSTEM MODE\r\n");
-        Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
-        SomeCtrlGroupDisplay(SOME_CTRL_GROUP_SYSTEM);
         break;
 
     case (SOME_CTRL_MODE_1VOICE     +SOME_CTRL_ID_OFFSET):
         DebugWndPrintf("1VOICE MODE\r\n");
-        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+
+        Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
+        Dx7CtrlModeSet(DX7_CTRL_MODE_NONE  );
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+        {
+            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+        }
+        else
+        {
+            Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
+        }
         SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
         break;
 
     case (SOME_CTRL_MODE_ALL_VOICE+SOME_CTRL_ID_OFFSET):
         DebugWndPrintf("ALL VOICE MODE\r\n");
-        Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
+
+        Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
+        Dx7CtrlModeSet(DX7_CTRL_MODE_NONE  );
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+        {
+            Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
+        }
+        else
+        {
+            Dx7CtrlModeSet(DX7_CTRL_MODE_ALL_VOICE);
+        }
         SomeCtrlGroupDisplay(SOME_CTRL_GROUP_ALL_VOICE);
         break;
 
@@ -726,14 +744,28 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
-        Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+        {
+            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+        }
+        else
+        {
+            Dx7CtrlSeqStart(DX7_CTRL_SEQ_METHOD_GET,DX7_CTRL_SEQ_1VOICE,DX7_CTRL_SEQ_1VOICE);
+        }
         break;
 
     case (SOME_CTRL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
         iReturn = MessageBox( hwnd,TEXT("Are you sure?"),mainWndData.szAppName,MB_YESNO|MB_ICONEXCLAMATION );
         if( (iReturn == IDYES) )
         {
-            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            {
+                Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_1VOICE,DX100_CTRL_SEQ_1VOICE);
+            }
+            else
+            {
+                Dx7CtrlSeqStart(DX7_CTRL_SEQ_METHOD_SET,DX7_CTRL_SEQ_1VOICE,DX7_CTRL_SEQ_1VOICE);
+            }
         }
         else
         {
@@ -745,8 +777,16 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         if( FileOpenDlg( hwnd,FILE_ID_1VOICE_DATA ) )
         {
             dataPtr = FileReadByte(FILE_ID_1VOICE_DATA,&dwSize);
-            Dx100DataSet( DX100_CTRL_SEQ_1VOICE, dataPtr, dwSize );
-            Dx100CtrlDisplayUpdate();
+            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            {
+                Dx100DataSet( DX100_CTRL_SEQ_1VOICE, dataPtr, dwSize );
+                Dx100CtrlDisplayUpdate();
+            }
+            else
+            {
+                Dx7DataSet( DX7_CTRL_SEQ_1VOICE, dataPtr, dwSize );
+                Dx7CtrlDisplayUpdate();
+            }
         }
         else
         {
@@ -755,11 +795,25 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_VOICE_SAVE_BUTTON+SOME_CTRL_ID_OFFSET):
-        dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_1VOICE);
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+        {
+            dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_1VOICE);
+        }
+        else
+        {
+            dwSize = Dx7GetDataSize(DX7_CTRL_SEQ_1VOICE);
+        }
         dataPtr = malloc( dwSize * sizeof(TCHAR) );
         if( dataPtr != NULL )
         {
-            Dx100DataGet( DX100_CTRL_SEQ_1VOICE,dataPtr,dwSize );
+            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            {
+                Dx100DataGet( DX100_CTRL_SEQ_1VOICE,dataPtr,dwSize );
+            }
+            else
+            {
+                Dx7DataGet( DX7_CTRL_SEQ_1VOICE,dataPtr,dwSize );
+            }
             if( FileSaveDlg( hwnd,FILE_ID_1VOICE_DATA ) )
             {
                 FileWrite( FILE_ID_1VOICE_DATA, dataPtr, dwSize );
@@ -781,9 +835,18 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         {
 //                mainWndData.bNeedSave = FALSE;
             dataPtr = FileReadByte(FILE_ID_ALL_VOICE_DATA,&dwSize);
-            Dx100DataSet( DX100_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
+
+            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            {
+                Dx100DataSet( DX100_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
 //                doCaption( hwnd, FileGetTitleName(FILE_ID_BIN), FALSE );
-            Dx100CtrlDisplayUpdate();
+                Dx100CtrlDisplayUpdate();
+            }
+            else
+            {
+                Dx7DataSet( DX7_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
+                Dx7CtrlDisplayUpdate();
+            }
         }
         else
         {
@@ -792,11 +855,25 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_ALL_VOICE_SAVE_BUTTON+SOME_CTRL_ID_OFFSET):
-        dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_ALL_VOICE);
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+        {
+            dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_ALL_VOICE);
+        }
+        else
+        {
+            dwSize = Dx7GetDataSize(DX7_CTRL_SEQ_ALL_VOICE);
+        }
         dataPtr = malloc( dwSize * sizeof(TCHAR) );
         if( dataPtr != NULL )
         {
-            Dx100DataGet( DX100_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
+            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            {
+                Dx100DataGet( DX100_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
+            }
+            else
+            {
+                Dx7DataGet( DX7_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
+            }
             if( FileSaveDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
             {
 //                    mainWndData.bNeedSave = FALSE;
@@ -816,14 +893,28 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_ALL_VOICE_GET_BUTTON+SOME_CTRL_ID_OFFSET):
-        Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+        {
+            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
+        }
+        else
+        {
+            Dx7CtrlSeqStart(DX7_CTRL_SEQ_METHOD_GET,DX7_CTRL_SEQ_ALL_VOICE,DX7_CTRL_SEQ_ALL_VOICE);
+        }
         break;
 
     case (SOME_CTRL_ALL_VOICE_SET_BUTTON+SOME_CTRL_ID_OFFSET):
         iReturn = MessageBox( hwnd,TEXT("Are you sure?"),mainWndData.szAppName,MB_YESNO|MB_ICONEXCLAMATION );
         if( (iReturn == IDYES) )
         {
-            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
+            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            {
+                Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_ALL_VOICE,DX100_CTRL_SEQ_ALL_VOICE);
+            }
+            else
+            {
+                Dx7CtrlSeqStart(DX7_CTRL_SEQ_METHOD_SET,DX7_CTRL_SEQ_ALL_VOICE,DX7_CTRL_SEQ_ALL_VOICE);
+            }
         }
         else
         {
@@ -832,11 +923,9 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_SYSTEM_GET_BUTTON+SOME_CTRL_ID_OFFSET):
-//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_GET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);
         break;
 
     case (SOME_CTRL_SYSTEM_SET_BUTTON+SOME_CTRL_ID_OFFSET):
-//            Dx100CtrlSeqStart(DX100_CTRL_SEQ_METHOD_SET,DX100_CTRL_SEQ_SYS_COMMON,DX100_CTRL_SEQ_SYS_COMMON);
         break;
 
     case IDM_FILE_NEW:
@@ -1163,6 +1252,7 @@ onTimer( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     {
         MidiCycleProc();
         Dx100CtrlCycleProc();
+        Dx7CtrlCycleProc();
     }
     else
     {
