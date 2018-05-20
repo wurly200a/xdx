@@ -511,7 +511,7 @@ copyFromParamCtrl( DX7_CTRL_SEQ_ID seqId )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_REQUEST_SUB_STATUS] = 0x00;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_REQUEST_FORMAT_NO ] = DX7_DUMP_REQ_FORMAT_1VOICE;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_BYTE_COUNT_HIGH   ] = 0x00;
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_BYTE_COUNT_LOW    ] = 0x5D;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_BYTE_COUNT_LOW    ] = 0x9B; /* 155 */
 
         for( i=0; i<DX7_SYSEX_VCED_MAX; i++ )
         {
