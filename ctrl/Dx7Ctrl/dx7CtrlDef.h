@@ -189,7 +189,6 @@ enum
     DX7_SYSEX_1VOICE_DATA_152                 ,                                                    /*  158    */
     DX7_SYSEX_1VOICE_DATA_153                 ,                                                    /*  159    */
     DX7_SYSEX_1VOICE_DATA_154                 ,                                                    /*  160    */
-    DX7_SYSEX_1VOICE_DATA_155                 ,                                                    /*  161    */
     DX7_SYSEX_1VOICE_FOOTER_CHECKSUM          ,                                                    /*         */
     DX7_SYSEX_1VOICE_FOOTER_ETX               ,                                                    /*         */
     DX7_SYSEX_1VOICE_INDEX_MAX

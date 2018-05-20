@@ -580,9 +580,14 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
             if( iCbNum != CB_ERR )
             {
+                SOME_CTRL_GROUP_ID someCtrlGroupId = SomeCtrlGetNowGroupId();
+
                 iDevNum = SendMessage( hComboBox , CB_GETITEMDATA, iCbNum, (LPARAM)0 );
                 SomeCtrlGetText( SOME_CTRL_DEVICE_SELECT, szDevice );
                 DebugWndPrintf("%s:%d\r\n",szDevice,iDevNum);
+
+                Dx7CtrlModeSet(DX7_CTRL_MODE_NONE);
+                Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
 
                 if( iDevNum == 2 )
                 {
@@ -595,13 +600,25 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
                 if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
                 {
-                    Dx7CtrlModeSet(DX7_CTRL_MODE_NONE);
-                    Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+                    if( someCtrlGroupId == SOME_CTRL_GROUP_ALL_VOICE )
+                    {
+                        Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
+                    }
+                    else
+                    {
+                        Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+                    }
                 }
                 else
                 {
-                    Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
-                    Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
+                    if( someCtrlGroupId == SOME_CTRL_GROUP_ALL_VOICE )
+                    {
+                        Dx7CtrlModeSet(DX7_CTRL_MODE_ALL_VOICE);
+                    }
+                    else
+                    {
+                        Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
+                    }
                 }
             }
             else

@@ -75,6 +75,13 @@ BOOL SomeCtrlCreate( HINSTANCE hInst, PTSTR szAppName, HWND hwnd );
 BOOL SomeCtrlGroupDisplay( SOME_CTRL_GROUP_ID groupId );
 
 /********************************************************************************
+ * 内容  : グループIDの取得
+ * 引数  : なし
+ * 戻り値: SOME_CTRL_GROUP_ID
+ ***************************************/
+SOME_CTRL_GROUP_ID SomeCtrlGetNowGroupId( void );
+
+/********************************************************************************
  * 内容  : 登録された全てのコントロールのサイズを調整する
  * 引数  : int cxClient
  * 引数  : int cyClient

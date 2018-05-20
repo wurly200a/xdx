@@ -276,7 +276,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("DELAY"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS05,0   },      /*138        LFO DELAY                            */
     {PCT_COMBO ,TEXT("PMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS06,0   },      /*139        LFO PMD                              */
     {PCT_COMBO ,TEXT("AMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS07,0   },      /*140        LFO AMD                              */
-    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS08,0   },      /*141        LFO SYNC                             */
+    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT01 ,COLPOS08,0   },      /*141        LFO SYNC                             */
     {PCT_COMBO ,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,  5     , strTblLfoWave       ,  0, ROW_POS_EDIT01 ,COLPOS03,0   },      /*142        LFO WAVE                             */
     {PCT_COMBO ,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS01,0   },      /*143        MOD SENSITIVITY PITCH                */
     {PCT_COMBO ,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       , 48     , strTblTranspose     ,  0, ROW_POS_EDIT19 ,COLPOS01,0   },      /*144        TRANSPOSE                            */

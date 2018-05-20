@@ -77,6 +77,8 @@ typedef struct
 } S_SOME_CTRL_INFO;
 static S_SOME_CTRL_INFO ctrlInfo[SOME_CTRL_MAX];
 
+static SOME_CTRL_GROUP_ID nowGroupId;
+
 /********************************************************************************
  * 内容  : 登録された全てのコントロールを生成する
  * 引数  : HINSTANCE hInst
@@ -151,38 +153,58 @@ SomeCtrlGroupDisplay( SOME_CTRL_GROUP_ID groupId )
 {
     SOME_CTRL_ID id;
 
-    for(id=0; id<SOME_CTRL_MAX; id++)
+    if( groupId < SOME_CTRL_GROUP_MAX )
     {
-        S_SOME_CTRL *tblPtr = &(ctrlListTbl[id]);
-        S_SOME_CTRL_INFO *infoPtr = &(ctrlInfo[id]);
+        for(id=0; id<SOME_CTRL_MAX; id++)
+        {
+            S_SOME_CTRL *tblPtr = &(ctrlListTbl[id]);
+            S_SOME_CTRL_INFO *infoPtr = &(ctrlInfo[id]);
 
-        if( (tblPtr->groupId == SOME_CTRL_GROUP_ALWAYS) ||
-            (tblPtr->groupId == groupId) )
-        {
-            ShowWindow(infoPtr->hwnd, SW_SHOW);
+            if( (tblPtr->groupId == SOME_CTRL_GROUP_ALWAYS) ||
+                (tblPtr->groupId == groupId) )
+            {
+                ShowWindow(infoPtr->hwnd, SW_SHOW);
+            }
+            else
+            {
+                ShowWindow(infoPtr->hwnd, SW_HIDE);
+            }
         }
-        else
+
+        switch( groupId )
         {
-            ShowWindow(infoPtr->hwnd, SW_HIDE);
+        case SOME_CTRL_GROUP_1VOICE   :
+            SomeCtrlDisable( SOME_CTRL_MODE_1VOICE    );
+            SomeCtrlEnable ( SOME_CTRL_MODE_ALL_VOICE );
+            break;
+        case SOME_CTRL_GROUP_ALL_VOICE:
+            SomeCtrlEnable ( SOME_CTRL_MODE_1VOICE    );
+            SomeCtrlDisable( SOME_CTRL_MODE_ALL_VOICE );
+            break;
+        default:
+            nop();
+            break;
         }
+
+        nowGroupId = groupId;
     }
-
-    switch( groupId )
+    else
     {
-    case SOME_CTRL_GROUP_1VOICE   :
-        SomeCtrlDisable( SOME_CTRL_MODE_1VOICE    );
-        SomeCtrlEnable ( SOME_CTRL_MODE_ALL_VOICE );
-        break;
-    case SOME_CTRL_GROUP_ALL_VOICE:
-        SomeCtrlEnable ( SOME_CTRL_MODE_1VOICE    );
-        SomeCtrlDisable( SOME_CTRL_MODE_ALL_VOICE );
-        break;
-    default:
         nop();
-        break;
     }
 
     return TRUE;
+}
+
+/********************************************************************************
+ * 内容  : グループIDの取得
+ * 引数  : なし
+ * 戻り値: SOME_CTRL_GROUP_ID
+ ***************************************/
+SOME_CTRL_GROUP_ID
+SomeCtrlGetNowGroupId( void )
+{
+    return nowGroupId;
 }
 
 /********************************************************************************
