@@ -518,15 +518,15 @@ copyFromParamCtrl( DX7_CTRL_SEQ_ID seqId )
             INT dataIndex = DX7_SYSEX_1VOICE_DATA+i/*DX7_SYSEX_VCED_00...DX7_SYSEX_VCED_155*/;
             INT paramCtrlIndex;
 
-            if( i < DX7_SYSEX_VCED_118 )
+            if( i < DX7_SYSEX_VCED_145 )
             {
                 paramCtrlIndex = DX7_PARAM_CTRL_VOICE_00 + i/*DX7_PARAM_CTRL_VOICE_00...DX7_PARAM_CTRL_VOICE_118*/;
 
                 dx7CtrlDataOneVoice[dataIndex] = getParamCtrlValue(paramCtrlIndex);
             }
-            else if( (DX7_SYSEX_VCED_118 <= i) && (i <= DX7_SYSEX_VCED_154) )
+            else if( (DX7_SYSEX_VCED_145 <= i) && (i <= DX7_SYSEX_VCED_154) )
             {
-                if( DX7_SYSEX_VCED_118 == i )
+                if( DX7_SYSEX_VCED_145 == i )
                 {
                     memset(&patchName[0],0,10+1);
                     Dx7ParamCtrlGetText(DX7_PARAM_CTRL_VOICE_NAME,patchName);
