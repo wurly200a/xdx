@@ -152,7 +152,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS02,0   },      /*14     OP6 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS08,0   },      /*15     OP6 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS07,0   },      /*16     OP6 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT12 ,COLPOS04,0   },      /*17     OP6 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT12 ,COLPOS03,0   },      /*17     OP6 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS06,0   },      /*18     OP6 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS07,0   },      /*19     OP6 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , strTblDetune        ,  0, ROW_POS_EDIT12 ,COLPOS08,0   },      /*20     OP6 DETUNE                               */
@@ -173,7 +173,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS02,0   },      /*35     OP5 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS08,0   },      /*36     OP5 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS07,0   },      /*37     OP5 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT11 ,COLPOS04,0   },      /*38     OP5 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT11 ,COLPOS03,0   },      /*38     OP5 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS06,0   },      /*39     OP5 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS07,0   },      /*40     OP5 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , strTblDetune        ,  0, ROW_POS_EDIT11 ,COLPOS08,0   },      /*41     OP5 DETUNE                               */
@@ -194,7 +194,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS02,0   },      /*56     OP4 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS08,0   },      /*57     OP4 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS07,0   },      /*58     OP4 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT10 ,COLPOS04,0   },      /*59     OP4 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT10 ,COLPOS03,0   },      /*59     OP4 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS06,0   },      /*60     OP4 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS07,0   },      /*61     OP4 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , strTblDetune        ,  0, ROW_POS_EDIT10 ,COLPOS08,0   },      /*62     OP4 DETUNE                               */
@@ -215,7 +215,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS02,0   },      /*77     OP3 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS08,0   },      /*78     OP3 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT15 ,COLPOS07,0   },      /*79     OP3 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT09 ,COLPOS04,0   },      /*80     OP3 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT09 ,COLPOS03,0   },      /*80     OP3 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS06,0   },      /*81     OP3 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS07,0   },      /*82     OP3 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , strTblDetune        ,  0, ROW_POS_EDIT09 ,COLPOS08,0   },      /*83     OP3 DETUNE                               */
@@ -236,7 +236,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS02,0   },      /*98     OP2 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS08,0   },      /*99     OP2 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT14 ,COLPOS07,0   },      /*100    OP2 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT08 ,COLPOS04,0   },      /*101    OP2 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT08 ,COLPOS03,0   },      /*101    OP2 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS06,0   },      /*102    OP2 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS07,0   },      /*103    OP2 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , strTblDetune        ,  0, ROW_POS_EDIT08 ,COLPOS08,0   },      /*104    OP2 DETUNE                               */
@@ -257,7 +257,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("MOD AMP"                       ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS02,0   },      /*119    OP1 MOD SENSITIVITY AMPLITUDE            */
     {PCT_COMBO ,TEXT("VELOCITY SENS"                 ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS08,0   },      /*120    OP1 OPERATOR KEY VELOCITY SENSITIVITY    */
     {PCT_COMBO ,TEXT("OUTPUT LEVEL"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS07,0   },      /*121    OP1 OPERATOR OUTPUT LEVEL                */
-    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT07 ,COLPOS04,0   },      /*122    OP1 OSILLATOR MODE                       */
+    {PCT_COMBO ,TEXT("MODE"                          ),0    ,TRUE    ,0       ,  1     , strTblFreqMode      ,  0, ROW_POS_EDIT07 ,COLPOS03,0   },      /*122    OP1 OSILLATOR MODE                       */
     {PCT_COMBO ,TEXT("FREQ COARSE"                   ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS06,0   },      /*123    OP1 OSILLATOR FREQUENCY COARSE           */
     {PCT_COMBO ,TEXT("FREQ  FINE"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS07,0   },      /*124    OP1 OSILLATOR FREQUENCY FINE             */
     {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       , 14     , strTblDetune        ,  0, ROW_POS_EDIT07 ,COLPOS08,0   },      /*125    OP1 DETUNE                               */
@@ -271,7 +271,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("PEG L4"                        ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT13 ,COLPOS16,0   },      /*133        PITCH EG LEVEL 4                     */
     {PCT_COMBO ,TEXT("ALGORITHM SELECT"              ),0    ,TRUE    ,0       , 31     , strTblAlgorithm     ,  0, ROW_POS_EDIT01 ,COLPOS01,0   },      /*134        ALGORITHM SELECT                     */
     {PCT_COMBO ,TEXT("FEED BACK"                     ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS02,0   },      /*135        FEED BACK                            */
-    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT07 ,COLPOS05,0   },      /*136        OSILLATOR SYNC                       */
+    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT07 ,COLPOS04,0   },      /*136        OSILLATOR SYNC                       */
     {PCT_COMBO ,TEXT("SPEED"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS04,0   },      /*137        LFO SPEED                            */
     {PCT_COMBO ,TEXT("DELAY"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS05,0   },      /*138        LFO DELAY                            */
     {PCT_COMBO ,TEXT("PMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT01 ,COLPOS06,0   },      /*139        LFO PMD                              */
@@ -286,7 +286,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
 #endif
     {PCT_STATIC,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT00 ,COLPOS00,0   },      /**/
     {PCT_STATIC,TEXT("LFO"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS03,5   },      /**/
-    {PCT_STATIC,TEXT("MODULATION SENSITVITY"         ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC2,COLPOS01,5   },      /**/
+    {PCT_STATIC,TEXT("         MODULATION SENSITVITY"),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC2,COLPOS00,5   },      /**/
     {PCT_STATIC,TEXT("ALGORITHM"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS01,0   },      /**/
     {PCT_STATIC,TEXT("FEEDBACK"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS02,0   },      /**/
     {PCT_STATIC,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS03,0   },      /**/
@@ -309,9 +309,15 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT16 ,COLPOS00,0   },      /**/
     {PCT_STATIC,TEXT("OPERATOR5"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT17 ,COLPOS00,0   },      /**/
     {PCT_STATIC,TEXT("OPERATOR6"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT18 ,COLPOS00,0   },      /**/
-    {PCT_STATIC,TEXT("OSCILLATOR"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS04,5   },      /**/
-    {PCT_STATIC,TEXT("MODE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS04,0   },      /**/
-    {PCT_STATIC,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT("OSCILLATOR"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS03,5   },      /**/
+    {PCT_STATIC,TEXT("MODE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS03,0   },      /**/
+    {PCT_STATIC,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS04,0   },      /**/
+    {PCT_STATIC,TEXT(""                              ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT07 ,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT(""                              ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT08 ,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT(""                              ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT09 ,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT(""                              ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT10 ,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT(""                              ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT11 ,COLPOS05,0   },      /**/
+    {PCT_STATIC,TEXT(""                              ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT12 ,COLPOS05,0   },      /**/
     {PCT_STATIC,TEXT("FREQUENCY"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS06,5   },      /**/
     {PCT_STATIC,TEXT("COARSE"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS06,0   },      /**/
     {PCT_STATIC,TEXT("FINE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS07,0   },      /**/

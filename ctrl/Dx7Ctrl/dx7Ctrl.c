@@ -1,6 +1,7 @@
 /* 共通インクルードファイル */
 #include "common.h"
 /* 個別インクルードファイル */
+#include <math.h>
 #include "SomeCtrl.h"
 #include "dx7ParamCtrl.h"
 #include "Midi.h"
@@ -22,6 +23,7 @@ static BYTE getParamCtrlValue( DX7_PARAM_CTRL_ID id );
 static BOOL displayContents( void );
 static BYTE calcCheckSum( BYTE *dataPtr, INT dataSize );
 static BOOL dx7voiceCopyFromAllToOne( INT voiceNum );
+static void dx7SetFrequencyText( DX7_PARAM_CTRL_ID modeId, DX7_PARAM_CTRL_ID coarseId, DX7_PARAM_CTRL_ID fineId, DX7_PARAM_CTRL_ID valueId);
 static void debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle );
 
 /* 内部変数定義 */
@@ -102,6 +104,13 @@ Dx7CtrlDisplayUpdate( void )
     }
     else if( dx7CtrlInfo.nowMode == DX7_CTRL_MODE_PATCH )
     {
+        dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_17,DX7_PARAM_CTRL_VOICE_18,DX7_PARAM_CTRL_VOICE_19,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE6);
+        dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_38,DX7_PARAM_CTRL_VOICE_39,DX7_PARAM_CTRL_VOICE_40,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE5);
+        dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_59,DX7_PARAM_CTRL_VOICE_60,DX7_PARAM_CTRL_VOICE_61,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE4);
+        dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_80,DX7_PARAM_CTRL_VOICE_81,DX7_PARAM_CTRL_VOICE_82,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE3);
+        dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_101,DX7_PARAM_CTRL_VOICE_102,DX7_PARAM_CTRL_VOICE_103,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE2);
+        dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_122,DX7_PARAM_CTRL_VOICE_123,DX7_PARAM_CTRL_VOICE_124,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE1);
+
         Dx7ParamCtrlGroupDisplay(DX7_PARAM_CTRL_GROUP_1VOICE);
     }
     else if( dx7CtrlInfo.nowMode == DX7_CTRL_MODE_ALL_VOICE )
@@ -751,6 +760,84 @@ Dx7CtrlOnCommand( WORD code, WORD notifyCode )
 
     switch( code )
     {
+    case (DX7_PARAM_CTRL_VOICE_17                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_18                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_19                 +DX7_PARAM_CTRL_ID_OFFSET):
+        if( notifyCode == 1 )
+        {
+            dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_17,DX7_PARAM_CTRL_VOICE_18,DX7_PARAM_CTRL_VOICE_19,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE6);
+            bRtn = (BOOL)TRUE;
+        }
+        else
+        {
+            nop();
+        }
+        break;
+    case (DX7_PARAM_CTRL_VOICE_38                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_39                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_40                 +DX7_PARAM_CTRL_ID_OFFSET):
+        if( notifyCode == 1 )
+        {
+            dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_38,DX7_PARAM_CTRL_VOICE_39,DX7_PARAM_CTRL_VOICE_40,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE5);
+            bRtn = (BOOL)TRUE;
+        }
+        else
+        {
+            nop();
+        }
+        break;
+    case (DX7_PARAM_CTRL_VOICE_59                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_60                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_61                 +DX7_PARAM_CTRL_ID_OFFSET):
+        if( notifyCode == 1 )
+        {
+            dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_59,DX7_PARAM_CTRL_VOICE_60,DX7_PARAM_CTRL_VOICE_61,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE4);
+            bRtn = (BOOL)TRUE;
+        }
+        else
+        {
+            nop();
+        }
+        break;
+    case (DX7_PARAM_CTRL_VOICE_80                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_81                 +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_82                 +DX7_PARAM_CTRL_ID_OFFSET):
+        if( notifyCode == 1 )
+        {
+            dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_80,DX7_PARAM_CTRL_VOICE_81,DX7_PARAM_CTRL_VOICE_82,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE3);
+            bRtn = (BOOL)TRUE;
+        }
+        else
+        {
+            nop();
+        }
+        break;
+    case (DX7_PARAM_CTRL_VOICE_101                +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_102                +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_103                +DX7_PARAM_CTRL_ID_OFFSET):
+        if( notifyCode == 1 )
+        {
+            dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_101,DX7_PARAM_CTRL_VOICE_102,DX7_PARAM_CTRL_VOICE_103,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE2);
+            bRtn = (BOOL)TRUE;
+        }
+        else
+        {
+            nop();
+        }
+        break;
+    case (DX7_PARAM_CTRL_VOICE_122                +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_123                +DX7_PARAM_CTRL_ID_OFFSET):
+    case (DX7_PARAM_CTRL_VOICE_124                +DX7_PARAM_CTRL_ID_OFFSET):
+        if( notifyCode == 1 )
+        {
+            dx7SetFrequencyText(DX7_PARAM_CTRL_VOICE_122,DX7_PARAM_CTRL_VOICE_123,DX7_PARAM_CTRL_VOICE_124,DX7_PARAM_CTRL_STATIC_FREQUENCY_VALUE1);
+            bRtn = (BOOL)TRUE;
+        }
+        else
+        {
+            nop();
+        }
+        break;
     case (DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00+DX7_PARAM_CTRL_ID_OFFSET):
     case (DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_01+DX7_PARAM_CTRL_ID_OFFSET):
     case (DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_02+DX7_PARAM_CTRL_ID_OFFSET):
@@ -976,6 +1063,40 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         nop();
     }
 }
+
+/********************************************************************************
+ * 内容  :
+ * 引数  : DX7_PARAM_CTRL_ID modId
+ * 引数  : DX7_PARAM_CTRL_ID coarseId
+ * 引数  : DX7_PARAM_CTRL_ID fineId
+ * 引数  : DX7_PARAM_CTRL_ID valueId
+ * 戻り値: なし
+ ***************************************/
+static void
+dx7SetFrequencyText( DX7_PARAM_CTRL_ID modeId, DX7_PARAM_CTRL_ID coarseId, DX7_PARAM_CTRL_ID fineId, DX7_PARAM_CTRL_ID valueId)
+{
+    INT coarse,fine;
+    float freq;
+    TCHAR szBuff[128];
+
+    coarse = getParamCtrlValue(coarseId);
+    fine = getParamCtrlValue(fineId);
+
+    if( getParamCtrlValue(modeId) == 0 )
+    {
+        coarse &= 0x3;
+        freq = pow(10,((float)1+(fine-1))/100) * pow(10,coarse);
+        sprintf(szBuff,"%.*f",3,freq);
+    }
+    else
+    {
+        freq = ((float)1.00 + (float)0.01*fine) * (coarse ? coarse : 0.5);
+        sprintf(szBuff,"%.*f",3,freq);
+    }
+
+    SetWindowText( Dx7ParamCtrlGetHWND(valueId),szBuff);
+}
+
 
 //#define DX7_CTRL_DEBUG_DATA_DISP
 /*********************************************
