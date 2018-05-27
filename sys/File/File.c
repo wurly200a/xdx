@@ -33,8 +33,8 @@ static TCHAR szCustFilter[FILE_ID_MAX][CUSTOM_FILTER_SIZE];
 
 static S_FILE_LIST fileList[FILE_ID_MAX] =
 {  /* exist, size, file, title, dir ,  ofn  ,filter                            , ext        ,pByte */
-    { FALSE,    0, NULL, NULL , NULL,  NULL ,TEXT("Midi Exclusive Data (*.syx)\0*.syx\0")TEXT("すべてのファイル\0*.*\0"), TEXT("syx"),NULL  },
-    { FALSE,    0, NULL, NULL , NULL,  NULL ,TEXT("Midi Exclusive Data (*.syx)\0*.syx\0")TEXT("すべてのファイル\0*.*\0"), TEXT("syx"),NULL  },
+    { FALSE,    0, NULL, NULL , NULL,  NULL ,TEXT("Midi Exclusive Data (*.syx)\0*.syx\0")TEXT("ALL Files\0*.*\0"), TEXT("syx"),NULL  },
+    { FALSE,    0, NULL, NULL , NULL,  NULL ,TEXT("Midi Exclusive Data (*.syx)\0*.syx\0")TEXT("ALL Files\0*.*\0"), TEXT("syx"),NULL  },
 };
 
 /********************************************************************************
@@ -125,15 +125,25 @@ FileOpenDlg( HWND hwnd, FILE_ID id )
 
     if( (id < FILE_ID_MAX) && (fileList[id].init == TRUE) )
     {
+        TCHAR szFileName [1024];
+        TCHAR szTitleName[1024];
+
+        memset(&szFileName [0],0,1024);
+        memset(&szTitleName[0],0,1024);
+
         fileList[id].pOfn->hwndOwner      = hwnd;
-        fileList[id].pOfn->lpstrFile      = fileList[id].pFileName;
-        fileList[id].pOfn->lpstrFileTitle = fileList[id].pTitleName;
+        fileList[id].pOfn->lpstrFile      = szFileName ;
+        fileList[id].pOfn->lpstrFileTitle = szTitleName;
+        fileList[id].pOfn->lpstrInitialDir= fileList[id].pDirPath;
         fileList[id].pOfn->Flags          = OFN_HIDEREADONLY | OFN_CREATEPROMPT;
 
         rtn = GetOpenFileName( fileList[id].pOfn );
 
         if( rtn == TRUE )
         {
+            memcpy(fileList[id].pFileName ,szFileName ,1024);
+            memcpy(fileList[id].pTitleName,szTitleName,1024);
+
             lstrcpy( (PTSTR)fileList[id].pDirPath , (PTSTR) fileList[id].pFileName);
             *(fileList[id].pDirPath + fileList[id].pOfn->nFileOffset) = '\0';
         }

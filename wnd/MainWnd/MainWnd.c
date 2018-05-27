@@ -791,23 +791,31 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     case (SOME_CTRL_VOICE_LOAD_BUTTON+SOME_CTRL_ID_OFFSET):
-        if( FileOpenDlg( hwnd,FILE_ID_1VOICE_DATA ) )
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
         {
-            dataPtr = FileReadByte(FILE_ID_1VOICE_DATA,&dwSize);
-            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            if( FileOpenDlg( hwnd,FILE_ID_DX100_1VOICE_DATA ) )
             {
+                dataPtr = FileReadByte(FILE_ID_DX100_1VOICE_DATA,&dwSize);
                 Dx100DataSet( DX100_CTRL_SEQ_1VOICE, dataPtr, dwSize );
                 Dx100CtrlDisplayUpdate();
             }
             else
             {
-                Dx7DataSet( DX7_CTRL_SEQ_1VOICE, dataPtr, dwSize );
-                Dx7CtrlDisplayUpdate();
+                /* キャンセルされた。又はエラー */
             }
         }
         else
         {
-            /* キャンセルされた。又はエラー */
+            if( FileOpenDlg( hwnd,FILE_ID_DX7_1VOICE_DATA ) )
+            {
+                dataPtr = FileReadByte(FILE_ID_DX7_1VOICE_DATA,&dwSize);
+                Dx7DataSet( DX7_CTRL_SEQ_1VOICE, dataPtr, dwSize );
+                Dx7CtrlDisplayUpdate();
+            }
+            else
+            {
+                /* キャンセルされた。又はエラー */
+            }
         }
         break;
 
@@ -815,59 +823,79 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
         {
             dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_1VOICE);
-        }
-        else
-        {
-            dwSize = Dx7GetDataSize(DX7_CTRL_SEQ_1VOICE);
-        }
-        dataPtr = malloc( dwSize * sizeof(TCHAR) );
-        if( dataPtr != NULL )
-        {
-            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            dataPtr = malloc( dwSize * sizeof(TCHAR) );
+            if( dataPtr != NULL )
             {
                 Dx100DataGet( DX100_CTRL_SEQ_1VOICE,dataPtr,dwSize );
-            }
-            else
-            {
-                Dx7DataGet( DX7_CTRL_SEQ_1VOICE,dataPtr,dwSize );
-            }
-            if( FileSaveDlg( hwnd,FILE_ID_1VOICE_DATA ) )
-            {
-                FileWrite( FILE_ID_1VOICE_DATA, dataPtr, dwSize );
+                if( FileSaveDlg( hwnd,FILE_ID_DX100_1VOICE_DATA ) )
+                {
+                    FileWrite( FILE_ID_DX100_1VOICE_DATA, dataPtr, dwSize );
+                }
+                else
+                {
+                    nop();
+                }
+                free( dataPtr );
             }
             else
             {
                 nop();
             }
-            free( dataPtr );
         }
         else
         {
-            nop();
+            dwSize = Dx7GetDataSize(DX7_CTRL_SEQ_1VOICE);
+            dataPtr = malloc( dwSize * sizeof(TCHAR) );
+            if( dataPtr != NULL )
+            {
+                Dx7DataGet( DX7_CTRL_SEQ_1VOICE,dataPtr,dwSize );
+                if( FileSaveDlg( hwnd,FILE_ID_DX7_1VOICE_DATA ) )
+                {
+                    FileWrite( FILE_ID_DX7_1VOICE_DATA, dataPtr, dwSize );
+                }
+                else
+                {
+                    nop();
+                }
+                free( dataPtr );
+            }
+            else
+            {
+                nop();
+            }
         }
         break;
 
     case (SOME_CTRL_ALL_VOICE_LOAD_BUTTON+SOME_CTRL_ID_OFFSET):
-        if( FileOpenDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
+        if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
         {
-//                mainWndData.bNeedSave = FALSE;
-            dataPtr = FileReadByte(FILE_ID_ALL_VOICE_DATA,&dwSize);
-
-            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            if( FileOpenDlg( hwnd,FILE_ID_DX100_ALL_VOICE_DATA ) )
             {
+//                mainWndData.bNeedSave = FALSE;
+                dataPtr = FileReadByte(FILE_ID_DX100_ALL_VOICE_DATA,&dwSize);
+
                 Dx100DataSet( DX100_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
-//                doCaption( hwnd, FileGetTitleName(FILE_ID_BIN), FALSE );
                 Dx100CtrlDisplayUpdate();
             }
             else
             {
-                Dx7DataSet( DX7_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
-                Dx7CtrlDisplayUpdate();
+                /* キャンセルされた。又はエラー */
             }
         }
         else
         {
-            /* キャンセルされた。又はエラー */
+            if( FileOpenDlg( hwnd,FILE_ID_DX7_ALL_VOICE_DATA ) )
+            {
+//                mainWndData.bNeedSave = FALSE;
+                dataPtr = FileReadByte(FILE_ID_DX7_ALL_VOICE_DATA,&dwSize);
+
+                Dx7DataSet( DX7_CTRL_SEQ_ALL_VOICE, dataPtr, dwSize );
+                Dx7CtrlDisplayUpdate();
+            }
+            else
+            {
+                /* キャンセルされた。又はエラー */
+            }
         }
         break;
 
@@ -875,37 +903,53 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
         {
             dwSize = Dx100GetDataSize(DX100_CTRL_SEQ_ALL_VOICE);
-        }
-        else
-        {
-            dwSize = Dx7GetDataSize(DX7_CTRL_SEQ_ALL_VOICE);
-        }
-        dataPtr = malloc( dwSize * sizeof(TCHAR) );
-        if( dataPtr != NULL )
-        {
-            if( mainWndData.dxDeviceMode == DX_DEVICE_MODE_DX100 )
+            dataPtr = malloc( dwSize * sizeof(TCHAR) );
+
+            if( dataPtr != NULL )
             {
                 Dx100DataGet( DX100_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
-            }
-            else
-            {
-                Dx7DataGet( DX7_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
-            }
-            if( FileSaveDlg( hwnd,FILE_ID_ALL_VOICE_DATA ) )
-            {
+                if( FileSaveDlg( hwnd,FILE_ID_DX100_ALL_VOICE_DATA ) )
+                {
 //                    mainWndData.bNeedSave = FALSE;
-//                    doCaption( hwnd, FileGetTitleName(FILE_ID_BIN),FALSE );
-                FileWrite( FILE_ID_ALL_VOICE_DATA, dataPtr, dwSize );
+//                    doCaption( hwnd, FileGetTitleName(FILE_ID_DX100_BIN),FALSE );
+                    FileWrite( FILE_ID_DX100_ALL_VOICE_DATA, dataPtr, dwSize );
+                }
+                else
+                {
+                    nop();
+                }
+                free( dataPtr );
             }
             else
             {
                 nop();
             }
-            free( dataPtr );
         }
         else
         {
-            nop();
+            dwSize = Dx7GetDataSize(DX7_CTRL_SEQ_ALL_VOICE);
+
+            dataPtr = malloc( dwSize * sizeof(TCHAR) );
+
+            if( dataPtr != NULL )
+            {
+                Dx7DataGet( DX7_CTRL_SEQ_ALL_VOICE,dataPtr,dwSize );
+                if( FileSaveDlg( hwnd,FILE_ID_DX7_ALL_VOICE_DATA ) )
+                {
+//                    mainWndData.bNeedSave = FALSE;
+//                    doCaption( hwnd, FileGetTitleName(FILE_ID_DX7_BIN),FALSE );
+                    FileWrite( FILE_ID_DX7_ALL_VOICE_DATA, dataPtr, dwSize );
+                }
+                else
+                {
+                    nop();
+                }
+                free( dataPtr );
+            }
+            else
+            {
+                nop();
+            }
         }
         break;
 

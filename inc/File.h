@@ -3,8 +3,10 @@
 /* ä«óùÇ∑ÇÈÉtÉ@ÉCÉãÇÃID */
 typedef enum
 {
-    FILE_ID_1VOICE_DATA   ,
-    FILE_ID_ALL_VOICE_DATA,
+    FILE_ID_DX7_1VOICE_DATA   ,
+    FILE_ID_DX7_ALL_VOICE_DATA,
+    FILE_ID_DX100_1VOICE_DATA   ,
+    FILE_ID_DX100_ALL_VOICE_DATA,
     FILE_ID_MAX
 }FILE_ID;
 
