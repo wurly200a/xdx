@@ -1082,14 +1082,14 @@ dx7SetFrequencyText( DX7_PARAM_CTRL_ID modeId, DX7_PARAM_CTRL_ID coarseId, DX7_P
     coarse = getParamCtrlValue(coarseId);
     fine = getParamCtrlValue(fineId);
 
-    if( getParamCtrlValue(modeId) == 0 )
-    {
+    if( getParamCtrlValue(modeId) == 1 )
+    { /* FIXED */
         coarse &= 0x3;
         freq = pow(10,((float)1+(fine-1))/100) * pow(10,coarse);
         sprintf(szBuff,"%.*f",3,freq);
     }
     else
-    {
+    { /* RATIO */
         freq = ((float)1.00 + (float)0.01*fine) * (coarse ? coarse : 0.5);
         sprintf(szBuff,"%.*f",3,freq);
     }
