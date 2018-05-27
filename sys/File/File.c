@@ -451,21 +451,34 @@ FileSaveDlg( HWND hwnd, FILE_ID id )
 
     if( (id < FILE_ID_MAX) && (fileList[id].init == TRUE) )
     {
+        TCHAR szFileName [1024];
+        TCHAR szTitleName[1024];
+        TCHAR szDirPath[1024];
+
+        memcpy(&szFileName [0],fileList[id].pFileName,1024);
+        memset(&szTitleName[0],0,1024);
+        memcpy(&szDirPath[0],fileList[id].pDirPath,1024);
+
         fileList[id].pOfn->hwndOwner      = hwnd;
-        fileList[id].pOfn->lpstrFile      = fileList[id].pFileName;
-        fileList[id].pOfn->lpstrFileTitle = fileList[id].pTitleName;
+        fileList[id].pOfn->lpstrFile      = szFileName ;
+        fileList[id].pOfn->lpstrFileTitle = szTitleName;
+        fileList[id].pOfn->lpstrInitialDir= szDirPath;
         fileList[id].pOfn->Flags          = OFN_OVERWRITEPROMPT | OFN_EXPLORER;
 
         rtn = GetSaveFileName( fileList[id].pOfn );
 
         if( rtn == TRUE )
         {
+            memcpy(fileList[id].pFileName ,szFileName ,1024);
+            memcpy(fileList[id].pTitleName,szTitleName,1024);
+            memcpy(fileList[id].pDirPath  ,szDirPath  ,1024);
+
             lstrcpy( (PTSTR)fileList[id].pDirPath , (PTSTR) fileList[id].pFileName);
             *(fileList[id].pDirPath + fileList[id].pOfn->nFileOffset) = '\0';
         }
         else
         {
-            *(fileList[id].pDirPath) = '\0';
+            nop();
         }
     }
     else
