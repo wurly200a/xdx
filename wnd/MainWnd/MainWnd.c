@@ -303,6 +303,11 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 
     ModalDlgInit(mainWndData.hInstance,mainWndData.szAppName);
     FileInitialize( hwnd ); /* ÉtÉ@ÉCÉãèâä˙âª     */
+    FileSetDir( FILE_ID_DX7_1VOICE_DATA     , ConfigLoadString(CONFIG_ID_INIT_DIR_DX7_1VOICE_DATA     ) );
+    FileSetDir( FILE_ID_DX7_ALL_VOICE_DATA  , ConfigLoadString(CONFIG_ID_INIT_DIR_DX7_ALL_VOICE_DATA  ) );
+    FileSetDir( FILE_ID_DX100_1VOICE_DATA   , ConfigLoadString(CONFIG_ID_INIT_DIR_DX100_1VOICE_DATA   ) );
+    FileSetDir( FILE_ID_DX100_ALL_VOICE_DATA, ConfigLoadString(CONFIG_ID_INIT_DIR_DX100_ALL_VOICE_DATA) );
+
     FontInit();
 
     mainWndData.hFontIo = NULL;
@@ -446,6 +451,11 @@ onClose( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         ConfigSaveDword( CONFIG_ID_WINDOW_POS_Y , mainWndData.yWindowPos );
         ConfigSaveDword( CONFIG_ID_WINDOW_POS_DX, mainWndData.cxWindow   );
         ConfigSaveDword( CONFIG_ID_WINDOW_POS_DY, mainWndData.cyWindow   );
+
+        ConfigSaveString( CONFIG_ID_INIT_DIR_DX7_1VOICE_DATA     , FileGetDir(FILE_ID_DX7_1VOICE_DATA     ) );
+        ConfigSaveString( CONFIG_ID_INIT_DIR_DX7_ALL_VOICE_DATA  , FileGetDir(FILE_ID_DX7_ALL_VOICE_DATA  ) );
+        ConfigSaveString( CONFIG_ID_INIT_DIR_DX100_1VOICE_DATA   , FileGetDir(FILE_ID_DX100_1VOICE_DATA   ) );
+        ConfigSaveString( CONFIG_ID_INIT_DIR_DX100_ALL_VOICE_DATA, FileGetDir(FILE_ID_DX100_ALL_VOICE_DATA) );
 
         hComboBox = SomeCtrlGetHWND(SOME_CTRL_MIDI_IN);
         iCbNum = SendMessage(hComboBox,CB_GETCURSEL,0,0);

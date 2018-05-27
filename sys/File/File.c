@@ -127,14 +127,16 @@ FileOpenDlg( HWND hwnd, FILE_ID id )
     {
         TCHAR szFileName [1024];
         TCHAR szTitleName[1024];
+        TCHAR szDirPath[1024];
 
         memset(&szFileName [0],0,1024);
         memset(&szTitleName[0],0,1024);
+        memcpy(&szDirPath[0],fileList[id].pDirPath,1024);
 
         fileList[id].pOfn->hwndOwner      = hwnd;
         fileList[id].pOfn->lpstrFile      = szFileName ;
         fileList[id].pOfn->lpstrFileTitle = szTitleName;
-        fileList[id].pOfn->lpstrInitialDir= fileList[id].pDirPath;
+        fileList[id].pOfn->lpstrInitialDir= szDirPath;
         fileList[id].pOfn->Flags          = OFN_HIDEREADONLY | OFN_CREATEPROMPT;
 
         rtn = GetOpenFileName( fileList[id].pOfn );
@@ -143,13 +145,14 @@ FileOpenDlg( HWND hwnd, FILE_ID id )
         {
             memcpy(fileList[id].pFileName ,szFileName ,1024);
             memcpy(fileList[id].pTitleName,szTitleName,1024);
+            memcpy(fileList[id].pDirPath  ,szDirPath  ,1024);
 
             lstrcpy( (PTSTR)fileList[id].pDirPath , (PTSTR) fileList[id].pFileName);
             *(fileList[id].pDirPath + fileList[id].pOfn->nFileOffset) = '\0';
         }
         else
         {
-            *(fileList[id].pDirPath) = '\0';
+            nop();
         }
     }
     else
@@ -221,6 +224,29 @@ FileGetDir( FILE_ID id )
     else
     {
         rtn = &nullStr;
+    }
+
+    return rtn;
+}
+
+/********************************************************************************
+ * 内容  : ディレクトリパスをセットする
+ * 引数  : PTSTR ptstrFileName
+ * 戻り値: BOOL
+ ***************************************/
+BOOL
+FileSetDir( FILE_ID id, PTSTR ptstrDirPath )
+{
+    BOOL rtn = FALSE;
+
+    if( (id < FILE_ID_MAX) && (fileList[id].init == TRUE) )
+    {
+        lstrcpy( fileList[id].pDirPath, ptstrDirPath );
+        rtn = TRUE;
+    }
+    else
+    {
+        /* error */
     }
 
     return rtn;

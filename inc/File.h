@@ -3,8 +3,8 @@
 /* 管理するファイルのID */
 typedef enum
 {
-    FILE_ID_DX7_1VOICE_DATA   ,
-    FILE_ID_DX7_ALL_VOICE_DATA,
+    FILE_ID_DX7_1VOICE_DATA     ,
+    FILE_ID_DX7_ALL_VOICE_DATA  ,
     FILE_ID_DX100_1VOICE_DATA   ,
     FILE_ID_DX100_ALL_VOICE_DATA,
     FILE_ID_MAX
@@ -52,6 +52,13 @@ PTSTR FileGetTitleName( FILE_ID id );
  * 戻り値: PTSTR
  ***************************************/
 PTSTR FileGetDir( FILE_ID id );
+
+/********************************************************************************
+ * 内容  : ディレクトリパスをセットする
+ * 引数  : PTSTR ptstrFileName
+ * 戻り値: BOOL
+ ***************************************/
+BOOL FileSetDir( FILE_ID id, PTSTR ptstrDirPath );
 
 /********************************************************************************
  * 内容  : ファイル名称をセットする
