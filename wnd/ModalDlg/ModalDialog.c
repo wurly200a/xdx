@@ -143,7 +143,7 @@ AboutDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 #endif
         /* ƒAƒCƒRƒ“‰æ‘œ */
         hCtrl = CreateWindow( TEXT("Static"), TEXT(""), WS_CHILD|WS_VISIBLE|SS_ICON,55,60,0,0, hDlg, (HMENU)-1, hInst, NULL);
-        hIcon = (HICON)LoadImage(hInst, modalDlgData.szAppName, IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR );
+        hIcon = (HICON)LoadImage(hInst, "MAIN_ICON", IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR );
         SendMessage(hCtrl, STM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 
         x = 60;

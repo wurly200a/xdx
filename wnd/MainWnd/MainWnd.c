@@ -115,7 +115,7 @@ MainWndCreate( HINSTANCE hInst, PTSTR szAppName, LPSTR szCmdLine, int nCmdShow, 
     wc.cbClsExtra       = 0; /* クラス構造体の為の追加領域を予約する */
     wc.cbWndExtra       = 0; /* ウィンドウ構造体の為の追加領域を予約する */
     wc.hInstance        = hInst;
-    wc.hIcon            = LoadIcon( hInst, pAppName );          /* アイコン */
+    wc.hIcon            = LoadIcon( hInst, "MAIN_ICON" );          /* アイコン */
     wc.hCursor          = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground    = (HBRUSH) (COLOR_BTNFACE + 1); /* 背景 */
     wc.lpszMenuName     = pAppName;
