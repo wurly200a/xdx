@@ -1,6 +1,6 @@
 .SUFFIXES: .rc .res
 
-TARGET = dx100ed.exe
+TARGET = xdx.exe
 CC = gcc
 RC = windres
 
