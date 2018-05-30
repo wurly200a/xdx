@@ -739,7 +739,7 @@ Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
  * –ß‚è’l : 
  **********************************************/
 BOOL
-Dx100CtrlOnCommand( WORD code, WORD notifyCode )
+Dx100CtrlOnCommand( WORD code, WORD notifyCode, DX100_CTRL_MODE *modePtr )
 {
     BOOL bRtn = (BOOL)FALSE;
 
@@ -790,6 +790,22 @@ Dx100CtrlOnCommand( WORD code, WORD notifyCode )
         break;
     default:
         break;
+    }
+
+    if( modePtr != NULL )
+    {
+        if( bRtn )
+        {
+            *modePtr = DX100_CTRL_MODE_PATCH;
+        }
+        else
+        {
+            *modePtr = dx100CtrlInfo.nowMode;
+        }
+    }
+    else
+    {
+        nop();
     }
 
     return bRtn;

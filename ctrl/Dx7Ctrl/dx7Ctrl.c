@@ -754,7 +754,7 @@ Dx7DataSet( DX7_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize )
  * –ß‚è’l : 
  **********************************************/
 BOOL
-Dx7CtrlOnCommand( WORD code, WORD notifyCode )
+Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr )
 {
     BOOL bRtn = (BOOL)FALSE;
 
@@ -883,6 +883,22 @@ Dx7CtrlOnCommand( WORD code, WORD notifyCode )
         break;
     default:
         break;
+    }
+
+    if( modePtr != NULL )
+    {
+        if( bRtn )
+        {
+            *modePtr = DX7_CTRL_MODE_PATCH;
+        }
+        else
+        {
+            *modePtr = dx7CtrlInfo.nowMode;
+        }
+    }
+    else
+    {
+        nop();
     }
 
     return bRtn;

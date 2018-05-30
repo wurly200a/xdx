@@ -1078,15 +1078,47 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         break;
 
     default:
-        if( (mainWndData.dxDeviceMode==DX_DEVICE_MODE_DX7) && (Dx7CtrlOnCommand(LOWORD(wParam),HIWORD(wParam))) )
+        if( mainWndData.dxDeviceMode==DX_DEVICE_MODE_DX7 )
         {
-            Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
-            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+            DX7_CTRL_MODE ctrlMode;
+
+            if( Dx7CtrlOnCommand(LOWORD(wParam),HIWORD(wParam),&ctrlMode) )
+            {
+                if( ctrlMode == DX7_CTRL_MODE_PATCH )
+                {
+                    Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
+                    SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+                }
+                else
+                {
+                    nop();
+                }
+            }
+            else
+            {
+                nop();
+            }
         }
-        else if( (mainWndData.dxDeviceMode==DX_DEVICE_MODE_DX100) && (Dx100CtrlOnCommand(LOWORD(wParam),HIWORD(wParam))) )
+        else if( mainWndData.dxDeviceMode==DX_DEVICE_MODE_DX100 )
         {
-            Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
-            SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+            DX100_CTRL_MODE ctrlMode;
+
+            if( Dx100CtrlOnCommand(LOWORD(wParam),HIWORD(wParam),&ctrlMode) )
+            {
+                if( ctrlMode == DX100_CTRL_MODE_PATCH )
+                {
+                    Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+                    SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
+                }
+                else
+                {
+                    nop();
+                }
+            }
+            else
+            {
+                nop();
+            }
         }
         else
         {
