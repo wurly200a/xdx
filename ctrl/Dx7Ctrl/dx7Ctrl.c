@@ -23,6 +23,7 @@ static BYTE getParamCtrlValue( DX7_PARAM_CTRL_ID id );
 static BOOL displayContents( void );
 static BYTE calcCheckSum( BYTE *dataPtr, INT dataSize );
 static BOOL dx7voiceCopyFromAllToOne( INT voiceNum );
+static BOOL dx7voiceCopyFromOneToOneOfAll( INT voiceNum );
 static void dx7SetFrequencyText( DX7_PARAM_CTRL_ID modeId, DX7_PARAM_CTRL_ID coarseId, DX7_PARAM_CTRL_ID fineId, DX7_PARAM_CTRL_ID valueId);
 static void debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle );
 
@@ -757,6 +758,7 @@ BOOL
 Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr )
 {
     BOOL bRtn = (BOOL)FALSE;
+    DX7_CTRL_MODE mode = (DX7_CTRL_MODE)DX7_CTRL_MODE_NUM_MAX;
 
     switch( code )
     {
@@ -875,11 +877,18 @@ Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr )
         {
             dx7voiceCopyFromAllToOne(code-(DX7_PARAM_CTRL_ID_OFFSET+DX7_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00));
             bRtn = (BOOL)TRUE;
+            mode = DX7_CTRL_MODE_PATCH;
         }
         else
         {
             nop();
         }
+        break;
+    case (DX7_PARAM_CTRL_BUTTON_TO_ALL_VOICE+DX7_PARAM_CTRL_ID_OFFSET):
+        DebugWndPrintf("[DX7] TO ALL VOICE,%d=0x%04X\r\n",code,notifyCode);
+        dx7voiceCopyFromOneToOneOfAll(getParamCtrlValue(DX7_PARAM_CTRL_COMBOBOX_TO_ALL_VOICE_NUM));
+        bRtn = (BOOL)TRUE;
+        mode = DX7_CTRL_MODE_ALL_VOICE;
         break;
     default:
         break;
@@ -887,9 +896,9 @@ Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr )
 
     if( modePtr != NULL )
     {
-        if( bRtn )
+        if( bRtn && (mode != (DX7_CTRL_MODE)DX7_CTRL_MODE_NUM_MAX) )
         {
-            *modePtr = DX7_CTRL_MODE_PATCH;
+            *modePtr = mode;
         }
         else
         {
@@ -1073,6 +1082,155 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_154] /*VNAM10*/= dx7CtrlDataAllVoice[topNum+127];
 
         copyToParamCtrl(DX7_CTRL_SEQ_1VOICE);
+    }
+    else
+    {
+        nop();
+    }
+}
+
+/********************************************************************************
+ * 内容  : ボイスコピー(1VOICEからALL VOICEへ)
+ * 引数  : INT voiceNum
+ * 戻り値: BOOL
+ ***************************************/
+static BOOL
+dx7voiceCopyFromOneToOneOfAll( INT voiceNum )
+{
+    if( voiceNum < 32 )
+    {
+        INT topNum = DX7_SYSEX_ALL_VOICE_DATA + (voiceNum*DX7_SYSEX_VMEM_MAX);
+
+        /* */dx7CtrlDataAllVoice[topNum+0  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_00 ]; /*R1    */
+        /* */dx7CtrlDataAllVoice[topNum+1  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_01 ]; /*R2    */
+        /* */dx7CtrlDataAllVoice[topNum+2  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_02 ]; /*R3    */
+        /* */dx7CtrlDataAllVoice[topNum+3  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_03 ]; /*R4    */
+        /* */dx7CtrlDataAllVoice[topNum+4  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_04 ]; /*L1    */
+        /* */dx7CtrlDataAllVoice[topNum+5  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_05 ]; /*L2    */
+        /* */dx7CtrlDataAllVoice[topNum+6  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_06 ]; /*L3    */
+        /* */dx7CtrlDataAllVoice[topNum+7  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_07 ]; /*L4    */
+        /* */dx7CtrlDataAllVoice[topNum+8  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_08 ]; /*BP    */
+        /* */dx7CtrlDataAllVoice[topNum+9  ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_09 ]; /*LD    */
+        /* */dx7CtrlDataAllVoice[topNum+10 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_10 ]; /*RD    */
+        /* */dx7CtrlDataAllVoice[topNum+11 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_12 ]&0x3)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_11 ]&0x3)  ;/*RC    *//*LC    */
+        /* */dx7CtrlDataAllVoice[topNum+12 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_20 ]&0xF)<<3) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_13 ]&0x7)  ;/*PD    *//*RS    */
+        /* */dx7CtrlDataAllVoice[topNum+13 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_15 ]&0x7)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_14 ]&0x3)  ;/*TS    *//*AMS   */
+        /* */dx7CtrlDataAllVoice[topNum+14 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_16 ]; /*TL    */
+        /* */dx7CtrlDataAllVoice[topNum+15 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_18 ]&0x1F)<<1)| ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_17 ])&0x1);/*PC    *//*PM    */
+        /* */dx7CtrlDataAllVoice[topNum+16 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_19 ]; /*PF    */
+        /* */dx7CtrlDataAllVoice[topNum+17 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_21 ]; /*R1    */
+        /* */dx7CtrlDataAllVoice[topNum+18 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_22 ]; /*R2    */
+        /* */dx7CtrlDataAllVoice[topNum+19 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_23 ]; /*R3    */
+        /* */dx7CtrlDataAllVoice[topNum+20 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_24 ]; /*R4    */
+        /* */dx7CtrlDataAllVoice[topNum+21 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_25 ]; /*L1    */
+        /* */dx7CtrlDataAllVoice[topNum+22 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_26 ]; /*L2    */
+        /* */dx7CtrlDataAllVoice[topNum+23 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_27 ]; /*L3    */
+        /* */dx7CtrlDataAllVoice[topNum+24 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_28 ]; /*L4    */
+        /* */dx7CtrlDataAllVoice[topNum+25 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_29 ]; /*BP    */
+        /* */dx7CtrlDataAllVoice[topNum+26 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_30 ]; /*LD    */
+        /* */dx7CtrlDataAllVoice[topNum+27 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_31 ]; /*RD    */
+        /* */dx7CtrlDataAllVoice[topNum+28 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_33 ]&0x3)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_32 ]&0x3)  ;/*RC    *//*LC    */
+        /* */dx7CtrlDataAllVoice[topNum+29 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_41 ]&0xF)<<3) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_34 ]&0x7)  ;/*PD    *//*RS    */
+        /* */dx7CtrlDataAllVoice[topNum+30 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_36 ]&0x7)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_35 ]&0x3)  ;/*TS    *//*AMS   */
+        /* */dx7CtrlDataAllVoice[topNum+31 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_37 ]; /*TL    */
+        /* */dx7CtrlDataAllVoice[topNum+32 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_39 ]&0x1F)<<1)| ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_38 ])&0x1);/*PC    *//*PM    */
+        /* */dx7CtrlDataAllVoice[topNum+33 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_40 ]; /*PF    */
+        /* */dx7CtrlDataAllVoice[topNum+34 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_42 ]; /*R1    */
+        /* */dx7CtrlDataAllVoice[topNum+35 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_43 ]; /*R2    */
+        /* */dx7CtrlDataAllVoice[topNum+36 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_44 ]; /*R3    */
+        /* */dx7CtrlDataAllVoice[topNum+37 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_45 ]; /*R4    */
+        /* */dx7CtrlDataAllVoice[topNum+38 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_46 ]; /*L1    */
+        /* */dx7CtrlDataAllVoice[topNum+39 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_47 ]; /*L2    */
+        /* */dx7CtrlDataAllVoice[topNum+40 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_48 ]; /*L3    */
+        /* */dx7CtrlDataAllVoice[topNum+41 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_49 ]; /*L4    */
+        /* */dx7CtrlDataAllVoice[topNum+42 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_50 ]; /*BP    */
+        /* */dx7CtrlDataAllVoice[topNum+43 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_51 ]; /*LD    */
+        /* */dx7CtrlDataAllVoice[topNum+44 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_52 ]; /*RD    */
+        /* */dx7CtrlDataAllVoice[topNum+45 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_54 ]&0x3)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_53 ]&0x3)  ;/*RC    *//*LC    */
+        /* */dx7CtrlDataAllVoice[topNum+46 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_62 ]&0xF)<<3) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_55 ]&0x7)  ;/*PD    *//*RS    */
+        /* */dx7CtrlDataAllVoice[topNum+47 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_57 ]&0x7)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_56 ]&0x3)  ;/*TS    *//*AMS   */
+        /* */dx7CtrlDataAllVoice[topNum+48 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_58 ]; /*TL    */
+        /* */dx7CtrlDataAllVoice[topNum+49 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_60 ]&0x1F)<<1)| ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_59 ])&0x1);/*PC    *//*PM    */
+        /* */dx7CtrlDataAllVoice[topNum+50 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_61 ]; /*PF    */
+        /* */dx7CtrlDataAllVoice[topNum+51 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_63 ]; /*R1    */
+        /* */dx7CtrlDataAllVoice[topNum+52 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_64 ]; /*R2    */
+        /* */dx7CtrlDataAllVoice[topNum+53 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_65 ]; /*R3    */
+        /* */dx7CtrlDataAllVoice[topNum+54 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_66 ]; /*R4    */
+        /* */dx7CtrlDataAllVoice[topNum+55 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_67 ]; /*L1    */
+        /* */dx7CtrlDataAllVoice[topNum+56 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_68 ]; /*L2    */
+        /* */dx7CtrlDataAllVoice[topNum+57 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_69 ]; /*L3    */
+        /* */dx7CtrlDataAllVoice[topNum+58 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_70 ]; /*L4    */
+        /* */dx7CtrlDataAllVoice[topNum+59 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_71 ]; /*BP    */
+        /* */dx7CtrlDataAllVoice[topNum+60 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_72 ]; /*LD    */
+        /* */dx7CtrlDataAllVoice[topNum+61 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_73 ]; /*RD    */
+        /* */dx7CtrlDataAllVoice[topNum+62 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_75 ]&0x3)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_74 ]&0x3)  ;/*RC    *//*LC    */
+        /* */dx7CtrlDataAllVoice[topNum+63 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_83 ]&0xF)<<3) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_76 ]&0x7)  ;/*PD    *//*RS    */
+        /* */dx7CtrlDataAllVoice[topNum+64 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_78 ]&0x7)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_77 ]&0x3)  ;/*TS    *//*AMS   */
+        /* */dx7CtrlDataAllVoice[topNum+65 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_79 ]; /*TL    */
+        /* */dx7CtrlDataAllVoice[topNum+66 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_81 ]&0x1F)<<1)| ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_80 ])&0x1);/*PC    *//*PM    */
+        /* */dx7CtrlDataAllVoice[topNum+67 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_82 ]; /*PF    */
+        /* */dx7CtrlDataAllVoice[topNum+68 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_84 ]; /*R1    */
+        /* */dx7CtrlDataAllVoice[topNum+69 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_85 ]; /*R2    */
+        /* */dx7CtrlDataAllVoice[topNum+70 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_86 ]; /*R3    */
+        /* */dx7CtrlDataAllVoice[topNum+71 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_87 ]; /*R4    */
+        /* */dx7CtrlDataAllVoice[topNum+72 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_88 ]; /*L1    */
+        /* */dx7CtrlDataAllVoice[topNum+73 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_89 ]; /*L2    */
+        /* */dx7CtrlDataAllVoice[topNum+74 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_90 ]; /*L3    */
+        /* */dx7CtrlDataAllVoice[topNum+75 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_91 ]; /*L4    */
+        /* */dx7CtrlDataAllVoice[topNum+76 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_92 ]; /*BP    */
+        /* */dx7CtrlDataAllVoice[topNum+77 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_93 ]; /*LD    */
+        /* */dx7CtrlDataAllVoice[topNum+78 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_94 ]; /*RD    */
+        /* */dx7CtrlDataAllVoice[topNum+79 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_96 ]&0x3)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_95 ]&0x3)  ;/*RC    *//*LC    */
+        /* */dx7CtrlDataAllVoice[topNum+80 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_104]&0xF)<<3) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_97 ]&0x7)  ;/*PD    *//*RS    */
+        /* */dx7CtrlDataAllVoice[topNum+81 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_99 ]&0x7)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_98 ]&0x3)  ;/*TS    *//*AMS   */
+        /* */dx7CtrlDataAllVoice[topNum+82 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_100]; /*TL    */
+        /* */dx7CtrlDataAllVoice[topNum+83 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_102]&0x1F)<<1)| ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_101])&0x1);/*PC    *//*PM    */
+        /* */dx7CtrlDataAllVoice[topNum+84 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_103]; /*PF    */
+        /* */dx7CtrlDataAllVoice[topNum+85 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_105]; /*R1    */
+        /* */dx7CtrlDataAllVoice[topNum+86 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_106]; /*R2    */
+        /* */dx7CtrlDataAllVoice[topNum+87 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_107]; /*R3    */
+        /* */dx7CtrlDataAllVoice[topNum+88 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_108]; /*R4    */
+        /* */dx7CtrlDataAllVoice[topNum+89 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_109]; /*L1    */
+        /* */dx7CtrlDataAllVoice[topNum+90 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_110]; /*L2    */
+        /* */dx7CtrlDataAllVoice[topNum+91 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_111]; /*L3    */
+        /* */dx7CtrlDataAllVoice[topNum+92 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_112]; /*L4    */
+        /* */dx7CtrlDataAllVoice[topNum+93 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_113]; /*BP    */
+        /* */dx7CtrlDataAllVoice[topNum+94 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_114]; /*LD    */
+        /* */dx7CtrlDataAllVoice[topNum+95 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_115]; /*RD    */
+        /* */dx7CtrlDataAllVoice[topNum+96 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_117]&0x3)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_116]&0x3)  ;/*RC    *//*LC    */
+        /* */dx7CtrlDataAllVoice[topNum+97 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_125]&0xF)<<3) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_118]&0x7)  ;/*PD    *//*RS    */
+        /* */dx7CtrlDataAllVoice[topNum+98 ]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_120]&0x7)<<2) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_119]&0x3)  ;/*TS    *//*AMS   */
+        /* */dx7CtrlDataAllVoice[topNum+99 ]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_121]; /*TL    */
+        /* */dx7CtrlDataAllVoice[topNum+100]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_123]&0x1F)<<1)| ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_122])&0x1);/*PC    *//*PM    */
+        /* */dx7CtrlDataAllVoice[topNum+101]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_124]; /*PF    */
+        /* */dx7CtrlDataAllVoice[topNum+102]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_126]; /*PR1   */
+        /* */dx7CtrlDataAllVoice[topNum+103]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_127]; /*PR2   */
+        /* */dx7CtrlDataAllVoice[topNum+104]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_128]; /*PR3   */
+        /* */dx7CtrlDataAllVoice[topNum+105]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_129]; /*PR4   */
+        /* */dx7CtrlDataAllVoice[topNum+106]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_130]; /*PL1   */
+        /* */dx7CtrlDataAllVoice[topNum+107]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_131]; /*PL2   */
+        /* */dx7CtrlDataAllVoice[topNum+108]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_132]; /*PL3   */
+        /* */dx7CtrlDataAllVoice[topNum+109]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_133]; /*PL4   */
+        /* */dx7CtrlDataAllVoice[topNum+110]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_134]; /*ALS   */
+        /* */dx7CtrlDataAllVoice[topNum+111]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_136]&0x1)<<3) | (dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_135]&0x7); /*OPI   *//*FBL   */
+        /* */dx7CtrlDataAllVoice[topNum+112]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_137]; /*LFS   */
+        /* */dx7CtrlDataAllVoice[topNum+113]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_138]; /*LFD   */
+        /* */dx7CtrlDataAllVoice[topNum+114]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_139]; /*LPMD  */
+        /* */dx7CtrlDataAllVoice[topNum+115]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_140]; /*LAMD  */
+        /* */dx7CtrlDataAllVoice[topNum+116]/*            */= ((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_143]&0x7)<<4)|((dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_142]&0x7)<<1)|(dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_141]&0x1); /*LPMS  *//*LFW   *//*LFKS  */
+        /* */dx7CtrlDataAllVoice[topNum+117]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_144]; /*TRNP  */
+        /* */dx7CtrlDataAllVoice[topNum+118]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_145]; /*VNAM1 */
+        /* */dx7CtrlDataAllVoice[topNum+119]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_146]; /*VNAM2 */
+        /* */dx7CtrlDataAllVoice[topNum+120]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_147]; /*VNAM3 */
+        /* */dx7CtrlDataAllVoice[topNum+121]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_148]; /*VNAM4 */
+        /* */dx7CtrlDataAllVoice[topNum+122]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_149]; /*VNAM5 */
+        /* */dx7CtrlDataAllVoice[topNum+123]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_150]; /*VNAM6 */
+        /* */dx7CtrlDataAllVoice[topNum+124]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_151]; /*VNAM7 */
+        /* */dx7CtrlDataAllVoice[topNum+125]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_152]; /*VNAM8 */
+        /* */dx7CtrlDataAllVoice[topNum+126]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_153]; /*VNAM9 */
+        /* */dx7CtrlDataAllVoice[topNum+127]/*            */= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_154]; /*VNAM10*/
+
+        copyToParamCtrl(DX7_CTRL_SEQ_ALL_VOICE);
     }
     else
     {

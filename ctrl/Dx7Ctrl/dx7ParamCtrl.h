@@ -162,6 +162,8 @@ typedef enum
 #if 0
     DX7_PARAM_CTRL_VOICE_155                       ,
 #endif
+    DX7_PARAM_CTRL_BUTTON_TO_ALL_VOICE             ,
+    DX7_PARAM_CTRL_COMBOBOX_TO_ALL_VOICE_NUM       ,
     DX7_PARAM_CTRL_STATIC_PATCHNAME                ,
     DX7_PARAM_CTRL_STATIC_LFO                      ,
     DX7_PARAM_CTRL_STATIC_MODULATION_SENSITVITY    ,
