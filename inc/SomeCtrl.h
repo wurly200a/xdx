@@ -36,12 +36,7 @@ typedef enum
     SOME_CTRL_VOICE_SAVE_BUTTON      ,
     SOME_CTRL_VOICE_GET_BUTTON       ,
     SOME_CTRL_VOICE_SET_BUTTON       ,
-#if 0
-    SOME_CTRL_GROUP_OP4              ,
-    SOME_CTRL_GROUP_OP3              ,
-    SOME_CTRL_GROUP_OP2              ,
-    SOME_CTRL_GROUP_OP1              ,
-#endif
+
     SOME_CTRL_GROUP_BOX_ALL_VOICE    ,
     SOME_CTRL_ALL_VOICE_LOAD_BUTTON  ,
     SOME_CTRL_ALL_VOICE_SAVE_BUTTON  ,
