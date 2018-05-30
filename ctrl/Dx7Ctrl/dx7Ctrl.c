@@ -927,8 +927,8 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_08 ] /*BP    */= dx7CtrlDataAllVoice[topNum+8  ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_09 ] /*LD    */= dx7CtrlDataAllVoice[topNum+9  ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_10 ] /*RD    */= dx7CtrlDataAllVoice[topNum+10 ];         
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_11 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+8  ])&0x3    ;
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_12 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+8  ]>>2)&0x3 ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_11 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+11 ])&0x3    ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_12 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+11 ]>>2)&0x3 ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_13 ] /*RS    */=(dx7CtrlDataAllVoice[topNum+12 ])&0x7    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_14 ] /*AMS   */=(dx7CtrlDataAllVoice[topNum+13 ])&0x3    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_15 ] /*TS    */=(dx7CtrlDataAllVoice[topNum+13 ]>>2)&0x7 ;
@@ -948,8 +948,8 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_29 ] /*BP    */= dx7CtrlDataAllVoice[topNum+25 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_30 ] /*LD    */= dx7CtrlDataAllVoice[topNum+26 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_31 ] /*RD    */= dx7CtrlDataAllVoice[topNum+27 ];         
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_32 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+25 ])&0x3    ;
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_33 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+25 ]>>2)&0x3 ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_32 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+28 ])&0x3    ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_33 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+28 ]>>2)&0x3 ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_34 ] /*RS    */=(dx7CtrlDataAllVoice[topNum+29 ])&0x7    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_35 ] /*AMS   */=(dx7CtrlDataAllVoice[topNum+30 ])&0x3    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_36 ] /*TS    */=(dx7CtrlDataAllVoice[topNum+30 ]>>2)&0x7 ;
@@ -969,8 +969,8 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_50 ] /*BP    */= dx7CtrlDataAllVoice[topNum+42 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_51 ] /*LD    */= dx7CtrlDataAllVoice[topNum+43 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_52 ] /*RD    */= dx7CtrlDataAllVoice[topNum+44 ];         
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_53 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+42 ])&0x3    ;
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_54 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+42 ]>>2)&0x3 ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_53 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+45 ])&0x3    ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_54 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+45 ]>>2)&0x3 ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_55 ] /*RS    */=(dx7CtrlDataAllVoice[topNum+46 ])&0x7    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_56 ] /*AMS   */=(dx7CtrlDataAllVoice[topNum+47 ])&0x3    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_57 ] /*TS    */=(dx7CtrlDataAllVoice[topNum+47 ]>>2)&0x7 ;
@@ -990,8 +990,8 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_71 ] /*BP    */= dx7CtrlDataAllVoice[topNum+59 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_72 ] /*LD    */= dx7CtrlDataAllVoice[topNum+60 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_73 ] /*RD    */= dx7CtrlDataAllVoice[topNum+61 ];         
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_74 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+59 ])&0x3    ;
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_75 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+59 ]>>2)&0x3 ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_74 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+62 ])&0x3    ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_75 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+62 ]>>2)&0x3 ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_76 ] /*RS    */=(dx7CtrlDataAllVoice[topNum+63 ])&0x7    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_77 ] /*AMS   */=(dx7CtrlDataAllVoice[topNum+64 ])&0x3    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_78 ] /*TS    */=(dx7CtrlDataAllVoice[topNum+64 ]>>2)&0x7 ;
@@ -1011,8 +1011,8 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_92 ] /*BP    */= dx7CtrlDataAllVoice[topNum+76 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_93 ] /*LD    */= dx7CtrlDataAllVoice[topNum+77 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_94 ] /*RD    */= dx7CtrlDataAllVoice[topNum+78 ];         
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_95 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+76 ])&0x3    ;
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_96 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+76 ]>>2)&0x3 ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_95 ] /*LC    */=(dx7CtrlDataAllVoice[topNum+79 ])&0x3    ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_96 ] /*RC    */=(dx7CtrlDataAllVoice[topNum+79 ]>>2)&0x3 ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_97 ] /*RS    */=(dx7CtrlDataAllVoice[topNum+80 ])&0x7    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_98 ] /*AMS   */=(dx7CtrlDataAllVoice[topNum+81 ])&0x3    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_99 ] /*TS    */=(dx7CtrlDataAllVoice[topNum+81 ]>>2)&0x7 ;
@@ -1032,8 +1032,8 @@ dx7voiceCopyFromAllToOne( INT voiceNum )
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_113] /*BP    */= dx7CtrlDataAllVoice[topNum+93 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_114] /*LD    */= dx7CtrlDataAllVoice[topNum+94 ];         
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_115] /*RD    */= dx7CtrlDataAllVoice[topNum+95 ];         
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_116] /*LC    */=(dx7CtrlDataAllVoice[topNum+93 ])&0x3    ;
-        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_117] /*RC    */=(dx7CtrlDataAllVoice[topNum+93 ]>>2)&0x3 ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_116] /*LC    */=(dx7CtrlDataAllVoice[topNum+96 ])&0x3    ;
+        dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_117] /*RC    */=(dx7CtrlDataAllVoice[topNum+96 ]>>2)&0x3 ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_118] /*RS    */=(dx7CtrlDataAllVoice[topNum+97 ])&0x7    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_119] /*AMS   */=(dx7CtrlDataAllVoice[topNum+98 ])&0x3    ;
         dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_120] /*TS    */=(dx7CtrlDataAllVoice[topNum+98 ]>>2)&0x7 ;
