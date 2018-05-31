@@ -29,7 +29,6 @@ static BYTE dx100CtrlSeqTxTempData[1024*8];
 static BYTE dx100CtrlSeqRxTempData[1024*8];
 static INT dx100CtrlSeqTempRxSize;
 
-static BYTE dx100CtrlDataSysCommon[SYSCMN_INDEX_MAX];
 static BYTE dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_INDEX_MAX];
 static BYTE dx100CtrlDataAllVoice[DX100_SYSEX_ALL_VOICE_INDEX_MAX];
 
@@ -42,7 +41,6 @@ typedef struct
 static const S_DX100_CTRL_SEQ_DATA dx100CtrlSeqDataTbl[DX100_CTRL_SEQ_NUM_MAX] =
 {
     {(INT)0                              ,(BYTE *)NULL                   }, /* DX100_CTRL_SEQ_NON_EXEC     */
-    {(INT)SYSCMN_INDEX_MAX               ,&dx100CtrlDataSysCommon        }, /* DX100_CTRL_SEQ_SYS_COMMON   */
     {(INT)DX100_SYSEX_1VOICE_INDEX_MAX   ,&dx100CtrlDataOneVoice         }, /* DX100_CTRL_SEQ_1VOICE */
     {(INT)DX100_SYSEX_ALL_VOICE_INDEX_MAX,&dx100CtrlDataAllVoice         }, /* DX100_CTRL_SEQ_ALL_VOICE */
 };
@@ -408,8 +406,6 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
 
     switch( seqId )
     {
-    case DX100_CTRL_SEQ_SYS_COMMON  :
-        break;
     case DX100_CTRL_SEQ_1VOICE:
         for( i=0; i<DX100_SYSEX_VCED_MAX; i++ )
         {

@@ -147,13 +147,6 @@ enum
     DX100_SYSEX_ALL_VOICE_INDEX_MAX
 };
 
-enum
-{
-    SYSCMN_SOUNDMODE                ,
-    SYSCMN_INDEX_MAX
-};
-typedef INT SYSCMN_INDEX;
-
 /* VCEDフォーマット */
 enum
 {

@@ -32,7 +32,6 @@ static BYTE dx7CtrlSeqTxTempData[1024*8];
 static BYTE dx7CtrlSeqRxTempData[1024*8];
 static INT dx7CtrlSeqTempRxSize;
 
-static BYTE dx7CtrlDataSysCommon[SYSCMN_INDEX_MAX];
 static BYTE dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_INDEX_MAX];
 static BYTE dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_INDEX_MAX];
 
@@ -45,7 +44,6 @@ typedef struct
 static const S_DX7_CTRL_SEQ_DATA dx7CtrlSeqDataTbl[DX7_CTRL_SEQ_NUM_MAX] =
 {
     {(INT)0                            ,(BYTE *)NULL                 }, /* DX7_CTRL_SEQ_NON_EXEC     */
-    {(INT)SYSCMN_INDEX_MAX             ,&dx7CtrlDataSysCommon        }, /* DX7_CTRL_SEQ_SYS_COMMON   */
     {(INT)DX7_SYSEX_1VOICE_INDEX_MAX   ,&dx7CtrlDataOneVoice         }, /* DX7_CTRL_SEQ_1VOICE */
     {(INT)DX7_SYSEX_ALL_VOICE_INDEX_MAX,&dx7CtrlDataAllVoice         }, /* DX7_CTRL_SEQ_ALL_VOICE */
 };
@@ -418,8 +416,6 @@ copyToParamCtrl( DX7_CTRL_SEQ_ID seqId )
 
     switch( seqId )
     {
-    case DX7_CTRL_SEQ_SYS_COMMON  :
-        break;
     case DX7_CTRL_SEQ_1VOICE:
         for( i=0; i<DX7_SYSEX_VCED_MAX; i++ )
         {

@@ -285,7 +285,7 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
 #if 0
     {PCT_COMBO ,TEXT("OPERATOR ON/OFF"               ),0    ,FALSE   ,0       ,127     , NULL                ,  0, ROW_POS_EDIT19 ,COLPOS02,0   },      /*155        OPERATOR ON/OFF                      */
 #endif
-    {PCT_BUTTON,TEXT("TO_ALL_VOICE"                  ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT00 ,COLPOS11,0   },      /**/
+    {PCT_BUTTON,TEXT("TO ALL VOICE"                  ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT00 ,COLPOS11,0   },      /**/
     {PCT_COMBO ,TEXT("COMBO_TO_ALL_VOICE"            ),0    ,TRUE    ,0       ,31      , strTblVoiceNum      ,  0, ROW_POS_EDIT00 ,COLPOS10,0   },      /**/
     {PCT_STATIC,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT00 ,COLPOS00,0   },      /**/
     {PCT_STATIC,TEXT("LFO"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS03,5   },      /**/
