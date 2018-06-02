@@ -320,7 +320,7 @@ Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_126] = 0x00;
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_127] = 0x00;
     }
-    dx100CtrlDataAllVoice[DX100_SYSEX_ALL_VOICE_FOOTER_CHECKSUM] = 0x41;
+    dx100CtrlDataAllVoice[DX100_SYSEX_ALL_VOICE_FOOTER_CHECKSUM] = 0x40;
     dx100CtrlDataAllVoice[DX100_SYSEX_ALL_VOICE_FOOTER_ETX     ] = EX_ETX;
 
     copyToParamCtrl(DX100_CTRL_SEQ_ALL_VOICE);
