@@ -68,10 +68,122 @@ BOOL
 Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 {
     BOOL bRtn = TRUE;
+    INT i;
 
     dx100CtrlInfo.nowMode = DX100_CTRL_MODE_PATCH;
 
     Dx100ParamCtrlCreate( hInst, szAppName, hwnd ); /* コントロールを生成 */
+
+    /* 1VOICE 初期値 */
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_STATUS    ] = EX_STATUS;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_ID_NO     ] = EX_ID_NUMBER_YAMAHA;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_SUB_STATUS] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_REQUEST_FORMAT_NO ] = DX100_DUMP_REQ_FORMAT_1VOICE;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_BYTE_COUNT_HIGH   ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_HEADER_BYTE_COUNT_LOW    ] = 0x5D;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_00                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_01                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_02                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_03                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_04                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_05                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_06                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_07                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_08                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_09                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_10                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_11                  ] = 0x04;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_12                  ] = 0x03;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_13                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_14                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_15                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_16                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_17                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_18                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_19                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_20                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_21                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_22                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_23                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_24                  ] = 0x04;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_25                  ] = 0x03;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_26                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_27                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_28                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_29                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_30                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_31                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_32                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_33                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_34                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_35                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_36                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_37                  ] = 0x04;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_38                  ] = 0x03;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_39                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_40                  ] = 0x1F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_41                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_42                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_43                  ] = 0x0F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_44                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_45                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_46                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_47                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_48                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_49                  ] = 0x5A;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_50                  ] = 0x04;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_51                  ] = 0x03;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_52                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_53                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_54                  ] = 0x23;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_55                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_56                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_57                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_58                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_59                  ] = 0x02;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_60                  ] = 0x06;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_61                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_62                  ] = 0x18;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_63                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_64                  ] = 0x04;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_65                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_66                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_67                  ] = 0x63;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_68                  ] = 0x01;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_69                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_70                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_71                  ] = 0x32;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_72                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_73                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_74                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_75                  ] = 0x32;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_76                  ] = 0x00;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_77                  ] = 0x49;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_78                  ] = 0x4E;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_79                  ] = 0x49;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_80                  ] = 0x54;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_81                  ] = 0x20;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_82                  ] = 0x56;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_83                  ] = 0x4F;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_84                  ] = 0x49;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_85                  ] = 0x43;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_86                  ] = 0x45;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_87                  ] = 0x63;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_88                  ] = 0x63;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_89                  ] = 0x63;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_90                  ] = 0x32;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_91                  ] = 0x32;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_92                  ] = 0x32;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_CHECKSUM          ] = 0x02;
+    dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_FOOTER_ETX               ] = EX_ETX;
+    copyToParamCtrl(DX100_CTRL_SEQ_1VOICE);
+
+    /* ALL VOICE 初期値 */
+    for( i=0; i<32; i++ )
+    {
+        INT topNum = DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX);
+    }
+    copyToParamCtrl(DX100_CTRL_SEQ_ALL_VOICE);
 
     return bRtn;
 }
