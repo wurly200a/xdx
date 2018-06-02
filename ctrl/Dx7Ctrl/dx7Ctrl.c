@@ -1206,6 +1206,7 @@ Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr )
         break;
     case (DX7_PARAM_CTRL_BUTTON_TO_ALL_VOICE+DX7_PARAM_CTRL_ID_OFFSET):
         DebugWndPrintf("[DX7] TO ALL VOICE,%d=0x%04X\r\n",code,notifyCode);
+        copyFromParamCtrl( DX7_CTRL_SEQ_1VOICE );
         dx7voiceCopyFromOneToOneOfAll(getParamCtrlValue(DX7_PARAM_CTRL_COMBOBOX_TO_ALL_VOICE_NUM));
         bRtn = (BOOL)TRUE;
         mode = DX7_CTRL_MODE_ALL_VOICE;
