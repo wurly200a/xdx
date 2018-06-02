@@ -32,6 +32,7 @@ static char *strTblPolyMono[2] = {"POLY","MONO"};
 static char *strTblPortamentoMode[2] = {"Full","Fing"};
 static char *strTblDetune[7] = {"-3","-2","-1","0","+1","+2","+3"};
 static char *strTblFrequency[64] = {"0.50","0.71","0.78","0.87","1.00","1.41","1.57","1.73","2.00","2.82","3.00","3.14","3.46","4.00","4.24","4.71","5.00","5.19","5.65","6.00","6.28","6.92","7.00","7.07","7.85","8.00","8.48","8.65","9.00","9.42","9.89","10.00","10.38","10.99","11.00","11.30","12.00","12.11","12.56","12.72","13.00","13.84","14.00","14.10","14.13","15.00","15.55","15.57","15.70","16.96","17.27","17.30","18.37","18.84","19.03","19.78","20.41","20.76","21.20","21.98","22.49","23.55","24.22","25.95"};
+static char *strTblVoiceNum[32] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"};
 
 /* X•ûŒü */
 #define PARAM_STATIC_X_BASE_POS   5
@@ -196,6 +197,8 @@ static S_DX100_PARAM_CTRL paramListTbl[DX100_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("PL1"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS12,0   },      /*"90 PITCH EG LEVEL 1"                           */
     {PCT_COMBO ,TEXT("PL2"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS14,0   },      /*"91 PITCH EG LEVEL 2"                           */
     {PCT_COMBO ,TEXT("PL3"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS16,0   },      /*"92 PITCH EG LEVEL 3"                           */
+    {PCT_BUTTON,TEXT("TO ALL VOICE"                  ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT0  ,COLPOS11,0   },      /**/
+    {PCT_COMBO ,TEXT("COMBO_TO_ALL_VOICE"            ),0    ,TRUE    ,0       ,31      , strTblVoiceNum      ,  0, ROW_POS_EDIT0  ,COLPOS10,0   },      /**/
     {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS00,0   },    /*"OPERATOR1"                                     */
     {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS00,0   },    /*"OPERATOR2"                                     */
     {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS00,0   },    /*"OPERATOR3"                                     */

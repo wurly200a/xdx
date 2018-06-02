@@ -1115,6 +1115,11 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
                     Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
                     SomeCtrlGroupDisplay(SOME_CTRL_GROUP_1VOICE);
                 }
+                else if( ctrlMode == DX100_CTRL_MODE_ALL_VOICE )
+                {
+                    Dx100CtrlModeSet(DX100_CTRL_MODE_ALL_VOICE);
+                    SomeCtrlGroupDisplay(SOME_CTRL_GROUP_ALL_VOICE);
+                }
                 else
                 {
                     nop();

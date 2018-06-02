@@ -97,6 +97,8 @@ typedef enum
     DX100_PARAM_CTRL_VOICE_90                        ,
     DX100_PARAM_CTRL_VOICE_91                        ,
     DX100_PARAM_CTRL_VOICE_92                        ,
+    DX100_PARAM_CTRL_BUTTON_TO_ALL_VOICE             ,
+    DX100_PARAM_CTRL_COMBOBOX_TO_ALL_VOICE_NUM       ,
     DX100_PARAM_CTRL_STATIC_1                        ,
     DX100_PARAM_CTRL_STATIC_2                        ,
     DX100_PARAM_CTRL_STATIC_3                        ,
