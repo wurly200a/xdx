@@ -34,6 +34,7 @@ typedef struct
 
 static S_CONFIG_INFO configInfoTbl[CONFIG_ID_MAX] =
 {
+    { TEXT("bSaveConfirm"         ),TEXT("0x00000000"), CONFIG_DATA_DWORD  },
     { TEXT("iWindowPosX"          ),TEXT("0x00000000"), CONFIG_DATA_DWORD  },
     { TEXT("iWindowPosY"          ),TEXT("0x00000000"), CONFIG_DATA_DWORD  },
     { TEXT("iWindowPosDX"         ),TEXT("0x000004BC"), CONFIG_DATA_DWORD  },

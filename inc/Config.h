@@ -3,6 +3,7 @@
 /* ä«óùÇ∑ÇÈê›íËÇÃID */
 typedef enum
 {
+    CONFIG_ID_BOOL_SAVE_CONFIRM,
     CONFIG_ID_WINDOW_POS_X    ,
     CONFIG_ID_WINDOW_POS_Y    ,
     CONFIG_ID_WINDOW_POS_DX   ,
