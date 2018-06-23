@@ -42,8 +42,8 @@ static char *strTblVoiceNum[32] = {"1","2","3","4","5","6","7","8","9","10","11"
 #define PARAM_WRAP_X_UNIT        70
 
 /* Y•ûŒü */
-#define PARAM_STATIC_Y_BASE_POS 125
-#define PARAM_DATA_Y_BASE_POS   120
+#define PARAM_STATIC_Y_BASE_POS 130
+#define PARAM_DATA_Y_BASE_POS   125
 #define PARAM_DATA_Y_UNIT        10
 
 #define PARAM_STATIC_HEIGHT      15

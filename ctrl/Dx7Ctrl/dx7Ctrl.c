@@ -48,8 +48,13 @@ static const S_DX7_CTRL_SEQ_DATA dx7CtrlSeqDataTbl[DX7_CTRL_SEQ_NUM_MAX] =
     {(INT)DX7_SYSEX_ALL_VOICE_INDEX_MAX,&dx7CtrlDataAllVoice         }, /* DX7_CTRL_SEQ_ALL_VOICE */
 };
 
+#define DX7_ALGORITHM_MAX 32
+
 typedef struct
 {
+    HINSTANCE hInst;
+    HWND      hwnd ;
+    HWND      hctrl[DX7_ALGORITHM_MAX];
     DX7_CTRL_SEQ_METHOD          nowMethod            ;
     DX7_CTRL_SEQ_ID              reqSeqIdStart        ;
     DX7_CTRL_SEQ_ID              reqSeqIdEnd          ;
@@ -73,7 +78,24 @@ Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     BOOL bRtn = TRUE;
     INT topNum,i;
 
+    dx7CtrlInfo.hInst = hInst;
+    dx7CtrlInfo.hwnd  = hwnd ;
     dx7CtrlInfo.nowMode = DX7_CTRL_MODE_PATCH;
+
+    {
+        static HBITMAP hBitmap[DX7_ALGORITHM_MAX];
+        INT i;
+        for( i=0; i<DX7_ALGORITHM_MAX; i++ )
+        {
+            TCHAR szBuff[128];
+
+            sprintf(szBuff,"DX7_%02d",i+1);
+            dx7CtrlInfo.hctrl[i] = CreateWindow( TEXT("Static"), TEXT(""), WS_CHILD|WS_VISIBLE|SS_BITMAP,900,0,0,0, dx7CtrlInfo.hwnd, (HMENU)-1, dx7CtrlInfo.hInst, NULL);
+            hBitmap[i] = (HBITMAP)LoadImage(dx7CtrlInfo.hInst, szBuff, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+            SendMessage(dx7CtrlInfo.hctrl[i], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap[i]);
+            ShowWindow(dx7CtrlInfo.hctrl[i], SW_HIDE);
+        }
+    }
 
     Dx7ParamCtrlCreate( hInst, szAppName, hwnd ); /* コントロールを生成 */
 
@@ -408,6 +430,8 @@ Dx7CtrlModeSet(DX7_CTRL_MODE mode)
 BOOL
 Dx7CtrlDisplayUpdate( void )
 {
+    INT i;
+
     if( dx7CtrlInfo.nowMode == DX7_CTRL_MODE_NONE )
     {
         Dx7ParamCtrlGroupDisplay(DX7_PARAM_CTRL_GROUP_NONE);
@@ -429,6 +453,19 @@ Dx7CtrlDisplayUpdate( void )
     }
     else
     {
+    }
+
+    for( i=0; i<DX7_ALGORITHM_MAX; i++ )
+    {
+        if( (dx7CtrlInfo.nowMode == DX7_CTRL_MODE_PATCH) &&
+            (i == getParamCtrlValue(DX7_PARAM_CTRL_VOICE_134)) )
+        {
+            ShowWindow(dx7CtrlInfo.hctrl[i], SW_SHOW);
+        }
+        else
+        {
+            ShowWindow(dx7CtrlInfo.hctrl[i], SW_HIDE);
+        }
     }
 
     return TRUE;
@@ -1082,6 +1119,9 @@ Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr )
 
     switch( code )
     {
+    case (DX7_PARAM_CTRL_VOICE_134+DX7_PARAM_CTRL_ID_OFFSET): /* ALGORITHMの変更*/
+        Dx7CtrlDisplayUpdate();
+        break;
     case (DX7_PARAM_CTRL_VOICE_17                 +DX7_PARAM_CTRL_ID_OFFSET):
     case (DX7_PARAM_CTRL_VOICE_18                 +DX7_PARAM_CTRL_ID_OFFSET):
     case (DX7_PARAM_CTRL_VOICE_19                 +DX7_PARAM_CTRL_ID_OFFSET):

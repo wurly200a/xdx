@@ -46,8 +46,13 @@ static const S_DX100_CTRL_SEQ_DATA dx100CtrlSeqDataTbl[DX100_CTRL_SEQ_NUM_MAX] =
     {(INT)DX100_SYSEX_ALL_VOICE_INDEX_MAX,&dx100CtrlDataAllVoice         }, /* DX100_CTRL_SEQ_ALL_VOICE */
 };
 
+#define DX100_ALGORITHM_MAX 8
+
 typedef struct
 {
+    HINSTANCE hInst;
+    HWND      hwnd ;
+    HWND      hctrl[DX100_ALGORITHM_MAX];
     DX100_CTRL_SEQ_METHOD          nowMethod            ;
     DX100_CTRL_SEQ_ID              reqSeqIdStart        ;
     DX100_CTRL_SEQ_ID              reqSeqIdEnd          ;
@@ -71,7 +76,24 @@ Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     BOOL bRtn = TRUE;
     INT i;
 
+    dx100CtrlInfo.hInst = hInst;
+    dx100CtrlInfo.hwnd  = hwnd ;
     dx100CtrlInfo.nowMode = DX100_CTRL_MODE_PATCH;
+
+    {
+        static HBITMAP hBitmap[DX100_ALGORITHM_MAX];
+        INT i;
+        for( i=0; i<DX100_ALGORITHM_MAX; i++ )
+        {
+            TCHAR szBuff[128];
+
+            sprintf(szBuff,"DX100_%02d",i+1);
+            dx100CtrlInfo.hctrl[i] = CreateWindow( TEXT("Static"), TEXT(""), WS_CHILD|WS_VISIBLE|SS_BITMAP,900,0,0,0, dx100CtrlInfo.hwnd, (HMENU)-1, dx100CtrlInfo.hInst, NULL);
+            hBitmap[i] = (HBITMAP)LoadImage(dx100CtrlInfo.hInst, szBuff, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+            SendMessage(dx100CtrlInfo.hctrl[i], STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap[i]);
+            ShowWindow(dx100CtrlInfo.hctrl[i], SW_HIDE);
+        }
+    }
 
     Dx100ParamCtrlCreate( hInst, szAppName, hwnd ); /* コントロールを生成 */
 
@@ -346,6 +368,8 @@ Dx100CtrlModeSet(DX100_CTRL_MODE mode)
 BOOL
 Dx100CtrlDisplayUpdate( void )
 {
+    INT i;
+
     if( dx100CtrlInfo.nowMode == DX100_CTRL_MODE_NONE )
     {
         Dx100ParamCtrlGroupDisplay(DX100_PARAM_CTRL_GROUP_NONE);
@@ -360,6 +384,19 @@ Dx100CtrlDisplayUpdate( void )
     }
     else
     {
+    }
+
+    for( i=0; i<DX100_ALGORITHM_MAX; i++ )
+    {
+        if( (dx100CtrlInfo.nowMode == DX100_CTRL_MODE_PATCH) &&
+            (i == getParamCtrlValue(DX100_PARAM_CTRL_VOICE_52)) )
+        {
+            ShowWindow(dx100CtrlInfo.hctrl[i], SW_SHOW);
+        }
+        else
+        {
+            ShowWindow(dx100CtrlInfo.hctrl[i], SW_HIDE);
+        }
     }
 
     return TRUE;
@@ -1007,6 +1044,9 @@ Dx100CtrlOnCommand( WORD code, WORD notifyCode, DX100_CTRL_MODE *modePtr )
 
     switch( code )
     {
+    case (DX100_PARAM_CTRL_VOICE_52+DX100_PARAM_CTRL_ID_OFFSET): /* ALGORITHMの変更*/
+        Dx100CtrlDisplayUpdate();
+        break;
     case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_00+DX100_PARAM_CTRL_ID_OFFSET):
     case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_01+DX100_PARAM_CTRL_ID_OFFSET):
     case (DX100_PARAM_CTRL_ALL_VOICE_TO_ONE_VOICE_02+DX100_PARAM_CTRL_ID_OFFSET):
