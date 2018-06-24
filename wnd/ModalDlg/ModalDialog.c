@@ -166,7 +166,7 @@ AboutDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 
         /* Copyright */
         y += 15;
-        hCtrl = CreateWindow( TEXT("static"), TEXT("Copyright (C) 2009-2018 Wurly"), WS_CHILD|WS_VISIBLE, x, y, 400,19, hDlg, (HMENU)-1, hInst, NULL );
+        hCtrl = CreateWindow( TEXT("static"), TEXT("Copyright (C) 2017-2018 Wurly"), WS_CHILD|WS_VISIBLE, x, y, 400,19, hDlg, (HMENU)-1, hInst, NULL );
         SendMessage( hCtrl, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0) );
 
         /* ƒ‰ƒCƒZƒ“ƒX */
