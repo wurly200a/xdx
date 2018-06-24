@@ -117,7 +117,11 @@ MainWndCreate( HINSTANCE hInst, PTSTR szAppName, LPSTR szCmdLine, int nCmdShow, 
     wc.hInstance        = hInst;
     wc.hIcon            = LoadIcon( hInst, "MAIN_ICON" );          /* ÉAÉCÉRÉì */
     wc.hCursor          = LoadCursor(NULL, IDC_ARROW);
+#if 0
+    wc.hbrBackground    = (HBRUSH) CreateSolidBrush( RGB(0x00,0x00,0x00) );
+#else
     wc.hbrBackground    = (HBRUSH) (COLOR_BTNFACE + 1); /* îwåi */
+#endif
     wc.lpszMenuName     = pAppName;
     wc.lpszClassName    = pAppName;
 
