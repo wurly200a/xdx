@@ -199,6 +199,7 @@ static S_DX100_PARAM_CTRL paramListTbl[DX100_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("PL3"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS16,0   },      /*"92 PITCH EG LEVEL 3"                           */
     {PCT_BUTTON,TEXT("TO ALL VOICE"                  ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT0  ,COLPOS11,0   },      /**/
     {PCT_COMBO ,TEXT("COMBO_TO_ALL_VOICE"            ),0    ,TRUE    ,0       ,31      , strTblVoiceNum      ,  0, ROW_POS_EDIT0  ,COLPOS10,0   },      /**/
+    {PCT_BUTTON,TEXT("TO 6 OPERATOR"                 ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT0  ,COLPOS08,0   },      /**/
     {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS00,0   },    /*"OPERATOR1"                                     */
     {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS00,0   },    /*"OPERATOR2"                                     */
     {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS00,0   },    /*"OPERATOR3"                                     */

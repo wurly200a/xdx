@@ -1,6 +1,70 @@
 #ifndef DX100_CTRL_H
 #define DX100_CTRL_H
 
+enum
+{
+    DX100_OPERATOR1,
+    DX100_OPERATOR2,
+    DX100_OPERATOR3,
+    DX100_OPERATOR4,
+    DX100_OPERATOR_MAX,
+};
+typedef INT DX100_OPERATOR_NUM;
+
+typedef struct
+{
+    BYTE ame                      ;
+    BYTE eg_bias                  ;
+    BYTE velocity                 ;
+    BYTE freq_ratio               ;
+    BYTE detune                   ;
+    BYTE ar                       ;
+    BYTE d1r                      ;
+    BYTE d1l                      ;
+    BYTE d2r                      ;
+    BYTE rr                       ;
+    BYTE out_level                ;
+    BYTE rate                     ;
+    BYTE level                    ;
+} S_DX100_OPERATOR_PARAM;
+
+typedef struct
+{
+    TCHAR patchname[11]            ;
+    BYTE  algorithm                ;
+    BYTE  feedback                 ;
+    BYTE  lfo_wave                 ;
+    BYTE  speed                    ;
+    BYTE  delay                    ;
+    BYTE  pmd                      ;
+    BYTE  amd                      ;
+    BYTE  lfo_sync                 ;
+    BYTE  pitch                    ;
+    BYTE  amplitude                ;
+    BYTE  pr1                      ;
+    BYTE  pl1                      ;
+    BYTE  pr2                      ;
+    BYTE  pl2                      ;
+    BYTE  pr3                      ;
+    BYTE  pl3                      ;
+    BYTE  poly_mono                ;
+    BYTE  pb_range                 ;
+    BYTE  porta_mode               ;
+    BYTE  porta_time               ;
+    BYTE  portament_foot_sw        ;
+    BYTE  foot_volume_range        ;
+    BYTE  sustain_foot_sw          ;
+    BYTE  wr_pitch                 ;
+    BYTE  wr_amplitude             ;
+    BYTE  bc_pitch                 ;
+    BYTE  bc_amplitude             ;
+    BYTE  bc_pitch_bias            ;
+    BYTE  bc_eg_bias               ;
+    BYTE  chorus_switch            ;
+    BYTE  transpose                ;
+    S_DX100_OPERATOR_PARAM operatorParam[DX100_OPERATOR_MAX];
+} S_DX100_VOICE_PARAM;
+
 BOOL Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd );
 
 enum
@@ -40,6 +104,8 @@ void Dx100CtrlCycleProc( void );
 DWORD Dx100GetDataSize( DX100_CTRL_SEQ_ID seqId );
 BOOL Dx100DataGet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
 BOOL Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
-BOOL Dx100CtrlOnCommand( WORD code, WORD notifyCode, DX100_CTRL_MODE *modePtr );
+BOOL Dx100CtrlOnCommand( WORD code, WORD notifyCode, DX100_CTRL_MODE *modePtr, BOOL *extraModePtr );
+
+S_DX100_VOICE_PARAM * Dx100GetVoiceParamPtr( void );
 
 #endif /* DX100_CTRL_H */
