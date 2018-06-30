@@ -20,7 +20,6 @@ typedef struct
     BYTE coarse                   ;
     BYTE fine                     ;
     BYTE detune                   ;
-    BYTE eg                       ;
     BYTE rate1                    ;
     BYTE rate2                    ;
     BYTE rate3                    ;
@@ -29,15 +28,12 @@ typedef struct
     BYTE level2                   ;
     BYTE level3                   ;
     BYTE level4                   ;
-    BYTE k_level_scaling          ;
     BYTE break_point              ;
     BYTE curve_l                  ;
     BYTE curve_r                  ;
     BYTE depth_l                  ;
     BYTE depth_r                  ;
-    BYTE k_rate_scaling1          ;
-    BYTE k_rate_scaling2          ;
-    BYTE operator                 ;
+    BYTE k_rate_scaling           ;
     BYTE out_level                ;
     BYTE velo_sens                ;
 } S_DX7_OPERATOR_PARAM;
@@ -108,6 +104,7 @@ BOOL Dx7DataGet( DX7_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
 BOOL Dx7DataSet( DX7_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
 BOOL Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr );
 S_DX7_VOICE_PARAM * Dx7GetVoiceParamPtr( void );
-void Dx7VoiceParamCopy( void );
+void Dx7VoiceParamCopyFromStruct( void );
+BOOL Dx7voiceCopyFromOneToAll( INT voiceNum );
 
 #endif /* DX7_CTRL_H */

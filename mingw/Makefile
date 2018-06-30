@@ -38,6 +38,7 @@ OBJECTS = \
           ..\\ctrl\\Dx100Ctrl\\dx100ParamCtrl.o   \
           ..\\ctrl\\Dx7Ctrl\\dx7Ctrl.o            \
           ..\\ctrl\\Dx7Ctrl\\dx7ParamCtrl.o       \
+          ..\\ctrl\\DxConvert\\DxConvert.o        \
           ../resources/resource.o                 \
 
 #          ..\\sys\\LinkedList\\LinkedList.o       \

@@ -28,6 +28,9 @@ typedef struct
     BYTE level                    ;
 } S_DX100_OPERATOR_PARAM;
 
+typedef INT DX100_VOICE_NUM;
+#define DX100_VOICE_NUM_MAX 32
+
 typedef struct
 {
     TCHAR patchname[11]            ;
@@ -106,6 +109,6 @@ BOOL Dx100DataGet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
 BOOL Dx100DataSet( DX100_CTRL_SEQ_ID seqId, TCHAR *dataPtr, DWORD dataSize );
 BOOL Dx100CtrlOnCommand( WORD code, WORD notifyCode, DX100_CTRL_MODE *modePtr, BOOL *extraModePtr );
 
-S_DX100_VOICE_PARAM * Dx100GetVoiceParamPtr( void );
+S_DX100_VOICE_PARAM * Dx100GetVoiceParamPtr( DX100_VOICE_NUM voiceNum );
 
 #endif /* DX100_CTRL_H */

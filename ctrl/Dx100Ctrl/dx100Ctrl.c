@@ -21,6 +21,7 @@ static BOOL copyFromParamCtrl( DX100_CTRL_SEQ_ID seqId );
 static BYTE getParamCtrlValue( DX100_PARAM_CTRL_ID id );
 static BOOL displayContents( void );
 static BYTE calcCheckSum( BYTE *dataPtr, INT dataSize );
+static void dx100voiceParamCopyToStruct( void );
 static BOOL dx100voiceCopyFromAllToOne( INT voiceNum );
 static BOOL dx100voiceCopyFromOneToOneOfAll( INT voiceNum );
 static void debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle );
@@ -1103,102 +1104,10 @@ Dx100CtrlOnCommand( WORD code, WORD notifyCode, DX100_CTRL_MODE *modePtr, BOOL *
         break;
     case (DX100_PARAM_CTRL_BUTTON_TO_DX7+DX100_PARAM_CTRL_ID_OFFSET):
         DebugWndPrintf("[DX100] TO DX7,%d=0x%04X\r\n",code,notifyCode);
-        copyFromParamCtrl( DX100_CTRL_SEQ_1VOICE );
-
-        dx100voiceParam.patchname[0]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_77]/* voice name 1                                     */;
-        dx100voiceParam.patchname[1]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_78]/* voice name 2                                     */;
-        dx100voiceParam.patchname[2]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_79]/* voice name 3                                     */;
-        dx100voiceParam.patchname[3]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_80]/* voice name 4                                     */;
-        dx100voiceParam.patchname[4]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_81]/* voice name 5                                     */;
-        dx100voiceParam.patchname[5]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_82]/* voice name 6                                     */;
-        dx100voiceParam.patchname[6]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_83]/* voice name 7                                     */;
-        dx100voiceParam.patchname[7]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_84]/* voice name 8                                     */;
-        dx100voiceParam.patchname[8]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_85]/* voice name 9                                     */;
-        dx100voiceParam.patchname[9]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_86]/* voice name 10                                    */;
-        dx100voiceParam.algorithm                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_52]/* ALGORITHM                                        */;
-        dx100voiceParam.feedback                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_53]/* FEEDBACK LEVEL                                   */;
-        dx100voiceParam.lfo_wave                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_59]/* lfo wave                                         */;
-        dx100voiceParam.speed                                     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_54]/* LFO SPEED                                        */;
-        dx100voiceParam.delay                                     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_55]/* LFO DELAY                                        */;
-        dx100voiceParam.pmd                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_56]/* PITCH MODULATION DEPTH                           */;
-        dx100voiceParam.amd                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_57]/* amplitude MODULATION depth                       */;
-        dx100voiceParam.lfo_sync                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_58]/* LFO SYNC                                         */;
-        dx100voiceParam.pitch                                     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_60]/* pitch modulation sensitivity                     */;
-        dx100voiceParam.amplitude                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_61]/* amplitude modulation sensitivity                 */;
-        dx100voiceParam.pr1                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_87]/* pitch eg rate 1                                  */;
-        dx100voiceParam.pl1                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_90]/* pitch eg level 1                                 */;
-        dx100voiceParam.pr2                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_88]/* pitch eg rate 2                                  */;
-        dx100voiceParam.pl2                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_91]/* pitch eg level 2                                 */;
-        dx100voiceParam.pr3                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_89]/* pitch eg rate 3                                  */;
-        dx100voiceParam.pl3                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_92]/* pitch eg level 3                                 */;
-        dx100voiceParam.poly_mono                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_63]/* play mode poly/mono                              */;
-        dx100voiceParam.pb_range                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_64]/* pitch bend range                                 */;
-        dx100voiceParam.porta_mode                                = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_65]/* portamento mode                                  */;
-        dx100voiceParam.porta_time                                = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_66]/* portamento time                                  */;
-        dx100voiceParam.portament_foot_sw                         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_69]/* portamento foot switch                           */;
-        dx100voiceParam.foot_volume_range                         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_67]/* foot volume range                                */;
-        dx100voiceParam.sustain_foot_sw                           = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_68]/* sustain foot switch                              */;
-        dx100voiceParam.wr_pitch                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_71]/* modulation wheel pitch modulation range          */;
-        dx100voiceParam.wr_amplitude                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_72]/* modulation wheel amplitude modulation range      */;
-        dx100voiceParam.bc_pitch                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_73]/* breath control pitch modulation range            */;
-        dx100voiceParam.bc_amplitude                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_74]/* breath control amplitude modulation range        */;
-        dx100voiceParam.bc_pitch_bias                             = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_75]/* breath control pitch bias range                  */;
-        dx100voiceParam.bc_eg_bias                                = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_76]/* breath control eg bias range                     */;
-        dx100voiceParam.chorus_switch                             = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_70]/* chorus switch                                    */;
-        dx100voiceParam.transpose                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_62]/* transpose                                        */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_08]/* OP4 AMPLITUDE MODULATION ENABLE                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_07]/* OP4 EG BIAS SENSITIVITY                          */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_09]/* OP4 KEY VELOCITY                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_11]/* OP4 OSCILLATOR FREQUENCY                         */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_12]/* OP4 DETUNE                                       */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_00]/* OP4 ATTACK RATE                                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_01]/* OP4 DECAY 1 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_04]/* OP4 DECAY 1 LEVEL                                */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_02]/* OP4 DECAY 2 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_03]/* OP4 RELEASE RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_10]/* OP4 OUTPUT LEVEL                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_06]/* OP4 KEYBOARD SCALING RATE                        */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR4].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_05]/* OP4 KEYBOARD SCALING LEVEL                       */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_21]/* OP2 AMPLITUDE MODULATION ENABLE                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_20]/* OP2 EG BIAS SENSITIVITY                          */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_22]/* OP2 KEY VELOCITY                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_24]/* OP2 OSCILLATOR FREQUENCY                         */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_25]/* OP2 DETUNE                                       */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_13]/* OP2 ATTACK RATE                                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_14]/* OP2 DECAY 1 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_17]/* OP2 DECAY 1 LEVEL                                */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_15]/* OP2 DECAY 2 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_16]/* OP2 RELEASE RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_23]/* OP2 OUTPUT LEVEL                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_19]/* OP2 KEYBOARD SCALING RATE                        */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR2].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_18]/* OP2 KEYBOARD SCALING LEVEL                       */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_34]/* OP3 AMPLITUDE MODULATION ENABLE                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_33]/* OP3 EG BIAS SENSITIVITY                          */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_35]/* OP3 KEY VELOCITY                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_37]/* OP3 OSCILLATOR FREQUENCY                         */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_38]/* OP3 DETUNE                                       */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_26]/* OP3 ATTACK RATE                                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_27]/* OP3 DECAY 1 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_30]/* OP3 DECAY 1 LEVEL                                */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_28]/* OP3 DECAY 2 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_29]/* OP3 RELEASE RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_36]/* OP3 OUTPUT LEVEL                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_32]/* OP3 KEYBOARD SCALING RATE                        */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR3].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_31]/* OP3 KEYBOARD SCALING LEVEL                       */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_47]/* OP1 AMPLITUDE MODULATION ENABLE                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_46]/* OP1 EG BIAS SENSITIVITY                          */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_48]/* OP1 KEY VELOCITY                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_50]/* OP1 OSCILLATOR FREQUENCY                         */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_51]/* OP1 DETUNE                                       */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_39]/* OP1 ATTACK RATE                                  */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_40]/* OP1 DECAY 1 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_43]/* OP1 DECAY 1 LEVEL                                */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_41]/* OP1 DECAY 2 RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_42]/* OP1 RELEASE RATE                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_49]/* OP1 OUTPUT LEVEL                                 */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_45]/* OP1 KEYBOARD SCALING RATE                        */;
-        dx100voiceParam.operatorParam[DX100_OPERATOR1].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_44]/* OP1 KEYBOARD SCALING LEVEL                       */;
-
+        bRtn = (BOOL)TRUE;
+        extraMode = (BOOL)TRUE;
+        break;
+    case (DX100_PARAM_CTRL_ALL_VOICE_TO_TO_DX7_BUTTON+DX100_PARAM_CTRL_ID_OFFSET):
         bRtn = (BOOL)TRUE;
         extraMode = (BOOL)TRUE;
         break;
@@ -1243,13 +1152,129 @@ Dx100CtrlOnCommand( WORD code, WORD notifyCode, DX100_CTRL_MODE *modePtr, BOOL *
 
 /********************************************************************************
  * 内容  :
- * 引数  : なし
+ * 引数  : DX100_VOICE_NUM voiceNum
  * 戻り値: S_DX100_VOICE_PARAM *
  ***************************************/
 S_DX100_VOICE_PARAM *
-Dx100GetVoiceParamPtr( void )
+Dx100GetVoiceParamPtr( DX100_VOICE_NUM voiceNum )
 {
+    if( voiceNum < DX100_VOICE_NUM_MAX )
+    {
+        dx100voiceCopyFromAllToOne(voiceNum);
+    }
+    else
+    {
+        nop();
+    }
+
+    dx100voiceParamCopyToStruct();
+
     return &dx100voiceParam;
+}
+
+/********************************************************************************
+ * 内容  :
+ * 引数  : なし
+ * 戻り値: なし
+ ***************************************/
+static void
+dx100voiceParamCopyToStruct( void )
+{
+    copyFromParamCtrl( DX100_CTRL_SEQ_1VOICE );
+
+    dx100voiceParam.patchname[0]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_77]/* voice name 1                                     */;
+    dx100voiceParam.patchname[1]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_78]/* voice name 2                                     */;
+    dx100voiceParam.patchname[2]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_79]/* voice name 3                                     */;
+    dx100voiceParam.patchname[3]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_80]/* voice name 4                                     */;
+    dx100voiceParam.patchname[4]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_81]/* voice name 5                                     */;
+    dx100voiceParam.patchname[5]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_82]/* voice name 6                                     */;
+    dx100voiceParam.patchname[6]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_83]/* voice name 7                                     */;
+    dx100voiceParam.patchname[7]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_84]/* voice name 8                                     */;
+    dx100voiceParam.patchname[8]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_85]/* voice name 9                                     */;
+    dx100voiceParam.patchname[9]                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_86]/* voice name 10                                    */;
+    dx100voiceParam.algorithm                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_52]/* ALGORITHM                                        */;
+    dx100voiceParam.feedback                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_53]/* FEEDBACK LEVEL                                   */;
+    dx100voiceParam.lfo_wave                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_59]/* lfo wave                                         */;
+    dx100voiceParam.speed                                     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_54]/* LFO SPEED                                        */;
+    dx100voiceParam.delay                                     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_55]/* LFO DELAY                                        */;
+    dx100voiceParam.pmd                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_56]/* PITCH MODULATION DEPTH                           */;
+    dx100voiceParam.amd                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_57]/* amplitude MODULATION depth                       */;
+    dx100voiceParam.lfo_sync                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_58]/* LFO SYNC                                         */;
+    dx100voiceParam.pitch                                     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_60]/* pitch modulation sensitivity                     */;
+    dx100voiceParam.amplitude                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_61]/* amplitude modulation sensitivity                 */;
+    dx100voiceParam.pr1                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_87]/* pitch eg rate 1                                  */;
+    dx100voiceParam.pl1                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_90]/* pitch eg level 1                                 */;
+    dx100voiceParam.pr2                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_88]/* pitch eg rate 2                                  */;
+    dx100voiceParam.pl2                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_91]/* pitch eg level 2                                 */;
+    dx100voiceParam.pr3                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_89]/* pitch eg rate 3                                  */;
+    dx100voiceParam.pl3                                       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_92]/* pitch eg level 3                                 */;
+    dx100voiceParam.poly_mono                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_63]/* play mode poly/mono                              */;
+    dx100voiceParam.pb_range                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_64]/* pitch bend range                                 */;
+    dx100voiceParam.porta_mode                                = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_65]/* portamento mode                                  */;
+    dx100voiceParam.porta_time                                = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_66]/* portamento time                                  */;
+    dx100voiceParam.portament_foot_sw                         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_69]/* portamento foot switch                           */;
+    dx100voiceParam.foot_volume_range                         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_67]/* foot volume range                                */;
+    dx100voiceParam.sustain_foot_sw                           = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_68]/* sustain foot switch                              */;
+    dx100voiceParam.wr_pitch                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_71]/* modulation wheel pitch modulation range          */;
+    dx100voiceParam.wr_amplitude                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_72]/* modulation wheel amplitude modulation range      */;
+    dx100voiceParam.bc_pitch                                  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_73]/* breath control pitch modulation range            */;
+    dx100voiceParam.bc_amplitude                              = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_74]/* breath control amplitude modulation range        */;
+    dx100voiceParam.bc_pitch_bias                             = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_75]/* breath control pitch bias range                  */;
+    dx100voiceParam.bc_eg_bias                                = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_76]/* breath control eg bias range                     */;
+    dx100voiceParam.chorus_switch                             = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_70]/* chorus switch                                    */;
+    dx100voiceParam.transpose                                 = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_62]/* transpose                                        */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_08]/* OP4 AMPLITUDE MODULATION ENABLE                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_07]/* OP4 EG BIAS SENSITIVITY                          */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_09]/* OP4 KEY VELOCITY                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_11]/* OP4 OSCILLATOR FREQUENCY                         */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_12]/* OP4 DETUNE                                       */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_00]/* OP4 ATTACK RATE                                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_01]/* OP4 DECAY 1 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_04]/* OP4 DECAY 1 LEVEL                                */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_02]/* OP4 DECAY 2 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_03]/* OP4 RELEASE RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_10]/* OP4 OUTPUT LEVEL                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_06]/* OP4 KEYBOARD SCALING RATE                        */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR4].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_05]/* OP4 KEYBOARD SCALING LEVEL                       */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_21]/* OP2 AMPLITUDE MODULATION ENABLE                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_20]/* OP2 EG BIAS SENSITIVITY                          */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_22]/* OP2 KEY VELOCITY                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_24]/* OP2 OSCILLATOR FREQUENCY                         */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_25]/* OP2 DETUNE                                       */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_13]/* OP2 ATTACK RATE                                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_14]/* OP2 DECAY 1 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_17]/* OP2 DECAY 1 LEVEL                                */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_15]/* OP2 DECAY 2 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_16]/* OP2 RELEASE RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_23]/* OP2 OUTPUT LEVEL                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_19]/* OP2 KEYBOARD SCALING RATE                        */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR2].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_18]/* OP2 KEYBOARD SCALING LEVEL                       */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_34]/* OP3 AMPLITUDE MODULATION ENABLE                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_33]/* OP3 EG BIAS SENSITIVITY                          */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_35]/* OP3 KEY VELOCITY                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_37]/* OP3 OSCILLATOR FREQUENCY                         */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_38]/* OP3 DETUNE                                       */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_26]/* OP3 ATTACK RATE                                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_27]/* OP3 DECAY 1 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_30]/* OP3 DECAY 1 LEVEL                                */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_28]/* OP3 DECAY 2 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_29]/* OP3 RELEASE RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_36]/* OP3 OUTPUT LEVEL                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_32]/* OP3 KEYBOARD SCALING RATE                        */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR3].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_31]/* OP3 KEYBOARD SCALING LEVEL                       */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].ame        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_47]/* OP1 AMPLITUDE MODULATION ENABLE                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].eg_bias    = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_46]/* OP1 EG BIAS SENSITIVITY                          */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].velocity   = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_48]/* OP1 KEY VELOCITY                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].freq_ratio = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_50]/* OP1 OSCILLATOR FREQUENCY                         */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].detune     = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_51]/* OP1 DETUNE                                       */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].ar         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_39]/* OP1 ATTACK RATE                                  */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].d1r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_40]/* OP1 DECAY 1 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].d1l        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_43]/* OP1 DECAY 1 LEVEL                                */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].d2r        = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_41]/* OP1 DECAY 2 RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].rr         = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_42]/* OP1 RELEASE RATE                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].out_level  = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_49]/* OP1 OUTPUT LEVEL                                 */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].rate       = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_45]/* OP1 KEYBOARD SCALING RATE                        */;
+    dx100voiceParam.operatorParam[DX100_OPERATOR1].level      = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_44]/* OP1 KEYBOARD SCALING LEVEL                       */;
 }
 
 /********************************************************************************
