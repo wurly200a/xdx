@@ -14,6 +14,8 @@
 /* 外部変数定義 */
 
 /* 内部関数定義 */
+static void dx7OneVoiceDataInit( void );
+static void dx7AllVoiceDataInit( void );
 static BOOL seqStart( DX7_CTRL_SEQ_METHOD method, DX7_CTRL_SEQ_ID seqId );
 static INT seqStartProc( DX7_CTRL_SEQ_METHOD method, DX7_CTRL_SEQ_ID seqId, INT maxDataSize, BYTE *txDataPtr );
 static BOOL seqEndProc( DX7_CTRL_SEQ_ID seqId, INT rxDataSize, BYTE *rxDataPtr );
@@ -78,7 +80,6 @@ BOOL
 Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 {
     BOOL bRtn = TRUE;
-    INT topNum,i;
 
     dx7CtrlInfo.hInst = hInst;
     dx7CtrlInfo.hwnd  = hwnd ;
@@ -102,6 +103,24 @@ Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     Dx7ParamCtrlCreate( hInst, szAppName, hwnd ); /* コントロールを生成 */
 
     /* 1VOICE 初期値 */
+    dx7OneVoiceDataInit();
+    copyToParamCtrl(DX7_CTRL_SEQ_1VOICE);
+
+    /* ALL VOICE 初期値 */
+    dx7AllVoiceDataInit();
+    copyToParamCtrl(DX7_CTRL_SEQ_ALL_VOICE);
+
+    return bRtn;
+}
+
+/*********************************************
+ * 内容   : 1VOICEデータ初期化
+ * 引数   : なし
+ * 戻り値 : なし
+ **********************************************/
+static void
+dx7OneVoiceDataInit( void )
+{
     dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_REQUEST_STATUS    ] = EX_STATUS                 ;
     dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_REQUEST_ID_NO     ] = EX_ID_NUMBER_YAMAHA       ;
     dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_HEADER_REQUEST_SUB_STATUS] = 0x00                      ;
@@ -265,9 +284,18 @@ Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_154] /*VNAM10*/= 0x45;
     dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_FOOTER_CHECKSUM]    = 0x67;
     dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_FOOTER_ETX     ]    = EX_ETX;
-    copyToParamCtrl(DX7_CTRL_SEQ_1VOICE);
+}
 
-    /* ALL VOICE 初期値 */
+/*********************************************
+ * 内容   : ALL VOICEデータ初期化
+ * 引数   : なし
+ * 戻り値 : なし
+ **********************************************/
+static void
+dx7AllVoiceDataInit( void )
+{
+    INT topNum,i;
+
     dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_HEADER_REQUEST_STATUS    ] = EX_STATUS;
     dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_HEADER_REQUEST_ID_NO     ] = EX_ID_NUMBER_YAMAHA;
     dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_HEADER_REQUEST_SUB_STATUS] = 0x00;
@@ -409,9 +437,6 @@ Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
     }
     dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_FOOTER_CHECKSUM] = 0x60;
     dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_FOOTER_ETX     ] = EX_ETX;
-    copyToParamCtrl(DX7_CTRL_SEQ_ALL_VOICE);
-
-    return bRtn;
 }
 
 /*********************************************
@@ -1284,6 +1309,164 @@ Dx7CtrlOnCommand( WORD code, WORD notifyCode, DX7_CTRL_MODE *modePtr )
 S_DX7_VOICE_PARAM *
 Dx7GetVoiceParamPtr( void )
 {
+    dx7OneVoiceDataInit();
+
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].rate1         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_00 ] /*R1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].rate2         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_01 ] /*R2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].rate3         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_02 ] /*R3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].rate4         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_03 ] /*R4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].level1        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_04 ] /*L1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].level2        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_05 ] /*L2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].level3        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_06 ] /*L3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].level4        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_07 ] /*L4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].break_point   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_08 ] /*BP    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].depth_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_09 ] /*LD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].depth_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_10 ] /*RD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].curve_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_11 ] /*LC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].curve_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_12 ] /*RC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].k_rate_scaling= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_13 ] /*RS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].amplitude     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_14 ] /*AMS   */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].velo_sens     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_15 ] /*TS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].out_level     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_16 ] /*TL    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].freq_mode     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_17 ] /*PM    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].coarse        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_18 ] /*PC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].fine          = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_19 ] /*PF    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR6].detune        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_20 ] /*PD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].rate1         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_21 ] /*R1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].rate2         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_22 ] /*R2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].rate3         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_23 ] /*R3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].rate4         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_24 ] /*R4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].level1        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_25 ] /*L1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].level2        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_26 ] /*L2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].level3        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_27 ] /*L3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].level4        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_28 ] /*L4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].break_point   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_29 ] /*BP    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].depth_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_30 ] /*LD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].depth_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_31 ] /*RD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].curve_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_32 ] /*LC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].curve_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_33 ] /*RC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].k_rate_scaling= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_34 ] /*RS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].amplitude     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_35 ] /*AMS   */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].velo_sens     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_36 ] /*TS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].out_level     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_37 ] /*TL    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].freq_mode     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_38 ] /*PM    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].coarse        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_39 ] /*PC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].fine          = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_40 ] /*PF    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR5].detune        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_41 ] /*PD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].rate1         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_42 ] /*R1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].rate2         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_43 ] /*R2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].rate3         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_44 ] /*R3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].rate4         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_45 ] /*R4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].level1        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_46 ] /*L1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].level2        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_47 ] /*L2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].level3        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_48 ] /*L3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].level4        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_49 ] /*L4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].break_point   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_50 ] /*BP    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].depth_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_51 ] /*LD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].depth_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_52 ] /*RD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].curve_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_53 ] /*LC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].curve_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_54 ] /*RC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].k_rate_scaling= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_55 ] /*RS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].amplitude     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_56 ] /*AMS   */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].velo_sens     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_57 ] /*TS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].out_level     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_58 ] /*TL    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].freq_mode     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_59 ] /*PM    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].coarse        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_60 ] /*PC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].fine          = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_61 ] /*PF    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR4].detune        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_62 ] /*PD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].rate1         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_63 ] /*R1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].rate2         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_64 ] /*R2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].rate3         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_65 ] /*R3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].rate4         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_66 ] /*R4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].level1        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_67 ] /*L1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].level2        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_68 ] /*L2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].level3        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_69 ] /*L3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].level4        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_70 ] /*L4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].break_point   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_71 ] /*BP    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].depth_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_72 ] /*LD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].depth_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_73 ] /*RD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].curve_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_74 ] /*LC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].curve_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_75 ] /*RC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].k_rate_scaling= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_76 ] /*RS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].amplitude     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_77 ] /*AMS   */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].velo_sens     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_78 ] /*TS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].out_level     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_79 ] /*TL    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].freq_mode     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_80 ] /*PM    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].coarse        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_81 ] /*PC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].fine          = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_82 ] /*PF    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR3].detune        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_83 ] /*PD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].rate1         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_84 ] /*R1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].rate2         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_85 ] /*R2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].rate3         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_86 ] /*R3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].rate4         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_87 ] /*R4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].level1        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_88 ] /*L1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].level2        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_89 ] /*L2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].level3        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_90 ] /*L3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].level4        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_91 ] /*L4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].break_point   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_92 ] /*BP    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].depth_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_93 ] /*LD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].depth_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_94 ] /*RD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].curve_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_95 ] /*LC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].curve_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_96 ] /*RC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].k_rate_scaling= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_97 ] /*RS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].amplitude     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_98 ] /*AMS   */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].velo_sens     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_99 ] /*TS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].out_level     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_100] /*TL    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].freq_mode     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_101] /*PM    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].coarse        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_102] /*PC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].fine          = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_103] /*PF    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR2].detune        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_104] /*PD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].rate1         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_105] /*R1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].rate2         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_106] /*R2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].rate3         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_107] /*R3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].rate4         = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_108] /*R4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].level1        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_109] /*L1    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].level2        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_110] /*L2    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].level3        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_111] /*L3    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].level4        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_112] /*L4    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].break_point   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_113] /*BP    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].depth_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_114] /*LD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].depth_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_115] /*RD    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].curve_l       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_116] /*LC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].curve_r       = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_117] /*RC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].k_rate_scaling= dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_118] /*RS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].amplitude     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_119] /*AMS   */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].velo_sens     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_120] /*TS    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].out_level     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_121] /*TL    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].freq_mode     = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_122] /*PM    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].coarse        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_123] /*PC    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].fine          = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_124] /*PF    */;
+    dx7voiceParam.operatorParam[DX7_OPERATOR1].detune        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_125] /*PD    */;
+    dx7voiceParam.peg_rate1                                  = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_126] /*PR1   */;
+    dx7voiceParam.peg_rate2                                  = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_127] /*PR2   */;
+    dx7voiceParam.peg_rate3                                  = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_128] /*PR3   */;
+    dx7voiceParam.peg_rate4                                  = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_129] /*PR4   */;
+    dx7voiceParam.peg_level1                                 = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_130] /*PL1   */;
+    dx7voiceParam.peg_level2                                 = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_131] /*PL2   */;
+    dx7voiceParam.peg_level3                                 = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_132] /*PL3   */;
+    dx7voiceParam.peg_level4                                 = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_133] /*PL4   */;
+    dx7voiceParam.algorithm                                  = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_134] /*ALS   */;
+    dx7voiceParam.feedback                                   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_135] /*FBL   */;
+    dx7voiceParam.lfo_wave                                   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_136] /*OPI   */;
+    dx7voiceParam.speed                                      = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_137] /*LFS   */;
+    dx7voiceParam.delay                                      = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_138] /*LFD   */;
+    dx7voiceParam.pmd                                        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_139] /*LPMD  */;
+    dx7voiceParam.amd                                        = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_140] /*LAMD  */;
+    dx7voiceParam.lfo_sync                                   = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_141] /*LFKS  */;
+    dx7voiceParam.pitch                                      = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_142] /*LFW   */;
+    dx7voiceParam.oscillator_sync                            = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_143] /*LPMS  */;
+    dx7voiceParam.key_transpose                              = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_144] /*TRNP  */;
+    dx7voiceParam.patchname[0]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_145] /*VNAM1 */;
+    dx7voiceParam.patchname[1]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_146] /*VNAM2 */;
+    dx7voiceParam.patchname[2]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_147] /*VNAM3 */;
+    dx7voiceParam.patchname[3]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_148] /*VNAM4 */;
+    dx7voiceParam.patchname[4]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_149] /*VNAM5 */;
+    dx7voiceParam.patchname[5]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_150] /*VNAM6 */;
+    dx7voiceParam.patchname[6]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_151] /*VNAM7 */;
+    dx7voiceParam.patchname[7]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_152] /*VNAM8 */;
+    dx7voiceParam.patchname[8]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_153] /*VNAM9 */;
+    dx7voiceParam.patchname[9]                               = dx7CtrlDataOneVoice[DX7_SYSEX_1VOICE_DATA_154] /*VNAM10*/;
+
     return &dx7voiceParam;
 }
 

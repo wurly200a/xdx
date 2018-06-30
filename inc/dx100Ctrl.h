@@ -11,21 +11,48 @@ enum
 };
 typedef INT DX100_OPERATOR_NUM;
 
+enum
+{
+    DX100_ALGORITHM1,
+    DX100_ALGORITHM2,
+    DX100_ALGORITHM3,
+    DX100_ALGORITHM4,
+    DX100_ALGORITHM5,
+    DX100_ALGORITHM6,
+    DX100_ALGORITHM7,
+    DX100_ALGORITHM8,
+    DX100_ALGORITHM_MAX,
+};
+typedef INT DX100_ALGORITHM_NUM;
+
+enum
+{
+    DX100_MINUS3,
+    DX100_MINUS2,
+    DX100_MINUS1,
+    DX100_ZERO  ,
+    DX100_PLUS1 ,
+    DX100_PLUS2 ,
+    DX100_PLUS3 ,
+    DX100_DETUNE_MAX,
+};
+typedef INT DX100_DETUNE;
+
 typedef struct
 {
-    BYTE ame                      ;
-    BYTE eg_bias                  ;
-    BYTE velocity                 ;
-    BYTE freq_ratio               ;
-    BYTE detune                   ;
-    BYTE ar                       ;
-    BYTE d1r                      ;
-    BYTE d1l                      ;
-    BYTE d2r                      ;
-    BYTE rr                       ;
-    BYTE out_level                ;
-    BYTE rate                     ;
-    BYTE level                    ;
+    BYTE ame       ;
+    BYTE eg_bias   ;
+    BYTE velocity  ;
+    BYTE freq_ratio;
+    BYTE detune    ;
+    BYTE ar        ;
+    BYTE d1r       ;
+    BYTE d1l       ;
+    BYTE d2r       ;
+    BYTE rr        ;
+    BYTE out_level ;
+    BYTE rate      ;
+    BYTE level     ;
 } S_DX100_OPERATOR_PARAM;
 
 typedef INT DX100_VOICE_NUM;
