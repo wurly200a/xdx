@@ -204,16 +204,15 @@ DxConvertVoiceParamDx100toDx7( S_DX100_VOICE_PARAM *dx100voiceParamPtr,S_DX7_VOI
         dx7voiceParamPtr->operatorParam[dx7opNum].coarse         = convertTblFreq[dx100voiceParamPtr->operatorParam[dx100opNum].freq_ratio].coarse;
         dx7voiceParamPtr->operatorParam[dx7opNum].fine           = convertTblFreq[dx100voiceParamPtr->operatorParam[dx100opNum].freq_ratio].fine  ;
         dx7voiceParamPtr->operatorParam[dx7opNum].detune         = convetTblDetune[dx100voiceParamPtr->operatorParam[dx100opNum].detune];
-#if 0
-        dx7voiceParamPtr->operatorParam[dx7opNum].rate1          = dx100voiceParamPtr->operatorParam[dx100opNum].ar        ;
-        dx7voiceParamPtr->operatorParam[dx7opNum].rate2          = dx100voiceParamPtr->operatorParam[dx100opNum].d1r       ;
-        dx7voiceParamPtr->operatorParam[dx7opNum].rate3          = dx100voiceParamPtr->operatorParam[dx100opNum].d2r       ;
-        dx7voiceParamPtr->operatorParam[dx7opNum].rate4          = dx100voiceParamPtr->operatorParam[dx100opNum].rr        ;
-        dx7voiceParamPtr->operatorParam[dx7opNum].level1         = dx100voiceParamPtr->operatorParam[dx100opNum].d1l       ;
-        dx7voiceParamPtr->operatorParam[dx7opNum].level2         = 90;
-        dx7voiceParamPtr->operatorParam[dx7opNum].level3         = 90;
-        dx7voiceParamPtr->operatorParam[dx7opNum].level4         = 90;
-#endif
+
+        dx7voiceParamPtr->operatorParam[dx7opNum].rate1          = (dx100voiceParamPtr->operatorParam[dx100opNum].ar )*99/31;
+        dx7voiceParamPtr->operatorParam[dx7opNum].rate2          = (dx100voiceParamPtr->operatorParam[dx100opNum].d1r)*99/31;
+        dx7voiceParamPtr->operatorParam[dx7opNum].rate3          = (dx100voiceParamPtr->operatorParam[dx100opNum].d2r)*99/31;
+        dx7voiceParamPtr->operatorParam[dx7opNum].rate4          = (dx100voiceParamPtr->operatorParam[dx100opNum].rr) *99/15;
+        dx7voiceParamPtr->operatorParam[dx7opNum].level1         = 99;
+        dx7voiceParamPtr->operatorParam[dx7opNum].level2         = (dx100voiceParamPtr->operatorParam[dx100opNum].d1l)*99/15;
+        dx7voiceParamPtr->operatorParam[dx7opNum].level3         = 0;
+        dx7voiceParamPtr->operatorParam[dx7opNum].level4         = 0;
 
 #if 0
           = dx100voiceParamPtr->operatorParam[dx100opNum].velocity  
