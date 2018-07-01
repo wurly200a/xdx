@@ -72,6 +72,18 @@ enum
 };
 typedef INT DX7_DETUNE;
 
+enum
+{
+    DX7_LFW_WAVE_TRI    ,
+    DX7_LFW_WAVE_SAW_DWN,
+    DX7_LFW_WAVE_SAW_UP ,
+    DX7_LFW_WAVE_SQU    ,
+    DX7_LFW_WAVE_SINE   ,
+    DX7_LFW_WAVE_S_H    ,
+    DX7_LFO_WAVE_MAX,
+};
+typedef INT DX7_LFO_WAVE;
+
 typedef struct
 {
     BYTE amplitude                ;

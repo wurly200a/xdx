@@ -38,6 +38,17 @@ enum
 };
 typedef INT DX100_DETUNE;
 
+enum
+{
+    DX100_LFO_WAVE_SAW,
+    DX100_LFO_WAVE_SQU,
+    DX100_LFO_WAVE_TRI,
+    DX100_LFO_WAVE_S_H,
+    DX100_LFO_WAVE_MAX,
+};
+typedef INT DX100_LFO_WAVE;
+
+
 typedef struct
 {
     BYTE ame       ;
