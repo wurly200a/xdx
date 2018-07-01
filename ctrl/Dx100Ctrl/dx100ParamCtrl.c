@@ -191,12 +191,12 @@ static S_DX100_PARAM_CTRL paramListTbl[DX100_PARAM_CTRL_MAX] =
     {PCT_COMBO ,TEXT("BC PITCH BIAS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS12,0   },      /*"75 BREATH CONTROL PITCH BIAS RANGE"            */
     {PCT_COMBO ,TEXT("BC EG BIAS"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS13,0   },      /*"76 BREATH CONTROL EG BIAS RANGE"               */
     {PCT_EDIT  ,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,127     , NULL                , 50, ROW_POS_EDIT0  ,COLPOS01,0   },      /*"77-86 PATCHNAME"                               */
-    {PCT_COMBO ,TEXT("PR1"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS11,0   },      /*"87 PITCH EG RATE 1"                            */
-    {PCT_COMBO ,TEXT("PR2"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS13,0   },      /*"88 PITCH EG RATE 2"                            */
-    {PCT_COMBO ,TEXT("PR3"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS15,0   },      /*"89 PITCH EG RATE 3"                            */
-    {PCT_COMBO ,TEXT("PL1"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS12,0   },      /*"90 PITCH EG LEVEL 1"                           */
-    {PCT_COMBO ,TEXT("PL2"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS14,0   },      /*"91 PITCH EG LEVEL 2"                           */
-    {PCT_COMBO ,TEXT("PL3"                           ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS16,0   },      /*"92 PITCH EG LEVEL 3"                           */
+    {PCT_COMBO ,TEXT("PR1"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS11,0   },      /*"87 PITCH EG RATE 1"                            */
+    {PCT_COMBO ,TEXT("PR2"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS13,0   },      /*"88 PITCH EG RATE 2"                            */
+    {PCT_COMBO ,TEXT("PR3"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS15,0   },      /*"89 PITCH EG RATE 3"                            */
+    {PCT_COMBO ,TEXT("PL1"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS12,0   },      /*"90 PITCH EG LEVEL 1"                           */
+    {PCT_COMBO ,TEXT("PL2"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS14,0   },      /*"91 PITCH EG LEVEL 2"                           */
+    {PCT_COMBO ,TEXT("PL3"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS16,0   },      /*"92 PITCH EG LEVEL 3"                           */
     {PCT_BUTTON,TEXT("TO ALL VOICE"                  ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT0  ,COLPOS11,0   },      /**/
     {PCT_COMBO ,TEXT("COMBO_TO_ALL_VOICE"            ),0    ,TRUE    ,0       ,31      , strTblVoiceNum      ,  0, ROW_POS_EDIT0  ,COLPOS10,0   },      /**/
     {PCT_BUTTON,TEXT("TO 6 OPERATOR"                 ),0    ,TRUE    ,0       ,0       , NULL                , 50, 17             ,0       ,0   },      /**/
