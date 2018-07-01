@@ -145,34 +145,27 @@ DxConvertVoiceParamDx100toDx7( S_DX100_VOICE_PARAM *dx100voiceParamPtr,S_DX7_VOI
 
     dx7voiceParamPtr->algorithm = infoTblPtr->dx7algorighm;
 
-    dx7voiceParamPtr->feedback = dx100voiceParamPtr->feedback    ;
-    dx7voiceParamPtr->lfo_wave        = dx100voiceParamPtr->lfo_wave                 ;
-    dx7voiceParamPtr->speed           = dx100voiceParamPtr->speed                    ;
-    dx7voiceParamPtr->delay           = dx100voiceParamPtr->delay                    ;
-    dx7voiceParamPtr->pmd             = dx100voiceParamPtr->pmd                      ;
-    dx7voiceParamPtr->amd             = dx100voiceParamPtr->amd                      ;
-    dx7voiceParamPtr->lfo_sync        = dx100voiceParamPtr->lfo_sync                 ;
-    dx7voiceParamPtr->pitch           = dx100voiceParamPtr->pitch                    ;
-#if 0
-    dx7voiceParamPtr->oscillator_sync = ;
-    dx7voiceParamPtr->peg_rate1       = ;
-    dx7voiceParamPtr->peg_rate2       = ;
-    dx7voiceParamPtr->peg_rate3       = ;
-    dx7voiceParamPtr->peg_rate4       = ;
-    dx7voiceParamPtr->peg_level1      = ;
-    dx7voiceParamPtr->peg_level2      = ;
-    dx7voiceParamPtr->peg_level3      = ;
-    dx7voiceParamPtr->peg_level4      = ;
-#endif
+    dx7voiceParamPtr->feedback        = dx100voiceParamPtr->feedback;
+    dx7voiceParamPtr->lfo_wave        = dx100voiceParamPtr->lfo_wave;
+    dx7voiceParamPtr->speed           = dx100voiceParamPtr->speed   ;
+    dx7voiceParamPtr->delay           = dx100voiceParamPtr->delay   ;
+    dx7voiceParamPtr->pmd             = dx100voiceParamPtr->pmd     ;
+    dx7voiceParamPtr->amd             = dx100voiceParamPtr->amd     ;
+    dx7voiceParamPtr->lfo_sync        = dx100voiceParamPtr->lfo_sync;
+    dx7voiceParamPtr->pitch           = dx100voiceParamPtr->pitch   ;
+    dx7voiceParamPtr->oscillator_sync = 1;
+
+    dx7voiceParamPtr->peg_rate1       = dx100voiceParamPtr->pr1;
+    dx7voiceParamPtr->peg_rate2       = dx100voiceParamPtr->pr2;
+    dx7voiceParamPtr->peg_rate3       = 99                     ;
+    dx7voiceParamPtr->peg_rate4       = dx100voiceParamPtr->pr3;
+    dx7voiceParamPtr->peg_level1      = dx100voiceParamPtr->pl1;
+    dx7voiceParamPtr->peg_level2      = dx100voiceParamPtr->pl2;
+    dx7voiceParamPtr->peg_level3      = dx100voiceParamPtr->pl2; /* PL2‚Æ“¯‚¶ */
+    dx7voiceParamPtr->peg_level4      = dx100voiceParamPtr->pl3;
 
 #if 0
  = dx100voiceParamPtr->amplitude                ;
- = dx100voiceParamPtr->pr1                      ;
- = dx100voiceParamPtr->pl1                      ;
- = dx100voiceParamPtr->pr2                      ;
- = dx100voiceParamPtr->pl2                      ;
- = dx100voiceParamPtr->pr3                      ;
- = dx100voiceParamPtr->pl3                      ;
  = dx100voiceParamPtr->poly_mono                ;
  = dx100voiceParamPtr->pb_range                 ;
  = dx100voiceParamPtr->porta_mode               ;
@@ -199,7 +192,7 @@ DxConvertVoiceParamDx100toDx7( S_DX100_VOICE_PARAM *dx100voiceParamPtr,S_DX7_VOI
     {
         dx7opNum = infoTblPtr->dx7OperatorNum[dx100opNum];
 
-        dx7voiceParamPtr->operatorParam[dx7opNum].amplitude      = dx100voiceParamPtr->operatorParam[dx100opNum].ame       ;
+        dx7voiceParamPtr->operatorParam[dx7opNum].amplitude      = dx100voiceParamPtr->operatorParam[dx100opNum].ame;
         dx7voiceParamPtr->operatorParam[dx7opNum].freq_mode      = 0;
         dx7voiceParamPtr->operatorParam[dx7opNum].coarse         = convertTblFreq[dx100voiceParamPtr->operatorParam[dx100opNum].freq_ratio].coarse;
         dx7voiceParamPtr->operatorParam[dx7opNum].fine           = convertTblFreq[dx100voiceParamPtr->operatorParam[dx100opNum].freq_ratio].fine  ;
@@ -208,25 +201,21 @@ DxConvertVoiceParamDx100toDx7( S_DX100_VOICE_PARAM *dx100voiceParamPtr,S_DX7_VOI
         dx7voiceParamPtr->operatorParam[dx7opNum].rate1          = (dx100voiceParamPtr->operatorParam[dx100opNum].ar )*99/31;
         dx7voiceParamPtr->operatorParam[dx7opNum].rate2          = (dx100voiceParamPtr->operatorParam[dx100opNum].d1r)*99/31;
         dx7voiceParamPtr->operatorParam[dx7opNum].rate3          = (dx100voiceParamPtr->operatorParam[dx100opNum].d2r)*99/31;
-        dx7voiceParamPtr->operatorParam[dx7opNum].rate4          = (dx100voiceParamPtr->operatorParam[dx100opNum].rr) *99/15;
+        dx7voiceParamPtr->operatorParam[dx7opNum].rate4          = (dx100voiceParamPtr->operatorParam[dx100opNum].rr) *99/10/*15*/;
         dx7voiceParamPtr->operatorParam[dx7opNum].level1         = 99;
         dx7voiceParamPtr->operatorParam[dx7opNum].level2         = (dx100voiceParamPtr->operatorParam[dx100opNum].d1l)*99/15;
         dx7voiceParamPtr->operatorParam[dx7opNum].level3         = 0;
         dx7voiceParamPtr->operatorParam[dx7opNum].level4         = 0;
-
 #if 0
-          = dx100voiceParamPtr->operatorParam[dx100opNum].velocity  
-#endif
-#if 0
-        dx7voiceParamPtr->operatorParam[dx7opNum].break_point    = 0;
-        dx7voiceParamPtr->operatorParam[dx7opNum].curve_l        = 0;
-        dx7voiceParamPtr->operatorParam[dx7opNum].curve_r        = 0;
-        dx7voiceParamPtr->operatorParam[dx7opNum].depth_l        = 0;
-        dx7voiceParamPtr->operatorParam[dx7opNum].depth_r        = 0;
+        dx7voiceParamPtr->operatorParam[dx7opNum].break_point    = ;
+        dx7voiceParamPtr->operatorParam[dx7opNum].curve_l        = ;
+        dx7voiceParamPtr->operatorParam[dx7opNum].curve_r        = ;
+        dx7voiceParamPtr->operatorParam[dx7opNum].depth_l        = ;
+        dx7voiceParamPtr->operatorParam[dx7opNum].depth_r        = ;
 #endif
         dx7voiceParamPtr->operatorParam[dx7opNum].k_rate_scaling = dx100voiceParamPtr->operatorParam[dx100opNum].rate      ;
         dx7voiceParamPtr->operatorParam[dx7opNum].out_level      = dx100voiceParamPtr->operatorParam[dx100opNum].out_level ;
-//        dx7voiceParamPtr->operatorParam[dx7opNum].velo_sens      = 0;
+        dx7voiceParamPtr->operatorParam[dx7opNum].velo_sens      = dx100voiceParamPtr->operatorParam[dx100opNum].velocity  ;
     }
 
 }
