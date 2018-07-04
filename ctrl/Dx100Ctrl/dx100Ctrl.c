@@ -757,6 +757,46 @@ copyToParamCtrl( DX100_CTRL_SEQ_ID seqId )
 
         for( i=0; i<32; i++ )
         {
+            if( dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_67] == 99 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_68] == 99 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_69] == 99 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_70] == 50 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_71] == 50 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_72] == 50 )
+            {
+                SetWindowText( Dx100ParamCtrlGetHWND(DX100_PARAM_CTRL_ALL_VOICE_EX_PARAM_00+i),TEXT(""));
+            }
+            else
+            {
+                SetWindowText( Dx100ParamCtrlGetHWND(DX100_PARAM_CTRL_ALL_VOICE_EX_PARAM_00+i),TEXT("PEG"));
+            }
+        }
+
+        for( i=0; i<32; i++ )
+        {
+            if( dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_73] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_74] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_75] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_76] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_77] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_78] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_79] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_80] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_81] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_82] == 0 &&
+                dx100CtrlDataAllVoice[ DX100_SYSEX_ALL_VOICE_DATA + (i*DX100_SYSEX_VMEM_MAX) + DX100_SYSEX_VMEM_83] == 0 )
+            {
+                SetWindowText( Dx100ParamCtrlGetHWND(DX100_PARAM_CTRL_ALL_VOICE_EX_PARAM_00+i),TEXT(""));
+            }
+            else
+            {
+                SetWindowText( Dx100ParamCtrlGetHWND(DX100_PARAM_CTRL_ALL_VOICE_EX_PARAM_00+i),TEXT("ACED"));
+            }
+        }
+
+
+        for( i=0; i<32; i++ )
+        {
             INT j;
             memset(&szBuffer[0],0,128*2+1);
             for( j=0;j<128; j++ )
