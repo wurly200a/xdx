@@ -355,70 +355,134 @@ static S_DX7_PARAM_CTRL paramListTbl[DX7_PARAM_CTRL_MAX] =
     {PCT_STATIC,TEXT("LEVEL3"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS15,0   },      /**/
     {PCT_STATIC,TEXT("LEVEL4"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS16,0   },      /**/
     {PCT_STATIC,TEXT("KEY TRANSPOSE"                 ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC7,COLPOS01,0   },      /**/
-    {PCT_EDIT  ,TEXT("01"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 0              , 0      ,0   },    /*"VOICE_NAME_01"                                 */
-    {PCT_EDIT  ,TEXT("02"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 1              , 0      ,0   },    /*"VOICE_NAME_02"                                 */
-    {PCT_EDIT  ,TEXT("03"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 2              , 0      ,0   },    /*"VOICE_NAME_03"                                 */
-    {PCT_EDIT  ,TEXT("04"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 3              , 0      ,0   },    /*"VOICE_NAME_04"                                 */
-    {PCT_EDIT  ,TEXT("05"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 4              , 0      ,0   },    /*"VOICE_NAME_05"                                 */
-    {PCT_EDIT  ,TEXT("06"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 5              , 0      ,0   },    /*"VOICE_NAME_06"                                 */
-    {PCT_EDIT  ,TEXT("07"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 6              , 0      ,0   },    /*"VOICE_NAME_07"                                 */
-    {PCT_EDIT  ,TEXT("08"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 7              , 0      ,0   },    /*"VOICE_NAME_08"                                 */
-    {PCT_EDIT  ,TEXT("09"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 0              , 4      ,0   },    /*"VOICE_NAME_09"                                 */
-    {PCT_EDIT  ,TEXT("10"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 1              , 4      ,0   },    /*"VOICE_NAME_10"                                 */
-    {PCT_EDIT  ,TEXT("11"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 2              , 4      ,0   },    /*"VOICE_NAME_11"                                 */
-    {PCT_EDIT  ,TEXT("12"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 3              , 4      ,0   },    /*"VOICE_NAME_12"                                 */
-    {PCT_EDIT  ,TEXT("13"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 4              , 4      ,0   },    /*"VOICE_NAME_13"                                 */
-    {PCT_EDIT  ,TEXT("14"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 5              , 4      ,0   },    /*"VOICE_NAME_14"                                 */
-    {PCT_EDIT  ,TEXT("15"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 6              , 4      ,0   },    /*"VOICE_NAME_15"                                 */
-    {PCT_EDIT  ,TEXT("16"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 7              , 4      ,0   },    /*"VOICE_NAME_16"                                 */
-    {PCT_EDIT  ,TEXT("17"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 0              , 8      ,0   },    /*"VOICE_NAME_17"                                 */
-    {PCT_EDIT  ,TEXT("18"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 1              , 8      ,0   },    /*"VOICE_NAME_18"                                 */
-    {PCT_EDIT  ,TEXT("19"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 2              , 8      ,0   },    /*"VOICE_NAME_19"                                 */
-    {PCT_EDIT  ,TEXT("20"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 3              , 8      ,0   },    /*"VOICE_NAME_20"                                 */
-    {PCT_EDIT  ,TEXT("21"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 4              , 8      ,0   },    /*"VOICE_NAME_21"                                 */
-    {PCT_EDIT  ,TEXT("22"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 5              , 8      ,0   },    /*"VOICE_NAME_22"                                 */
-    {PCT_EDIT  ,TEXT("23"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 6              , 8      ,0   },    /*"VOICE_NAME_23"                                 */
-    {PCT_EDIT  ,TEXT("24"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 7              , 8      ,0   },    /*"VOICE_NAME_24"                                 */
-    {PCT_EDIT  ,TEXT("25"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 0              ,12      ,0   },    /*"VOICE_NAME_25"                                 */
-    {PCT_EDIT  ,TEXT("26"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 1              ,12      ,0   },    /*"VOICE_NAME_26"                                 */
-    {PCT_EDIT  ,TEXT("27"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 2              ,12      ,0   },    /*"VOICE_NAME_27"                                 */
-    {PCT_EDIT  ,TEXT("28"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 3              ,12      ,0   },    /*"VOICE_NAME_28"                                 */
-    {PCT_EDIT  ,TEXT("29"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 4              ,12      ,0   },    /*"VOICE_NAME_29"                                 */
-    {PCT_EDIT  ,TEXT("30"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 5              ,12      ,0   },    /*"VOICE_NAME_30"                                 */
-    {PCT_EDIT  ,TEXT("31"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 6              ,12      ,0   },    /*"VOICE_NAME_31"                                 */
-    {PCT_EDIT  ,TEXT("32"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 7              ,12      ,0   },    /*"VOICE_NAME_32"                                 */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 0              , 2      ,0   },    /*"ALL_TO_ONEVOICE_01"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 1              , 2      ,0   },    /*"ALL_TO_ONEVOICE_02"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 2              , 2      ,0   },    /*"ALL_TO_ONEVOICE_03"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 3              , 2      ,0   },    /*"ALL_TO_ONEVOICE_04"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 4              , 2      ,0   },    /*"ALL_TO_ONEVOICE_05"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 5              , 2      ,0   },    /*"ALL_TO_ONEVOICE_06"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 6              , 2      ,0   },    /*"ALL_TO_ONEVOICE_07"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 7              , 2      ,0   },    /*"ALL_TO_ONEVOICE_08"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 0              , 6      ,0   },    /*"ALL_TO_ONEVOICE_09"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 1              , 6      ,0   },    /*"ALL_TO_ONEVOICE_10"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 2              , 6      ,0   },    /*"ALL_TO_ONEVOICE_11"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 3              , 6      ,0   },    /*"ALL_TO_ONEVOICE_12"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 4              , 6      ,0   },    /*"ALL_TO_ONEVOICE_13"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 5              , 6      ,0   },    /*"ALL_TO_ONEVOICE_14"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 6              , 6      ,0   },    /*"ALL_TO_ONEVOICE_15"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 7              , 6      ,0   },    /*"ALL_TO_ONEVOICE_16"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 0              ,10      ,0   },    /*"ALL_TO_ONEVOICE_17"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 1              ,10      ,0   },    /*"ALL_TO_ONEVOICE_18"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 2              ,10      ,0   },    /*"ALL_TO_ONEVOICE_19"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 3              ,10      ,0   },    /*"ALL_TO_ONEVOICE_20"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 4              ,10      ,0   },    /*"ALL_TO_ONEVOICE_21"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 5              ,10      ,0   },    /*"ALL_TO_ONEVOICE_22"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 6              ,10      ,0   },    /*"ALL_TO_ONEVOICE_23"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 7              ,10      ,0   },    /*"ALL_TO_ONEVOICE_24"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 0              ,14      ,0   },    /*"ALL_TO_ONEVOICE_25"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 1              ,14      ,0   },    /*"ALL_TO_ONEVOICE_26"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 2              ,14      ,0   },    /*"ALL_TO_ONEVOICE_27"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 3              ,14      ,0   },    /*"ALL_TO_ONEVOICE_28"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 4              ,14      ,0   },    /*"ALL_TO_ONEVOICE_29"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 5              ,14      ,0   },    /*"ALL_TO_ONEVOICE_30"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 6              ,14      ,0   },    /*"ALL_TO_ONEVOICE_31"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 7              ,14      ,0   },    /*"ALL_TO_ONEVOICE_32"                            */
+    {PCT_EDIT  ,TEXT("01"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  0              , 0     ,0   },    /*"VOICE_NAME_01"                                 */
+    {PCT_EDIT  ,TEXT("02"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  1              , 0     ,0   },    /*"VOICE_NAME_02"                                 */
+    {PCT_EDIT  ,TEXT("03"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  2              , 0     ,0   },    /*"VOICE_NAME_03"                                 */
+    {PCT_EDIT  ,TEXT("04"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  3              , 0     ,0   },    /*"VOICE_NAME_04"                                 */
+    {PCT_EDIT  ,TEXT("05"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  4              , 0     ,0   },    /*"VOICE_NAME_05"                                 */
+    {PCT_EDIT  ,TEXT("06"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  5              , 0     ,0   },    /*"VOICE_NAME_06"                                 */
+    {PCT_EDIT  ,TEXT("07"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  6              , 0     ,0   },    /*"VOICE_NAME_07"                                 */
+    {PCT_EDIT  ,TEXT("08"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  7              , 0     ,0   },    /*"VOICE_NAME_08"                                 */
+    {PCT_EDIT  ,TEXT("09"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  8              , 0     ,0   },    /*"VOICE_NAME_09"                                 */
+    {PCT_EDIT  ,TEXT("10"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  9              , 0     ,0   },    /*"VOICE_NAME_10"                                 */
+    {PCT_EDIT  ,TEXT("11"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 10              , 0     ,0   },    /*"VOICE_NAME_11"                                 */
+    {PCT_EDIT  ,TEXT("12"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 11              , 0     ,0   },    /*"VOICE_NAME_12"                                 */
+    {PCT_EDIT  ,TEXT("13"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 12              , 0     ,0   },    /*"VOICE_NAME_13"                                 */
+    {PCT_EDIT  ,TEXT("14"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 13              , 0     ,0   },    /*"VOICE_NAME_14"                                 */
+    {PCT_EDIT  ,TEXT("15"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 14              , 0     ,0   },    /*"VOICE_NAME_15"                                 */
+    {PCT_EDIT  ,TEXT("16"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 15              , 0     ,0   },    /*"VOICE_NAME_16"                                 */
+    {PCT_EDIT  ,TEXT("17"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  0              , 6     ,0   },    /*"VOICE_NAME_17"                                 */
+    {PCT_EDIT  ,TEXT("18"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  1              , 6     ,0   },    /*"VOICE_NAME_18"                                 */
+    {PCT_EDIT  ,TEXT("19"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  2              , 6     ,0   },    /*"VOICE_NAME_19"                                 */
+    {PCT_EDIT  ,TEXT("20"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  3              , 6     ,0   },    /*"VOICE_NAME_20"                                 */
+    {PCT_EDIT  ,TEXT("21"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  4              , 6     ,0   },    /*"VOICE_NAME_21"                                 */
+    {PCT_EDIT  ,TEXT("22"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  5              , 6     ,0   },    /*"VOICE_NAME_22"                                 */
+    {PCT_EDIT  ,TEXT("23"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  6              , 6     ,0   },    /*"VOICE_NAME_23"                                 */
+    {PCT_EDIT  ,TEXT("24"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  7              , 6     ,0   },    /*"VOICE_NAME_24"                                 */
+    {PCT_EDIT  ,TEXT("25"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  8              , 6     ,0   },    /*"VOICE_NAME_25"                                 */
+    {PCT_EDIT  ,TEXT("26"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  9              , 6     ,0   },    /*"VOICE_NAME_26"                                 */
+    {PCT_EDIT  ,TEXT("27"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 10              , 6     ,0   },    /*"VOICE_NAME_27"                                 */
+    {PCT_EDIT  ,TEXT("28"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 11              , 6     ,0   },    /*"VOICE_NAME_28"                                 */
+    {PCT_EDIT  ,TEXT("29"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 12              , 6     ,0   },    /*"VOICE_NAME_29"                                 */
+    {PCT_EDIT  ,TEXT("30"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 13              , 6     ,0   },    /*"VOICE_NAME_30"                                 */
+    {PCT_EDIT  ,TEXT("31"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 14              , 6     ,0   },    /*"VOICE_NAME_31"                                 */
+    {PCT_EDIT  ,TEXT("32"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 15              , 6     ,0   },    /*"VOICE_NAME_32"                                 */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_01"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_00"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_02"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_01"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_03"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_02"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_04"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_03"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_05"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_04"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_06"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_05"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_07"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_06"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_08"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_07"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_09"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_08"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_10"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_09"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_11"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_10"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_12"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_11"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_13"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_12"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_14"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_13"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_15"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_14"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_16"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15              , 2     ,0   },    /*"ALL_VOICE_EX1_PARAM_15"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_17"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_16"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_18"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_17"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_19"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_18"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_20"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_19"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_21"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_20"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_22"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_21"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_23"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_22"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_24"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_23"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_25"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_24"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_26"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_25"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_27"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_26"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_28"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_27"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_29"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_28"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_30"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_29"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_31"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_30"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_32"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15              , 8     ,0   },    /*"ALL_VOICE_EX1_PARAM_31"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_01"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_00"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_02"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_01"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_03"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_02"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_04"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_03"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_05"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_04"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_06"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_05"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_07"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_06"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_08"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_07"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_09"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_08"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_10"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_09"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_11"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_10"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_12"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_11"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_13"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_12"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_14"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_13"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_15"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_14"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_16"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15              , 3     ,0   },    /*"ALL_VOICE_EX2_PARAM_15"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_17"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_16"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_18"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_17"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_19"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_18"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_20"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_19"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_21"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_20"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_22"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_21"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_23"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_22"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_24"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_23"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_25"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_24"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_26"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_25"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_27"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_26"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_28"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_27"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_29"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_28"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_30"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_29"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_31"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_30"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_32"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15              , 9     ,0   },    /*"ALL_VOICE_EX2_PARAM_31"                        */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  0              , 4     ,0   },    /*"ALL_TO_ONEVOICE_01"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  1              , 4     ,0   },    /*"ALL_TO_ONEVOICE_02"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  2              , 4     ,0   },    /*"ALL_TO_ONEVOICE_03"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  3              , 4     ,0   },    /*"ALL_TO_ONEVOICE_04"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  4              , 4     ,0   },    /*"ALL_TO_ONEVOICE_05"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  5              , 4     ,0   },    /*"ALL_TO_ONEVOICE_06"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  6              , 4     ,0   },    /*"ALL_TO_ONEVOICE_07"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  7              , 4     ,0   },    /*"ALL_TO_ONEVOICE_08"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  8              , 4     ,0   },    /*"ALL_TO_ONEVOICE_09"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  9              , 4     ,0   },    /*"ALL_TO_ONEVOICE_10"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 10              , 4     ,0   },    /*"ALL_TO_ONEVOICE_11"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 11              , 4     ,0   },    /*"ALL_TO_ONEVOICE_12"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 12              , 4     ,0   },    /*"ALL_TO_ONEVOICE_13"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 13              , 4     ,0   },    /*"ALL_TO_ONEVOICE_14"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 14              , 4     ,0   },    /*"ALL_TO_ONEVOICE_15"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 15              , 4     ,0   },    /*"ALL_TO_ONEVOICE_16"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  0              ,10     ,0   },    /*"ALL_TO_ONEVOICE_17"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  1              ,10     ,0   },    /*"ALL_TO_ONEVOICE_18"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  2              ,10     ,0   },    /*"ALL_TO_ONEVOICE_19"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  3              ,10     ,0   },    /*"ALL_TO_ONEVOICE_20"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  4              ,10     ,0   },    /*"ALL_TO_ONEVOICE_21"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  5              ,10     ,0   },    /*"ALL_TO_ONEVOICE_22"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  6              ,10     ,0   },    /*"ALL_TO_ONEVOICE_23"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  7              ,10     ,0   },    /*"ALL_TO_ONEVOICE_24"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  8              ,10     ,0   },    /*"ALL_TO_ONEVOICE_25"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  9              ,10     ,0   },    /*"ALL_TO_ONEVOICE_26"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 10              ,10     ,0   },    /*"ALL_TO_ONEVOICE_27"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 11              ,10     ,0   },    /*"ALL_TO_ONEVOICE_28"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 12              ,10     ,0   },    /*"ALL_TO_ONEVOICE_29"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 13              ,10     ,0   },    /*"ALL_TO_ONEVOICE_30"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 14              ,10     ,0   },    /*"ALL_TO_ONEVOICE_31"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 15              ,10     ,0   },    /*"ALL_TO_ONEVOICE_32"                            */
 };
 
 typedef struct

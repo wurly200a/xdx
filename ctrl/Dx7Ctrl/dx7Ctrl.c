@@ -852,6 +852,25 @@ copyToParamCtrl( DX7_CTRL_SEQ_ID seqId )
 
         for( i=0; i<32; i++ )
         {
+            if( dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_102] == 99 &&
+                dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_103] == 99 &&
+                dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_104] == 99 &&
+                dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_105] == 99 &&
+                dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_106] == 50 &&
+                dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_107] == 50 &&
+                dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_108] == 50 &&
+                dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_109] == 50 )
+            {
+                SetWindowText( Dx7ParamCtrlGetHWND(DX7_PARAM_CTRL_ALL_VOICE_EX1_PARAM_00+i),TEXT(""));
+            }
+            else
+            {
+                SetWindowText( Dx7ParamCtrlGetHWND(DX7_PARAM_CTRL_ALL_VOICE_EX1_PARAM_00+i),TEXT("PEG"));
+            }
+        }
+
+        for( i=0; i<32; i++ )
+        {
             INT j;
             memset(&szBuffer[0],0,128*2+1);
             for( j=0;j<128; j++ )
