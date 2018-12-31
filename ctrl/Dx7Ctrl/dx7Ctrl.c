@@ -714,6 +714,7 @@ seqStartProc( DX7_CTRL_SEQ_METHOD method, DX7_CTRL_SEQ_ID seqId, INT maxDataSize
     case DX7_CTRL_SEQ_ALL_VOICE:
         if( method == DX7_CTRL_SEQ_METHOD_SET )
         {
+            copyFromParamCtrl( seqId );
             memcpy((void *)txDataPtr,(void *)tblPtr->rxDataPtr,tblPtr->rxDataSize);
             txSize = DX7_SYSEX_ALL_VOICE_INDEX_MAX;
         }

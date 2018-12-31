@@ -309,8 +309,8 @@ Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_90 ] = 0x00;
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_91 ] = 0x00;
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_92 ] = 0x00;
-        dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_93 ] = 0x20;
-        dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_94 ] = 0xF7;
+        dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_93 ] = 0x00;
+        dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_94 ] = 0x00;
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_95 ] = 0x00;
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_96 ] = 0x00;
         dx100CtrlDataAllVoice[topNum+DX100_SYSEX_VMEM_97 ] = 0x00;
@@ -621,6 +621,7 @@ seqStartProc( DX100_CTRL_SEQ_METHOD method, DX100_CTRL_SEQ_ID seqId, INT maxData
     case DX100_CTRL_SEQ_ALL_VOICE:
         if( method == DX100_CTRL_SEQ_METHOD_SET )
         {
+            copyFromParamCtrl( seqId );
             memcpy((void *)txDataPtr,(void *)tblPtr->rxDataPtr,tblPtr->rxDataSize);
             txSize = DX100_SYSEX_ALL_VOICE_INDEX_MAX;
         }
@@ -1442,6 +1443,7 @@ dx100voiceCopyFromOneToOneOfAll( INT voiceNum )
     if( voiceNum < 32 )
     {
         INT topNum = DX100_SYSEX_ALL_VOICE_DATA + (voiceNum*DX100_SYSEX_VMEM_MAX);
+        INT i;
 
         dx100CtrlDataAllVoice[topNum+ 0] = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_00];/* OP4 ATTACK RATE                                  */
         dx100CtrlDataAllVoice[topNum+ 1] = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_01];/* OP4 DECAY 1 RATE                                 */
@@ -1516,6 +1518,22 @@ dx100voiceCopyFromOneToOneOfAll( INT voiceNum )
         dx100CtrlDataAllVoice[topNum+70] = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_90];/* pitch eg level 1                                 */
         dx100CtrlDataAllVoice[topNum+71] = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_91];/* pitch eg level 2                                 */
         dx100CtrlDataAllVoice[topNum+72] = dx100CtrlDataOneVoice[DX100_SYSEX_1VOICE_DATA_92];/* pitch eg level 3                                 */
+        dx100CtrlDataAllVoice[topNum+73] = 0; /* EGSFT/FIX/FIXRG	OP4 */
+        dx100CtrlDataAllVoice[topNum+74] = 0; /* OSW/FINE	OP4     */
+        dx100CtrlDataAllVoice[topNum+75] = 0; /* EGSFT/FIX/FIXRG	OP2 */
+        dx100CtrlDataAllVoice[topNum+76] = 0; /* OSW/FINE	OP2     */
+        dx100CtrlDataAllVoice[topNum+77] = 0; /* EGSFT/FIX/FIXRG	OP3 */
+        dx100CtrlDataAllVoice[topNum+78] = 0; /* OSW/FINE	OP3     */
+        dx100CtrlDataAllVoice[topNum+79] = 0; /* EGSFT/FIX/FIXRG	OP1 */
+        dx100CtrlDataAllVoice[topNum+80] = 0; /* OSW/FINE	OP1     */
+        dx100CtrlDataAllVoice[topNum+81] = 0; /* REV	                */
+        dx100CtrlDataAllVoice[topNum+82] = 0; /* FC PITCH            */
+        dx100CtrlDataAllVoice[topNum+83] = 0; /* FC AMPLI            */
+
+        for( i=84; i<=127; i++ )
+        {
+            dx100CtrlDataAllVoice[topNum+i] = 0;
+        }
 
         copyToParamCtrl(DX100_CTRL_SEQ_ALL_VOICE);
     }
