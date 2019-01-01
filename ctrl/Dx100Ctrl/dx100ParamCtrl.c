@@ -112,291 +112,291 @@ typedef struct
 } S_DX100_PARAM_CTRL;
 
 static S_DX100_PARAM_CTRL paramListTbl[DX100_PARAM_CTRL_MAX] =
-{/*  type     ,strText                               ,wTLen,bEnable  ,minValue,maxValue,ptstrDataDisp   ,addWidth,rowPos          ,colPos  ,yPosAdj*/       /*strFullText                                    */
-    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS03,0   },      /*"00 OP4 ATTACK RATE"                            */
-    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS04,0   },      /*"01 OP4 DECAY 1 RATE"                           */
-    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS06,0   },      /*"02 OP4 DECAY 2 RATE"                           */
-    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS07,0   },      /*"03 OP4 RELEASE RATE"                           */
-    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS05,0   },      /*"04 OP4 DECAY 1 LEVEL"                          */
-    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS10,0   },      /*"05 OP4 KEYBOARD SCALING LEVEL"                 */
-    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS09,0   },      /*"06 OP4 KEYBOARD SCALING RATE"                  */
-    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS12,0   },      /*"07 OP4 EG BIAS SENSITIVITY"                    */
-    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS11,0   },      /*"08 OP4 AMPLITUDE MODULATION ENABLE"            */
-    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS13,0   },      /*"09 OP4 KEY VELOCITY"                           */
-    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS08,0   },      /*"10 OP4 OUTPUT LEVEL"                           */
-    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT8  ,COLPOS01,0   },      /*"11 OP4 OSCILLATOR FREQUENCY"                   */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT8  ,COLPOS02,0   },      /*"12 OP4 DETUNE"                                 */
-    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS03,0   },      /*"13 OP2 ATTACK RATE"                            */
-    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS04,0   },      /*"14 OP2 DECAY 1 RATE"                           */
-    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS06,0   },      /*"15 OP2 DECAY 2 RATE"                           */
-    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS07,0   },      /*"16 OP2 RELEASE RATE"                           */
-    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS05,0   },      /*"17 OP2 DECAY 1 LEVEL"                          */
-    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS10,0   },      /*"18 OP2 KEYBOARD SCALING LEVEL"                 */
-    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS09,0   },      /*"19 OP2 KEYBOARD SCALING RATE"                  */
-    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS12,0   },      /*"20 OP2 EG BIAS SENSITIVITY"                    */
-    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS11,0   },      /*"21 OP2 AMPLITUDE MODULATION ENABLE"            */
-    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS13,0   },      /*"22 OP2 KEY VELOCITY"                           */
-    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS08,0   },      /*"23 OP2 OUTPUT LEVEL"                           */
-    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT6  ,COLPOS01,0   },      /*"24 OP2 OSCILLATOR FREQUENCY"                   */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT6  ,COLPOS02,0   },      /*"25 OP2 DETUNE"                                 */
-    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS03,0   },      /*"26 OP3 ATTACK RATE"                            */
-    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS04,0   },      /*"27 OP3 DECAY 1 RATE"                           */
-    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS06,0   },      /*"28 OP3 DECAY 2 RATE"                           */
-    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS07,0   },      /*"29 OP3 RELEASE RATE"                           */
-    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS05,0   },      /*"30 OP3 DECAY 1 LEVEL"                          */
-    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS10,0   },      /*"31 OP3 KEYBOARD SCALING LEVEL"                 */
-    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS09,0   },      /*"32 OP3 KEYBOARD SCALING RATE"                  */
-    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS12,0   },      /*"33 OP3 EG BIAS SENSITIVITY"                    */
-    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS11,0   },      /*"34 OP3 AMPLITUDE MODULATION ENABLE"            */
-    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS13,0   },      /*"35 OP3 KEY VELOCITY"                           */
-    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS08,0   },      /*"36 OP3 OUTPUT LEVEL"                           */
-    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT7  ,COLPOS01,0   },      /*"37 OP3 OSCILLATOR FREQUENCY"                   */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT7  ,COLPOS02,0   },      /*"38 OP3 DETUNE"                                 */
-    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS03,0   },      /*"39 OP1 ATTACK RATE"                            */
-    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS04,0   },      /*"40 OP1 DECAY 1 RATE"                           */
-    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS06,0   },      /*"41 OP1 DECAY 2 RATE"                           */
-    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS07,0   },      /*"42 OP1 RELEASE RATE"                           */
-    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS05,0   },      /*"43 OP1 DECAY 1 LEVEL"                          */
-    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS10,0   },      /*"44 OP1 KEYBOARD SCALING LEVEL"                 */
-    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS09,0   },      /*"45 OP1 KEYBOARD SCALING RATE"                  */
-    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS12,0   },      /*"46 OP1 EG BIAS SENSITIVITY"                    */
-    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS11,0   },      /*"47 OP1 AMPLITUDE MODULATION ENABLE"            */
-    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS13,0   },      /*"48 OP1 KEY VELOCITY"                           */
-    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS08,0   },      /*"49 OP1 OUTPUT LEVEL"                           */
-    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT5  ,COLPOS01,0   },      /*"50 OP1 OSCILLATOR FREQUENCY"                   */
-    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT5  ,COLPOS02,0   },      /*"51 OP1 DETUNE"                                 */
-    {PCT_COMBO ,TEXT("ALGORITHM"                     ),0    ,TRUE    ,0       ,  7     , strTblAlgorithm     ,  0, ROW_POS_EDIT1  ,COLPOS01,0   },      /*"52 ALGORITHM"                                  */
-    {PCT_COMBO ,TEXT("FEEDBACK"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS02,0   },      /*"53 FEEDBACK LEVEL"                             */
-    {PCT_COMBO ,TEXT("SPEED"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS04,0   },      /*"54 LFO SPEED"                                  */
-    {PCT_COMBO ,TEXT("DELAY"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS05,0   },      /*"55 LFO DELAY"                                  */
-    {PCT_COMBO ,TEXT("PMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS06,0   },      /*"56 PITCH MODULATION DEPTH"                     */
-    {PCT_COMBO ,TEXT("AMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS07,0   },      /*"57 AMPLITUDE MODULATION DEPTH"                 */
-    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT1  ,COLPOS08,0   },      /*"58 LFO SYNC"                                   */
-    {PCT_COMBO ,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,  3     , strTblLfoWave       ,  0, ROW_POS_EDIT1  ,COLPOS03,0   },      /*"59 LFO WAVE"                                   */
-    {PCT_COMBO ,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS09,0   },      /*"60 PITCH MODULATION SENSITIVITY"               */
-    {PCT_COMBO ,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,  3/*7*/, NULL                ,  0, ROW_POS_EDIT1  ,COLPOS10,0   },      /*"61 AMPLITUDE MODULATION SENSITIVITY"           */
-    {PCT_COMBO ,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       , 48     , strTblTranspose     , 20, ROW_POS_EDIT9  ,COLPOS15,0   },      /*"62 TRANSPOSE"                                  */
-    {PCT_COMBO ,TEXT("POLY/MONO"                     ),0    ,TRUE    ,0       ,  1     , strTblPolyMono      ,  0, ROW_POS_EDIT9  ,COLPOS01,0   },      /*"63 PLAY MODE POLY/MONO"                        */
-    {PCT_COMBO ,TEXT("PB RANGE"                      ),0    ,TRUE    ,0       , 12     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS02,0   },      /*"64 PITCH BEND RANGE"                           */
-    {PCT_COMBO ,TEXT("PORTA MODE"                    ),0    ,TRUE    ,0       ,  1     , strTblPortamentoMode,  0, ROW_POS_EDIT9  ,COLPOS03,0   },      /*"65 PORTAMENTO MODE"                            */
-    {PCT_COMBO ,TEXT("PORTA TIME"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS04,0   },      /*"66 PORTAMENTO TIME"                            */
-    {PCT_COMBO ,TEXT("FOOT VOLUME RANGE"             ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS06,0   },      /*"67 FOOT VOLUME RANGE"                          */
-    {PCT_COMBO ,TEXT("SUSTAIN FOOT SW"               ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9  ,COLPOS07,0   },      /*"68 SUSTAIN FOOT SWITCH"                        */
-    {PCT_COMBO ,TEXT("PORTAMENT FOOT SW"             ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9  ,COLPOS05,0   },      /*"69 PORTAMENT FOOT SWITCH"                      */
-    {PCT_COMBO ,TEXT("CHORUS SWITCH"                 ),0    ,TRUE/**/,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9  ,COLPOS14,0   },      /*"70 CHORUS SWITCH"                              */
-    {PCT_COMBO ,TEXT("WR PITCH"                      ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS08,0   },      /*"71 MODULATION WHEEL PITCH MODULATION RANGE"    */
-    {PCT_COMBO ,TEXT("WR AMPLITUDE"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS09,0   },      /*"72 MODULATION WHEEL AMPLITUDE MODULATION RANGE"*/
-    {PCT_COMBO ,TEXT("BC PITCH"                      ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS10,0   },      /*"73 BREATH CONTROL PITCH MODULATION RANGE"      */
-    {PCT_COMBO ,TEXT("BC AMPLITUDE"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS11,0   },      /*"74 BREATH CONTROL AMPLITUDE MODULATION RANGE"  */
-    {PCT_COMBO ,TEXT("BC PITCH BIAS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS12,0   },      /*"75 BREATH CONTROL PITCH BIAS RANGE"            */
-    {PCT_COMBO ,TEXT("BC EG BIAS"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS13,0   },      /*"76 BREATH CONTROL EG BIAS RANGE"               */
-    {PCT_EDIT  ,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,127     , NULL                , 50, ROW_POS_EDIT0  ,COLPOS01,0   },      /*"77-86 PATCHNAME"                               */
-    {PCT_COMBO ,TEXT("PR1"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS11,0   },      /*"87 PITCH EG RATE 1"                            */
-    {PCT_COMBO ,TEXT("PR2"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS13,0   },      /*"88 PITCH EG RATE 2"                            */
-    {PCT_COMBO ,TEXT("PR3"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS15,0   },      /*"89 PITCH EG RATE 3"                            */
-    {PCT_COMBO ,TEXT("PL1"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS12,0   },      /*"90 PITCH EG LEVEL 1"                           */
-    {PCT_COMBO ,TEXT("PL2"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS14,0   },      /*"91 PITCH EG LEVEL 2"                           */
-    {PCT_COMBO ,TEXT("PL3"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS16,0   },      /*"92 PITCH EG LEVEL 3"                           */
-    {PCT_BUTTON,TEXT("TO ALL VOICE"                  ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT0  ,COLPOS11,0   },      /**/
-    {PCT_COMBO ,TEXT("COMBO_TO_ALL_VOICE"            ),0    ,TRUE    ,0       ,31      , strTblVoiceNum      ,  0, ROW_POS_EDIT0  ,COLPOS10,0   },      /**/
-    {PCT_BUTTON,TEXT("TO 6 OPERATOR"                 ),0    ,TRUE    ,0       ,0       , NULL                , 50, 18             ,0       ,0   },      /**/
-    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS00,0   },    /*"OPERATOR1"                                     */
-    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS00,0   },    /*"OPERATOR2"                                     */
-    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS00,0   },    /*"OPERATOR3"                                     */
-    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS00,0   },    /*"OPERATOR4"                                     */
-    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS14,0   },    /*"OPERATOR1"*/
-    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS14,0   },    /*"OPERATOR2"*/
-    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS14,0   },    /*"OPERATOR3"*/
-    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS14,0   },    /*"OPERATOR4"*/
-    {PCT_STATIC,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT0  ,COLPOS00,0   },    /*"PATCHNAME"                                     */
-    {PCT_STATIC,TEXT("LFO"                           ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC0,COLPOS03,5   },    /*"ALGORITHM"                                     */
-    {PCT_STATIC,TEXT("MODULATION SENSITVITY"         ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC0,COLPOS09,5   },    /*"MODULATION SENSITIVITY"                        */
-    {PCT_STATIC,TEXT("KEY"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS13,5   },    /*"KEY"                                           */
-    {PCT_STATIC,TEXT("ALGORITHM"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS01,0   },    /*"ALGORITHM"                                     */
-    {PCT_STATIC,TEXT("FEEDBACK"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS02,0   },    /*"FEEDBACK LEVEL"                                */
-    {PCT_STATIC,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS03,0   },    /*"LFO WAVE"                                      */
-    {PCT_STATIC,TEXT("SPEED"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS04,0   },    /*"LFO SPEED"                                     */
-    {PCT_STATIC,TEXT("DELAY"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS05,0   },    /*"LFO DELAY"                                     */
-    {PCT_STATIC,TEXT("PMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS06,0   },    /*"PITCH MODULATION DEPTH"                        */
-    {PCT_STATIC,TEXT("AMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS07,0   },    /*"AMPLITUDE MODULATION DEPTH"                    */
-    {PCT_STATIC,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS08,0   },    /*"LFO SYNC"                                      */
-    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS09,0   },    /*"PITCH MODULATION SENSITIVITY"                  */
-    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS10,0   },    /*"AMPLITUDE MODULATION SENSITIVITY"              */
-    {PCT_STATIC,TEXT("AME"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS11,0   },    /*"OP? AMPLITUDE MODULATION ENABLE"               */
-    {PCT_STATIC,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS12,0   },    /*"OP? EG BIAS SENSITIVITY"                       */
-    {PCT_STATIC,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS13,0   },    /*"OP? KEY VELOCITY"                              */
-    {PCT_STATIC,TEXT("OSCILLATOR"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS01,5   },    /*""*/
-    {PCT_STATIC,TEXT("ENVELOPE GENERATOR"            ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC2,COLPOS03,5   },    /*""*/
-    {PCT_STATIC,TEXT("OPERATOR"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS08,5   },    /*""*/
-    {PCT_STATIC,TEXT("KEY SCALING"                   ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC2,COLPOS09,5   },    /*""*/
-    {PCT_STATIC,TEXT("PITCH ENVELOPE GENERATOR"      ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC2,COLPOS11,5   },    /*""*/
-    {PCT_STATIC,TEXT("RATIO"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS01,0   },    /*"OP? OSCILLATOR FREQUENCY"                      */
-    {PCT_STATIC,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS02,0   },    /*"OP? DETUNE"                                    */
-    {PCT_STATIC,TEXT("AR"                            ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS03,0   },    /*"OP? ATTACK RATE"                               */
-    {PCT_STATIC,TEXT("D1R"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS04,0   },    /*"OP? DECAY 1 RATE"                              */
-    {PCT_STATIC,TEXT("D1L"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS05,0   },    /*"OP? DECAY 1 LEVEL"                             */
-    {PCT_STATIC,TEXT("D2R"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS06,0   },    /*"OP? DECAY 2 RATE"                              */
-    {PCT_STATIC,TEXT("RR"                            ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS07,0   },    /*"OP? RELEASE RATE"                              */
-    {PCT_STATIC,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS08,0   },    /*"OP? OUTPUT LEVEL"                              */
-    {PCT_STATIC,TEXT("RATE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS09,0   },    /*"OP? KEYBOARD SCALING RATE"                     */
-    {PCT_STATIC,TEXT("LEVEL"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS10,0   },    /*"OP? KEYBOARD SCALING LEVEL"                    */
-    {PCT_STATIC,TEXT("PR1"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS11,0   },    /*"PITCH EG RATE 1"                               */
-    {PCT_STATIC,TEXT("PL1"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS12,0   },    /*"PITCH EG LEVEL 1"                              */
-    {PCT_STATIC,TEXT("PR2"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS13,0   },    /*"PITCH EG RATE 2"                               */
-    {PCT_STATIC,TEXT("PL2"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS14,0   },    /*"PITCH EG LEVEL 2"                              */
-    {PCT_STATIC,TEXT("PR3"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS15,0   },    /*"PITCH EG RATE 3"                               */
-    {PCT_STATIC,TEXT("PL3"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS16,0   },    /*"PITCH EG LEVEL 3"                              */
-    {PCT_STATIC,TEXT("PITCH BEND"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC4,COLPOS02,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("PORTAMENTO"                    ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS03,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("FOOT CONTROL"                  ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS06,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("WHEEL RANGE"                   ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS08,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("BREATH CONTROLLER RANGE"       ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC4,COLPOS10,5   },    /*""                                              */
-    {PCT_STATIC,TEXT("POLY/MONO"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS01,0   },    /*"PLAY MODE POLY/MONO"                           */
-    {PCT_STATIC,TEXT("RANGE"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS02,0   },    /*"PITCH BEND RANGE"                              */
-    {PCT_STATIC,TEXT("MODE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS03,0   },    /*"PORTAMENTO MODE"                               */
-    {PCT_STATIC,TEXT("TIME"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS04,0   },    /*"PORTAMENTO TIME"                               */
-    {PCT_STATIC,TEXT("FOOT SW"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS05,0   },    /*"PORTAMENT FOOT SWITCH"                         */
-    {PCT_STATIC,TEXT("VOLUME"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS06,0   },    /*"FOOT VOLUME RANGE"                             */
-    {PCT_STATIC,TEXT("SUSTAIN"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS07,0   },    /*"SUSTAIN FOOT SWITCH"                           */
-    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS08,0   },    /*"MODULATION WHEEL PITCH MODULATION RANGE"       */
-    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS09,0   },    /*"MODULATION WHEEL AMPLITUDE MODULATION RANGE"   */
-    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS10,0   },    /*"BREATH CONTROL PITCH MODULATION RANGE"         */
-    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS11,0   },    /*"BREATH CONTROL AMPLITUDE MODULATION RANGE"     */
-    {PCT_STATIC,TEXT("PITCH BIAS"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS12,0   },    /*"BREATH CONTROL PITCH BIAS RANGE"               */
-    {PCT_STATIC,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS13,0   },    /*"BREATH CONTROL EG BIAS RANGE"                  */
-    {PCT_STATIC,TEXT("CHORUS"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS14,0   },    /*"CHORUS SWITCH"                                 */
-    {PCT_STATIC,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS15,0   },    /*"TRANSPOSE"                                     */
-    {PCT_STATIC,TEXT("EXTRA MODE"                    ),0    ,TRUE    ,0       ,0       , NULL                , 50, 17             , 0      ,0   },    /*"EXTRA MODE"                                     */
-    {PCT_EDIT  ,TEXT("01"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  0             , 0      ,0   },    /*"VOICE_NAME_01"                                 */
-    {PCT_EDIT  ,TEXT("02"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  1             , 0      ,0   },    /*"VOICE_NAME_02"                                 */
-    {PCT_EDIT  ,TEXT("03"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  2             , 0      ,0   },    /*"VOICE_NAME_03"                                 */
-    {PCT_EDIT  ,TEXT("04"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  3             , 0      ,0   },    /*"VOICE_NAME_04"                                 */
-    {PCT_EDIT  ,TEXT("05"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  4             , 0      ,0   },    /*"VOICE_NAME_05"                                 */
-    {PCT_EDIT  ,TEXT("06"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  5             , 0      ,0   },    /*"VOICE_NAME_06"                                 */
-    {PCT_EDIT  ,TEXT("07"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  6             , 0      ,0   },    /*"VOICE_NAME_07"                                 */
-    {PCT_EDIT  ,TEXT("08"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  7             , 0      ,0   },    /*"VOICE_NAME_08"                                 */
-    {PCT_EDIT  ,TEXT("09"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  8             , 0      ,0   },    /*"VOICE_NAME_09"                                 */
-    {PCT_EDIT  ,TEXT("10"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  9             , 0      ,0   },    /*"VOICE_NAME_10"                                 */
-    {PCT_EDIT  ,TEXT("11"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 10             , 0      ,0   },    /*"VOICE_NAME_11"                                 */
-    {PCT_EDIT  ,TEXT("12"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 11             , 0      ,0   },    /*"VOICE_NAME_12"                                 */
-    {PCT_EDIT  ,TEXT("13"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 12             , 0      ,0   },    /*"VOICE_NAME_13"                                 */
-    {PCT_EDIT  ,TEXT("14"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 13             , 0      ,0   },    /*"VOICE_NAME_14"                                 */
-    {PCT_EDIT  ,TEXT("15"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 14             , 0      ,0   },    /*"VOICE_NAME_15"                                 */
-    {PCT_EDIT  ,TEXT("16"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 15             , 0      ,0   },    /*"VOICE_NAME_16"                                 */
-    {PCT_EDIT  ,TEXT("17"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  0             , 6      ,0   },    /*"VOICE_NAME_17"                                 */
-    {PCT_EDIT  ,TEXT("18"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  1             , 6      ,0   },    /*"VOICE_NAME_18"                                 */
-    {PCT_EDIT  ,TEXT("19"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  2             , 6      ,0   },    /*"VOICE_NAME_19"                                 */
-    {PCT_EDIT  ,TEXT("20"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  3             , 6      ,0   },    /*"VOICE_NAME_20"                                 */
-    {PCT_EDIT  ,TEXT("21"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  4             , 6      ,0   },    /*"VOICE_NAME_21"                                 */
-    {PCT_EDIT  ,TEXT("22"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  5             , 6      ,0   },    /*"VOICE_NAME_22"                                 */
-    {PCT_EDIT  ,TEXT("23"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  6             , 6      ,0   },    /*"VOICE_NAME_23"                                 */
-    {PCT_EDIT  ,TEXT("24"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  7             , 6      ,0   },    /*"VOICE_NAME_24"                                 */
-    {PCT_EDIT  ,TEXT("25"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  8             , 6      ,0   },    /*"VOICE_NAME_25"                                 */
-    {PCT_EDIT  ,TEXT("26"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  9             , 6      ,0   },    /*"VOICE_NAME_26"                                 */
-    {PCT_EDIT  ,TEXT("27"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 10             , 6      ,0   },    /*"VOICE_NAME_27"                                 */
-    {PCT_EDIT  ,TEXT("28"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 11             , 6      ,0   },    /*"VOICE_NAME_28"                                 */
-    {PCT_EDIT  ,TEXT("29"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 12             , 6      ,0   },    /*"VOICE_NAME_29"                                 */
-    {PCT_EDIT  ,TEXT("30"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 13             , 6      ,0   },    /*"VOICE_NAME_30"                                 */
-    {PCT_EDIT  ,TEXT("31"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 14             , 6      ,0   },    /*"VOICE_NAME_31"                                 */
-    {PCT_EDIT  ,TEXT("32"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 15             , 6      ,0   },    /*"VOICE_NAME_32"                                 */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_01"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_00"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_02"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_01"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_03"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_02"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_04"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_03"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_05"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_04"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_06"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_05"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_07"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_06"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_08"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_07"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_09"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_08"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_10"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_09"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_11"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_10"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_12"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_11"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_13"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_12"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_14"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_13"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_15"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_14"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_16"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 2      ,0   },    /*"ALL_VOICE_EX1_PARAM_15"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_17"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_16"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_18"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_17"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_19"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_18"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_20"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_19"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_21"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_20"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_22"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_21"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_23"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_22"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_24"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_23"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_25"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_24"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_26"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_25"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_27"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_26"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_28"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_27"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_29"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_28"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_30"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_29"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_31"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_30"                        */
-    {PCT_EDIT  ,TEXT("EX1_PARAM_32"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 8      ,0   },    /*"ALL_VOICE_EX1_PARAM_31"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_01"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_00"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_02"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_01"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_03"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_02"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_04"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_03"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_05"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_04"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_06"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_05"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_07"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_06"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_08"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_07"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_09"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_08"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_10"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_09"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_11"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_10"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_12"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_11"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_13"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_12"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_14"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_13"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_15"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_14"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_16"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 3      ,0   },    /*"ALL_VOICE_EX2_PARAM_15"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_17"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_16"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_18"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_17"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_19"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_18"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_20"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_19"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_21"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_20"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_22"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_21"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_23"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_22"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_24"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_23"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_25"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_24"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_26"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_25"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_27"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_26"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_28"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_27"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_29"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_28"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_30"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_29"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_31"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_30"                        */
-    {PCT_EDIT  ,TEXT("EX2_PARAM_32"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 9      ,0   },    /*"ALL_VOICE_EX2_PARAM_31"                        */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  0             , 4      ,0   },    /*"ALL_TO_ONEVOICE_01"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  1             , 4      ,0   },    /*"ALL_TO_ONEVOICE_02"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  2             , 4      ,0   },    /*"ALL_TO_ONEVOICE_03"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  3             , 4      ,0   },    /*"ALL_TO_ONEVOICE_04"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  4             , 4      ,0   },    /*"ALL_TO_ONEVOICE_05"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  5             , 4      ,0   },    /*"ALL_TO_ONEVOICE_06"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  6             , 4      ,0   },    /*"ALL_TO_ONEVOICE_07"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  7             , 4      ,0   },    /*"ALL_TO_ONEVOICE_08"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  8             , 4      ,0   },    /*"ALL_TO_ONEVOICE_09"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  9             , 4      ,0   },    /*"ALL_TO_ONEVOICE_10"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 10             , 4      ,0   },    /*"ALL_TO_ONEVOICE_11"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 11             , 4      ,0   },    /*"ALL_TO_ONEVOICE_12"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 12             , 4      ,0   },    /*"ALL_TO_ONEVOICE_13"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 13             , 4      ,0   },    /*"ALL_TO_ONEVOICE_14"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 14             , 4      ,0   },    /*"ALL_TO_ONEVOICE_15"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 15             , 4      ,0   },    /*"ALL_TO_ONEVOICE_16"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  0             , 10     ,0   },    /*"ALL_TO_ONEVOICE_17"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  1             , 10     ,0   },    /*"ALL_TO_ONEVOICE_18"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  2             , 10     ,0   },    /*"ALL_TO_ONEVOICE_19"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  3             , 10     ,0   },    /*"ALL_TO_ONEVOICE_20"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  4             , 10     ,0   },    /*"ALL_TO_ONEVOICE_21"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  5             , 10     ,0   },    /*"ALL_TO_ONEVOICE_22"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  6             , 10     ,0   },    /*"ALL_TO_ONEVOICE_23"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  7             , 10     ,0   },    /*"ALL_TO_ONEVOICE_24"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  8             , 10     ,0   },    /*"ALL_TO_ONEVOICE_25"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  9             , 10     ,0   },    /*"ALL_TO_ONEVOICE_26"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 10             , 10     ,0   },    /*"ALL_TO_ONEVOICE_27"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 11             , 10     ,0   },    /*"ALL_TO_ONEVOICE_28"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 12             , 10     ,0   },    /*"ALL_TO_ONEVOICE_29"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 13             , 10     ,0   },    /*"ALL_TO_ONEVOICE_30"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 14             , 10     ,0   },    /*"ALL_TO_ONEVOICE_31"                            */
-    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 15             , 10     ,0   },    /*"ALL_TO_ONEVOICE_32"                            */
-    {PCT_BUTTON,TEXT("TO 6 OPERATOR"                 ),0    ,TRUE    ,0       ,0       , NULL                , 50, 18             ,0       ,0   },    /**/
-    {PCT_STATIC,TEXT("EXTRA MODE"                    ),0    ,TRUE    ,0       ,0       , NULL                , 50, 17             ,0       ,0   },    /*"EXTRA MODE"                                     */
+{/*  type     ,strText                               ,wTLen,bEnable  ,minValue,maxValue,ptstrDataDisp   ,addWidth,rowPos          ,colPos  ,yPosAdj*/
+    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS03,0   },/*"00 OP4 ATTACK RATE"                            */
+    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS04,0   },/*"01 OP4 DECAY 1 RATE"                           */
+    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS06,0   },/*"02 OP4 DECAY 2 RATE"                           */
+    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS07,0   },/*"03 OP4 RELEASE RATE"                           */
+    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS05,0   },/*"04 OP4 DECAY 1 LEVEL"                          */
+    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS10,0   },/*"05 OP4 KEYBOARD SCALING LEVEL"                 */
+    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS09,0   },/*"06 OP4 KEYBOARD SCALING RATE"                  */
+    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS12,0   },/*"07 OP4 EG BIAS SENSITIVITY"                    */
+    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS11,0   },/*"08 OP4 AMPLITUDE MODULATION ENABLE"            */
+    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS13,0   },/*"09 OP4 KEY VELOCITY"                           */
+    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS08,0   },/*"10 OP4 OUTPUT LEVEL"                           */
+    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT8  ,COLPOS01,0   },/*"11 OP4 OSCILLATOR FREQUENCY"                   */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT8  ,COLPOS02,0   },/*"12 OP4 DETUNE"                                 */
+    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS03,0   },/*"13 OP2 ATTACK RATE"                            */
+    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS04,0   },/*"14 OP2 DECAY 1 RATE"                           */
+    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS06,0   },/*"15 OP2 DECAY 2 RATE"                           */
+    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS07,0   },/*"16 OP2 RELEASE RATE"                           */
+    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS05,0   },/*"17 OP2 DECAY 1 LEVEL"                          */
+    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS10,0   },/*"18 OP2 KEYBOARD SCALING LEVEL"                 */
+    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS09,0   },/*"19 OP2 KEYBOARD SCALING RATE"                  */
+    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS12,0   },/*"20 OP2 EG BIAS SENSITIVITY"                    */
+    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS11,0   },/*"21 OP2 AMPLITUDE MODULATION ENABLE"            */
+    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS13,0   },/*"22 OP2 KEY VELOCITY"                           */
+    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS08,0   },/*"23 OP2 OUTPUT LEVEL"                           */
+    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT6  ,COLPOS01,0   },/*"24 OP2 OSCILLATOR FREQUENCY"                   */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT6  ,COLPOS02,0   },/*"25 OP2 DETUNE"                                 */
+    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS03,0   },/*"26 OP3 ATTACK RATE"                            */
+    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS04,0   },/*"27 OP3 DECAY 1 RATE"                           */
+    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS06,0   },/*"28 OP3 DECAY 2 RATE"                           */
+    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS07,0   },/*"29 OP3 RELEASE RATE"                           */
+    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS05,0   },/*"30 OP3 DECAY 1 LEVEL"                          */
+    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS10,0   },/*"31 OP3 KEYBOARD SCALING LEVEL"                 */
+    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS09,0   },/*"32 OP3 KEYBOARD SCALING RATE"                  */
+    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS12,0   },/*"33 OP3 EG BIAS SENSITIVITY"                    */
+    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS11,0   },/*"34 OP3 AMPLITUDE MODULATION ENABLE"            */
+    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS13,0   },/*"35 OP3 KEY VELOCITY"                           */
+    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS08,0   },/*"36 OP3 OUTPUT LEVEL"                           */
+    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT7  ,COLPOS01,0   },/*"37 OP3 OSCILLATOR FREQUENCY"                   */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT7  ,COLPOS02,0   },/*"38 OP3 DETUNE"                                 */
+    {PCT_COMBO ,TEXT("AR"                            ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS03,0   },/*"39 OP1 ATTACK RATE"                            */
+    {PCT_COMBO ,TEXT("D1R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS04,0   },/*"40 OP1 DECAY 1 RATE"                           */
+    {PCT_COMBO ,TEXT("D2R"                           ),0    ,TRUE    ,0       , 31     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS06,0   },/*"41 OP1 DECAY 2 RATE"                           */
+    {PCT_COMBO ,TEXT("RR"                            ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS07,0   },/*"42 OP1 RELEASE RATE"                           */
+    {PCT_COMBO ,TEXT("D1L"                           ),0    ,TRUE    ,0       , 15     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS05,0   },/*"43 OP1 DECAY 1 LEVEL"                          */
+    {PCT_COMBO ,TEXT("LEVEL"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS10,0   },/*"44 OP1 KEYBOARD SCALING LEVEL"                 */
+    {PCT_COMBO ,TEXT("RATE"                          ),0    ,TRUE    ,0       ,  3     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS09,0   },/*"45 OP1 KEYBOARD SCALING RATE"                  */
+    {PCT_COMBO ,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS12,0   },/*"46 OP1 EG BIAS SENSITIVITY"                    */
+    {PCT_COMBO ,TEXT("AME"                           ),0    ,TRUE    ,0       ,  1     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS11,0   },/*"47 OP1 AMPLITUDE MODULATION ENABLE"            */
+    {PCT_COMBO ,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS13,0   },/*"48 OP1 KEY VELOCITY"                           */
+    {PCT_COMBO ,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS08,0   },/*"49 OP1 OUTPUT LEVEL"                           */
+    {PCT_COMBO ,TEXT("FREQ RATIO"                    ),0    ,TRUE    ,0       , 63     , strTblFrequency     ,  0, ROW_POS_EDIT5  ,COLPOS01,0   },/*"50 OP1 OSCILLATOR FREQUENCY"                   */
+    {PCT_COMBO ,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,  6     , strTblDetune        ,  0, ROW_POS_EDIT5  ,COLPOS02,0   },/*"51 OP1 DETUNE"                                 */
+    {PCT_COMBO ,TEXT("ALGORITHM"                     ),0    ,TRUE    ,0       ,  7     , strTblAlgorithm     ,  0, ROW_POS_EDIT1  ,COLPOS01,0   },/*"52 ALGORITHM"                                  */
+    {PCT_COMBO ,TEXT("FEEDBACK"                      ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS02,0   },/*"53 FEEDBACK LEVEL"                             */
+    {PCT_COMBO ,TEXT("SPEED"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS04,0   },/*"54 LFO SPEED"                                  */
+    {PCT_COMBO ,TEXT("DELAY"                         ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS05,0   },/*"55 LFO DELAY"                                  */
+    {PCT_COMBO ,TEXT("PMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS06,0   },/*"56 PITCH MODULATION DEPTH"                     */
+    {PCT_COMBO ,TEXT("AMD"                           ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS07,0   },/*"57 AMPLITUDE MODULATION DEPTH"                 */
+    {PCT_COMBO ,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT1  ,COLPOS08,0   },/*"58 LFO SYNC"                                   */
+    {PCT_COMBO ,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,  3     , strTblLfoWave       ,  0, ROW_POS_EDIT1  ,COLPOS03,0   },/*"59 LFO WAVE"                                   */
+    {PCT_COMBO ,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,  7     , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS09,0   },/*"60 PITCH MODULATION SENSITIVITY"               */
+    {PCT_COMBO ,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,  3/*7*/, NULL                ,  0, ROW_POS_EDIT1  ,COLPOS10,0   },/*"61 AMPLITUDE MODULATION SENSITIVITY"           */
+    {PCT_COMBO ,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       , 48     , strTblTranspose     , 20, ROW_POS_EDIT9  ,COLPOS15,0   },/*"62 TRANSPOSE"                                  */
+    {PCT_COMBO ,TEXT("POLY/MONO"                     ),0    ,TRUE    ,0       ,  1     , strTblPolyMono      ,  0, ROW_POS_EDIT9  ,COLPOS01,0   },/*"63 PLAY MODE POLY/MONO"                        */
+    {PCT_COMBO ,TEXT("PB RANGE"                      ),0    ,TRUE    ,0       , 12     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS02,0   },/*"64 PITCH BEND RANGE"                           */
+    {PCT_COMBO ,TEXT("PORTA MODE"                    ),0    ,TRUE    ,0       ,  1     , strTblPortamentoMode,  0, ROW_POS_EDIT9  ,COLPOS03,0   },/*"65 PORTAMENTO MODE"                            */
+    {PCT_COMBO ,TEXT("PORTA TIME"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS04,0   },/*"66 PORTAMENTO TIME"                            */
+    {PCT_COMBO ,TEXT("FOOT VOLUME RANGE"             ),0    ,TRUE/**/,0       ,127     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS06,0   },/*"67 FOOT VOLUME RANGE"                          */
+    {PCT_COMBO ,TEXT("SUSTAIN FOOT SW"               ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9  ,COLPOS07,0   },/*"68 SUSTAIN FOOT SWITCH"                        */
+    {PCT_COMBO ,TEXT("PORTAMENT FOOT SW"             ),0    ,TRUE    ,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9  ,COLPOS05,0   },/*"69 PORTAMENT FOOT SWITCH"                      */
+    {PCT_COMBO ,TEXT("CHORUS SWITCH"                 ),0    ,TRUE/**/,0       ,  1     , strTblOnOff         ,  0, ROW_POS_EDIT9  ,COLPOS14,0   },/*"70 CHORUS SWITCH"                              */
+    {PCT_COMBO ,TEXT("WR PITCH"                      ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS08,0   },/*"71 MODULATION WHEEL PITCH MODULATION RANGE"    */
+    {PCT_COMBO ,TEXT("WR AMPLITUDE"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS09,0   },/*"72 MODULATION WHEEL AMPLITUDE MODULATION RANGE"*/
+    {PCT_COMBO ,TEXT("BC PITCH"                      ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS10,0   },/*"73 BREATH CONTROL PITCH MODULATION RANGE"      */
+    {PCT_COMBO ,TEXT("BC AMPLITUDE"                  ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS11,0   },/*"74 BREATH CONTROL AMPLITUDE MODULATION RANGE"  */
+    {PCT_COMBO ,TEXT("BC PITCH BIAS"                 ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS12,0   },/*"75 BREATH CONTROL PITCH BIAS RANGE"            */
+    {PCT_COMBO ,TEXT("BC EG BIAS"                    ),0    ,TRUE    ,0       , 99     , NULL                ,  0, ROW_POS_EDIT9  ,COLPOS13,0   },/*"76 BREATH CONTROL EG BIAS RANGE"               */
+    {PCT_EDIT  ,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,127     , NULL                , 50, ROW_POS_EDIT0  ,COLPOS01,0   },/*"77-86 PATCHNAME"                               */
+    {PCT_COMBO ,TEXT("PR1"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS11,0   },/*"87 PITCH EG RATE 1"                            */
+    {PCT_COMBO ,TEXT("PR2"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS13,0   },/*"88 PITCH EG RATE 2"                            */
+    {PCT_COMBO ,TEXT("PR3"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS15,0   },/*"89 PITCH EG RATE 3"                            */
+    {PCT_COMBO ,TEXT("PL1"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS12,0   },/*"90 PITCH EG LEVEL 1"                           */
+    {PCT_COMBO ,TEXT("PL2"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS14,0   },/*"91 PITCH EG LEVEL 2"                           */
+    {PCT_COMBO ,TEXT("PL3"                           ),0    ,TRUE/**/,0       , 99     , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS16,0   },/*"92 PITCH EG LEVEL 3"                           */
+    {PCT_BUTTON,TEXT("TO ALL VOICE"                  ),0    ,TRUE    ,0       ,0       , NULL                , 50, ROW_POS_EDIT0  ,COLPOS11,0   },/*                                                */
+    {PCT_COMBO ,TEXT("COMBO_TO_ALL_VOICE"            ),0    ,TRUE    ,0       ,31      , strTblVoiceNum      ,  0, ROW_POS_EDIT0  ,COLPOS10,0   },/*                                                */
+    {PCT_BUTTON,TEXT("TO 6 OPERATOR"                 ),0    ,TRUE    ,0       ,0       , NULL                , 50, 18             ,0       ,0   },/*                                                */
+    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT5  ,COLPOS00,0   },/*"OPERATOR1"                                     */
+    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT6  ,COLPOS00,0   },/*"OPERATOR2"                                     */
+    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT7  ,COLPOS00,0   },/*"OPERATOR3"                                     */
+    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT8  ,COLPOS00,0   },/*"OPERATOR4"                                     */
+    {PCT_STATIC,TEXT("OPERATOR1"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT1  ,COLPOS14,0   },/*"OPERATOR1"                                     */
+    {PCT_STATIC,TEXT("OPERATOR2"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT2  ,COLPOS14,0   },/*"OPERATOR2"                                     */
+    {PCT_STATIC,TEXT("OPERATOR3"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT3  ,COLPOS14,0   },/*"OPERATOR3"                                     */
+    {PCT_STATIC,TEXT("OPERATOR4"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT4  ,COLPOS14,0   },/*"OPERATOR4"                                     */
+    {PCT_STATIC,TEXT("PATCHNAME"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_EDIT0  ,COLPOS00,0   },/*"PATCHNAME"                                     */
+    {PCT_STATIC,TEXT("LFO"                           ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC0,COLPOS03,5   },/*"ALGORITHM"                                     */
+    {PCT_STATIC,TEXT("MODULATION SENSITVITY"         ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC0,COLPOS09,5   },/*"MODULATION SENSITIVITY"                        */
+    {PCT_STATIC,TEXT("KEY"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC0,COLPOS13,5   },/*"KEY"                                           */
+    {PCT_STATIC,TEXT("ALGORITHM"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS01,0   },/*"ALGORITHM"                                     */
+    {PCT_STATIC,TEXT("FEEDBACK"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS02,0   },/*"FEEDBACK LEVEL"                                */
+    {PCT_STATIC,TEXT("WAVE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS03,0   },/*"LFO WAVE"                                      */
+    {PCT_STATIC,TEXT("SPEED"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS04,0   },/*"LFO SPEED"                                     */
+    {PCT_STATIC,TEXT("DELAY"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS05,0   },/*"LFO DELAY"                                     */
+    {PCT_STATIC,TEXT("PMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS06,0   },/*"PITCH MODULATION DEPTH"                        */
+    {PCT_STATIC,TEXT("AMD"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS07,0   },/*"AMPLITUDE MODULATION DEPTH"                    */
+    {PCT_STATIC,TEXT("SYNC"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS08,0   },/*"LFO SYNC"                                      */
+    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS09,0   },/*"PITCH MODULATION SENSITIVITY"                  */
+    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS10,0   },/*"AMPLITUDE MODULATION SENSITIVITY"              */
+    {PCT_STATIC,TEXT("AME"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS11,0   },/*"OP? AMPLITUDE MODULATION ENABLE"               */
+    {PCT_STATIC,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS12,0   },/*"OP? EG BIAS SENSITIVITY"                       */
+    {PCT_STATIC,TEXT("VELOCITY"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC1,COLPOS13,0   },/*"OP? KEY VELOCITY"                              */
+    {PCT_STATIC,TEXT("OSCILLATOR"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS01,5   },/*                                                */
+    {PCT_STATIC,TEXT("ENVELOPE GENERATOR"            ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC2,COLPOS03,5   },/*                                                */
+    {PCT_STATIC,TEXT("OPERATOR"                      ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC2,COLPOS08,5   },/*                                                */
+    {PCT_STATIC,TEXT("KEY SCALING"                   ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC2,COLPOS09,5   },/*                                                */
+    {PCT_STATIC,TEXT("PITCH ENVELOPE GENERATOR"      ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC2,COLPOS11,5   },/*                                                */
+    {PCT_STATIC,TEXT("RATIO"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS01,0   },/*"OP? OSCILLATOR FREQUENCY"                      */
+    {PCT_STATIC,TEXT("DETUNE"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS02,0   },/*"OP? DETUNE"                                    */
+    {PCT_STATIC,TEXT("AR"                            ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS03,0   },/*"OP? ATTACK RATE"                               */
+    {PCT_STATIC,TEXT("D1R"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS04,0   },/*"OP? DECAY 1 RATE"                              */
+    {PCT_STATIC,TEXT("D1L"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS05,0   },/*"OP? DECAY 1 LEVEL"                             */
+    {PCT_STATIC,TEXT("D2R"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS06,0   },/*"OP? DECAY 2 RATE"                              */
+    {PCT_STATIC,TEXT("RR"                            ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS07,0   },/*"OP? RELEASE RATE"                              */
+    {PCT_STATIC,TEXT("OUT LEVEL"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS08,0   },/*"OP? OUTPUT LEVEL"                              */
+    {PCT_STATIC,TEXT("RATE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS09,0   },/*"OP? KEYBOARD SCALING RATE"                     */
+    {PCT_STATIC,TEXT("LEVEL"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS10,0   },/*"OP? KEYBOARD SCALING LEVEL"                    */
+    {PCT_STATIC,TEXT("PR1"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS11,0   },/*"PITCH EG RATE 1"                               */
+    {PCT_STATIC,TEXT("PL1"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS12,0   },/*"PITCH EG LEVEL 1"                              */
+    {PCT_STATIC,TEXT("PR2"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS13,0   },/*"PITCH EG RATE 2"                               */
+    {PCT_STATIC,TEXT("PL2"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS14,0   },/*"PITCH EG LEVEL 2"                              */
+    {PCT_STATIC,TEXT("PR3"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS15,0   },/*"PITCH EG RATE 3"                               */
+    {PCT_STATIC,TEXT("PL3"                           ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC3,COLPOS16,0   },/*"PITCH EG LEVEL 3"                              */
+    {PCT_STATIC,TEXT("PITCH BEND"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC4,COLPOS02,5   },/*""                                              */
+    {PCT_STATIC,TEXT("PORTAMENTO"                    ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS03,5   },/*""                                              */
+    {PCT_STATIC,TEXT("FOOT CONTROL"                  ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS06,5   },/*""                                              */
+    {PCT_STATIC,TEXT("WHEEL RANGE"                   ),0    ,TRUE    ,0       ,0       , NULL                ,200, ROW_POS_STATIC4,COLPOS08,5   },/*""                                              */
+    {PCT_STATIC,TEXT("BREATH CONTROLLER RANGE"       ),0    ,TRUE    ,0       ,0       , NULL                ,300, ROW_POS_STATIC4,COLPOS10,5   },/*""                                              */
+    {PCT_STATIC,TEXT("POLY/MONO"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS01,0   },/*"PLAY MODE POLY/MONO"                           */
+    {PCT_STATIC,TEXT("RANGE"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS02,0   },/*"PITCH BEND RANGE"                              */
+    {PCT_STATIC,TEXT("MODE"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS03,0   },/*"PORTAMENTO MODE"                               */
+    {PCT_STATIC,TEXT("TIME"                          ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS04,0   },/*"PORTAMENTO TIME"                               */
+    {PCT_STATIC,TEXT("FOOT SW"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS05,0   },/*"PORTAMENT FOOT SWITCH"                         */
+    {PCT_STATIC,TEXT("VOLUME"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS06,0   },/*"FOOT VOLUME RANGE"                             */
+    {PCT_STATIC,TEXT("SUSTAIN"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS07,0   },/*"SUSTAIN FOOT SWITCH"                           */
+    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS08,0   },/*"MODULATION WHEEL PITCH MODULATION RANGE"       */
+    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS09,0   },/*"MODULATION WHEEL AMPLITUDE MODULATION RANGE"   */
+    {PCT_STATIC,TEXT("PITCH"                         ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS10,0   },/*"BREATH CONTROL PITCH MODULATION RANGE"         */
+    {PCT_STATIC,TEXT("AMPLITUDE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS11,0   },/*"BREATH CONTROL AMPLITUDE MODULATION RANGE"     */
+    {PCT_STATIC,TEXT("PITCH BIAS"                    ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS12,0   },/*"BREATH CONTROL PITCH BIAS RANGE"               */
+    {PCT_STATIC,TEXT("EG BIAS"                       ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS13,0   },/*"BREATH CONTROL EG BIAS RANGE"                  */
+    {PCT_STATIC,TEXT("CHORUS"                        ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS14,0   },/*"CHORUS SWITCH"                                 */
+    {PCT_STATIC,TEXT("TRANSPOSE"                     ),0    ,TRUE    ,0       ,0       , NULL                ,  0, ROW_POS_STATIC5,COLPOS15,0   },/*"TRANSPOSE"                                     */
+    {PCT_STATIC,TEXT("EXTRA MODE"                    ),0    ,TRUE    ,0       ,0       , NULL                , 50, 17             , 0      ,0   },/*"EXTRA MODE"                                    */
+    {PCT_EDIT  ,TEXT("01"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  0             , 0      ,0   },/*"VOICE_NAME_01"                                 */
+    {PCT_EDIT  ,TEXT("02"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  1             , 0      ,0   },/*"VOICE_NAME_02"                                 */
+    {PCT_EDIT  ,TEXT("03"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  2             , 0      ,0   },/*"VOICE_NAME_03"                                 */
+    {PCT_EDIT  ,TEXT("04"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  3             , 0      ,0   },/*"VOICE_NAME_04"                                 */
+    {PCT_EDIT  ,TEXT("05"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  4             , 0      ,0   },/*"VOICE_NAME_05"                                 */
+    {PCT_EDIT  ,TEXT("06"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  5             , 0      ,0   },/*"VOICE_NAME_06"                                 */
+    {PCT_EDIT  ,TEXT("07"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  6             , 0      ,0   },/*"VOICE_NAME_07"                                 */
+    {PCT_EDIT  ,TEXT("08"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  7             , 0      ,0   },/*"VOICE_NAME_08"                                 */
+    {PCT_EDIT  ,TEXT("09"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  8             , 0      ,0   },/*"VOICE_NAME_09"                                 */
+    {PCT_EDIT  ,TEXT("10"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  9             , 0      ,0   },/*"VOICE_NAME_10"                                 */
+    {PCT_EDIT  ,TEXT("11"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 10             , 0      ,0   },/*"VOICE_NAME_11"                                 */
+    {PCT_EDIT  ,TEXT("12"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 11             , 0      ,0   },/*"VOICE_NAME_12"                                 */
+    {PCT_EDIT  ,TEXT("13"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 12             , 0      ,0   },/*"VOICE_NAME_13"                                 */
+    {PCT_EDIT  ,TEXT("14"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 13             , 0      ,0   },/*"VOICE_NAME_14"                                 */
+    {PCT_EDIT  ,TEXT("15"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 14             , 0      ,0   },/*"VOICE_NAME_15"                                 */
+    {PCT_EDIT  ,TEXT("16"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 15             , 0      ,0   },/*"VOICE_NAME_16"                                 */
+    {PCT_EDIT  ,TEXT("17"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  0             , 6      ,0   },/*"VOICE_NAME_17"                                 */
+    {PCT_EDIT  ,TEXT("18"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  1             , 6      ,0   },/*"VOICE_NAME_18"                                 */
+    {PCT_EDIT  ,TEXT("19"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  2             , 6      ,0   },/*"VOICE_NAME_19"                                 */
+    {PCT_EDIT  ,TEXT("20"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  3             , 6      ,0   },/*"VOICE_NAME_20"                                 */
+    {PCT_EDIT  ,TEXT("21"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  4             , 6      ,0   },/*"VOICE_NAME_21"                                 */
+    {PCT_EDIT  ,TEXT("22"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  5             , 6      ,0   },/*"VOICE_NAME_22"                                 */
+    {PCT_EDIT  ,TEXT("23"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  6             , 6      ,0   },/*"VOICE_NAME_23"                                 */
+    {PCT_EDIT  ,TEXT("24"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  7             , 6      ,0   },/*"VOICE_NAME_24"                                 */
+    {PCT_EDIT  ,TEXT("25"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  8             , 6      ,0   },/*"VOICE_NAME_25"                                 */
+    {PCT_EDIT  ,TEXT("26"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50,  9             , 6      ,0   },/*"VOICE_NAME_26"                                 */
+    {PCT_EDIT  ,TEXT("27"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 10             , 6      ,0   },/*"VOICE_NAME_27"                                 */
+    {PCT_EDIT  ,TEXT("28"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 11             , 6      ,0   },/*"VOICE_NAME_28"                                 */
+    {PCT_EDIT  ,TEXT("29"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 12             , 6      ,0   },/*"VOICE_NAME_29"                                 */
+    {PCT_EDIT  ,TEXT("30"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 13             , 6      ,0   },/*"VOICE_NAME_30"                                 */
+    {PCT_EDIT  ,TEXT("31"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 14             , 6      ,0   },/*"VOICE_NAME_31"                                 */
+    {PCT_EDIT  ,TEXT("32"                            ),15   ,TRUE    ,0       ,127     , NULL                , 50, 15             , 6      ,0   },/*"VOICE_NAME_32"                                 */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_01"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_00"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_02"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_01"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_03"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_02"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_04"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_03"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_05"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_04"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_06"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_05"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_07"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_06"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_08"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_07"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_09"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_08"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_10"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_09"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_11"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_10"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_12"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_11"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_13"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_12"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_14"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_13"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_15"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_14"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_16"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 2      ,0   },/*"ALL_VOICE_EX1_PARAM_15"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_17"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_16"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_18"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_17"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_19"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_18"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_20"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_19"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_21"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_20"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_22"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_21"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_23"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_22"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_24"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_23"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_25"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_24"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_26"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_25"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_27"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_26"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_28"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_27"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_29"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_28"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_30"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_29"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_31"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_30"                        */
+    {PCT_EDIT  ,TEXT("EX1_PARAM_32"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 8      ,0   },/*"ALL_VOICE_EX1_PARAM_31"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_01"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_00"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_02"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_01"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_03"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_02"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_04"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_03"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_05"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_04"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_06"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_05"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_07"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_06"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_08"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_07"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_09"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_08"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_10"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_09"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_11"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_10"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_12"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_11"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_13"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_12"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_14"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_13"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_15"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_14"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_16"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 3      ,0   },/*"ALL_VOICE_EX2_PARAM_15"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_17"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  0             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_16"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_18"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  1             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_17"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_19"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  2             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_18"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_20"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  3             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_19"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_21"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  4             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_20"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_22"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  5             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_21"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_23"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  6             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_22"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_24"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  7             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_23"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_25"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  8             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_24"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_26"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10,  9             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_25"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_27"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 10             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_26"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_28"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 11             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_27"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_29"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 12             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_28"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_30"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 13             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_29"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_31"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 14             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_30"                        */
+    {PCT_EDIT  ,TEXT("EX2_PARAM_32"                  ),0    ,TRUE    ,0       ,127     , NULL                , 10, 15             , 9      ,0   },/*"ALL_VOICE_EX2_PARAM_31"                        */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  0             , 4      ,0   },/*"ALL_TO_ONEVOICE_01"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  1             , 4      ,0   },/*"ALL_TO_ONEVOICE_02"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  2             , 4      ,0   },/*"ALL_TO_ONEVOICE_03"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  3             , 4      ,0   },/*"ALL_TO_ONEVOICE_04"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  4             , 4      ,0   },/*"ALL_TO_ONEVOICE_05"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  5             , 4      ,0   },/*"ALL_TO_ONEVOICE_06"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  6             , 4      ,0   },/*"ALL_TO_ONEVOICE_07"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  7             , 4      ,0   },/*"ALL_TO_ONEVOICE_08"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  8             , 4      ,0   },/*"ALL_TO_ONEVOICE_09"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  9             , 4      ,0   },/*"ALL_TO_ONEVOICE_10"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 10             , 4      ,0   },/*"ALL_TO_ONEVOICE_11"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 11             , 4      ,0   },/*"ALL_TO_ONEVOICE_12"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 12             , 4      ,0   },/*"ALL_TO_ONEVOICE_13"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 13             , 4      ,0   },/*"ALL_TO_ONEVOICE_14"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 14             , 4      ,0   },/*"ALL_TO_ONEVOICE_15"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 15             , 4      ,0   },/*"ALL_TO_ONEVOICE_16"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  0             , 10     ,0   },/*"ALL_TO_ONEVOICE_17"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  1             , 10     ,0   },/*"ALL_TO_ONEVOICE_18"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  2             , 10     ,0   },/*"ALL_TO_ONEVOICE_19"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  3             , 10     ,0   },/*"ALL_TO_ONEVOICE_20"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  4             , 10     ,0   },/*"ALL_TO_ONEVOICE_21"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  5             , 10     ,0   },/*"ALL_TO_ONEVOICE_22"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  6             , 10     ,0   },/*"ALL_TO_ONEVOICE_23"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  7             , 10     ,0   },/*"ALL_TO_ONEVOICE_24"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  8             , 10     ,0   },/*"ALL_TO_ONEVOICE_25"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20,  9             , 10     ,0   },/*"ALL_TO_ONEVOICE_26"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 10             , 10     ,0   },/*"ALL_TO_ONEVOICE_27"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 11             , 10     ,0   },/*"ALL_TO_ONEVOICE_28"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 12             , 10     ,0   },/*"ALL_TO_ONEVOICE_29"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 13             , 10     ,0   },/*"ALL_TO_ONEVOICE_30"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 14             , 10     ,0   },/*"ALL_TO_ONEVOICE_31"                            */
+    {PCT_BUTTON,TEXT("TO 1VOICE"                     ),0    ,TRUE    ,0       ,127     , NULL                , 20, 15             , 10     ,0   },/*"ALL_TO_ONEVOICE_32"                            */
+    {PCT_BUTTON,TEXT("TO 6 OPERATOR"                 ),0    ,TRUE    ,0       ,0       , NULL                , 50, 18             ,0       ,0   },/*                                                */
+    {PCT_STATIC,TEXT("EXTRA MODE"                    ),0    ,TRUE    ,0       ,0       , NULL                , 50, 17             ,0       ,0   },/*"EXTRA MODE"                                    */
 };
 
 typedef struct
@@ -450,6 +450,7 @@ static BOOL
 dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_CTRL_ID startId, DX100_PARAM_CTRL_ID endId )
 {
     int nowId;
+    INT rowPos;
 
     if( (startId <= endId) && (endId < DX100_PARAM_CTRL_MAX) )
     {
@@ -510,7 +511,76 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
             }
 
             xBasePos = (PARAM_WRAP_X_UNIT*tblPtr->colPos);
-            yBasePos = (PARAM_DATA_Y_UNIT*2*tblPtr->rowPos) + tblPtr->yPosAdj;
+
+            rowPos = tblPtr->rowPos;
+
+            switch( nowId )
+            {
+            case DX100_PARAM_CTRL_VOICE_00  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"00 OP4 ATTACK RATE"                */
+            case DX100_PARAM_CTRL_VOICE_01  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"01 OP4 DECAY 1 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_02  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"02 OP4 DECAY 2 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_03  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"03 OP4 RELEASE RATE"               */
+            case DX100_PARAM_CTRL_VOICE_04  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"04 OP4 DECAY 1 LEVEL"              */
+            case DX100_PARAM_CTRL_VOICE_05  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"05 OP4 KEYBOARD SCALING LEVEL"     */
+            case DX100_PARAM_CTRL_VOICE_06  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"06 OP4 KEYBOARD SCALING RATE"      */
+            case DX100_PARAM_CTRL_VOICE_07  : rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"07 OP4 EG BIAS SENSITIVITY"        */
+            case DX100_PARAM_CTRL_VOICE_08  : rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"08 OP4 AMPLITUDE MODULATION ENABLE"*/
+            case DX100_PARAM_CTRL_VOICE_09  : rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"09 OP4 KEY VELOCITY"               */
+            case DX100_PARAM_CTRL_VOICE_10  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"10 OP4 OUTPUT LEVEL"               */
+            case DX100_PARAM_CTRL_VOICE_11  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"11 OP4 OSCILLATOR FREQUENCY"       */
+            case DX100_PARAM_CTRL_VOICE_12  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"12 OP4 DETUNE"                     */
+            case DX100_PARAM_CTRL_VOICE_13  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"13 OP2 ATTACK RATE"                */
+            case DX100_PARAM_CTRL_VOICE_14  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"14 OP2 DECAY 1 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_15  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"15 OP2 DECAY 2 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_16  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"16 OP2 RELEASE RATE"               */
+            case DX100_PARAM_CTRL_VOICE_17  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"17 OP2 DECAY 1 LEVEL"              */
+            case DX100_PARAM_CTRL_VOICE_18  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"18 OP2 KEYBOARD SCALING LEVEL"     */
+            case DX100_PARAM_CTRL_VOICE_19  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"19 OP2 KEYBOARD SCALING RATE"      */
+            case DX100_PARAM_CTRL_VOICE_20  : rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"20 OP2 EG BIAS SENSITIVITY"        */
+            case DX100_PARAM_CTRL_VOICE_21  : rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"21 OP2 AMPLITUDE MODULATION ENABLE"*/
+            case DX100_PARAM_CTRL_VOICE_22  : rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"22 OP2 KEY VELOCITY"               */
+            case DX100_PARAM_CTRL_VOICE_23  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"23 OP2 OUTPUT LEVEL"               */
+            case DX100_PARAM_CTRL_VOICE_24  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"24 OP2 OSCILLATOR FREQUENCY"       */
+            case DX100_PARAM_CTRL_VOICE_25  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"25 OP2 DETUNE"                     */
+            case DX100_PARAM_CTRL_VOICE_26  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"26 OP3 ATTACK RATE"                */
+            case DX100_PARAM_CTRL_VOICE_27  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"27 OP3 DECAY 1 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_28  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"28 OP3 DECAY 2 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_29  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"29 OP3 RELEASE RATE"               */
+            case DX100_PARAM_CTRL_VOICE_30  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"30 OP3 DECAY 1 LEVEL"              */
+            case DX100_PARAM_CTRL_VOICE_31  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"31 OP3 KEYBOARD SCALING LEVEL"     */
+            case DX100_PARAM_CTRL_VOICE_32  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"32 OP3 KEYBOARD SCALING RATE"      */
+            case DX100_PARAM_CTRL_VOICE_33  : rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"33 OP3 EG BIAS SENSITIVITY"        */
+            case DX100_PARAM_CTRL_VOICE_34  : rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"34 OP3 AMPLITUDE MODULATION ENABLE"*/
+            case DX100_PARAM_CTRL_VOICE_35  : rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"35 OP3 KEY VELOCITY"               */
+            case DX100_PARAM_CTRL_VOICE_36  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"36 OP3 OUTPUT LEVEL"               */
+            case DX100_PARAM_CTRL_VOICE_37  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"37 OP3 OSCILLATOR FREQUENCY"       */
+            case DX100_PARAM_CTRL_VOICE_38  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"38 OP3 DETUNE"                     */
+            case DX100_PARAM_CTRL_VOICE_39  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"39 OP1 ATTACK RATE"                */
+            case DX100_PARAM_CTRL_VOICE_40  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"40 OP1 DECAY 1 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_41  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"41 OP1 DECAY 2 RATE"               */
+            case DX100_PARAM_CTRL_VOICE_42  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"42 OP1 RELEASE RATE"               */
+            case DX100_PARAM_CTRL_VOICE_43  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"43 OP1 DECAY 1 LEVEL"              */
+            case DX100_PARAM_CTRL_VOICE_44  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"44 OP1 KEYBOARD SCALING LEVEL"     */
+            case DX100_PARAM_CTRL_VOICE_45  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"45 OP1 KEYBOARD SCALING RATE"      */
+            case DX100_PARAM_CTRL_VOICE_46  : rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"46 OP1 EG BIAS SENSITIVITY"        */
+            case DX100_PARAM_CTRL_VOICE_47  : rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"47 OP1 AMPLITUDE MODULATION ENABLE"*/
+            case DX100_PARAM_CTRL_VOICE_48  : rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"48 OP1 KEY VELOCITY"               */
+            case DX100_PARAM_CTRL_VOICE_49  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"49 OP1 OUTPUT LEVEL"               */
+            case DX100_PARAM_CTRL_VOICE_50  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"50 OP1 OSCILLATOR FREQUENCY"       */
+            case DX100_PARAM_CTRL_VOICE_51  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"51 OP1 DETUNE"                     */
+            case DX100_PARAM_CTRL_STATIC_1  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"OPERATOR1"                         */
+            case DX100_PARAM_CTRL_STATIC_2  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"OPERATOR2"                         */
+            case DX100_PARAM_CTRL_STATIC_3  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"OPERATOR3"                         */
+            case DX100_PARAM_CTRL_STATIC_4  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"OPERATOR4"                         */
+            case DX100_PARAM_CTRL_STATIC_1_2: rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"OPERATOR1"                         */
+            case DX100_PARAM_CTRL_STATIC_2_2: rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"OPERATOR2"                         */
+            case DX100_PARAM_CTRL_STATIC_3_2: rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"OPERATOR3"                         */
+            case DX100_PARAM_CTRL_STATIC_4_2: rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"OPERATOR4"                         */
+            default:
+                break;
+            }
+
+            yBasePos = (PARAM_DATA_Y_UNIT*2*rowPos) + tblPtr->yPosAdj;
 
             if( tblPtr->type == PCT_STATIC )
             {

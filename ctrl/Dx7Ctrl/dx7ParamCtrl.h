@@ -159,9 +159,7 @@ typedef enum
     DX7_PARAM_CTRL_VOICE_143                       ,
     DX7_PARAM_CTRL_VOICE_144                       ,
     DX7_PARAM_CTRL_VOICE_NAME/*145-154*/           ,
-#if 0
-    DX7_PARAM_CTRL_VOICE_155                       ,
-#endif
+    /*DX7_PARAM_CTRL_VOICE_155                  ,*/
     DX7_PARAM_CTRL_BUTTON_TO_ALL_VOICE             ,
     DX7_PARAM_CTRL_COMBOBOX_TO_ALL_VOICE_NUM       ,
     DX7_PARAM_CTRL_STATIC_PATCHNAME                ,
@@ -177,18 +175,18 @@ typedef enum
     DX7_PARAM_CTRL_STATIC_LFO_SYNC                 ,
     DX7_PARAM_CTRL_STATIC_PITCH                    ,
     DX7_PARAM_CTRL_STATIC_AMPLITUDE                ,
-    DX7_PARAM_CTRL_STATIC_1_2                      ,
-    DX7_PARAM_CTRL_STATIC_2_2                      ,
-    DX7_PARAM_CTRL_STATIC_3_2                      ,
-    DX7_PARAM_CTRL_STATIC_4_2                      ,
-    DX7_PARAM_CTRL_STATIC_5_2                      ,
-    DX7_PARAM_CTRL_STATIC_6_2                      ,
-    DX7_PARAM_CTRL_STATIC_1_3                      ,
-    DX7_PARAM_CTRL_STATIC_2_3                      ,
-    DX7_PARAM_CTRL_STATIC_3_3                      ,
-    DX7_PARAM_CTRL_STATIC_4_3                      ,
-    DX7_PARAM_CTRL_STATIC_5_3                      ,
-    DX7_PARAM_CTRL_STATIC_6_3                      ,
+    DX7_PARAM_CTRL_STATIC_1_2                      ,/*OPERATOR1*/
+    DX7_PARAM_CTRL_STATIC_2_2                      ,/*OPERATOR2*/
+    DX7_PARAM_CTRL_STATIC_3_2                      ,/*OPERATOR3*/
+    DX7_PARAM_CTRL_STATIC_4_2                      ,/*OPERATOR4*/
+    DX7_PARAM_CTRL_STATIC_5_2                      ,/*OPERATOR5*/
+    DX7_PARAM_CTRL_STATIC_6_2                      ,/*OPERATOR6*/
+    DX7_PARAM_CTRL_STATIC_1_3                      ,/*OPERATOR1*/
+    DX7_PARAM_CTRL_STATIC_2_3                      ,/*OPERATOR2*/
+    DX7_PARAM_CTRL_STATIC_3_3                      ,/*OPERATOR3*/
+    DX7_PARAM_CTRL_STATIC_4_3                      ,/*OPERATOR4*/
+    DX7_PARAM_CTRL_STATIC_5_3                      ,/*OPERATOR5*/
+    DX7_PARAM_CTRL_STATIC_6_3                      ,/*OPERATOR6*/
     DX7_PARAM_CTRL_STATIC_OSCILLATOR               ,
     DX7_PARAM_CTRL_STATIC_FREQ_MODE                ,
     DX7_PARAM_CTRL_STATIC_SYNC                     ,
