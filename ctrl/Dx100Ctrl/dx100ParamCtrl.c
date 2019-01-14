@@ -450,7 +450,6 @@ static BOOL
 dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_CTRL_ID startId, DX100_PARAM_CTRL_ID endId )
 {
     int nowId;
-    INT rowPos;
 
     if( (startId <= endId) && (endId < DX100_PARAM_CTRL_MAX) )
     {
@@ -460,10 +459,6 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
             DWORD style;
             DWORD exStyle;
             PTSTR strText;
-            DWORD height;
-            INT   width;
-            INT   xBasePos,yBasePos;
-            INT xPos;
             S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[nowId];
             S_DX100_PARAM_CTRL *tblPtr = &paramListTbl[nowId];
 
@@ -473,7 +468,6 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                 strText = (PTSTR)0;
                 style = (WS_CHILD|WS_VSCROLL|CBS_DROPDOWNLIST);
                 exStyle = 0;
-                height = PARAM_DATA_HEIGHT;
             }
             else if( tblPtr->type == PCT_BUTTON )
             {
@@ -481,7 +475,6 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                 strText = (PTSTR)tblPtr->strText;
                 style = (WS_CHILD);
                 exStyle = 0;
-                height = PARAM_BUTTON_HEIGHT;
             }
             else if( tblPtr->type == PCT_STATIC )
             {
@@ -489,7 +482,6 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                 strText = (PTSTR)tblPtr->strText;
                 style = (WS_CHILD|ES_LEFT);
                 exStyle = 0;
-                height = PARAM_STATIC_HEIGHT;
             }
             else
             {
@@ -507,95 +499,8 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                 }
 
                 exStyle = WS_EX_OVERLAPPEDWINDOW;
-                height = PARAM_EDIT_HEIGHT;
             }
 
-            xBasePos = (PARAM_WRAP_X_UNIT*tblPtr->colPos);
-
-            rowPos = tblPtr->rowPos;
-
-            switch( nowId )
-            {
-            case DX100_PARAM_CTRL_VOICE_00  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"00 OP4 ATTACK RATE"                */
-            case DX100_PARAM_CTRL_VOICE_01  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"01 OP4 DECAY 1 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_02  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"02 OP4 DECAY 2 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_03  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"03 OP4 RELEASE RATE"               */
-            case DX100_PARAM_CTRL_VOICE_04  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"04 OP4 DECAY 1 LEVEL"              */
-            case DX100_PARAM_CTRL_VOICE_05  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"05 OP4 KEYBOARD SCALING LEVEL"     */
-            case DX100_PARAM_CTRL_VOICE_06  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"06 OP4 KEYBOARD SCALING RATE"      */
-            case DX100_PARAM_CTRL_VOICE_07  : rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"07 OP4 EG BIAS SENSITIVITY"        */
-            case DX100_PARAM_CTRL_VOICE_08  : rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"08 OP4 AMPLITUDE MODULATION ENABLE"*/
-            case DX100_PARAM_CTRL_VOICE_09  : rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"09 OP4 KEY VELOCITY"               */
-            case DX100_PARAM_CTRL_VOICE_10  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"10 OP4 OUTPUT LEVEL"               */
-            case DX100_PARAM_CTRL_VOICE_11  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"11 OP4 OSCILLATOR FREQUENCY"       */
-            case DX100_PARAM_CTRL_VOICE_12  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"12 OP4 DETUNE"                     */
-            case DX100_PARAM_CTRL_VOICE_13  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"13 OP2 ATTACK RATE"                */
-            case DX100_PARAM_CTRL_VOICE_14  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"14 OP2 DECAY 1 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_15  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"15 OP2 DECAY 2 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_16  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"16 OP2 RELEASE RATE"               */
-            case DX100_PARAM_CTRL_VOICE_17  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"17 OP2 DECAY 1 LEVEL"              */
-            case DX100_PARAM_CTRL_VOICE_18  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"18 OP2 KEYBOARD SCALING LEVEL"     */
-            case DX100_PARAM_CTRL_VOICE_19  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"19 OP2 KEYBOARD SCALING RATE"      */
-            case DX100_PARAM_CTRL_VOICE_20  : rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"20 OP2 EG BIAS SENSITIVITY"        */
-            case DX100_PARAM_CTRL_VOICE_21  : rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"21 OP2 AMPLITUDE MODULATION ENABLE"*/
-            case DX100_PARAM_CTRL_VOICE_22  : rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"22 OP2 KEY VELOCITY"               */
-            case DX100_PARAM_CTRL_VOICE_23  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"23 OP2 OUTPUT LEVEL"               */
-            case DX100_PARAM_CTRL_VOICE_24  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"24 OP2 OSCILLATOR FREQUENCY"       */
-            case DX100_PARAM_CTRL_VOICE_25  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"25 OP2 DETUNE"                     */
-            case DX100_PARAM_CTRL_VOICE_26  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"26 OP3 ATTACK RATE"                */
-            case DX100_PARAM_CTRL_VOICE_27  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"27 OP3 DECAY 1 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_28  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"28 OP3 DECAY 2 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_29  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"29 OP3 RELEASE RATE"               */
-            case DX100_PARAM_CTRL_VOICE_30  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"30 OP3 DECAY 1 LEVEL"              */
-            case DX100_PARAM_CTRL_VOICE_31  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"31 OP3 KEYBOARD SCALING LEVEL"     */
-            case DX100_PARAM_CTRL_VOICE_32  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"32 OP3 KEYBOARD SCALING RATE"      */
-            case DX100_PARAM_CTRL_VOICE_33  : rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"33 OP3 EG BIAS SENSITIVITY"        */
-            case DX100_PARAM_CTRL_VOICE_34  : rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"34 OP3 AMPLITUDE MODULATION ENABLE"*/
-            case DX100_PARAM_CTRL_VOICE_35  : rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"35 OP3 KEY VELOCITY"               */
-            case DX100_PARAM_CTRL_VOICE_36  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"36 OP3 OUTPUT LEVEL"               */
-            case DX100_PARAM_CTRL_VOICE_37  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"37 OP3 OSCILLATOR FREQUENCY"       */
-            case DX100_PARAM_CTRL_VOICE_38  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"38 OP3 DETUNE"                     */
-            case DX100_PARAM_CTRL_VOICE_39  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"39 OP1 ATTACK RATE"                */
-            case DX100_PARAM_CTRL_VOICE_40  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"40 OP1 DECAY 1 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_41  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"41 OP1 DECAY 2 RATE"               */
-            case DX100_PARAM_CTRL_VOICE_42  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"42 OP1 RELEASE RATE"               */
-            case DX100_PARAM_CTRL_VOICE_43  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"43 OP1 DECAY 1 LEVEL"              */
-            case DX100_PARAM_CTRL_VOICE_44  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"44 OP1 KEYBOARD SCALING LEVEL"     */
-            case DX100_PARAM_CTRL_VOICE_45  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"45 OP1 KEYBOARD SCALING RATE"      */
-            case DX100_PARAM_CTRL_VOICE_46  : rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"46 OP1 EG BIAS SENSITIVITY"        */
-            case DX100_PARAM_CTRL_VOICE_47  : rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"47 OP1 AMPLITUDE MODULATION ENABLE"*/
-            case DX100_PARAM_CTRL_VOICE_48  : rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"48 OP1 KEY VELOCITY"               */
-            case DX100_PARAM_CTRL_VOICE_49  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"49 OP1 OUTPUT LEVEL"               */
-            case DX100_PARAM_CTRL_VOICE_50  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"50 OP1 OSCILLATOR FREQUENCY"       */
-            case DX100_PARAM_CTRL_VOICE_51  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"51 OP1 DETUNE"                     */
-            case DX100_PARAM_CTRL_STATIC_1  : rowPos = ((0) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"OPERATOR1"                         */
-            case DX100_PARAM_CTRL_STATIC_2  : rowPos = ((0) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"OPERATOR2"                         */
-            case DX100_PARAM_CTRL_STATIC_3  : rowPos = ((0) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"OPERATOR3"                         */
-            case DX100_PARAM_CTRL_STATIC_4  : rowPos = ((0) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"OPERATOR4"                         */
-            case DX100_PARAM_CTRL_STATIC_1_2: rowPos = ((0) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"OPERATOR1"                         */
-            case DX100_PARAM_CTRL_STATIC_2_2: rowPos = ((0) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"OPERATOR2"                         */
-            case DX100_PARAM_CTRL_STATIC_3_2: rowPos = ((0) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"OPERATOR3"                         */
-            case DX100_PARAM_CTRL_STATIC_4_2: rowPos = ((0) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"OPERATOR4"                         */
-            default:
-                break;
-            }
-
-            yBasePos = (PARAM_DATA_Y_UNIT*2*rowPos) + tblPtr->yPosAdj;
-
-            if( tblPtr->type == PCT_STATIC )
-            {
-                width = PARAM_STATIC_WIDTH;
-                infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS   + xBasePos;
-                infoPtr->wtInfo.yPos   = PARAM_STATIC_Y_BASE_POS + yBasePos;
-            }
-            else
-            {
-                width = PARAM_DATA_WIDTH;
-                infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS + xBasePos;
-                infoPtr->wtInfo.yPos   = PARAM_DATA_Y_BASE_POS + yBasePos;
-            }
-            infoPtr->wtInfo.width  = width + tblPtr->addWidth;
-            infoPtr->wtInfo.height = height;
 
             if( tblPtr->withTextLen )
             {
@@ -603,10 +508,10 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                                             TEXT("static"),                             /* クラス名           */
                                             tblPtr->strText,                            /* ウィンドウテキスト */
                                             (WS_CHILD|ES_LEFT),                         /* スタイル           */
-                                            infoPtr->wtInfo.xPos,                  /* x座標              */
-                                            PARAM_STATIC_Y_BASE_POS + yBasePos,   /* y座標              */
-                                            tblPtr->withTextLen,    /* 幅                 */
-                                            infoPtr->wtInfo.height, /* 高さ               */
+                                            0, /* x座標              */
+                                            0, /* y座標              */
+                                            0, /* 幅                 */
+                                            0, /* 高さ               */
                                             hwnd,(HMENU)0,
                                             dx100ParamCtrlData.hInstance,NULL );               /* インスタンスハンドル,補助引数 */
 
@@ -617,8 +522,6 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                 else
                 {
                 }
-
-                infoPtr->wtInfo.xPos += tblPtr->withTextLen;
             }
             else
             {
@@ -626,17 +529,16 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
             }
 
 #ifdef DEBUG_DISP_STATIC_STRING
-            infoPtr->wtInfo.width  = width + tblPtr->addWidth;
             infoPtr->wtInfo.height = PARAM_STATIC_HEIGHT;
 
             infoPtr->hwnd_data = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,                    /* 拡張スタイル       */
                                                 (PTSTR)TEXT("edit")/*TEXT("static")*/,      /* クラス名           */
                                                 tblPtr->strText,                             /* ウィンドウテキスト */
                                                 (WS_CHILD|ES_LEFT|ES_AUTOHSCROLL)/*(WS_CHILD|ES_LEFT)*/,/* スタイル           */
-                                                infoPtr->wtInfo.xPos,   /* x座標              */
-                                                infoPtr->wtInfo.yPos,   /* y座標              */
-                                                infoPtr->wtInfo.width,  /* 幅                 */
-                                                infoPtr->wtInfo.height, /* 高さ               */
+                                                0, /* x座標              */
+                                                0, /* y座標              */
+                                                0, /* 幅                 */
+                                                0, /* 高さ               */
                                                 hwnd,(HMENU)(DX100_PARAM_CTRL_ID_OFFSET+(nowId*2)+1),/* 親ウィンドウ,子ウィンドウID */
                                                 dx100ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #else
@@ -644,10 +546,10 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
                                                 class,                                      /* クラス名           */
                                                 strText,                                    /* ウィンドウテキスト */
                                                 style,                                      /* スタイル           */
-                                                infoPtr->wtInfo.xPos,   /* x座標              */
-                                                infoPtr->wtInfo.yPos,   /* y座標              */
-                                                infoPtr->wtInfo.width,  /* 幅                 */
-                                                infoPtr->wtInfo.height, /* 高さ               */
+                                                0, /* x座標              */
+                                                0, /* y座標              */
+                                                0, /* 幅                 */
+                                                0, /* 高さ               */
                                                 hwnd,(HMENU)(DX100_PARAM_CTRL_ID_OFFSET+nowId),/* 親ウィンドウ,子ウィンドウID */
                                                 dx100ParamCtrlData.hInstance,NULL );                        /* インスタンスハンドル,補助引数 */
 #endif
@@ -826,25 +728,174 @@ Dx100ParamCtrlGetText( DX100_PARAM_CTRL_ID id, PTSTR ptstrText )
 }
 
 /********************************************************************************
- * 内容  : コントロールのサイズを調整する
- * 引数  : int xPos
- * 引数  : int yPos
+ * 内容  : コントロールの位置を変更する
+ * 引数  : BOOL bAlternate
  * 戻り値: なし
  ***************************************/
-void
-Dx100ParamCtrlSetSize( int xPos, int yPos )
+BOOL
+Dx100ParamCtrlChangePosition( BOOL bAlternate )
 {
-    int i;
+    int nowId;
+    INT rowPos;
 
-    for(i=0; i<DX100_PARAM_CTRL_MAX; i++)
+    for(nowId=0; nowId<=DX100_PARAM_CTRL_MAX; nowId++ )
     {
-        S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[i];
+        DWORD height;
+        INT   width;
+        INT   xBasePos,yBasePos;
+        S_DX100_PARAM_INFO *infoPtr = &dx100ctrlParamInfo[nowId];
+        S_DX100_PARAM_CTRL *tblPtr = &paramListTbl[nowId];
 
-        MoveWindow( infoPtr->hwnd_data,
-                    infoPtr->wtInfo.xPos - xPos,   /* x座標              */
-                    infoPtr->wtInfo.yPos - yPos,   /* y座標              */
-                    infoPtr->wtInfo.width,  /* 幅                 */
-                    infoPtr->wtInfo.height, /* 高さ               */
+        if( tblPtr->type == PCT_COMBO )
+        {
+            height = PARAM_DATA_HEIGHT;
+        }
+        else if( tblPtr->type == PCT_BUTTON )
+        {
+            height = PARAM_BUTTON_HEIGHT;
+        }
+        else if( tblPtr->type == PCT_STATIC )
+        {
+            height = PARAM_STATIC_HEIGHT;
+        }
+        else
+        {
+            height = PARAM_EDIT_HEIGHT;
+        }
+
+        xBasePos = (PARAM_WRAP_X_UNIT*tblPtr->colPos);
+
+        rowPos = tblPtr->rowPos;
+
+        switch( nowId )
+        {
+        case DX100_PARAM_CTRL_VOICE_00  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"00 OP4 ATTACK RATE"                */
+        case DX100_PARAM_CTRL_VOICE_01  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"01 OP4 DECAY 1 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_02  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"02 OP4 DECAY 2 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_03  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"03 OP4 RELEASE RATE"               */
+        case DX100_PARAM_CTRL_VOICE_04  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"04 OP4 DECAY 1 LEVEL"              */
+        case DX100_PARAM_CTRL_VOICE_05  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"05 OP4 KEYBOARD SCALING LEVEL"     */
+        case DX100_PARAM_CTRL_VOICE_06  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"06 OP4 KEYBOARD SCALING RATE"      */
+        case DX100_PARAM_CTRL_VOICE_07  : rowPos = ((bAlternate) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"07 OP4 EG BIAS SENSITIVITY"        */
+        case DX100_PARAM_CTRL_VOICE_08  : rowPos = ((bAlternate) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"08 OP4 AMPLITUDE MODULATION ENABLE"*/
+        case DX100_PARAM_CTRL_VOICE_09  : rowPos = ((bAlternate) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"09 OP4 KEY VELOCITY"               */
+        case DX100_PARAM_CTRL_VOICE_10  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"10 OP4 OUTPUT LEVEL"               */
+        case DX100_PARAM_CTRL_VOICE_11  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"11 OP4 OSCILLATOR FREQUENCY"       */
+        case DX100_PARAM_CTRL_VOICE_12  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"12 OP4 DETUNE"                     */
+        case DX100_PARAM_CTRL_VOICE_13  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"13 OP2 ATTACK RATE"                */
+        case DX100_PARAM_CTRL_VOICE_14  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"14 OP2 DECAY 1 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_15  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"15 OP2 DECAY 2 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_16  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"16 OP2 RELEASE RATE"               */
+        case DX100_PARAM_CTRL_VOICE_17  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"17 OP2 DECAY 1 LEVEL"              */
+        case DX100_PARAM_CTRL_VOICE_18  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"18 OP2 KEYBOARD SCALING LEVEL"     */
+        case DX100_PARAM_CTRL_VOICE_19  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"19 OP2 KEYBOARD SCALING RATE"      */
+        case DX100_PARAM_CTRL_VOICE_20  : rowPos = ((bAlternate) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"20 OP2 EG BIAS SENSITIVITY"        */
+        case DX100_PARAM_CTRL_VOICE_21  : rowPos = ((bAlternate) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"21 OP2 AMPLITUDE MODULATION ENABLE"*/
+        case DX100_PARAM_CTRL_VOICE_22  : rowPos = ((bAlternate) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"22 OP2 KEY VELOCITY"               */
+        case DX100_PARAM_CTRL_VOICE_23  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"23 OP2 OUTPUT LEVEL"               */
+        case DX100_PARAM_CTRL_VOICE_24  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"24 OP2 OSCILLATOR FREQUENCY"       */
+        case DX100_PARAM_CTRL_VOICE_25  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"25 OP2 DETUNE"                     */
+        case DX100_PARAM_CTRL_VOICE_26  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"26 OP3 ATTACK RATE"                */
+        case DX100_PARAM_CTRL_VOICE_27  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"27 OP3 DECAY 1 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_28  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"28 OP3 DECAY 2 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_29  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"29 OP3 RELEASE RATE"               */
+        case DX100_PARAM_CTRL_VOICE_30  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"30 OP3 DECAY 1 LEVEL"              */
+        case DX100_PARAM_CTRL_VOICE_31  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"31 OP3 KEYBOARD SCALING LEVEL"     */
+        case DX100_PARAM_CTRL_VOICE_32  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"32 OP3 KEYBOARD SCALING RATE"      */
+        case DX100_PARAM_CTRL_VOICE_33  : rowPos = ((bAlternate) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"33 OP3 EG BIAS SENSITIVITY"        */
+        case DX100_PARAM_CTRL_VOICE_34  : rowPos = ((bAlternate) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"34 OP3 AMPLITUDE MODULATION ENABLE"*/
+        case DX100_PARAM_CTRL_VOICE_35  : rowPos = ((bAlternate) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"35 OP3 KEY VELOCITY"               */
+        case DX100_PARAM_CTRL_VOICE_36  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"36 OP3 OUTPUT LEVEL"               */
+        case DX100_PARAM_CTRL_VOICE_37  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"37 OP3 OSCILLATOR FREQUENCY"       */
+        case DX100_PARAM_CTRL_VOICE_38  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"38 OP3 DETUNE"                     */
+        case DX100_PARAM_CTRL_VOICE_39  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"39 OP1 ATTACK RATE"                */
+        case DX100_PARAM_CTRL_VOICE_40  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"40 OP1 DECAY 1 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_41  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"41 OP1 DECAY 2 RATE"               */
+        case DX100_PARAM_CTRL_VOICE_42  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"42 OP1 RELEASE RATE"               */
+        case DX100_PARAM_CTRL_VOICE_43  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"43 OP1 DECAY 1 LEVEL"              */
+        case DX100_PARAM_CTRL_VOICE_44  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"44 OP1 KEYBOARD SCALING LEVEL"     */
+        case DX100_PARAM_CTRL_VOICE_45  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"45 OP1 KEYBOARD SCALING RATE"      */
+        case DX100_PARAM_CTRL_VOICE_46  : rowPos = ((bAlternate) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"46 OP1 EG BIAS SENSITIVITY"        */
+        case DX100_PARAM_CTRL_VOICE_47  : rowPos = ((bAlternate) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"47 OP1 AMPLITUDE MODULATION ENABLE"*/
+        case DX100_PARAM_CTRL_VOICE_48  : rowPos = ((bAlternate) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"48 OP1 KEY VELOCITY"               */
+        case DX100_PARAM_CTRL_VOICE_49  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"49 OP1 OUTPUT LEVEL"               */
+        case DX100_PARAM_CTRL_VOICE_50  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"50 OP1 OSCILLATOR FREQUENCY"       */
+        case DX100_PARAM_CTRL_VOICE_51  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"51 OP1 DETUNE"                     */
+        case DX100_PARAM_CTRL_STATIC_1  : rowPos = ((bAlternate) ? ROW_POS_EDIT5 : ROW_POS_EDIT8);break; /*"OPERATOR1"                         */
+        case DX100_PARAM_CTRL_STATIC_2  : rowPos = ((bAlternate) ? ROW_POS_EDIT6 : ROW_POS_EDIT7);break; /*"OPERATOR2"                         */
+        case DX100_PARAM_CTRL_STATIC_3  : rowPos = ((bAlternate) ? ROW_POS_EDIT7 : ROW_POS_EDIT6);break; /*"OPERATOR3"                         */
+        case DX100_PARAM_CTRL_STATIC_4  : rowPos = ((bAlternate) ? ROW_POS_EDIT8 : ROW_POS_EDIT5);break; /*"OPERATOR4"                         */
+        case DX100_PARAM_CTRL_STATIC_1_2: rowPos = ((bAlternate) ? ROW_POS_EDIT1 : ROW_POS_EDIT4);break; /*"OPERATOR1"                         */
+        case DX100_PARAM_CTRL_STATIC_2_2: rowPos = ((bAlternate) ? ROW_POS_EDIT2 : ROW_POS_EDIT3);break; /*"OPERATOR2"                         */
+        case DX100_PARAM_CTRL_STATIC_3_2: rowPos = ((bAlternate) ? ROW_POS_EDIT3 : ROW_POS_EDIT2);break; /*"OPERATOR3"                         */
+        case DX100_PARAM_CTRL_STATIC_4_2: rowPos = ((bAlternate) ? ROW_POS_EDIT4 : ROW_POS_EDIT1);break; /*"OPERATOR4"                         */
+        default:
+            break;
+        }
+
+        yBasePos = (PARAM_DATA_Y_UNIT*2*rowPos) + tblPtr->yPosAdj;
+
+        if( tblPtr->type == PCT_STATIC )
+        {
+            width = PARAM_STATIC_WIDTH;
+            infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS   + xBasePos;
+            infoPtr->wtInfo.yPos   = PARAM_STATIC_Y_BASE_POS + yBasePos;
+        }
+        else
+        {
+            width = PARAM_DATA_WIDTH;
+            infoPtr->wtInfo.xPos   = PARAM_DATA_X_BASE_POS + xBasePos;
+            infoPtr->wtInfo.yPos   = PARAM_DATA_Y_BASE_POS + yBasePos;
+        }
+        infoPtr->wtInfo.width  = width + tblPtr->addWidth;
+        infoPtr->wtInfo.height = height;
+
+        if( tblPtr->withTextLen )
+        {
+            MoveWindow( infoPtr->hwnd_data                ,
+                        infoPtr->wtInfo.xPos              ,   /* x座標              */
+                        PARAM_STATIC_Y_BASE_POS + yBasePos,   /* y座標              */
+                        tblPtr->withTextLen               ,   /* 幅                 */
+                        infoPtr->wtInfo.height            ,   /* 高さ               */
+                        TRUE);
+
+            infoPtr->wtInfo.xPos += tblPtr->withTextLen;
+        }
+        else
+        {
+            nop();
+        }
+
+#ifdef DEBUG_DISP_STATIC_STRING
+        infoPtr->wtInfo.width  = width + tblPtr->addWidth;
+        infoPtr->wtInfo.height = PARAM_STATIC_HEIGHT;
+
+
+        MoveWindow( infoPtr->hwnd_data    ,
+                    infoPtr->wtInfo.xPos  ,   /* x座標              */
+                    infoPtr->wtInfo.yPos  ,   /* y座標              */
+                    infoPtr->wtInfo.width ,   /* 幅                 */
+                    infoPtr->wtInfo.height,   /* 高さ               */
                     TRUE);
+
+#else
+        MoveWindow( infoPtr->hwnd_data    ,
+                    infoPtr->wtInfo.xPos  ,   /* x座標              */
+                    infoPtr->wtInfo.yPos  ,   /* y座標              */
+                    infoPtr->wtInfo.width ,   /* 幅                 */
+                    infoPtr->wtInfo.height,   /* 高さ               */
+                    TRUE);
+#endif
+        if( IsWindowVisible(infoPtr->hwnd_data) )
+        {
+            ShowWindow(infoPtr->hwnd_data, SW_HIDE);
+            ShowWindow(infoPtr->hwnd_data, SW_SHOW);
+        }
+        else
+        {
+            nop();
+        }
     }
+
+    return TRUE;
 }

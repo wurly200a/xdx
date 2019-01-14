@@ -332,11 +332,10 @@ HWND Dx100ParamCtrlGetHWND( DX100_PARAM_CTRL_ID id );
 BOOL Dx100ParamCtrlGetText( DX100_PARAM_CTRL_ID id, PTSTR ptstrText );
 
 /********************************************************************************
- * 内容  : コントロールのサイズを調整する
- * 引数  : int xPos
- * 引数  : int yPos
+ * 内容  : コントロールの位置を変更する
+ * 引数  : BOOL bAlternate
  * 戻り値: なし
  ***************************************/
-void Dx100ParamCtrlSetSize( int xPos, int yPos );
+BOOL Dx100ParamCtrlChangePosition( BOOL bAlternate );
 
 #endif /* DX100_PARAM_CTRL_H */

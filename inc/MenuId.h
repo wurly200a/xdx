@@ -29,8 +29,13 @@
 #define IDM_EXTEND_NEWLINE_LF           40052
 #define IDM_EXTEND_NEWLINE_CR           40053
 
-#define IDM_HELP_HELP                   40061
-#define IDM_HELP_ABOUT                  40062
+#define IDM_SETTINGS                    40061
+
+#define IDM_ORDER_ASCENDING             40062
+#define IDM_ORDER_DESCENDING            40063
+
+#define IDM_HELP_HELP                   40091
+#define IDM_HELP_ABOUT                  40092
 
 #define MENU_ID_H
 #endif /* MENU_ID_H */

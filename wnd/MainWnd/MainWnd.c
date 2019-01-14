@@ -348,8 +348,19 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     Dx100CtrlInit( mainWndData.hInstance, mainWndData.szAppName, hwnd );
     Dx7CtrlInit( mainWndData.hInstance, mainWndData.szAppName, hwnd );
 
-//    Dx100CtrlModeSet(DX100_CTRL_MODE_PATCH);
+    Dx100CtrlModeSet(DX100_CTRL_MODE_NONE);
     Dx7CtrlModeSet(DX7_CTRL_MODE_PATCH);
+
+    if( ConfigLoadDword(CONFIG_ID_OPERATOR_DISPLAY_ORDER) )
+    {
+        Dx100CtrlDisplayModeChange(TRUE);
+        MenuCheckItem(IDM_ORDER_ASCENDING);
+    }
+    else
+    {
+        Dx100CtrlDisplayModeChange(FALSE);
+        MenuCheckItem(IDM_ORDER_DESCENDING);
+    }
 
     return rtn;
 }
@@ -591,8 +602,11 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     int iCbNum,iDevNum;
     HWND hComboBox;
     int iReturn;
+    WORD command;
 
-    switch( LOWORD(wParam) )
+    command = LOWORD(wParam);
+
+    switch( command )
     {
     case (SOME_CTRL_DEVICE_SELECT+SOME_CTRL_ID_OFFSET):
 //        DebugWndPrintf("WndProc,message=0x%08lX,wParam=0x%08lX,wParam=0x%08lX\r\n",message,wParam,lParam);
@@ -1080,6 +1094,33 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 //            StsBarShowWindow( TRUE );
         }
         SendMessage(hwnd,WM_SIZE,0,MAKELONG(mainWndData.cxClient,mainWndData.cyClient));
+        break;
+
+    case IDM_ORDER_ASCENDING :
+        if( MenuInqItemChecked(command) )
+        {
+            nop();
+        }
+        else
+        {
+            Dx100CtrlDisplayModeChange(TRUE);
+            MenuCheckItem(command);
+            MenuUnCheckItem(IDM_ORDER_DESCENDING);
+            ConfigSaveDword(CONFIG_ID_OPERATOR_DISPLAY_ORDER,1);
+        }
+        break;
+    case IDM_ORDER_DESCENDING:
+        if( MenuInqItemChecked(command) )
+        {
+            nop();
+        }
+        else
+        {
+            Dx100CtrlDisplayModeChange(FALSE);
+            MenuCheckItem(command);
+            MenuUnCheckItem(IDM_ORDER_ASCENDING);
+            ConfigSaveDword(CONFIG_ID_OPERATOR_DISPLAY_ORDER,0);
+        }
         break;
 
     case IDM_FILE_EXIT:

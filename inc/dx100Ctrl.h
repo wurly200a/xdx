@@ -108,6 +108,8 @@ typedef struct
 
 BOOL Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd );
 
+BOOL Dx100CtrlDisplayModeChange( BOOL bAlternate );
+
 enum
 {
     DX100_CTRL_MODE_NONE       ,

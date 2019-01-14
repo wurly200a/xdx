@@ -53,8 +53,8 @@ MenuCreate( void )
     AppendMenu( hMenuPopup, MF_STRING   , IDM_FILE_EXIT       , TEXT("E&xit") );
     AppendMenu( hMenu     , MF_POPUP    , (UINT_PTR)hMenuPopup, TEXT("&File") );
 
-    EnableMenuItem( hMenu, IDM_FILE_PAGE      , MF_GRAYED );
-    EnableMenuItem( hMenu, IDM_FILE_PRINT     , MF_GRAYED );
+//    EnableMenuItem( hMenu, IDM_FILE_PAGE      , MF_GRAYED );
+//    EnableMenuItem( hMenu, IDM_FILE_PRINT     , MF_GRAYED );
 
 //    hMenuPopup = CreateMenu();
 //    AppendMenu( hMenuPopup, MF_STRING   , IDM_EDIT_UNDO       , TEXT("元に戻す(&U)\tCtrl+Z") );
@@ -87,11 +87,14 @@ MenuCreate( void )
 //    AppendMenu( hMenu     , MF_POPUP , (UINT_PTR)hMenuPopup, TEXT("書式(&O)") );
 //
 //    EnableMenuItem( hMenu, IDM_FORMAT_WRAP , MF_GRAYED );
-//
-//    hMenuPopup = CreateMenu();
-//    AppendMenu( hMenuPopup, MF_STRING, IDM_VIEW_STS_BAR, TEXT("ステータス バー(&S)") );
-//    AppendMenu( hMenu, MF_POPUP, (UINT_PTR)hMenuPopup, TEXT("表示(&V)") );
-//
+
+    hMenuPopup2 = CreateMenu();
+    AppendMenu( hMenuPopup2, MF_STRING, IDM_ORDER_DESCENDING, TEXT("Descending(4,3,2,1 or 6,5,4,3,2,1)") );
+    AppendMenu( hMenuPopup2, MF_STRING, IDM_ORDER_ASCENDING , TEXT("Ascending(1,2,3,4 or 1,2,3,4,5,6)") );
+    hMenuPopup = CreateMenu();
+    AppendMenu( hMenuPopup, MF_POPUP, (UINT_PTR)hMenuPopup2, TEXT("Operator Display Order") );
+    AppendMenu( hMenu, MF_POPUP, (UINT_PTR)hMenuPopup, TEXT("&Settings") );
+
 //    hMenuPopup2 = CreateMenu();
 //    AppendMenu( hMenuPopup2, MF_STRING, IDM_EXTEND_NEWLINE_CRLF, TEXT("CR+LF") );
 //    AppendMenu( hMenuPopup2, MF_STRING, IDM_EXTEND_NEWLINE_LF  , TEXT("LF") );

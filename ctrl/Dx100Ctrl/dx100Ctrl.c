@@ -354,6 +354,19 @@ Dx100CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 }
 
 /*********************************************
+ * 内容   : 表示モード変更
+ * 引数   : BOOL bAlternate
+ * 戻り値 : BOOL
+ **********************************************/
+BOOL
+Dx100CtrlDisplayModeChange( BOOL bAlternate )
+{
+    Dx100ParamCtrlChangePosition(bAlternate);
+
+    return TRUE;
+}
+
+/*********************************************
  * 内容   : 
  * 引数   : DX100_CTRL_MODE mode
  * 戻り値 : BOOL

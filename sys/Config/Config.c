@@ -46,6 +46,7 @@ static S_CONFIG_INFO configInfoTbl[CONFIG_ID_MAX] =
     { TEXT("Dx7AllVoiceDataDir"   ),TEXT("")          , CONFIG_DATA_STRING },
     { TEXT("Dx100OneVoiceDataDir" ),TEXT("")          , CONFIG_DATA_STRING },
     { TEXT("Dx100AllVoiceDataDir" ),TEXT("")          , CONFIG_DATA_STRING },
+    { TEXT("OperatorDisplayOrder" ),TEXT("0x00000000"), CONFIG_DATA_DWORD  },
 };
 
 #define CONFIG_DATA_STRING_LENGTH_MAX 512
