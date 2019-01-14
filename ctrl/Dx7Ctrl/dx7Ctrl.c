@@ -48,8 +48,8 @@ typedef struct
 static const S_DX7_CTRL_SEQ_DATA dx7CtrlSeqDataTbl[DX7_CTRL_SEQ_NUM_MAX] =
 {
     {(INT)0                            ,(BYTE *)NULL                 }, /* DX7_CTRL_SEQ_NON_EXEC     */
-    {(INT)DX7_SYSEX_1VOICE_INDEX_MAX   ,&dx7CtrlDataOneVoice         }, /* DX7_CTRL_SEQ_1VOICE */
-    {(INT)DX7_SYSEX_ALL_VOICE_INDEX_MAX,&dx7CtrlDataAllVoice         }, /* DX7_CTRL_SEQ_ALL_VOICE */
+    {(INT)DX7_SYSEX_1VOICE_INDEX_MAX   ,(BYTE *)&dx7CtrlDataOneVoice }, /* DX7_CTRL_SEQ_1VOICE */
+    {(INT)DX7_SYSEX_ALL_VOICE_INDEX_MAX,(BYTE *)&dx7CtrlDataAllVoice }, /* DX7_CTRL_SEQ_ALL_VOICE */
 };
 
 #define DX7_ALGORITHM_MAX 32
@@ -294,7 +294,7 @@ dx7OneVoiceDataInit( void )
 static void
 dx7AllVoiceDataInit( void )
 {
-    INT topNum,i;
+    INT i;
 
     dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_HEADER_REQUEST_STATUS    ] = EX_STATUS;
     dx7CtrlDataAllVoice[DX7_SYSEX_ALL_VOICE_HEADER_REQUEST_ID_NO     ] = EX_ID_NUMBER_YAMAHA;
@@ -688,7 +688,6 @@ seqStartProc( DX7_CTRL_SEQ_METHOD method, DX7_CTRL_SEQ_ID seqId, INT maxDataSize
 {
     S_DX7_CTRL_SEQ_DATA *tblPtr;
     INT txSize = (INT)0;
-    INT i;
 
     tblPtr = &(dx7CtrlSeqDataTbl[seqId]);
 
@@ -787,7 +786,6 @@ copyToParamCtrl( DX7_CTRL_SEQ_ID seqId )
 {
     TCHAR patchName[12+1];
     TCHAR szBuffer[1024];
-    INT toneNum;
     INT i,j;
 
     switch( seqId )
@@ -842,7 +840,6 @@ copyToParamCtrl( DX7_CTRL_SEQ_ID seqId )
     case DX7_CTRL_SEQ_ALL_VOICE:
         for( i=0; i<32; i++ )
         {
-            INT j;
             memset(&patchName[0],0,10+1);
             strncpy(&patchName[0],&dx7CtrlDataAllVoice[ DX7_SYSEX_ALL_VOICE_DATA + (i*DX7_SYSEX_VMEM_MAX) + DX7_SYSEX_VMEM_118],10);
             SetWindowText( Dx7ParamCtrlGetHWND(DX7_PARAM_CTRL_ALL_VOICE_NAME_00+i),&patchName[0]);
@@ -899,8 +896,6 @@ static BOOL
 copyFromParamCtrl( DX7_CTRL_SEQ_ID seqId )
 {
     TCHAR patchName[12+1];
-    TCHAR szBuffer[1024];
-    INT toneNum;
     INT i,j;
     BYTE checkSum;
 
@@ -995,7 +990,6 @@ static BYTE
 getParamCtrlValue( DX7_PARAM_CTRL_ID id )
 {
     BYTE value = (BYTE)0x00;
-    int iCbNum;
     HWND hComboBox;
 
     hComboBox = Dx7ParamCtrlGetHWND(id);
@@ -1019,8 +1013,6 @@ getParamCtrlValue( DX7_PARAM_CTRL_ID id )
 static BOOL
 displayContents( void )
 {
-    INT i;
-
     return TRUE;
 }
 
@@ -2036,8 +2028,6 @@ dx7SetFrequencyText( DX7_PARAM_CTRL_ID modeId, DX7_PARAM_CTRL_ID coarseId, DX7_P
 static void
 debugDataArrayPrint( INT rxDataSize, BYTE *rxDataPtr, PTSTR ptstrTitle )
 {
-    INT i;
-
 #ifdef DX7_CTRL_DEBUG_DATA_DISP
     DebugWndPrintf("---------------------------------------------------\r\n");
     DebugWndPrintf("%s:\r\n",ptstrTitle);
