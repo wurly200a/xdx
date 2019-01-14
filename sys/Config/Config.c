@@ -211,7 +211,7 @@ ConfigLoadString( CONFIG_ID id )
         nop();
     }
 
-    return (DWORD)rtn;
+    return (PTSTR)rtn;
 }
 
 /**

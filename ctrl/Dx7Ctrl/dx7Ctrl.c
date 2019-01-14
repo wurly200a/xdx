@@ -114,6 +114,19 @@ Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd )
 }
 
 /*********************************************
+ * 内容   : 表示モード変更
+ * 引数   : BOOL bAlternate
+ * 戻り値 : BOOL
+ **********************************************/
+BOOL
+Dx7CtrlDisplayModeChange( BOOL bAlternate )
+{
+    Dx7ParamCtrlChangePosition(bAlternate);
+
+    return TRUE;
+}
+
+/*********************************************
  * 内容   : 1VOICEデータ初期化
  * 引数   : なし
  * 戻り値 : なし

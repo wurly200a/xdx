@@ -529,8 +529,6 @@ dx100ParamCtrlCreate( HWND hwnd, DX100_PARAM_CTRL_GROUP_ID groupId, DX100_PARAM_
             }
 
 #ifdef DEBUG_DISP_STATIC_STRING
-            infoPtr->wtInfo.height = PARAM_STATIC_HEIGHT;
-
             infoPtr->hwnd_data = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW,                    /* 拡張スタイル       */
                                                 (PTSTR)TEXT("edit")/*TEXT("static")*/,      /* クラス名           */
                                                 tblPtr->strText,                             /* ウィンドウテキスト */

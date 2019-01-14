@@ -136,6 +136,8 @@ typedef struct
 
 BOOL Dx7CtrlInit( HINSTANCE hInst, PTSTR szAppName, HWND hwnd );
 
+BOOL Dx7CtrlDisplayModeChange( BOOL bAlternate );
+
 enum
 {
     DX7_CTRL_MODE_NONE       ,

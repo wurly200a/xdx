@@ -354,11 +354,13 @@ onCreate( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     if( ConfigLoadDword(CONFIG_ID_OPERATOR_DISPLAY_ORDER) )
     {
         Dx100CtrlDisplayModeChange(TRUE);
+        Dx7CtrlDisplayModeChange(TRUE);
         MenuCheckItem(IDM_ORDER_ASCENDING);
     }
     else
     {
         Dx100CtrlDisplayModeChange(FALSE);
+        Dx7CtrlDisplayModeChange(FALSE);
         MenuCheckItem(IDM_ORDER_DESCENDING);
     }
 
@@ -1104,6 +1106,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         else
         {
             Dx100CtrlDisplayModeChange(TRUE);
+            Dx7CtrlDisplayModeChange(TRUE);
             MenuCheckItem(command);
             MenuUnCheckItem(IDM_ORDER_DESCENDING);
             ConfigSaveDword(CONFIG_ID_OPERATOR_DISPLAY_ORDER,1);
@@ -1117,6 +1120,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
         else
         {
             Dx100CtrlDisplayModeChange(FALSE);
+            Dx7CtrlDisplayModeChange(FALSE);
             MenuCheckItem(command);
             MenuUnCheckItem(IDM_ORDER_ASCENDING);
             ConfigSaveDword(CONFIG_ID_OPERATOR_DISPLAY_ORDER,0);
