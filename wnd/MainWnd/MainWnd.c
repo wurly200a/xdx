@@ -53,7 +53,6 @@ static LRESULT onDefault         ( HWND hwnd, UINT message, WPARAM wParam, LPARA
 int okMessage( HWND hwnd, TCHAR *szMessageFormat, ... );
 void doCaption( HWND hwnd, TCHAR* szTitleName, BOOL bNeedSave );
 static void someCtrlDisableOnMidiOpenOrClose( void );
-static void copyVoiceParamDx100toDx7( S_DX100_VOICE_PARAM *dx100voiceParamPtr,S_DX7_VOICE_PARAM *dx7voiceParamPtr );
 
 /* 内部変数定義 */
 static HWND hwndMain; /* メインウィンドウのハンドラ */
@@ -394,7 +393,7 @@ onPaint( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 static LRESULT
 onSize( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-    LONG topSizeSum=0,bottomSizeSum=0;
+    LONG topSizeSum=0;
 
     mainWndData.cxClient = LOWORD( lParam );
     mainWndData.cyClient = HIWORD( lParam );
@@ -596,8 +595,7 @@ onCommand( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
     PTSTR strPtr;
     S_MODAL_DLG_PARAM modalDlgParam;
     static FINDREPLACE fr;
-    static TCHAR strFind[80],strRep[80],strMsg[1024];
-    HFONT hFontOld;
+    static TCHAR strFind[80],strRep[80];
 
     static TCHAR szMidiDev[50];
     static TCHAR szDevice[50];
@@ -1394,9 +1392,6 @@ static LRESULT
 onDropFiles( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     LRESULT rtn = 0;
-    static TCHAR szFileName[1024];
-    DWORD dwSize;
-    PBYTE dataPtr;
 
     return rtn;
 }
