@@ -1,15 +1,23 @@
 .SUFFIXES: .rc .res
 
 TARGET = dx100ed.exe
-CC      = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\cl.exe"
-RC      = "C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe"
-LINK    = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe"
-LIBPATH = "C:/Program Files (x86)/Windows Kits/8.1/Lib/winv6.3/um/x86"
+CC      = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cl.exe"
+RC      = "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\RC.Exe"
+LINK    = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe"
+LIBPATH = "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib"
+#export LIB="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.14393.0\ucrt\x86"
 
-CFLAGS = //I ../inc //W4 //O2 //MT //EHsc
+CFLAGS = //I ../inc //I "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include" \
+                    //I "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" \
+                    //I "C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt" \
+                    //W4 //O2 //MT //EHsc //Z7
 #CFLAGS = //I ../inc //W4 //Zi //O2 //MT //EHsc //D"UNICODE" //D"_UNICODE" 
 
-LDFLAGS = /SUBSYSTEM:WINDOWS /LIBPATH:$(LIBPATH)
+RCFLAGS = //i "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include" \
+          //i "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" \
+          //i "C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt"
+
+LDFLAGS = /SUBSYSTEM:WINDOWS /LIBPATH:$(LIBPATH) /DEBUG:FULL
 LDLIBS  = ComCtl32.Lib ComDlg32.Lib User32.Lib Gdi32.Lib kernel32.Lib Imm32.Lib WinMM.Lib
 
 OBJECTS = \
@@ -27,12 +35,16 @@ OBJECTS = \
           ..\\wnd\\MainWnd\\MainWndMenu.o         \
           ..\\wnd\\MainWnd\\MainWndScroll.o       \
           ..\\wnd\\ModalDlg\\ModalDialog.o        \
-          ..\\wnd\\ParamCtrl\\ParamCtrl.o         \
+          ..\\wnd\\ModalDlg\\ModalDialogResource.res \
           ..\\wnd\\SomeCtrl\\SomeCtrl.o           \
           ..\\wnd\\StsBar\\StsBar.o               \
           ..\\sys\\Midi\\Midi.o                   \
-          ..\\ctrl\\Midi\\dx100Ctrl.o             \
-          ..\\resources\\resource.res             \
+          ..\\ctrl\\Dx100Ctrl\\dx100Ctrl.o        \
+          ..\\ctrl\\Dx100Ctrl\\dx100ParamCtrl.o   \
+          ..\\ctrl\\Dx7Ctrl\\dx7Ctrl.o            \
+          ..\\ctrl\\Dx7Ctrl\\dx7ParamCtrl.o       \
+          ..\\ctrl\\DxConvert\\DxConvert.o        \
+          ../resources/resource.res                 \
 
 #          ..\\sys\\LinkedList\\LinkedList.o       \
 #          ..\\wnd\\EditWnd\\EditWnd.o             \
@@ -50,7 +62,7 @@ clean:
 		$(CC) //c $< $(CFLAGS) //Fo$@
 
 .rc.res:
-		$(RC) -FO $@ $<
+		$(RC) $(RCFLAGS) -FO $@ $<
 
 
 # "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\cl.exe" /c ../develop/DebugWnd/DebugWnd.c        /I ../inc /FoDebugWnd.o         
